@@ -3,855 +3,494 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#2563eb">
 <title>True Networking</title>
 
 <style>
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-  font-family:Arial,sans-serif;
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
 }
 
-:root{
-  --blue:#2563eb;
-  --blue-dark:#1d4ed8;
-  --dark:#0f172a;
-  --text:#172033;
-  --muted:#64748b;
-  --bg:#f4f7fb;
-  --white:#fff;
-  --green:#16a34a;
-  --red:#dc2626;
-  --orange:#f59e0b;
-  --border:#e2e8f0;
-  --purple:#7c3aed;
+body {
+  background: #f1f5f9;
+  color: #172033;
+  min-height: 100vh;
 }
 
-body{
-  background:var(--bg);
-  color:var(--text);
-  min-height:100vh;
+button,
+input,
+select {
+  font: inherit;
 }
 
-button,input,select,textarea{
-  font:inherit;
+button {
+  cursor: pointer;
+  border: none;
 }
 
-button{
-  cursor:pointer;
-  border:0;
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
 }
 
-.hidden{
-  display:none!important;
+.app {
+  max-width: 480px;
+  min-height: 100vh;
+  margin: auto;
+  background: #f8fafc;
+  padding-bottom: 85px;
 }
 
-.app{
-  max-width:480px;
-  margin:auto;
-  min-height:100vh;
-  background:var(--bg);
-  padding-bottom:85px;
-}
-
-.topbar{
-  background:linear-gradient(135deg,#1d4ed8,#2563eb);
-  color:white;
-  padding:20px 18px 28px;
-  border-radius:0 0 28px 28px;
-}
-
-.topbar-row{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-}
-
-.logo{
-  display:flex;
-  align-items:center;
-  gap:10px;
-}
-
-.logo-icon{
-  width:44px;
-  height:44px;
-  border-radius:14px;
-  background:rgba(255,255,255,.18);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:25px;
-}
-
-.logo h2{
-  font-size:19px;
-}
-
-.logo small{
-  display:block;
-  opacity:.8;
-  margin-top:3px;
-}
-
-.icon-btn{
-  background:rgba(255,255,255,.16);
-  color:white;
-  width:40px;
-  height:40px;
-  border-radius:12px;
-  font-size:20px;
-}
-
-.content{
-  padding:18px;
-}
-
-.section-title{
-  font-size:19px;
-  font-weight:700;
-  margin-bottom:12px;
-}
-
-.card{
-  background:white;
-  border:1px solid var(--border);
-  border-radius:20px;
-  padding:17px;
-  margin-bottom:15px;
-  box-shadow:0 5px 18px rgba(15,23,42,.04);
-}
-
-.balance-card{
-  margin-top:-15px;
-  background:linear-gradient(135deg,#ffffff,#eff6ff);
-  border:0;
-}
-
-.balance-label{
-  color:var(--muted);
-  font-size:13px;
-}
-
-.balance{
-  font-size:34px;
-  font-weight:800;
-  margin:8px 0 15px;
-  color:var(--dark);
-}
-
-.row{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
-}
-
-.col{
-  display:flex;
-  flex-direction:column;
-  gap:10px;
-}
-
-.btn{
-  padding:13px 18px;
-  border-radius:12px;
-  font-weight:700;
-  transition:.2s;
-}
-
-.btn:active{
-  transform:scale(.97);
-}
-
-.btn-primary{
-  background:var(--blue);
-  color:white;
-}
-
-.btn-secondary{
-  background:#e8f0ff;
-  color:var(--blue);
-}
-
-.btn-success{
-  background:var(--green);
-  color:white;
-}
-
-.btn-danger{
-  background:#fee2e2;
-  color:var(--red);
-}
-
-.btn-warning{
-  background:#fef3c7;
-  color:#92400e;
-}
-
-.btn-full{
-  width:100%;
-}
-
-.btn:disabled{
-  opacity:.5;
-  cursor:not-allowed;
-}
-
-.stats{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:10px;
-  margin-bottom:18px;
-}
-
-.stat{
-  background:white;
-  border:1px solid var(--border);
-  border-radius:15px;
-  padding:13px 8px;
-  text-align:center;
-}
-
-.stat strong{
-  display:block;
-  font-size:18px;
-  margin-bottom:5px;
-}
+/* HEADER */
 
-.stat span{
-  color:var(--muted);
-  font-size:11px;
+.header {
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: white;
+  padding: 22px 18px;
+  border-bottom-left-radius: 25px;
+  border-bottom-right-radius: 25px;
 }
 
-.session{
-  border:1px solid var(--border);
-  border-radius:16px;
-  padding:14px;
-  margin-bottom:12px;
-  background:#fff;
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 22px;
 }
 
-.session.active{
-  border-color:#93c5fd;
-  background:#eff6ff;
+.logo {
+  font-size: 22px;
+  font-weight: bold;
 }
 
-.session-title{
-  font-weight:700;
-  margin-bottom:6px;
+.header-small {
+  font-size: 12px;
+  opacity: 0.85;
+  margin-top: 4px;
 }
 
-.session-info{
-  color:var(--muted);
-  font-size:13px;
-  margin-bottom:12px;
+.notification {
+  width: 38px;
+  height: 38px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
 }
 
-.progress{
-  height:8px;
-  background:#e5e7eb;
-  border-radius:20px;
-  overflow:hidden;
-  margin:10px 0;
+.balance-box {
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 18px;
+  padding: 18px;
 }
 
-.progress-bar{
-  height:100%;
-  background:var(--blue);
-  width:0%;
-  transition:.3s;
+.balance-label {
+  font-size: 13px;
+  opacity: 0.85;
 }
 
-.task-item{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  padding:13px 0;
-  border-bottom:1px solid #f1f5f9;
+.balance {
+  font-size: 32px;
+  font-weight: bold;
+  margin: 8px 0;
 }
 
-.task-item:last-child{
-  border-bottom:0;
+.balance-note {
+  font-size: 12px;
+  opacity: 0.8;
 }
 
-.task-number{
-  width:34px;
-  height:34px;
-  border-radius:10px;
-  background:#dbeafe;
-  color:var(--blue);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-weight:700;
-  flex-shrink:0;
-}
-
-.task-info{
-  flex:1;
-}
-
-.task-info strong{
-  display:block;
-  font-size:14px;
-  margin-bottom:4px;
-}
-
-.task-info span{
-  color:var(--muted);
-  font-size:12px;
-}
-
-.task-reward{
-  font-weight:700;
-  color:var(--green);
-  font-size:13px;
-}
-
-.video-card{
-  overflow:hidden;
-  padding:0;
-}
-
-.video-cover{
-  height:145px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:52px;
-  color:white;
-  position:relative;
-}
-
-.video-cover.one{
-  background:linear-gradient(135deg,#7c3aed,#c084fc);
-}
-
-.video-cover.two{
-  background:linear-gradient(135deg,#db2777,#fb7185);
-}
-
-.video-cover.three{
-  background:linear-gradient(135deg,#ea580c,#fbbf24);
-}
-
-.video-body{
-  padding:15px;
-}
-
-.video-body h3{
-  margin-bottom:6px;
-  font-size:16px;
-}
-
-.video-body p{
-  color:var(--muted);
-  font-size:13px;
-  line-height:1.5;
-  margin-bottom:12px;
-}
-
-.video-timer{
-  font-weight:700;
-  color:var(--blue);
-  font-size:13px;
-}
-
-.video-progress{
-  height:7px;
-  background:#e5e7eb;
-  border-radius:10px;
-  margin:10px 0;
-  overflow:hidden;
-}
-
-.video-progress div{
-  height:100%;
-  width:0%;
-  background:var(--purple);
-  transition:.3s;
-}
-
-.nav{
-  position:fixed;
-  bottom:0;
-  left:50%;
-  transform:translateX(-50%);
-  width:100%;
-  max-width:480px;
-  height:72px;
-  background:white;
-  border-top:1px solid var(--border);
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  z-index:20;
-}
-
-.nav button{
-  background:white;
-  color:var(--muted);
-  font-size:11px;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:4px;
-}
-
-.nav button.active{
-  color:var(--blue);
-  font-weight:700;
-}
-
-.nav-icon{
-  font-size:21px;
-}
-
-.page{
-  display:none;
-}
-
-.page.active{
-  display:block;
-}
-
-.badge{
-  display:inline-block;
-  padding:5px 9px;
-  border-radius:20px;
-  font-size:11px;
-  font-weight:700;
-}
+/* PAGE */
 
-.badge-green{
-  background:#dcfce7;
-  color:#166534;
+.page {
+  display: none;
+  padding: 18px;
 }
 
-.badge-blue{
-  background:#dbeafe;
-  color:#1d4ed8;
+.page.active {
+  display: block;
 }
 
-.badge-orange{
-  background:#fef3c7;
-  color:#92400e;
+.page-title {
+  font-size: 23px;
+  font-weight: bold;
+  margin-bottom: 6px;
 }
 
-.badge-red{
-  background:#fee2e2;
-  color:#991b1b;
+.page-subtitle {
+  color: #64748b;
+  font-size: 14px;
+  margin-bottom: 18px;
 }
 
-.badge-purple{
-  background:#ede9fe;
-  color:#6d28d9;
-}
+/* CARDS */
 
-.form-group{
-  margin-bottom:14px;
+.card {
+  background: white;
+  border-radius: 18px;
+  padding: 17px;
+  margin-bottom: 15px;
+  box-shadow: 0 5px 18px rgba(15, 23, 42, 0.06);
+  border: 1px solid #e2e8f0;
 }
 
-.form-group label{
-  display:block;
-  font-size:13px;
-  font-weight:700;
-  margin-bottom:7px;
+.card-title {
+  font-size: 17px;
+  font-weight: bold;
+  margin-bottom: 8px;
 }
 
-.form-group input,
-.form-group select,
-.form-group textarea{
-  width:100%;
-  padding:13px;
-  border:1px solid var(--border);
-  border-radius:12px;
-  outline:none;
-  background:white;
+.card-text {
+  font-size: 13px;
+  color: #64748b;
+  line-height: 1.6;
 }
 
-.form-group textarea{
-  min-height:100px;
-  resize:vertical;
-}
+/* STATS */
 
-.form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus{
-  border-color:var(--blue);
+.stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-top: 15px;
 }
 
-.avatar{
-  width:64px;
-  height:64px;
-  border-radius:50%;
-  background:linear-gradient(135deg,#2563eb,#7c3aed);
-  color:white;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:27px;
-  font-weight:700;
+.stat-card {
+  background: white;
+  border-radius: 16px;
+  padding: 16px;
+  border: 1px solid #e2e8f0;
 }
 
-.profile-head{
-  display:flex;
-  align-items:center;
-  gap:14px;
-  margin-bottom:15px;
+.stat-icon {
+  font-size: 24px;
+  margin-bottom: 10px;
 }
 
-.profile-head h2{
-  font-size:20px;
-  margin-bottom:4px;
+.stat-value {
+  font-size: 22px;
+  font-weight: bold;
+  color: #1d4ed8;
 }
 
-.profile-head p{
-  color:var(--muted);
-  font-size:13px;
+.stat-label {
+  font-size: 12px;
+  color: #64748b;
+  margin-top: 4px;
 }
 
-.menu-item{
-  display:flex;
-  align-items:center;
-  gap:13px;
-  padding:15px 0;
-  border-bottom:1px solid #f1f5f9;
-  cursor:pointer;
-}
+/* BUTTONS */
 
-.menu-item:last-child{
-  border-bottom:0;
+.btn {
+  width: 100%;
+  padding: 13px 16px;
+  border-radius: 12px;
+  font-weight: bold;
+  margin-top: 12px;
+  transition: 0.2s;
 }
 
-.menu-icon{
-  width:38px;
-  height:38px;
-  border-radius:12px;
-  background:#eff6ff;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:20px;
+.btn:active {
+  transform: scale(0.98);
 }
 
-.menu-item strong{
-  display:block;
-  font-size:14px;
+.btn-primary {
+  background: #2563eb;
+  color: white;
 }
 
-.menu-item span{
-  color:var(--muted);
-  font-size:12px;
+.btn-primary:hover {
+  background: #1d4ed8;
 }
 
-.menu-arrow{
-  margin-left:auto;
-  color:var(--muted);
+.btn-success {
+  background: #16a34a;
+  color: white;
 }
 
-.notice{
-  padding:13px;
-  border-radius:13px;
-  background:#eff6ff;
-  color:#1e40af;
-  font-size:13px;
-  line-height:1.5;
-  margin-bottom:15px;
+.btn-warning {
+  background: #f59e0b;
+  color: white;
 }
 
-.notice.warning{
-  background:#fff7ed;
-  color:#9a3412;
+.btn-danger {
+  background: #dc2626;
+  color: white;
 }
 
-.notice.success{
-  background:#f0fdf4;
-  color:#166534;
+.btn-light {
+  background: #eff6ff;
+  color: #1d4ed8;
 }
 
-.notice.danger{
-  background:#fef2f2;
-  color:#991b1b;
+.btn-full {
+  display: block;
 }
 
-.empty{
-  text-align:center;
-  padding:25px;
-  color:var(--muted);
-}
+/* TASK */
 
-.notification{
-  display:flex;
-  gap:12px;
-  padding:14px 0;
-  border-bottom:1px solid #f1f5f9;
+.task-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
 }
 
-.notification:last-child{
-  border-bottom:0;
+.task-title {
+  font-size: 17px;
+  font-weight: bold;
 }
 
-.notification-icon{
-  width:38px;
-  height:38px;
-  border-radius:12px;
-  background:#dbeafe;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  flex-shrink:0;
+.task-reward {
+  background: #dcfce7;
+  color: #15803d;
+  padding: 6px 9px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: bold;
+  white-space: nowrap;
 }
 
-.notification h4{
-  font-size:14px;
-  margin-bottom:4px;
+.task-status {
+  margin-top: 13px;
+  font-size: 13px;
+  color: #64748b;
 }
 
-.notification p{
-  color:var(--muted);
-  font-size:12px;
-  line-height:1.5;
+.task-completed {
+  color: #16a34a;
+  font-weight: bold;
 }
 
-.notification small{
-  display:block;
-  color:#94a3b8;
-  margin-top:5px;
-}
+/* VIDEO */
 
-.withdraw-amount{
-  font-size:32px;
-  font-weight:800;
-  color:var(--dark);
-  text-align:center;
-  margin:10px 0 18px;
+.video-card {
+  background: white;
+  border-radius: 18px;
+  padding: 17px;
+  margin-bottom: 15px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 5px 18px rgba(15, 23, 42, 0.06);
 }
 
-.amount-options{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:8px;
-  margin-bottom:15px;
+.video-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
-.amount-options button{
-  padding:11px 5px;
-  background:#eff6ff;
-  color:var(--blue);
-  border-radius:10px;
-  font-weight:700;
+.video-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 15px;
+  background: #dbeafe;
+  color: #1d4ed8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 25px;
 }
 
-.amount-options button.selected{
-  background:var(--blue);
-  color:white;
+.video-name {
+  font-weight: bold;
+  font-size: 16px;
 }
 
-.bank-row{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  padding:13px;
-  border:1px solid var(--border);
-  border-radius:13px;
-  margin-bottom:10px;
+.video-description {
+  font-size: 12px;
+  color: #64748b;
+  margin-top: 5px;
 }
 
-.bank-row span{
-  font-size:23px;
+.video-reward {
+  margin-top: 15px;
+  font-size: 13px;
+  color: #15803d;
+  font-weight: bold;
 }
 
-.bank-row strong{
-  display:block;
-  font-size:14px;
+.video-timer {
+  text-align: center;
+  font-size: 30px;
+  font-weight: bold;
+  color: #1d4ed8;
+  margin: 18px 0 12px;
 }
 
-.bank-row small{
-  color:var(--muted);
-  font-size:12px;
+.progress-background {
+  height: 9px;
+  background: #e2e8f0;
+  border-radius: 20px;
+  overflow: hidden;
 }
 
-.admin-stat{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:13px 0;
-  border-bottom:1px solid #f1f5f9;
+.progress-bar {
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg, #2563eb, #60a5fa);
+  border-radius: 20px;
+  transition: width 1s linear;
 }
 
-.admin-stat:last-child{
-  border-bottom:0;
+.video-completed {
+  color: #16a34a;
 }
 
-.admin-stat span{
-  color:var(--muted);
-  font-size:13px;
-}
+/* WITHDRAW */
 
-.admin-stat strong{
-  font-size:17px;
+.form-group {
+  margin-bottom: 15px;
 }
 
-.login-screen{
-  min-height:100vh;
-  background:linear-gradient(135deg,#1d4ed8,#7c3aed);
-  padding:25px 18px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+.form-label {
+  display: block;
+  font-size: 13px;
+  font-weight: bold;
+  margin-bottom: 7px;
 }
 
-.login-box{
-  width:100%;
-  max-width:420px;
-  background:white;
-  border-radius:25px;
-  padding:25px;
-  box-shadow:0 20px 60px rgba(0,0,0,.2);
+.form-input {
+  width: 100%;
+  padding: 13px;
+  border: 1px solid #cbd5e1;
+  border-radius: 11px;
+  outline: none;
+  background: white;
 }
 
-.login-logo{
-  text-align:center;
-  margin-bottom:25px;
+.form-input:focus {
+  border-color: #2563eb;
 }
 
-.login-logo .logo-icon{
-  margin:auto;
-  background:#dbeafe;
-  color:var(--blue);
+.withdraw-info {
+  background: #eff6ff;
+  color: #1e40af;
+  padding: 13px;
+  border-radius: 12px;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 15px;
 }
 
-.login-logo h1{
-  margin-top:10px;
-  font-size:25px;
-}
+/* PROFILE */
 
-.login-logo p{
-  color:var(--muted);
-  font-size:13px;
-  margin-top:6px;
+.profile-top {
+  text-align: center;
+  background: white;
+  border-radius: 18px;
+  padding: 22px;
+  border: 1px solid #e2e8f0;
+  margin-bottom: 15px;
 }
 
-.login-tabs{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:5px;
-  background:#f1f5f9;
-  padding:4px;
-  border-radius:12px;
-  margin-bottom:20px;
+.avatar {
+  width: 75px;
+  height: 75px;
+  margin: auto;
+  border-radius: 50%;
+  background: #dbeafe;
+  color: #1d4ed8;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 12px;
 }
 
-.login-tabs button{
-  padding:11px;
-  border-radius:9px;
-  background:transparent;
-  color:var(--muted);
-  font-weight:700;
+.profile-name {
+  font-size: 20px;
+  font-weight: bold;
 }
 
-.login-tabs button.active{
-  background:white;
-  color:var(--blue);
+.profile-email {
+  color: #64748b;
+  font-size: 13px;
+  margin-top: 5px;
 }
 
-.login-footer{
-  text-align:center;
-  color:var(--muted);
-  font-size:11px;
-  margin-top:18px;
-  line-height:1.5;
-}
+/* BOTTOM NAVIGATION */
 
-.toast{
-  position:fixed;
-  top:18px;
-  left:50%;
-  transform:translateX(-50%);
-  width:calc(100% - 36px);
-  max-width:440px;
-  background:#0f172a;
-  color:white;
-  padding:14px 16px;
-  border-radius:13px;
-  z-index:100;
-  display:none;
-  font-size:13px;
-  box-shadow:0 8px 25px rgba(0,0,0,.2);
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 480px;
+  height: 72px;
+  background: white;
+  border-top: 1px solid #e2e8f0;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  z-index: 20;
 }
 
-.toast.show{
-  display:block;
+.nav-item {
+  background: white;
+  color: #94a3b8;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  font-size: 11px;
 }
 
-.modal{
-  position:fixed;
-  inset:0;
-  background:rgba(15,23,42,.55);
-  display:none;
-  align-items:center;
-  justify-content:center;
-  padding:18px;
-  z-index:50;
+.nav-icon {
+  font-size: 21px;
 }
 
-.modal.show{
-  display:flex;
+.nav-item.active {
+  color: #2563eb;
+  font-weight: bold;
 }
 
-.modal-box{
-  background:white;
-  width:100%;
-  max-width:430px;
-  max-height:90vh;
-  overflow:auto;
-  border-radius:22px;
-  padding:20px;
-}
+/* TOAST */
 
-.modal-header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:18px;
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 90px;
+  transform: translateX(-50%) translateY(20px);
+  background: #172033;
+  color: white;
+  padding: 13px 18px;
+  border-radius: 12px;
+  font-size: 13px;
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.3s;
+  z-index: 100;
+  width: max-content;
+  max-width: 90%;
+  text-align: center;
 }
 
-.close-btn{
-  background:#f1f5f9;
-  width:34px;
-  height:34px;
-  border-radius:10px;
-  font-size:18px;
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
 }
 
-.small{
-  font-size:12px;
-  color:var(--muted);
-  line-height:1.5;
-}
+/* EMPTY */
 
-hr{
-  border:0;
-  border-top:1px solid var(--border);
-  margin:15px 0;
+.empty {
+  text-align: center;
+  color: #64748b;
+  padding: 25px 10px;
+  font-size: 14px;
 }
-
-@media(max-width:360px){
-  .content{
-    padding:14px;
-  }
 
-  .balance{
-    font-size:29px;
-  }
+/* RESPONSIVE */
 
-  .topbar{
-    padding-left:14px;
-    padding-right:14px;
+@media (min-width: 481px) {
+  body {
+    padding: 0;
   }
 }
 </style>
@@ -859,1754 +498,405 @@ hr{
 
 <body>
 
-<div id="toast" class="toast"></div>
+<div class="app">
 
-<!-- LOGIN / REGISTER -->
-<div id="authScreen" class="login-screen">
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-top">
+      <div>
+        <div class="logo">True Networking</div>
+        <div class="header-small">Earn rewards by completing activities</div>
+      </div>
 
-  <div class="login-box">
-
-    <div class="login-logo">
-      <div class="logo-icon">💎</div>
-      <h1>True Networking</h1>
-      <p>Complete tasks. Watch videos. Earn rewards.</p>
+      <div class="notification">🔔</div>
     </div>
 
-    <div class="login-tabs">
-      <button id="loginTab" class="active" onclick="showAuthTab('login')">
-        Log In
-      </button>
-      <button id="registerTab" onclick="showAuthTab('register')">
-        Register
+    <div class="balance-box">
+      <div class="balance-label">Available Demo Balance</div>
+      <div class="balance" id="headerBalance">₦0.00</div>
+      <div class="balance-note">Demo balance for testing only</div>
+    </div>
+  </header>
+
+  <!-- HOME PAGE -->
+  <section class="page active" id="homePage">
+    <div class="page-title">Welcome back 👋</div>
+    <div class="page-subtitle">Complete tasks and videos to increase your demo balance.</div>
+
+    <div class="stats">
+      <div class="stat-card">
+        <div class="stat-icon">🎯</div>
+        <div class="stat-value" id="homeTasks">0</div>
+        <div class="stat-label">Tasks Completed</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">🎬</div>
+        <div class="stat-value" id="homeVideos">0</div>
+        <div class="stat-label">Videos Completed</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">💰</div>
+        <div class="stat-value" id="homeEarned">₦0</div>
+        <div class="stat-label">Total Earned</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">🔥</div>
+        <div class="stat-value" id="homeDays">0</div>
+        <div class="stat-label">Active Days</div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:18px;">
+      <div class="card-title">🎯 Daily Task</div>
+      <div class="card-text">
+        Complete today's eligible task and receive your reward.
+      </div>
+      <button class="btn btn-primary" onclick="openPage('tasks')">
+        View Daily Task
       </button>
     </div>
 
-    <form id="loginForm" onsubmit="loginUser(event)">
-
-      <div class="form-group">
-        <label>Email or Username</label>
-        <input id="loginEmail" type="text" placeholder="Enter your email" required>
+    <div class="card">
+      <div class="card-title">🎬 Watch Videos</div>
+      <div class="card-text">
+        Watch each three-minute video once and claim the demo reward.
       </div>
-
-      <div class="form-group">
-        <label>Password</label>
-        <input id="loginPassword" type="password" placeholder="Enter password" required>
-      </div>
-
-      <button class="btn btn-primary btn-full" type="submit">
-        Log In
+      <button class="btn btn-light" onclick="openPage('videos')">
+        Watch Videos
       </button>
+    </div>
+  </section>
 
-    </form>
+  <!-- TASKS PAGE -->
+  <section class="page" id="tasksPage">
+    <div class="page-title">Daily Tasks</div>
+    <div class="page-subtitle">Complete available tasks to earn rewards.</div>
 
-    <form id="registerForm" class="hidden" onsubmit="registerUser(event)">
-
-      <div class="form-group">
-        <label>Full Name</label>
-        <input id="registerName" type="text" placeholder="Enter your full name" required>
+    <div class="card">
+      <div class="task-header">
+        <div class="task-title">🎯 Daily Check-in Task</div>
+        <div class="task-reward">+₦100</div>
       </div>
 
-      <div class="form-group">
-        <label>Email</label>
-        <input id="registerEmail" type="email" placeholder="Enter your email" required>
+      <div class="card-text" style="margin-top:10px;">
+        Press the button below to complete today's demo task.
       </div>
 
-      <div class="form-group">
-        <label>Password</label>
-        <input id="registerPassword" type="password" placeholder="Create password" minlength="6" required>
+      <div class="task-status" id="taskStatus">
+        Task not completed yet.
       </div>
 
-      <div class="form-group">
-        <label>Invite Code (Optional)</label>
-        <input id="registerInvite" type="text" placeholder="Enter invite code">
-      </div>
-
-      <button class="btn btn-primary btn-full" type="submit">
-        Create Account
+      <button class="btn btn-primary" id="taskButton" onclick="completeDailyTask()">
+        Complete Task
       </button>
-
-    </form>
-
-    <div class="login-footer">
-      By using this demo, you agree to the app rules.<br>
-      This version is a frontend prototype.
     </div>
 
-  </div>
+    <div class="card">
+      <div class="card-title">📌 Task Rules</div>
+      <div class="card-text">
+        • Each task can be completed once per day.<br>
+        • The reward is added to your demo balance.<br>
+        • Refreshing the page will not remove completed tasks.
+      </div>
+    </div>
+  </section>
+
+  <!-- VIDEOS PAGE -->
+  <section class="page" id="videosPage">
+    <div class="page-title">Watch Videos</div>
+    <div class="page-subtitle">
+      Watch a video for three minutes to claim its reward.
+    </div>
+
+    <!-- VIDEO 1 -->
+    <div class="video-card">
+      <div class="video-top">
+        <div class="video-icon">▶️</div>
+        <div>
+          <div class="video-name">Networking Video 1</div>
+          <div class="video-description">Complete this video to receive your reward.</div>
+        </div>
+      </div>
+
+      <div class="video-reward">Reward: ₦50</div>
+
+      <div class="video-timer" id="videoTimer1">3:00</div>
+
+      <div class="progress-background">
+        <div class="progress-bar" id="videoProgress1"></div>
+      </div>
+
+      <button
+        class="btn btn-primary btn-full"
+        id="videoBtn1"
+        onclick="startVideo(1)">
+        ▶ Start 3-Minute Video
+      </button>
+    </div>
+
+    <!-- VIDEO 2 -->
+    <div class="video-card">
+      <div class="video-top">
+        <div class="video-icon">▶️</div>
+        <div>
+          <div class="video-name">Networking Video 2</div>
+          <div class="video-description">Complete this video to receive your reward.</div>
+        </div>
+      </div>
+
+      <div class="video-reward">Reward: ₦50</div>
+
+      <div class="video-timer" id="videoTimer2">3:00</div>
+
+      <div class="progress-background">
+        <div class="progress-bar" id="videoProgress2"></div>
+      </div>
+
+      <button
+        class="btn btn-primary btn-full"
+        id="videoBtn2"
+        onclick="startVideo(2)">
+        ▶ Start 3-Minute Video
+      </button>
+    </div>
+
+    <!-- VIDEO 3 -->
+    <div class="video-card">
+      <div class="video-top">
+        <div class="video-icon">▶️</div>
+        <div>
+          <div class="video-name">Networking Video 3</div>
+          <div class="video-description">Complete this video to receive your reward.</div>
+        </div>
+      </div>
+
+      <div class="video-reward">Reward: ₦50</div>
+
+      <div class="video-timer" id="videoTimer3">3:00</div>
+
+      <div class="progress-background">
+        <div class="progress-bar" id="videoProgress3"></div>
+      </div>
+
+      <button
+        class="btn btn-primary btn-full"
+        id="videoBtn3"
+        onclick="startVideo(3)">
+        ▶ Start 3-Minute Video
+      </button>
+    </div>
+  </section>
+
+  <!-- WITHDRAW PAGE -->
+  <section class="page" id="withdrawPage">
+    <div class="page-title">Withdraw</div>
+    <div class="page-subtitle">Request a demo withdrawal.</div>
+
+    <div class="withdraw-info">
+      ⚠️ This is a demo withdrawal form. No real money will be transferred.
+      Payment integration will be added later.
+    </div>
+
+    <div class="card">
+      <div class="form-group">
+        <label class="form-label">Available Balance</label>
+        <input
+          class="form-input"
+          id="withdrawBalance"
+          type="text"
+          value="₦0.00"
+          disabled>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Amount</label>
+        <input
+          class="form-input"
+          id="withdrawAmount"
+          type="number"
+          placeholder="Enter amount">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Payment Method</label>
+        <select class="form-input" id="withdrawMethod">
+          <option value="">Select payment method</option>
+          <option value="Bank Transfer">Bank Transfer</option>
+          <option value="Mobile Money">Mobile Money</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Account Number</label>
+        <input
+          class="form-input"
+          id="withdrawAccount"
+          type="text"
+          placeholder="Enter account number">
+      </div>
+
+      <button class="btn btn-success" onclick="requestWithdraw()">
+        Request Withdrawal
+      </button>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Withdrawal History</div>
+      <div id="withdrawHistory" class="empty">
+        No withdrawal request yet.
+      </div>
+    </div>
+  </section>
+
+  <!-- PROFILE PAGE -->
+  <section class="page" id="profilePage">
+    <div class="page-title">Profile</div>
+    <div class="page-subtitle">Manage your demo account.</div>
+
+    <div class="profile-top">
+      <div class="avatar" id="profileAvatar">U</div>
+      <div class="profile-name" id="profileName">User</div>
+      <div class="profile-email" id="profileEmail">user@example.com</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Account Information</div>
+      <div class="card-text">
+        <strong>Username:</strong>
+        <span id="profileUsername">user</span>
+        <br><br>
+        <strong>Account Status:</strong> Active
+        <br><br>
+        <strong>Account Type:</strong> Demo Account
+      </div>
+    </div>
+
+    <button class="btn btn-danger" onclick="resetAccount()">
+      Reset Demo Account
+    </button>
+  </section>
 
 </div>
 
-
-<!-- MAIN APP -->
-<div id="mainApp" class="app hidden">
-
-  <!-- TOPBAR -->
-  <div class="topbar">
-
-    <div class="topbar-row">
-
-      <div class="logo">
-        <div class="logo-icon">💎</div>
-        <div>
-          <h2>True Networking</h2>
-          <small>Reward Network</small>
-        </div>
-      </div>
-
-      <button class="icon-btn" onclick="openPage('notifications')">
-        🔔
-      </button>
-
-    </div>
-
-  </div>
-
-
-  <div class="content">
-
-    <!-- HOME PAGE -->
-    <section id="homePage" class="page active">
-
-      <div class="card balance-card">
-
-        <div class="row">
-          <div>
-            <div class="balance-label">Available Balance</div>
-            <div id="homeBalance" class="balance">$0.00</div>
-          </div>
-
-          <div style="font-size:45px;">💎</div>
-        </div>
-
-        <div class="row">
-          <span class="small">Your reward wallet</span>
-          <button class="btn btn-primary" onclick="openPage('withdraw')">
-            Withdraw
-          </button>
-        </div>
-
-      </div>
-
-
-      <div class="stats">
-
-        <div class="stat">
-          <strong id="homeTasks">0</strong>
-          <span>Tasks Done</span>
-        </div>
-
-        <div class="stat">
-          <strong id="homeVideos">0</strong>
-          <span>Videos Done</span>
-        </div>
-
-        <div class="stat">
-          <strong id="homeDays">0/5</strong>
-          <span>Active Days</span>
-        </div>
-
-      </div>
-
-
-      <div class="section-title">Welcome back 👋</div>
-
-      <div class="card">
-
-        <div class="row" style="margin-bottom:12px;">
-          <div>
-            <strong id="welcomeName">Member</strong>
-            <p class="small">Keep completing your daily activities.</p>
-          </div>
-
-          <span class="badge badge-green">Active</span>
-        </div>
-
-        <div class="notice">
-          🎯 Complete both daily sessions and watch eligible videos to build your reward balance.
-        </div>
-
-        <button class="btn btn-primary btn-full" onclick="openPage('tasks')">
-          Start Today's Activities
-        </button>
-
-      </div>
-
-
-      <div class="section-title">Today's Schedule</div>
-
-      <div class="card">
-
-        <div class="session active">
-          <div class="row">
-            <div class="session-title">🌅 Morning Session</div>
-            <span class="badge badge-blue">5:00 AM</span>
-          </div>
-          <div class="session-info">
-            Five tasks are available during the morning session.
-          </div>
-          <div class="progress">
-            <div id="morningHomeProgress" class="progress-bar"></div>
-          </div>
-          <span id="morningHomeText" class="small">0/5 tasks completed</span>
-        </div>
-
-        <div class="session">
-          <div class="row">
-            <div class="session-title">🌇 Evening Session</div>
-            <span class="badge badge-purple">5:00 PM</span>
-          </div>
-          <div class="session-info">
-            Five tasks are available during the evening session.
-          </div>
-          <div class="progress">
-            <div id="eveningHomeProgress" class="progress-bar"></div>
-          </div>
-          <span id="eveningHomeText" class="small">0/5 tasks completed</span>
-        </div>
-
-      </div>
-
-
-      <div class="section-title">Quick Actions</div>
-
-      <div class="card">
-
-        <div class="menu-item" onclick="openPage('tasks')">
-          <div class="menu-icon">🎯</div>
-          <div>
-            <strong>Daily Tasks</strong>
-            <span>Complete available activities</span>
-          </div>
-          <div class="menu-arrow">›</div>
-        </div>
-
-        <div class="menu-item" onclick="openPage('videos')">
-          <div class="menu-icon">🎬</div>
-          <div>
-            <strong>Watch Videos</strong>
-            <span>Watch eligible 3-minute videos</span>
-          </div>
-          <div class="menu-arrow">›</div>
-        </div>
-
-        <div class="menu-item" onclick="openPage('withdraw')">
-          <div class="menu-icon">💸</div>
-          <div>
-            <strong>Withdraw</strong>
-            <span>Check your withdrawal eligibility</span>
-          </div>
-          <div class="menu-arrow">›</div>
-        </div>
-
-      </div>
-
-    </section>
-
-
-    <!-- TASK PAGE -->
-    <section id="tasksPage" class="page">
-
-      <div class="row" style="margin-bottom:15px;">
-        <div>
-          <div class="section-title" style="margin-bottom:4px;">Daily Tasks 🎯</div>
-          <p class="small">Two sessions are available every day.</p>
-        </div>
-        <span class="badge badge-blue">10 Tasks</span>
-      </div>
-
-
-      <div class="notice">
-        ⏰ Morning session: 5:00 AM. Evening session: 5:00 PM.
-        Each session contains five tasks.
-      </div>
-
-
-      <div class="card">
-
-        <div class="row">
-          <div>
-            <strong>🌅 Morning Session</strong>
-            <p class="small">Starts at 5:00 AM</p>
-          </div>
-          <span id="morningStatus" class="badge badge-blue">Available</span>
-        </div>
-
-        <div class="progress">
-          <div id="morningProgress" class="progress-bar"></div>
-        </div>
-
-        <div id="morningTasks"></div>
-
-      </div>
-
-
-      <div class="card">
-
-        <div class="row">
-          <div>
-            <strong>🌇 Evening Session</strong>
-            <p class="small">Starts at 5:00 PM</p>
-          </div>
-          <span id="eveningStatus" class="badge badge-purple">Available</span>
-        </div>
-
-        <div class="progress">
-          <div id="eveningProgress" class="progress-bar"></div>
-        </div>
-
-        <div id="eveningTasks"></div>
-
-      </div>
-
-
-      <div class="notice warning">
-        ⚠️ This demo allows testing both sessions. In a production app,
-        the server must enforce the real time schedule.
-      </div>
-
-    </section>
-
-
-    <!-- VIDEOS PAGE -->
-    <section id="videosPage" class="page">
-
-      <div class="section-title">Watch & Earn 🎬</div>
-
-      <div class="notice">
-        Each eligible video lasts three minutes. Complete the timer to receive the demo reward.
-      </div>
-
-
-      <div class="card video-card">
-
-        <div class="video-cover one">💙</div>
-
-        <div class="video-body">
-          <h3>A Little Kindness</h3>
-          <p>
-            A touching story about kindness, compassion and helping someone who needs support.
-          </p>
-
-          <div class="video-timer" id="videoTimer1">3:00</div>
-
-          <div class="video-progress">
-            <div id="videoProgress1"></div>
-          </div>
-
-          <button id="videoBtn1" class="btn btn-primary btn-full" onclick="startVideo(1)">
-            ▶ Start 3-Minute Video
-          </button>
-        </div>
-
-      </div>
-
-
-      <div class="card video-card">
-
-        <div class="video-cover two">❤️</div>
-
-        <div class="video-body">
-          <h3>Love & Hope</h3>
-          <p>
-            A warm story about love, friendship and the hope that brings people together.
-          </p>
-
-          <div class="video-timer" id="videoTimer2">3:00</div>
-
-          <div class="video-progress">
-            <div id="videoProgress2"></div>
-          </div>
-
-          <button id="videoBtn2" class="btn btn-primary btn-full" onclick="startVideo(2)">
-            ▶ Start 3-Minute Video
-          </button>
-        </div>
-
-      </div>
-
-
-      <div class="card video-card">
-
-        <div class="video-cover three">😊</div>
-
-        <div class="video-body">
-          <h3>Moments of Happiness</h3>
-          <p>
-            An uplifting collection of joyful moments, smiles and positive memories.
-          </p>
-
-          <div class="video-timer" id="videoTimer3">3:00</div>
-
-          <div class="video-progress">
-            <div id="videoProgress3"></div>
-          </div>
-
-          <button id="videoBtn3" class="btn btn-primary btn-full" onclick="startVideo(3)">
-            ▶ Start 3-Minute Video
-          </button>
-        </div>
-
-      </div>
-
-    </section>
-
-
-    <!-- WITHDRAW PAGE -->
-    <section id="withdrawPage" class="page">
-
-      <div class="section-title">Withdraw 💸</div>
-
-      <div class="card">
-
-        <div class="balance-label" style="text-align:center;">
-          Available Balance
-        </div>
-
-        <div id="withdrawBalance" class="withdraw-amount">$0.00</div>
-
-        <div id="withdrawEligibility"></div>
-
-      </div>
-
-
-      <div class="card">
-
-        <div class="section-title" style="font-size:16px;">
-          Withdrawal Amount
-        </div>
-
-        <div class="amount-options">
-          <button onclick="selectAmount(8)"> $8 </button>
-          <button onclick="selectAmount(10)"> $10 </button>
-          <button onclick="selectAmount(20)"> $20 </button>
-        </div>
-
-        <div class="form-group">
-          <label>Amount</label>
-          <input id="withdrawAmount" type="number" min="8" placeholder="Enter amount">
-        </div>
-
-        <div class="section-title" style="font-size:16px;">
-          Bank Details
-        </div>
-
-        <div class="form-group">
-          <label>Bank Name</label>
-          <input id="bankName" type="text" placeholder="e.g. Access Bank">
-        </div>
-
-        <div class="form-group">
-          <label>Account Name</label>
-          <input id="accountName" type="text" placeholder="Account holder name">
-        </div>
-
-        <div class="form-group">
-          <label>Account Number</label>
-          <input id="accountNumber" type="text" maxlength="10" placeholder="10-digit account number">
-        </div>
-
-        <button id="withdrawBtn" class="btn btn-success btn-full" onclick="requestWithdraw()">
-          Request Withdrawal
-        </button>
-
-        <p class="small" style="margin-top:12px;">
-          Demo notice: No real bank transfer is made in this frontend version.
-        </p>
-
-      </div>
-
-
-      <div class="card">
-
-        <div class="section-title" style="font-size:16px;">
-          Withdrawal Rules
-        </div>
-
-        <div class="notice">
-          1. Complete at least five active days.<br>
-          2. Reach the minimum balance of $8.<br>
-          3. Complete eligible daily activities.<br>
-          4. Submit correct bank details.<br>
-          5. Production payments require a verified payment provider.
-        </div>
-
-      </div>
-
-    </section>
-
-
-    <!-- ME / PROFILE PAGE -->
-    <section id="mePage" class="page">
-
-      <div class="section-title">Me 👤</div>
-
-      <div class="card">
-
-        <div class="profile-head">
-
-          <div id="profileAvatar" class="avatar">U</div>
-
-          <div>
-            <h2 id="profileName">User</h2>
-            <p id="profileEmail">user@example.com</p>
-            <span class="badge badge-green" style="margin-top:6px;">
-              Member
-            </span>
-          </div>
-
-        </div>
-
-        <div class="row">
-          <span class="small">Member since</span>
-          <strong id="memberSince">Today</strong>
-        </div>
-
-      </div>
-
-
-      <div class="card">
-
-        <div class="menu-item" onclick="openProfileModal()">
-          <div class="menu-icon">🪪</div>
-          <div>
-            <strong>Profile Information</strong>
-            <span>Update your personal details</span>
-          </div>
-          <div class="menu-arrow">›</div>
-        </div>
-
-        <div class="menu-item" onclick="openVerificationModal()">
-          <div class="menu-icon">✅</div>
-          <div>
-            <strong>Face Verification</strong>
-            <span id="verificationStatus">Verification not completed</span>
-          </div>
-          <div class="menu-arrow">›</div>
-        </div>
-
-        <div class="menu-item" onclick="openInviteModal()">
-          <div class="menu-icon">👥</div>
-          <div>
-            <strong>Invite Friends</strong>
-            <span>Share your invite code</span>
-          </div>
-          <div class="menu-arrow">›</div>
-        </div>
-
-        <div class="menu-item" onclick="openSettingsModal()">
-          <div class="menu-icon">⚙️</div>
-          <div>
-            <strong>Settings</strong>
-            <span>Account and app preferences</span>
-          </div>
-          <div class="menu-arrow">›</div>
-        </div>
-
-        <div class="menu-item" onclick="openPage('notifications')">
-          <div class="menu-icon">🔔</div>
-          <div>
-            <strong>Notifications</strong>
-            <span>View your latest updates</span>
-          </div>
-          <div class="menu-arrow">›</div>
-        </div>
-
-        <div class="menu-item" onclick="openPage('customerCare')">
-          <div class="menu-icon">🎧</div>
-          <div>
-            <strong>Customer Care</strong>
-            <span>Get help or submit a complaint</span>
-          </div>
-          <div class="menu-arrow">›</div>
-        </div>
-
-        <div class="menu-item" onclick="logoutUser()">
-          <div class="menu-icon" style="background:#fee2e2;">🚪</div>
-          <div>
-            <strong>Log Out</strong>
-            <span>Sign out of this account</span>
-          </div>
-          <div class="menu-arrow">›</div>
-        </div>
-
-      </div>
-
-
-      <div class="card">
-
-        <div class="section-title" style="font-size:16px;">
-          Account Summary
-        </div>
-
-        <div class="admin-stat">
-          <span>Total Earned</span>
-          <strong id="profileEarned">$0.00</strong>
-        </div>
-
-        <div class="admin-stat">
-          <span>Tasks Completed</span>
-          <strong id="profileTasks">0</strong>
-        </div>
-
-        <div class="admin-stat">
-          <span>Videos Completed</span>
-          <strong id="profileVideos">0</strong>
-        </div>
-
-      </div>
-
-    </section>
-
-
-    <!-- NOTIFICATIONS PAGE -->
-    <section id="notificationsPage" class="page">
-
-      <div class="section-title">Notifications 🔔</div>
-
-      <div class="card">
-
-        <div class="notification">
-          <div class="notification-icon">🎉</div>
-          <div>
-            <h4>Welcome to True Networking</h4>
-            <p>Your account is ready. Start by completing today's activities.</p>
-            <small>Just now</small>
-          </div>
-        </div>
-
-        <div class="notification">
-          <div class="notification-icon">🎯</div>
-          <div>
-            <h4>Daily Tasks</h4>
-            <p>Remember to check both the morning and evening sessions.</p>
-            <small>Today</small>
-          </div>
-        </div>
-
-        <div class="notification">
-          <div class="notification-icon">🎬</div>
-          <div>
-            <h4>Video Rewards</h4>
-            <p>Three eligible videos are available in the Videos page.</p>
-            <small>Today</small>
-          </div>
-        </div>
-
-        <div class="notification">
-          <div class="notification-icon">🔐</div>
-          <div>
-            <h4>Account Security</h4>
-            <p>Never share your password or verification information with anyone.</p>
-            <small>Today</small>
-          </div>
-        </div>
-
-      </div>
-
-    </section>
-
-
-    <!-- CUSTOMER CARE PAGE -->
-    <section id="customerCarePage" class="page">
-
-      <div class="section-title">Customer Care 🎧</div>
-
-      <div class="notice">
-        Tell us what happened. Your complaint will be saved in this demo.
-        In production, it will be sent to the support server.
-      </div>
-
-      <div class="card">
-
-        <form onsubmit="submitComplaint(event)">
-
-          <div class="form-group">
-            <label>Complaint Category</label>
-            <select id="complaintCategory" required>
-              <option value="">Select category</option>
-              <option>Account Problem</option>
-              <option>Task Problem</option>
-              <option>Video Problem</option>
-              <option>Withdrawal Problem</option>
-              <option>Verification Problem</option>
-              <option>Other</option>
-            </select>
-          </div>
-
-          <div class="form-group">
-            <label>Message</label>
-            <textarea id="complaintMessage" placeholder="Explain your problem..." required></textarea>
-          </div>
-
-          <button class="btn btn-primary btn-full" type="submit">
-            Submit Complaint
-          </button>
-
-        </form>
-
-      </div>
-
-
-      <div class="card">
-
-        <div class="section-title" style="font-size:16px;">
-          Support Information
-        </div>
-
-        <p class="small">
-          Support hours: Monday–Saturday<br>
-          Response time: Depends on the production support system.<br>
-          Please do not send your password or bank PIN.
-        </p>
-
-      </div>
-
-    </section>
-
-
-    <!-- ADMIN LOGIN PAGE -->
-    <section id="adminLoginPage" class="page">
-
-      <div class="section-title">Admin Access 🔐</div>
-
-      <div class="card">
-
-        <div class="notice warning">
-          This is a frontend demonstration. The admin code is not secure until authentication is moved to a backend.
-        </div>
-
-        <div class="form-group">
-          <label>Admin Code</label>
-          <input id="adminCodeInput" type="password" placeholder="Enter admin code">
-        </div>
-
-        <button class="btn btn-primary btn-full" onclick="adminLogin()">
-          Open Admin Panel
-        </button>
-
-      </div>
-
-    </section>
-
-
-    <!-- ADMIN PAGE -->
-    <section id="adminPage" class="page">
-
-      <div class="row" style="margin-bottom:15px;">
-        <div>
-          <div class="section-title" style="margin-bottom:4px;">Admin Dashboard 🛠️</div>
-          <p class="small">Frontend management overview</p>
-        </div>
-        <span class="badge badge-red">Admin</span>
-      </div>
-
-      <div class="notice warning">
-        Admin actions shown here are demo actions. Real user balances and payouts must be controlled by a secure backend.
-      </div>
-
-      <div class="card">
-
-        <div class="section-title" style="font-size:16px;">
-          Platform Overview
-        </div>
-
-        <div class="admin-stat">
-          <span>Total Users</span>
-          <strong id="adminUsers">0</strong>
-        </div>
-
-        <div class="admin-stat">
-          <span>Total Platform Balance</span>
-          <strong id="adminBalance">$0.00</strong>
-        </div>
-
-        <div class="admin-stat">
-          <span>Total Tasks Completed</span>
-          <strong id="adminTasks">0</strong>
-        </div>
-
-        <div class="admin-stat">
-          <span>Total Videos Completed</span>
-          <strong id="adminVideos">0</strong>
-        </div>
-
-        <div class="admin-stat">
-          <span>Withdrawal Requests</span>
-          <strong id="adminWithdrawals">0</strong>
-        </div>
-
-        <div class="admin-stat">
-          <span>Complaints</span>
-          <strong id="adminComplaints">0</strong>
-        </div>
-
-      </div>
-
-
-      <div class="card">
-
-        <div class="section-title" style="font-size:16px;">
-          Admin Actions
-        </div>
-
-        <button class="btn btn-secondary btn-full" onclick="refreshAdmin()">
-          🔄 Refresh Statistics
-        </button>
-
-        <br>
-
-        <button class="btn btn-danger btn-full" onclick="adminLogout()">
-          🔒 Close Admin Panel
-        </button>
-
-      </div>
-
-    </section>
-
-  </div>
-
-
-  <!-- BOTTOM NAVIGATION -->
-  <nav class="nav">
-
-    <button id="navHome" class="active" onclick="openPage('home')">
-      <span class="nav-icon">🏠</span>
-      Home
-    </button>
-
-    <button id="navTasks" onclick="openPage('tasks')">
-      <span class="nav-icon">🎯</span>
-      Tasks
-    </button>
-
-    <button id="navVideos" onclick="openPage('videos')">
-      <span class="nav-icon">🎬</span>
-      Videos
-    </button>
-
-    <button id="navMe" onclick="openPage('me')">
-      <span class="nav-icon">👤</span>
-      Me
-    </button>
-
-  </nav>
-
-</div>
-
-
-<!-- MODAL -->
-<div id="modal" class="modal">
-
-  <div class="modal-box">
-
-    <div class="modal-header">
-      <strong id="modalTitle">Details</strong>
-      <button class="close-btn" onclick="closeModal()">✕</button>
-    </div>
-
-    <div id="modalBody"></div>
-
-  </div>
-
-</div>
-
+<!-- BOTTOM NAVIGATION -->
+<nav class="bottom-nav">
+  <button class="nav-item active" id="navHome" onclick="openPage('home')">
+    <div class="nav-icon">🏠</div>
+    <div>Home</div>
+  </button>
+
+  <button class="nav-item" id="navTasks" onclick="openPage('tasks')">
+    <div class="nav-icon">🎯</div>
+    <div>Tasks</div>
+  </button>
+
+  <button class="nav-item" id="navVideos" onclick="openPage('videos')">
+    <div class="nav-icon">🎬</div>
+    <div>Videos</div>
+  </button>
+
+  <button class="nav-item" id="navWithdraw" onclick="openPage('withdraw')">
+    <div class="nav-icon">💸</div>
+    <div>Withdraw</div>
+  </button>
+
+  <button class="nav-item" id="navProfile" onclick="openPage('profile')">
+    <div class="nav-icon">👤</div>
+    <div>Profile</div>
+  </button>
+</nav>
+
+<div class="toast" id="toast"></div>
 
 <script>
 /* =========================
-   DATA AND STORAGE
+   SETTINGS
 ========================= */
 
-const ADMIN_CODE = "676841";
-
-const TASK_REWARD = 0.08;
-const VIDEO_REWARD = 0.10;
-const REQUIRED_DAYS = 5;
-const MIN_WITHDRAW = 8;
-
-const taskNames = [
-  "Read the daily reward guidelines",
-  "Review today's learning material",
-  "Complete the daily knowledge check",
-  "Confirm your activity participation",
-  "Submit the daily task report"
-];
-
-const appData = {
-  user: null,
-  users: [],
-  withdrawals: [],
-  complaints: [],
-  adminLoggedIn: false
-};
+const VIDEO_REWARD = 50;
+const TASK_REWARD = 100;
+const VIDEO_DURATION = 180;
 
 let activeVideo = null;
 let videoIntervals = {};
 
-function loadData(){
-  const saved = localStorage.getItem("trueNetworkingData");
+/* =========================
+   DEFAULT USER
+========================= */
 
-  if(saved){
-    try{
-      const parsed = JSON.parse(saved);
-      Object.assign(appData, parsed);
-    }catch(error){
-      console.log("Storage reset");
-    }
-  }
-}
-
-function saveData(){
-  localStorage.setItem("trueNetworkingData", JSON.stringify(appData));
-}
-
-function createDefaultUser(name,email,password,invite){
+function defaultUser() {
   return {
-    id:Date.now(),
-    name:name,
-    email:email,
-    password:password,
-    invite:invite || "",
-    balance:0,
-    totalEarned:0,
-    tasksCompleted:0,
-    videosCompleted:0,
-    activeDays:0,
-    lastActivityDate:"",
-    morningTasks:[],
-    eveningTasks:[],
-    videos:[],
-    verified:false,
-    createdAt:new Date().toLocaleDateString(),
-    bank:{
-      name:"",
-      accountName:"",
-      accountNumber:""
-    }
+    name: "Demo User",
+    username: "demo_user",
+    email: "user@example.com",
+    balance: 0,
+    totalEarned: 0,
+    tasksCompleted: 0,
+    videosCompleted: 0,
+    activeDays: 0,
+    completedVideos: [],
+    completedTaskDate: "",
+    withdrawals: [],
+    lastActiveDate: ""
   };
 }
 
-function getTodayKey(){
-  const d = new Date();
-  return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
-}
-
-function getUser(){
-  return appData.user;
-}
-
-function updateUser(){
-  const index = appData.users.findIndex(u => u.id === appData.user.id);
-
-  if(index !== -1){
-    appData.users[index] = appData.user;
-  }
-
-  saveData();
-}
-
-function money(value){
-  return "$"+Number(value || 0).toFixed(2);
-}
-
-
 /* =========================
-   AUTHENTICATION
+   STORAGE
 ========================= */
 
-function showAuthTab(tab){
+function getUser() {
+  const saved = localStorage.getItem("trueNetworkingUser");
 
-  document.getElementById("loginTab").classList.toggle("active",tab === "login");
-  document.getElementById("registerTab").classList.toggle("active",tab === "register");
-
-  document.getElementById("loginForm").classList.toggle("hidden",tab !== "login");
-  document.getElementById("registerForm").classList.toggle("hidden",tab !== "register");
-
-}
-
-function registerUser(event){
-
-  event.preventDefault();
-
-  const name = document.getElementById("registerName").value.trim();
-  const email = document.getElementById("registerEmail").value.trim().toLowerCase();
-  const password = document.getElementById("registerPassword").value;
-  const invite = document.getElementById("registerInvite").value.trim();
-
-  const exists = appData.users.some(u => u.email === email);
-
-  if(exists){
-    showToast("An account with this email already exists.");
-    return;
+  if (!saved) {
+    const user = defaultUser();
+    saveUser(user);
+    return user;
   }
 
-  const user = createDefaultUser(name,email,password,invite);
+  try {
+    const user = JSON.parse(saved);
 
-  appData.users.push(user);
-  appData.user = user;
-
-  saveData();
-
-  showToast("Account created successfully.");
-  showApp();
-
-}
-
-function loginUser(event){
-
-  event.preventDefault();
-
-  const email = document.getElementById("loginEmail").value.trim().toLowerCase();
-  const password = document.getElementById("loginPassword").value;
-
-  const user = appData.users.find(u =>
-    u.email === email && u.password === password
-  );
-
-  if(!user){
-    showToast("Incorrect email or password.");
-    return;
+    return {
+      ...defaultUser(),
+      ...user,
+      completedVideos: Array.isArray(user.completedVideos)
+        ? user.completedVideos.map(Number)
+        : [],
+      withdrawals: Array.isArray(user.withdrawals)
+        ? user.withdrawals
+        : []
+    };
+  } catch (error) {
+    const user = defaultUser();
+    saveUser(user);
+    return user;
   }
-
-  appData.user = user;
-  saveData();
-
-  showToast("Welcome back.");
-  showApp();
-
 }
 
-function logoutUser(){
-
-  if(!confirm("Are you sure you want to log out?")){
-    return;
-  }
-
-  appData.user = null;
-  appData.adminLoggedIn = false;
-  saveData();
-
-  document.getElementById("mainApp").classList.add("hidden");
-  document.getElementById("authScreen").classList.remove("hidden");
-
-  showAuthTab("login");
-  showToast("You have logged out.");
-
+function saveUser(user) {
+  localStorage.setItem("trueNetworkingUser", JSON.stringify(user));
 }
 
-function showApp(){
-
-  document.getElementById("authScreen").classList.add("hidden");
-  document.getElementById("mainApp").classList.remove("hidden");
-
-  openPage("home");
-  refreshAll();
-
+function updateUser() {
+  saveUser(getUser());
 }
-
 
 /* =========================
-   NAVIGATION
+   HELPERS
 ========================= */
 
-function openPage(page){
-
-  if(!appData.user){
-    return;
-  }
-
-  const pages = [
-    "home",
-    "tasks",
-    "videos",
-    "withdraw",
-    "me",
-    "notifications",
-    "customerCare",
-    "adminLogin",
-    "admin"
-  ];
-
-  pages.forEach(p => {
-    const el = document.getElementById(p+"Page");
-
-    if(el){
-      el.classList.toggle("active",p === page);
-  }
+function money(amount) {
+  return "₦" + Number(amount || 0).toLocaleString("en-NG", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
   });
-
-  const navMap = {
-    home:"navHome",
-    tasks:"navTasks",
-    videos:"navVideos",
-    me:"navMe"
-  };
-
-  document.querySelectorAll(".nav button").forEach(btn => {
-    btn.classList.remove("active");
-  });
-
-  if(navMap[page]){
-    document.getElementById(navMap[page]).classList.add("active");
-  }
-
-  window.scrollTo(0,0);
-
-  if(page === "admin"){
-    refreshAdmin();
-  }
-
 }
 
-
-/* =========================
-   TASKS
-========================= */
-
-function getTaskArray(session){
-
-  const user = getUser();
-
-  if(session === "morning"){
-    if(!Array.isArray(user.morningTasks)){
-      user.morningTasks = [];
-    }
-    return user.morningTasks;
-  }
-
-  if(!Array.isArray(user.eveningTasks)){
-    user.eveningTasks = [];
-  }
-
-  return user.eveningTasks;
-
-}
-
-function completeTask(session,index){
-
-  const user = getUser();
-  const tasks = getTaskArray(session);
-
-  if(tasks.includes(index)){
-    showToast("You already completed this task.");
-    return;
-  }
-
-  tasks.push(index);
-
-  user.tasksCompleted++;
-  user.balance += TASK_REWARD;
-  user.totalEarned += TASK_REWARD;
-
-  updateUser();
-  refreshAll();
-
-  showToast("Task completed. "+money(TASK_REWARD)+" added to demo balance.");
-
-}
-
-function renderTasks(){
-
-  const sessions = ["morning","evening"];
-
-  sessions.forEach(session => {
-
-    const container = document.getElementById(session+"Tasks");
-    const progress = document.getElementById(session+"Progress");
-    const status = document.getElementById(session+"Status");
-
-    if(!container) return;
-
-    const completed = getTaskArray(session);
-
-    container.innerHTML = "";
-
-    taskNames.forEach((name,index) => {
-
-      const done = completed.includes(index);
-
-      const item = document.createElement("div");
-      item.className = "task-item";
-
-      item.innerHTML = `
-        <div class="task-number">${index+1}</div>
-
-        <div class="task-info">
-          <strong>${name}</strong>
-          <span>${done ? "Completed successfully" : "Available for completion"}</span>
-        </div>
-
-        <div>
-          ${
-            done
-            ? '<span class="badge badge-green">Done</span>'
-            : '<button class="btn btn-primary" style="padding:9px 11px;font-size:12px;" onclick="completeTask(\''+session+'\','+index+')">Claim</button>'
-          }
-        </div>
-      `;
-
-      container.appendChild(item);
-
-    });
-
-    const percent = completed.length / taskNames.length * 100;
-
-    progress.style.width = percent+"%";
-    status.textContent = completed.length === taskNames.length ? "Completed" : "Available";
-
-  });
-
-  const morning = getTaskArray("morning").length;
-  const evening = getTaskArray("evening").length;
-
-  document.getElementById("morningHomeProgress").style.width = (morning/5*100)+"%";
-  document.getElementById("eveningHomeProgress").style.width = (evening/5*100)+"%";
-
-  document.getElementById("morningHomeText").textContent = morning+"/5 tasks completed";
-  document.getElementById("eveningHomeText").textContent = evening+"/5 tasks completed";
-
-}
-
-
-/* =========================
-   VIDEOS
-========================= */
-
-function getVideoArray(){
-  const user = getUser();
-
-  if(!Array.isArray(user.videos)){
-    user.videos = [];
-  }
-
-  return user.videos;
-}
-
-function startVideo(number){
-
-  const user = getUser();
-  const videos = getVideoArray();
-
-  if(videos.includes(number)){
-    showToast("You already completed this video.");
-    return;
-  }
-
-  if(activeVideo && activeVideo !== number){
-    showToast("Finish the current video first.");
-    return;
-  }
-
-  if(videoIntervals[number]){
-    return;
-  }
-
-  activeVideo = number;
-
-  let remaining = 180;
-  const timer = document.getElementById("videoTimer"+number);
-  const progress = document.getElementById("videoProgress"+number);
-  const button = document.getElementById("videoBtn"+number);
-
-  button.disabled = true;
-  button.textContent = "Playing...";
-
-  videoIntervals[number] = setInterval(() => {
-
-    remaining--;
-
-    const minutes = Math.floor(remaining/60);
-    const seconds = remaining%60;
-
-    timer.textContent = minutes+":"+String(seconds).padStart(2,"0");
-
-    const percent = ((180-remaining)/180)*100;
-    progress.style.width = percent+"%";
-
-    if(remaining <= 0){
-
-      clearInterval(videoIntervals[number]);
-      delete videoIntervals[number];
-
-      videos.push(number);
-
-      user.videosCompleted++;
-      user.balance += VIDEO_REWARD;
-      user.totalEarned += VIDEO_REWARD;
-
-      activeVideo = null;
-
-      updateUser();
-      refreshAll();
-
-      showToast("Video completed. "+money(VIDEO_REWARD)+" added to demo balance.");
-
-    }
-
-  },1000);
-
-}
-
-
-/* =========================
-   WITHDRAW
-========================= */
-
-function selectAmount(amount){
-  document.getElementById("withdrawAmount").value = amount;
-}
-
-function calculateActiveDays(){
-
-  const user = getUser();
-
-  const taskTotal = getTaskArray("morning").length + getTaskArray("evening").length;
-  const videoTotal = getVideoArray().length;
-
-  if(taskTotal > 0 || videoTotal > 0){
-    return Math.min(REQUIRED_DAYS,Math.max(user.activeDays || 0,1));
-  }
-
-  return user.activeDays || 0;
-}
-
-function updateActiveDays(){
-
-  const user = getUser();
-  const today = getTodayKey();
-
-  const hasActivity =
-    getTaskArray("morning").length > 0 ||
-    getTaskArray("evening").length > 0 ||
-    getVideoArray().length > 0;
-
-  if(hasActivity && user.lastActivityDate !== today){
-
-    user.activeDays = Math.min(REQUIRED_DAYS,(user.activeDays || 0)+1);
-    user.lastActivityDate = today;
-
-    updateUser();
-
-  }
-
-}
-
-function requestWithdraw(){
-
-  const user = getUser();
-
-  const amount = Number(document.getElementById("withdrawAmount").value);
-  const bankName = document.getElementById("bankName").value.trim();
-  const accountName = document.getElementById("accountName").value.trim();
-  const accountNumber = document.getElementById("accountNumber").value.trim();
-
-  if(user.activeDays < REQUIRED_DAYS){
-    showToast("You need at least 5 active days before withdrawal.");
-    return;
-  }
-
-  if(user.balance < MIN_WITHDRAW){
-    showToast("Minimum withdrawal balance is $8.");
-    return;
-  }
-
-  if(!amount || amount < MIN_WITHDRAW){
-    showToast("Minimum withdrawal amount is $8.");
-    return;
-  }
-
-  if(amount > user.balance){
-    showToast("Insufficient balance.");
-    return;
-  }
-
-  if(!bankName || !accountName || accountNumber.length !== 10){
-    showToast("Please enter valid bank details.");
-    return;
-  }
-
-  const request = {
-    id:Date.now(),
-    userId:user.id,
-    name:user.name,
-    amount:amount,
-    bankName:bankName,
-    accountName:accountName,
-    accountNumber:accountNumber,
-    status:"Pending",
-    createdAt:new Date().toLocaleString()
-  };
-
-  appData.withdrawals.push(request);
-
-  user.balance -= amount;
-  user.bank = {
-    name:bankName,
-    accountName:accountName,
-    accountNumber:accountNumber
-  };
-
-  updateUser();
-  saveData();
-
-  showToast("Withdrawal request submitted for review.");
-
-  document.getElementById("withdrawAmount").value = "";
-
-  refreshAll();
-
-}
-
-function renderWithdraw(){
-
-  const user = getUser();
-
-  document.getElementById("withdrawBalance").textContent = money(user.balance);
-
-  const box = document.getElementById("withdrawEligibility");
-  const eligible = user.activeDays >= REQUIRED_DAYS && user.balance >= MIN_WITHDRAW;
-
-  if(eligible){
-
-    box.innerHTML = `
-      <div class="notice success">
-        ✅ You meet the demo withdrawal requirements.
-      </div>
-    `;
-
-    document.getElementById("withdrawBtn").disabled = false;
-
-  }else{
-
-    box.innerHTML = `
-      <div class="notice warning">
-        🔒 Withdrawal locked.<br><br>
-        Active days: <strong>${user.activeDays}/${REQUIRED_DAYS}</strong><br>
-        Balance: <strong>${money(user.balance)}</strong><br>
-        Minimum balance: <strong>${money(MIN_WITHDRAW)}</strong>
-      </div>
-    `;
-
-    document.getElementById("withdrawBtn").disabled = true;
-
-  }
-
-}
-
-
-/* =========================
-   PROFILE
-========================= */
-
-function renderProfile(){
-
-  const user = getUser();
-
-  const initial = user.name ? user.name.charAt(0).toUpperCase() : "U";
-
-  document.getElementById("profileAvatar").textContent = initial;
-  document.getElementById("profileName").textContent = user.name;
-  document.getElementById("profileEmail").textContent = user.email;
-  document.getElementById("memberSince").textContent = user.createdAt;
-
-  document.getElementById("profileEarned").textContent = money(user.totalEarned);
-  document.getElementById("profileTasks").textContent = user.tasksCompleted;
-  document.getElementById("profileVideos").textContent = user.videosCompleted;
-
-  document.getElementById("verificationStatus").textContent =
-    user.verified ? "Verification completed" : "Verification not completed";
-
-  document.getElementById("verificationStatus").style.color =
-    user.verified ? "var(--green)" : "var(--muted)";
-
-}
-
-
-/* =========================
-   MODALS
-========================= */
-
-function openModal(title,body){
-
-  document.getElementById("modalTitle").textContent = title;
-  document.getElementById("modalBody").innerHTML = body;
-  document.getElementById("modal").classList.add("show");
-
-}
-
-function closeModal(){
-  document.getElementById("modal").classList.remove("show");
-}
-
-function openProfileModal(){
-
-  const user = getUser();
-
-  openModal("Profile Information",`
-
-    <div class="form-group">
-      <label>Full Name</label>
-      <input id="editProfileName" value="${user.name}">
-    </div>
-
-    <div class="form-group">
-      <label>Email</label>
-      <input value="${user.email}" disabled>
-    </div>
-
-    <button class="btn btn-primary btn-full" onclick="saveProfile()">
-      Save Changes
-    </button>
-
-  `);
-
-}
-
-function saveProfile(){
-
-  const name = document.getElementById("editProfileName").value.trim();
-
-  if(!name){
-    showToast("Enter your name.");
-    return;
-  }
-
-  getUser().name = name;
-  updateUser();
-  closeModal();
-  refreshAll();
-
-  showToast("Profile updated.");
-
-}
-
-function openVerificationModal(){
-
-  openModal("Face Verification",`
-
-    <div class="notice warning">
-      Face verification requires a secure camera and identity verification service in production.
-    </div>
-
-    <div style="text-align:center;font-size:65px;margin:15px;">
-      🤳
-    </div>
-
-    <p class="small" style="margin-bottom:15px;">
-      This demo only records your verification status. It does not capture or upload your face.
-    </p>
-
-    <button class="btn btn-primary btn-full" onclick="completeVerification()">
-      Mark Verification as Completed
-    </button>
-
-  `);
-
-}
-
-function completeVerification(){
-
-  getUser().verified = true;
-  updateUser();
-  closeModal();
-  refreshAll();
-
-  showToast("Demo verification completed.");
-
-}
-
-function openInviteModal(){
-
-  const user = getUser();
-  const code = "TN"+String(user.id).slice(-6);
-
-  openModal("Invite Friends",`
-
-    <div class="notice">
-      Share your invite code with friends. Referral tracking will require a backend in production.
-    </div>
-
-    <div class="form-group">
-      <label>Your Invite Code</label>
-      <input id="inviteCode" value="${code}" readonly>
-    </div>
-
-    <button class="btn btn-primary btn-full" onclick="copyInviteCode('${code}')">
-      Copy Invite Code
-    </button>
-
-  `);
-
-}
-
-function copyInviteCode(code){
-
-  if(navigator.clipboard){
-    navigator.clipboard.writeText(code);
-  }
-
-  showToast("Invite code copied.");
-}
-
-function openSettingsModal(){
-
-  openModal("Settings",`
-
-    <div class="menu-item" onclick="showToast('Language settings coming soon.')">
-      <div class="menu-icon">🌐</div>
-      <div>
-        <strong>Language</strong>
-        <span>English</span>
-      </div>
-      <div class="menu-arrow">›</div>
-    </div>
-
-    <div class="menu-item" onclick="showToast('Notification settings coming soon.')">
-      <div class="menu-icon">🔔</div>
-      <div>
-        <strong>Notifications</strong>
-        <span>Enabled</span>
-      </div>
-      <div class="menu-arrow">›</div>
-    </div>
-
-    <div class="menu-item" onclick="showToast('Security settings coming soon.')">
-      <div class="menu-icon">🔐</div>
-      <div>
-        <strong>Security</strong>
-        <span>Keep your password private</span>
-      </div>
-      <div class="menu-arrow">›</div>
-    </div>
-
-  `);
-
-}
-
-
-/* =========================
-   CUSTOMER CARE
-========================= */
-
-function submitComplaint(event){
-
-  event.preventDefault();
-
-  const user = getUser();
-
-  const category = document.getElementById("complaintCategory").value;
-  const message = document.getElementById("complaintMessage").value.trim();
-
-  appData.complaints.push({
-    id:Date.now(),
-    userId:user.id,
-    name:user.name,
-    category:category,
-    message:message,
-    status:"Open",
-    createdAt:new Date().toLocaleString()
-  });
-
-  saveData();
-
-  document.getElementById("complaintMessage").value = "";
-  document.getElementById("complaintCategory").value = "";
-
-  showToast("Your complaint has been submitted.");
-
-}
-
-
-/* =========================
-   ADMIN
-========================= */
-
-function adminLogin(){
-
-  const code = document.getElementById("adminCodeInput").value;
-
-  if(code !== ADMIN_CODE){
-    showToast("Incorrect admin code.");
-    return;
-  }
-
-  appData.adminLoggedIn = true;
-  saveData();
-
-  openPage("admin");
-  showToast("Admin panel opened.");
-
-}
-
-function adminLogout(){
-
-  appData.adminLoggedIn = false;
-  saveData();
-
-  openPage("home");
-  showToast("Admin panel closed.");
-
-}
-
-function refreshAdmin(){
-
-  if(!appData.adminLoggedIn){
-    return;
-  }
-
-  const users = appData.users;
-
-  const totalBalance = users.reduce((sum,u) => sum + Number(u.balance || 0),0);
-  const totalTasks = users.reduce((sum,u) => sum + Number(u.tasksCompleted || 0),0);
-  const totalVideos = users.reduce((sum,u) => sum + Number(u.videosCompleted || 0),0);
-
-  document.getElementById("adminUsers").textContent = users.length;
-  document.getElementById("adminBalance").textContent = money(totalBalance);
-  document.getElementById("adminTasks").textContent = totalTasks;
-  document.getElementById("adminVideos").textContent = totalVideos;
-  document.getElementById("adminWithdrawals").textContent = appData.withdrawals.length;
-  document.getElementById("adminComplaints").textContent = appData.complaints.length;
-
-}
-
-
-/* =========================
-   REFRESH UI
-========================= */
-
-function refreshHome(){
-
-  const user = getUser();
-
-  document.getElementById("homeBalance").textContent = money(user.balance);
-  document.getElementById("homeTasks").textContent = user.tasksCompleted;
-  document.getElementById("homeVideos").textContent = user.videosCompleted;
-  document.getElementById("homeDays").textContent = user.activeDays+"/"+REQUIRED_DAYS;
-  document.getElementById("welcomeName").textContent = user.name;
-
-}
-
-function refreshAll(){
-
-  if(!getUser()){
-    return;
-  }
-
-  updateActiveDays();
-
-  refreshHome();
-  renderTasks();
-  renderWithdraw();
-  renderProfile();
-
-}
-
-
-/* =========================
-   TOAST
-========================= */
-
-function showToast(message){
-
+function showToast(message) {
   const toast = document.getElementById("toast");
 
   toast.textContent = message;
@@ -2614,23 +904,433 @@ function showToast(message){
 
   setTimeout(() => {
     toast.classList.remove("show");
-  },3000);
-
+  }, 3000);
 }
 
+function todayDate() {
+  const now = new Date();
+  return now.toISOString().split("T")[0];
+}
+
+/* =========================
+   NAVIGATION
+========================= */
+
+function openPage(page) {
+  const pages = ["home", "tasks", "videos", "withdraw", "profile"];
+
+  pages.forEach(item => {
+    const pageElement = document.getElementById(item + "Page");
+    const navElement = document.getElementById("nav" + capitalize(item));
+
+    if (pageElement) {
+      pageElement.classList.remove("active");
+    }
+
+    if (navElement) {
+      navElement.classList.remove("active");
+    }
+  });
+
+  const selectedPage = document.getElementById(page + "Page");
+  const selectedNav = document.getElementById("nav" + capitalize(page));
+
+  if (selectedPage) {
+    selectedPage.classList.add("active");
+  }
+
+  if (selectedNav) {
+    selectedNav.classList.add("active");
+  }
+
+  refreshAll();
+}
+
+function capitalize(text) {
+  return text.charAt(0).toUpperCase() + text.slice(1);
+}
+
+/* =========================
+   REFRESH ALL UI
+========================= */
+
+function refreshAll() {
+  const user = getUser();
+
+  updateActiveDays();
+  refreshHome();
+  renderTask();
+  renderVideos();
+  renderWithdraw();
+  renderProfile();
+}
+
+/* =========================
+   ACTIVE DAYS
+========================= */
+
+function updateActiveDays() {
+  const user = getUser();
+  const today = todayDate();
+
+  if (user.lastActiveDate !== today) {
+    user.activeDays = Number(user.activeDays || 0) + 1;
+    user.lastActiveDate = today;
+    saveUser(user);
+  }
+}
+
+/* =========================
+   HOME
+========================= */
+
+function refreshHome() {
+  const user = getUser();
+
+  document.getElementById("headerBalance").textContent = money(user.balance);
+
+  document.getElementById("homeTasks").textContent =
+    Number(user.tasksCompleted || 0);
+
+  document.getElementById("homeVideos").textContent =
+    Number(user.videosCompleted || 0);
+
+  document.getElementById("homeEarned").textContent =
+    money(user.totalEarned || 0);
+
+  document.getElementById("homeDays").textContent =
+    Number(user.activeDays || 0);
+}
+
+/* =========================
+   DAILY TASK
+========================= */
+
+function renderTask() {
+  const user = getUser();
+  const status = document.getElementById("taskStatus");
+  const button = document.getElementById("taskButton");
+
+  if (user.completedTaskDate === todayDate()) {
+    status.textContent = "✅ Today's task has been completed.";
+    status.className = "task-status task-completed";
+
+    button.textContent = "✅ Completed";
+    button.disabled = true;
+    button.className = "btn btn-success";
+  } else {
+    status.textContent = "Task not completed yet.";
+    status.className = "task-status";
+
+    button.textContent = "Complete Task";
+    button.disabled = false;
+    button.className = "btn btn-primary";
+  }
+}
+
+function completeDailyTask() {
+  const user = getUser();
+
+  if (user.completedTaskDate === todayDate()) {
+    showToast("You already completed today's task.");
+    return;
+  }
+
+  user.completedTaskDate = todayDate();
+  user.tasksCompleted = Number(user.tasksCompleted || 0) + 1;
+  user.balance = Number(user.balance || 0) + TASK_REWARD;
+  user.totalEarned = Number(user.totalEarned || 0) + TASK_REWARD;
+
+  saveUser(user);
+  refreshAll();
+
+  showToast("Daily task completed. " + money(TASK_REWARD) + " added.");
+}
+
+/* =========================
+   VIDEOS
+========================= */
+
+function getCompletedVideos() {
+  const user = getUser();
+
+  if (!Array.isArray(user.completedVideos)) {
+    user.completedVideos = [];
+  }
+
+  user.completedVideos = user.completedVideos.map(Number);
+
+  return user.completedVideos;
+}
+
+function renderVideos() {
+  const completedVideos = getCompletedVideos();
+
+  [1, 2, 3].forEach(number => {
+    const timer = document.getElementById("videoTimer" + number);
+    const progress = document.getElementById("videoProgress" + number);
+    const button = document.getElementById("videoBtn" + number);
+
+    if (!timer || !progress || !button) {
+      return;
+    }
+
+    const completed = completedVideos.includes(Number(number));
+
+    if (completed) {
+      timer.textContent = "Completed";
+      timer.classList.add("video-completed");
+
+      progress.style.width = "100%";
+
+      button.disabled = true;
+      button.textContent = "✅ Claimed";
+      button.className = "btn btn-success btn-full";
+    } else if (activeVideo !== number) {
+      timer.textContent = "3:00";
+      timer.classList.remove("video-completed");
+
+      progress.style.width = "0%";
+
+      button.disabled = false;
+      button.textContent = "▶ Start 3-Minute Video";
+      button.className = "btn btn-primary btn-full";
+    }
+  });
+}
+
+function startVideo(number) {
+  const user = getUser();
+  const completedVideos = getCompletedVideos();
+
+  if (completedVideos.includes(Number(number))) {
+    renderVideos();
+    showToast("You already completed this video.");
+    return;
+  }
+
+  if (activeVideo !== null && activeVideo !== number) {
+    showToast("Finish the current video first.");
+    return;
+  }
+
+  if (videoIntervals[number]) {
+    return;
+  }
+
+  activeVideo = number;
+
+  let remaining = VIDEO_DURATION;
+
+  const timer = document.getElementById("videoTimer" + number);
+  const progress = document.getElementById("videoProgress" + number);
+  const button = document.getElementById("videoBtn" + number);
+
+  button.disabled = true;
+  button.textContent = "Playing...";
+  button.className = "btn btn-warning btn-full";
+
+  videoIntervals[number] = setInterval(() => {
+    remaining--;
+
+    const minutes = Math.floor(remaining / 60);
+    const seconds = remaining % 60;
+
+    timer.textContent =
+      minutes + ":" + String(seconds).padStart(2, "0");
+
+    const percentage =
+      ((VIDEO_DURATION - remaining) / VIDEO_DURATION) * 100;
+
+    progress.style.width = percentage + "%";
+
+    if (remaining <= 0) {
+      clearInterval(videoIntervals[number]);
+      delete videoIntervals[number];
+
+      const latestUser = getUser();
+      const latestVideos = getCompletedVideos();
+
+      if (!latestVideos.includes(Number(number))) {
+        latestVideos.push(Number(number));
+
+        latestUser.completedVideos = latestVideos;
+        latestUser.videosCompleted =
+          Number(latestUser.videosCompleted || 0) + 1;
+
+        latestUser.balance =
+          Number(latestUser.balance || 0) + VIDEO_REWARD;
+
+        latestUser.totalEarned =
+          Number(latestUser.totalEarned || 0) + VIDEO_REWARD;
+
+        saveUser(latestUser);
+      }
+
+      activeVideo = null;
+
+      refreshAll();
+      renderVideos();
+
+      showToast(
+        "Video completed. " +
+        money(VIDEO_REWARD) +
+        " added to your demo balance."
+      );
+    }
+  }, 1000);
+}
+
+/* =========================
+   WITHDRAWAL
+========================= */
+
+function renderWithdraw() {
+  const user = getUser();
+
+  document.getElementById("withdrawBalance").value = money(user.balance);
+
+  const history = document.getElementById("withdrawHistory");
+
+  if (!user.withdrawals || user.withdrawals.length === 0) {
+    history.innerHTML = "No withdrawal request yet.";
+    history.className = "empty";
+    return;
+  }
+
+  history.className = "";
+
+  history.innerHTML = user.withdrawals
+    .slice()
+    .reverse()
+    .map(item => {
+      return `
+        <div style="
+          border-bottom:1px solid #e2e8f0;
+          padding:12px 0;
+          font-size:13px;
+          line-height:1.7;
+        ">
+          <strong>${money(item.amount)}</strong><br>
+          Method: ${item.method}<br>
+          Account: ${item.account}<br>
+          Status: <span style="color:#f59e0b;font-weight:bold;">
+            Pending Demo
+          </span><br>
+          Date: ${item.date}
+        </div>
+      `;
+    })
+    .join("");
+}
+
+function requestWithdraw() {
+  const user = getUser();
+
+  const amount = Number(
+    document.getElementById("withdrawAmount").value
+  );
+
+  const method = document.getElementById("withdrawMethod").value;
+
+  const account = document.getElementById("withdrawAccount").value.trim();
+
+  if (!amount || amount <= 0) {
+    showToast("Enter a valid withdrawal amount.");
+    return;
+  }
+
+  if (amount > Number(user.balance || 0)) {
+    showToast("Insufficient demo balance.");
+    return;
+  }
+
+  if (!method) {
+    showToast("Select a payment method.");
+    return;
+  }
+
+  if (!account) {
+    showToast("Enter your account number.");
+    return;
+  }
+
+  const withdrawal = {
+    amount: amount,
+    method: method,
+    account: account,
+    date: new Date().toLocaleString(),
+    status: "Pending Demo"
+  };
+
+  user.balance = Number(user.balance || 0) - amount;
+  user.withdrawals = Array.isArray(user.withdrawals)
+    ? user.withdrawals
+    : [];
+
+  user.withdrawals.push(withdrawal);
+
+  saveUser(user);
+
+  document.getElementById("withdrawAmount").value = "";
+  document.getElementById("withdrawMethod").value = "";
+  document.getElementById("withdrawAccount").value = "";
+
+  refreshAll();
+
+  showToast("Demo withdrawal request submitted.");
+}
+
+/* =========================
+   PROFILE
+========================= */
+
+function renderProfile() {
+  const user = getUser();
+
+  document.getElementById("profileName").textContent = user.name;
+  document.getElementById("profileEmail").textContent = user.email;
+  document.getElementById("profileUsername").textContent = user.username;
+
+  const firstLetter = user.name
+    ? user.name.charAt(0).toUpperCase()
+    : "U";
+
+  document.getElementById("profileAvatar").textContent = firstLetter;
+}
+
+function resetAccount() {
+  const confirmReset = confirm(
+    "Are you sure you want to reset your demo account?"
+  );
+
+  if (!confirmReset) {
+    return;
+  }
+
+  localStorage.removeItem("trueNetworkingUser");
+
+  [1, 2, 3].forEach(number => {
+    if (videoIntervals[number]) {
+      clearInterval(videoIntervals[number]);
+      delete videoIntervals[number];
+    }
+  });
+
+  activeVideo = null;
+
+  refreshAll();
+  openPage("home");
+
+  showToast("Demo account has been reset.");
+}
 
 /* =========================
    START APP
 ========================= */
 
-loadData();
-
-if(appData.user){
-  showApp();
-}else{
-  document.getElementById("authScreen").classList.remove("hidden");
-}
-
+refreshAll();
+openPage("home");
 </script>
 
 </body>
