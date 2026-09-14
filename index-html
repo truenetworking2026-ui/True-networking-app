@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>True Networking</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:Arial,sans-serif;
+}
+
+:root{
+  --blue:#2563eb;
+  --dark:#0f172a;
+  --text:#172033;
+  --muted:#64748b;
+  --bg:#f4f7fb;
+  --white:#fff;
+  --green:#16a34a;
+  --red:#dc2626;
+  --border:#e2e8f0;
+}
+
+body{
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+}
+
+button,input,select,textarea{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+  border:0;
+}
+
+.hidden{
+  display:none!important;
+}
+
+.app{
+  max-width:480px;
+  margin:auto;
+  min-height:100vh;
+  background:var(--bg);
+  padding-bottom:85px;
+}
+
+.topbar{
+  background:linear-gradient(135deg,#1d4ed8,#2563eb);
+  color:white;
+  padding:20px 18px 28px;
+  border-radius:0 0 28px 28px;
+}
+
+.topbar-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.logo{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.logo-icon{
+  width:44px;
+  height:44px;
+  border-radius:14px;
+  background:rgba(255,255,255,.18);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:25px;
+}
+
+.logo h2{
+  font-size:19px;
+}
+
+.logo small{
+  display:block;
+  opacity:.8;
+  margin-top:3px;
+}
+
+.icon-btn{
+  background:rgba(255,255,255,.16);
+  color:white;
+  width:40px;
+  height:40px;
+  border-radius:12px;
+  font-size:20px;
+}
+
+.content{
+  padding:18px;
+}
+
+.section-title{
+  font-size:19px;
+  font-weight:700;
+  margin-bottom:12px;
+}
+
+.card{
+  background:white;
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:17px;
+  margin-bottom:15px;
+  box-shadow:0 5px 18px rgba(15,23,42,.04);
+}
+
+.balance-card{
+  margin-top:-15px;
+  background:linear-gradient(135deg,#ffffff,#eff6ff);
+  border:0;
+}
+
+.balance-label{
+  color:var(--muted);
+  font-size:13px;
+}
+
+.balance{
+  font-size:34px;
+  font-weight:800;
+  margin:8px 0 15px;
+  color:var(--dark);
+}
+
+.row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+
+.col{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.btn{
+  padding:13px 18px;
+  border-radius:12px;
+  font-weight:700;
+  transition:.2s;
+}
+
+.btn:active{
+  transform:scale(.97);
+}
+
+.btn-primary{
+  background:var(--blue);
+  color:white;
+}
+
+.btn-secondary{
+  background:#e8f0ff;
+  color:var(--blue);
+}
+
+.btn-success{
+  background:var(--green);
+  color:white;
+}
+
+.btn-danger{
+  background:#fee2e2;
+  color:var(--red);
+}
+
+.btn-full{
+  width:100%;
+}
+
+.btn:disabled{
+  opacity:.5;
+  cursor:not-allowed;
+}
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+  margin-bottom:18px;
+}
+
+.stat{
+  background:white;
+  border:1px solid var(--border);
+  border-radius:15px;
+  padding:13px 8px;
+  text-align:center;
+}
+
+.stat strong{
+  display:block;
+  font-size:18px;
+  margin-bottom:5px;
+}
+
+.stat span{
+  color:var(--muted);
+  font-size:11px;
+}
+
+.session{
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:14px;
+  margin-bottom:12px;
+  background:#fff;
+}
+
+.session.active{
+  border-color:#93c5fd;
+  background:#eff6ff;
+}
+
+.session-title{
+  font-weight:700;
+  margin-bottom:6px;
+}
+
+.session-info{
+  color:var(--muted);
+  font-size:13px;
+  margin-bottom:12px;
+}
+
+.progress{
+  height:8px;
+  background:#e5e7eb;
+  border-radius:20px;
+  overflow:hidden;
+  margin:10px 0;
+}
+
+.progress-bar{
+  height:100%;
+  background:var(--blue);
+  width:0%;
+  transition:.3s;
+}
+
+.task-item{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:13px 0;
+  border-bottom:1px solid #f1f5f9;
+}
+
+.task-item:last-child{
+  border-bottom:0;
+}
+
+.task-number{
+  width:34px;
+  height:34px;
+  border-radius:10px;
+  background:#dbeafe;
+  color:var(--blue);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:700;
+}
+
+.task-info{
+  flex:1;
+}
+
+.task-info strong{
+  display:block;
+  font-size:14px;
