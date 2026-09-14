@@ -14,21 +14,22 @@
 }
 
 :root{
-  --blue:#2563eb;
-  --blue-dark:#1d4ed8;
-  --blue-light:#eff6ff;
+  --primary:#6d28d9;
+  --primary2:#2563eb;
+  --pink:#ec4899;
   --green:#16a34a;
   --orange:#f59e0b;
   --red:#dc2626;
   --text:#172033;
   --muted:#64748b;
   --border:#e2e8f0;
-  --bg:#f1f5f9;
+  --bg:#f5f3ff;
   --white:#ffffff;
+  --dark:#111827;
 }
 
 body{
-  background:var(--bg);
+  background:linear-gradient(135deg,#eef2ff,#fdf2f8);
   color:var(--text);
   min-height:100vh;
 }
@@ -57,23 +58,60 @@ input,select,textarea{
   margin:auto;
   background:#f8fafc;
   padding-bottom:85px;
+  overflow:hidden;
 }
 
 /* HEADER */
 
 .header{
-  background:linear-gradient(135deg,#2563eb,#1d4ed8);
+  background:linear-gradient(135deg,#6d28d9,#2563eb,#ec4899);
   color:white;
-  padding:20px 18px 22px;
-  border-bottom-left-radius:28px;
-  border-bottom-right-radius:28px;
+  padding:18px 16px 22px;
+  border-bottom-left-radius:30px;
+  border-bottom-right-radius:30px;
+  position:relative;
+  overflow:hidden;
+}
+
+.header:before,
+.header:after{
+  content:"";
+  position:absolute;
+  border-radius:50%;
+  background:rgba(255,255,255,.12);
+  animation:float 6s ease-in-out infinite;
+}
+
+.header:before{
+  width:160px;
+  height:160px;
+  right:-70px;
+  top:-70px;
+}
+
+.header:after{
+  width:100px;
+  height:100px;
+  left:-45px;
+  bottom:-45px;
+  animation-delay:2s;
+}
+
+@keyframes float{
+  0%,100%{transform:translateY(0) rotate(0deg)}
+  50%{transform:translateY(12px) rotate(10deg)}
+}
+
+.header>*{
+  position:relative;
+  z-index:1;
 }
 
 .header-top{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  margin-bottom:22px;
+  margin-bottom:20px;
 }
 
 .brand{
@@ -85,14 +123,20 @@ input,select,textarea{
 .diamond-logo{
   width:48px;
   height:48px;
-  background:linear-gradient(135deg,#bfdbfe,#60a5fa);
+  background:linear-gradient(135deg,#ffffff,#bfdbfe,#fbcfe8);
   clip-path:polygon(50% 0%,100% 35%,50% 100%,0% 35%);
   display:flex;
   align-items:center;
   justify-content:center;
-  color:#1e3a8a;
+  color:#6d28d9;
   font-size:25px;
-  filter:drop-shadow(0 3px 5px rgba(0,0,0,.15));
+  filter:drop-shadow(0 3px 7px rgba(0,0,0,.2));
+  animation:diamondGlow 3s ease-in-out infinite;
+}
+
+@keyframes diamondGlow{
+  0%,100%{filter:drop-shadow(0 3px 7px rgba(0,0,0,.2))}
+  50%{filter:drop-shadow(0 0 15px rgba(255,255,255,.8))}
 }
 
 .logo{
@@ -110,7 +154,7 @@ input,select,textarea{
   width:40px;
   height:40px;
   border-radius:50%;
-  background:rgba(255,255,255,.18);
+  background:rgba(255,255,255,.2);
   color:white;
   font-size:20px;
   position:relative;
@@ -118,19 +162,21 @@ input,select,textarea{
 
 .notification-dot{
   position:absolute;
-  top:8px;
-  right:8px;
-  width:7px;
-  height:7px;
+  top:7px;
+  right:7px;
+  width:8px;
+  height:8px;
   background:#facc15;
   border-radius:50%;
+  box-shadow:0 0 0 3px rgba(255,255,255,.15);
 }
 
 .balance-box{
-  background:rgba(255,255,255,.15);
-  border:1px solid rgba(255,255,255,.2);
-  border-radius:20px;
+  background:rgba(255,255,255,.16);
+  border:1px solid rgba(255,255,255,.25);
+  border-radius:22px;
   padding:18px;
+  backdrop-filter:blur(10px);
 }
 
 .balance-label{
@@ -157,12 +203,13 @@ input,select,textarea{
 }
 
 .header-action{
-  padding:11px;
-  border-radius:12px;
-  background:rgba(255,255,255,.16);
+  padding:12px;
+  border-radius:13px;
+  background:rgba(255,255,255,.18);
   color:white;
   font-size:12px;
   font-weight:bold;
+  border:1px solid rgba(255,255,255,.15);
 }
 
 /* PAGE */
@@ -170,14 +217,20 @@ input,select,textarea{
 .page{
   display:none;
   padding:18px;
+  animation:pageIn .35s ease;
 }
 
 .page.active{
   display:block;
 }
 
+@keyframes pageIn{
+  from{opacity:0;transform:translateY(8px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
 .page-title{
-  font-size:23px;
+  font-size:24px;
   font-weight:bold;
   margin-bottom:6px;
 }
@@ -193,10 +246,10 @@ input,select,textarea{
 
 .card{
   background:white;
-  border-radius:18px;
+  border-radius:20px;
   padding:17px;
   margin-bottom:15px;
-  box-shadow:0 5px 18px rgba(15,23,42,.05);
+  box-shadow:0 8px 25px rgba(15,23,42,.06);
   border:1px solid var(--border);
 }
 
@@ -238,16 +291,18 @@ input,select,textarea{
 }
 
 .home-avatar{
-  width:48px;
-  height:48px;
+  width:50px;
+  height:50px;
   border-radius:50%;
-  background:#dbeafe;
-  color:#1d4ed8;
+  background:linear-gradient(135deg,#ddd6fe,#fbcfe8);
+  color:#6d28d9;
   display:flex;
   align-items:center;
   justify-content:center;
   font-weight:bold;
   font-size:20px;
+  border:3px solid white;
+  box-shadow:0 5px 15px rgba(109,40,217,.15);
 }
 
 .stats{
@@ -259,9 +314,10 @@ input,select,textarea{
 
 .stat-card{
   background:white;
-  border-radius:16px;
+  border-radius:18px;
   padding:15px;
   border:1px solid var(--border);
+  box-shadow:0 5px 18px rgba(15,23,42,.04);
 }
 
 .stat-icon{
@@ -272,7 +328,7 @@ input,select,textarea{
 .stat-value{
   font-size:21px;
   font-weight:bold;
-  color:var(--blue-dark);
+  color:var(--primary);
 }
 
 .stat-label{
@@ -282,8 +338,8 @@ input,select,textarea{
 }
 
 .progress-card{
-  background:linear-gradient(135deg,#eff6ff,#dbeafe);
-  border:1px solid #bfdbfe;
+  background:linear-gradient(135deg,#ede9fe,#dbeafe,#fce7f3);
+  border:1px solid #ddd6fe;
 }
 
 .progress-top{
@@ -299,14 +355,14 @@ input,select,textarea{
 }
 
 .progress-percent{
-  color:var(--blue-dark);
+  color:var(--primary);
   font-weight:bold;
   font-size:13px;
 }
 
 .progress-bg{
   height:10px;
-  background:#bfdbfe;
+  background:#ddd6fe;
   border-radius:20px;
   overflow:hidden;
 }
@@ -314,9 +370,9 @@ input,select,textarea{
 .progress-fill{
   height:100%;
   width:0%;
-  background:linear-gradient(90deg,#2563eb,#60a5fa);
+  background:linear-gradient(90deg,#6d28d9,#2563eb,#ec4899);
   border-radius:20px;
-  transition:.3s;
+  transition:.4s;
 }
 
 .progress-info{
@@ -324,7 +380,7 @@ input,select,textarea{
   justify-content:space-between;
   margin-top:10px;
   font-size:12px;
-  color:#1e40af;
+  color:#5b21b6;
 }
 
 .quick-grid{
@@ -336,9 +392,14 @@ input,select,textarea{
 .quick-card{
   background:white;
   border:1px solid var(--border);
-  border-radius:16px;
+  border-radius:18px;
   padding:16px;
   cursor:pointer;
+  transition:.2s;
+}
+
+.quick-card:active{
+  transform:scale(.97);
 }
 
 .quick-icon{
@@ -358,12 +419,122 @@ input,select,textarea{
   line-height:1.4;
 }
 
+/* SOCIAL HOME */
+
+.story-row{
+  display:flex;
+  gap:12px;
+  overflow-x:auto;
+  padding:4px 0 8px;
+  scrollbar-width:none;
+}
+
+.story-row::-webkit-scrollbar{
+  display:none;
+}
+
+.story{
+  min-width:68px;
+  text-align:center;
+}
+
+.story-avatar{
+  width:58px;
+  height:58px;
+  border-radius:50%;
+  padding:3px;
+  background:linear-gradient(135deg,#ec4899,#6d28d9,#2563eb);
+  margin:auto;
+}
+
+.story-avatar-inner{
+  width:100%;
+  height:100%;
+  border-radius:50%;
+  background:#ddd6fe;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:25px;
+  border:3px solid white;
+}
+
+.story-name{
+  font-size:10px;
+  margin-top:5px;
+  color:var(--muted);
+  white-space:nowrap;
+}
+
+.post-card{
+  background:white;
+  border-radius:20px;
+  margin-bottom:15px;
+  overflow:hidden;
+  border:1px solid var(--border);
+  box-shadow:0 8px 25px rgba(15,23,42,.05);
+}
+
+.post-header{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:14px;
+}
+
+.post-avatar{
+  width:40px;
+  height:40px;
+  border-radius:50%;
+  background:linear-gradient(135deg,#ddd6fe,#fbcfe8);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:20px;
+}
+
+.post-user{
+  font-weight:bold;
+  font-size:13px;
+}
+
+.post-time{
+  color:#94a3b8;
+  font-size:10px;
+  margin-top:3px;
+}
+
+.post-image{
+  width:100%;
+  height:190px;
+  object-fit:cover;
+  display:block;
+}
+
+.post-caption{
+  padding:13px 14px 5px;
+  font-size:13px;
+  line-height:1.5;
+}
+
+.post-actions{
+  display:flex;
+  gap:18px;
+  padding:10px 14px 14px;
+  color:var(--muted);
+  font-size:12px;
+}
+
+.post-action{
+  cursor:pointer;
+}
+
 /* BUTTONS */
 
 .btn{
   width:100%;
   padding:13px 16px;
-  border-radius:12px;
+  border-radius:13px;
   font-weight:bold;
   margin-top:12px;
   transition:.2s;
@@ -374,12 +545,8 @@ input,select,textarea{
 }
 
 .btn-primary{
-  background:var(--blue);
+  background:linear-gradient(135deg,#6d28d9,#2563eb);
   color:white;
-}
-
-.btn-primary:hover{
-  background:var(--blue-dark);
 }
 
 .btn-success{
@@ -398,14 +565,14 @@ input,select,textarea{
 }
 
 .btn-light{
-  background:var(--blue-light);
-  color:var(--blue-dark);
+  background:#ede9fe;
+  color:#5b21b6;
 }
 
 .btn-outline{
   background:white;
-  color:var(--blue);
-  border:1px solid #93c5fd;
+  color:#6d28d9;
+  border:1px solid #c4b5fd;
 }
 
 .btn-small{
@@ -418,10 +585,10 @@ input,select,textarea{
 /* TASKS */
 
 .session-box{
-  background:#eff6ff;
-  border:1px solid #bfdbfe;
-  color:#1e40af;
-  border-radius:15px;
+  background:linear-gradient(135deg,#ede9fe,#dbeafe);
+  border:1px solid #c4b5fd;
+  color:#4c1d95;
+  border-radius:17px;
   padding:14px;
   font-size:13px;
   line-height:1.6;
@@ -436,8 +603,8 @@ input,select,textarea{
 }
 
 .session-badge{
-  background:#dbeafe;
-  color:#1d4ed8;
+  background:#ddd6fe;
+  color:#5b21b6;
   padding:5px 8px;
   border-radius:20px;
   font-size:11px;
@@ -446,11 +613,11 @@ input,select,textarea{
 
 .task-card{
   background:white;
-  border-radius:18px;
+  border-radius:20px;
   padding:17px;
   margin-bottom:14px;
   border:1px solid var(--border);
-  box-shadow:0 5px 18px rgba(15,23,42,.05);
+  box-shadow:0 8px 25px rgba(15,23,42,.05);
 }
 
 .task-header{
@@ -469,8 +636,8 @@ input,select,textarea{
 .task-icon{
   width:45px;
   height:45px;
-  border-radius:13px;
-  background:#dbeafe;
+  border-radius:14px;
+  background:#ede9fe;
   display:flex;
   align-items:center;
   justify-content:center;
@@ -520,15 +687,24 @@ input,select,textarea{
   font-weight:bold;
 }
 
+.claiming{
+  animation:claimPulse 1s infinite;
+}
+
+@keyframes claimPulse{
+  0%,100%{opacity:1}
+  50%{opacity:.55}
+}
+
 /* VIDEOS */
 
 .video-card{
   background:white;
-  border-radius:18px;
+  border-radius:20px;
   padding:17px;
   margin-bottom:15px;
   border:1px solid var(--border);
-  box-shadow:0 5px 18px rgba(15,23,42,.05);
+  box-shadow:0 8px 25px rgba(15,23,42,.05);
 }
 
 .video-top{
@@ -541,8 +717,8 @@ input,select,textarea{
   width:52px;
   height:52px;
   border-radius:15px;
-  background:#dbeafe;
-  color:#1d4ed8;
+  background:linear-gradient(135deg,#ddd6fe,#fbcfe8);
+  color:#6d28d9;
   display:flex;
   align-items:center;
   justify-content:center;
@@ -572,7 +748,7 @@ input,select,textarea{
   text-align:center;
   font-size:30px;
   font-weight:bold;
-  color:#1d4ed8;
+  color:#6d28d9;
   margin:18px 0 12px;
 }
 
@@ -590,7 +766,7 @@ input,select,textarea{
 .progress-bar{
   width:0%;
   height:100%;
-  background:linear-gradient(90deg,#2563eb,#60a5fa);
+  background:linear-gradient(90deg,#6d28d9,#2563eb,#ec4899);
   border-radius:20px;
   transition:width 1s linear;
 }
@@ -603,6 +779,14 @@ input,select,textarea{
   color:var(--muted);
   line-height:1.5;
   margin-top:12px;
+}
+
+.video-player{
+  width:100%;
+  border-radius:15px;
+  margin-top:14px;
+  background:#111827;
+  display:block;
 }
 
 /* WITHDRAW */
@@ -667,7 +851,7 @@ input,select,textarea{
 }
 
 .form-input:focus{
-  border-color:var(--blue);
+  border-color:#6d28d9;
 }
 
 .history-item{
@@ -697,26 +881,35 @@ input,select,textarea{
 
 .profile-top{
   text-align:center;
-  background:white;
-  border-radius:18px;
+  background:linear-gradient(135deg,#ffffff,#f5f3ff);
+  border-radius:20px;
   padding:22px;
   border:1px solid var(--border);
   margin-bottom:15px;
 }
 
 .avatar{
-  width:80px;
-  height:80px;
+  width:88px;
+  height:88px;
   margin:auto;
   border-radius:50%;
-  background:#dbeafe;
-  color:#1d4ed8;
+  background:linear-gradient(135deg,#ddd6fe,#fbcfe8);
+  color:#6d28d9;
   display:flex;
   justify-content:center;
   align-items:center;
   font-size:32px;
   font-weight:bold;
   margin-bottom:12px;
+  overflow:hidden;
+  border:4px solid white;
+  box-shadow:0 5px 18px rgba(109,40,217,.15);
+}
+
+.avatar img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
 }
 
 .profile-name{
@@ -769,7 +962,7 @@ input,select,textarea{
   width:35px;
   height:35px;
   border-radius:10px;
-  background:#eff6ff;
+  background:#ede9fe;
   display:flex;
   align-items:center;
   justify-content:center;
@@ -808,7 +1001,7 @@ input,select,textarea{
   width:40px;
   height:40px;
   border-radius:12px;
-  background:#eff6ff;
+  background:#ede9fe;
   display:flex;
   align-items:center;
   justify-content:center;
@@ -836,9 +1029,9 @@ input,select,textarea{
 /* SUPPORT */
 
 .support-box{
-  background:linear-gradient(135deg,#2563eb,#1d4ed8);
+  background:linear-gradient(135deg,#6d28d9,#2563eb,#ec4899);
   color:white;
-  border-radius:18px;
+  border-radius:20px;
   padding:20px;
   margin-bottom:15px;
 }
@@ -869,7 +1062,7 @@ input,select,textarea{
   width:42px;
   height:42px;
   border-radius:12px;
-  background:#eff6ff;
+  background:#ede9fe;
   display:flex;
   align-items:center;
   justify-content:center;
@@ -881,10 +1074,36 @@ input,select,textarea{
 .login-screen{
   display:none;
   min-height:100vh;
-  background:linear-gradient(135deg,#2563eb,#1d4ed8);
+  background:linear-gradient(135deg,#4c1d95,#2563eb,#be185d);
   padding:25px 18px;
   align-items:center;
   justify-content:center;
+  position:relative;
+  overflow:hidden;
+}
+
+.login-screen:before,
+.login-screen:after{
+  content:"";
+  position:absolute;
+  border-radius:50%;
+  background:rgba(255,255,255,.1);
+  animation:float 7s ease-in-out infinite;
+}
+
+.login-screen:before{
+  width:240px;
+  height:240px;
+  top:-90px;
+  right:-80px;
+}
+
+.login-screen:after{
+  width:180px;
+  height:180px;
+  bottom:-80px;
+  left:-70px;
+  animation-delay:2s;
 }
 
 .login-screen.active{
@@ -895,9 +1114,11 @@ input,select,textarea{
   width:100%;
   max-width:420px;
   background:white;
-  border-radius:24px;
+  border-radius:26px;
   padding:25px;
-  box-shadow:0 15px 40px rgba(0,0,0,.15);
+  box-shadow:0 15px 40px rgba(0,0,0,.2);
+  position:relative;
+  z-index:1;
 }
 
 .login-brand{
@@ -920,13 +1141,70 @@ input,select,textarea{
 }
 
 .login-note{
-  background:#eff6ff;
-  color:#1e40af;
+  background:#ede9fe;
+  color:#5b21b6;
   padding:12px;
   border-radius:12px;
   font-size:12px;
   line-height:1.5;
   margin-bottom:18px;
+}
+
+.auth-tabs{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  background:#f1f5f9;
+  padding:5px;
+  border-radius:12px;
+  margin-bottom:18px;
+}
+
+.auth-tab{
+  padding:10px;
+  border-radius:9px;
+  background:transparent;
+  color:var(--muted);
+  font-size:12px;
+  font-weight:bold;
+}
+
+.auth-tab.active{
+  background:white;
+  color:#6d28d9;
+  box-shadow:0 2px 8px rgba(0,0,0,.05);
+}
+
+.google-btn{
+  width:100%;
+  padding:12px;
+  border-radius:12px;
+  background:white;
+  border:1px solid #cbd5e1;
+  color:var(--text);
+  font-weight:bold;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  margin-bottom:15px;
+}
+
+.divider{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  color:#94a3b8;
+  font-size:11px;
+  margin:15px 0;
+}
+
+.divider:before,
+.divider:after{
+  content:"";
+  flex:1;
+  height:1px;
+  background:#e2e8f0;
 }
 
 /* MODAL */
@@ -935,7 +1213,7 @@ input,select,textarea{
   display:none;
   position:fixed;
   inset:0;
-  background:rgba(15,23,42,.55);
+  background:rgba(15,23,42,.6);
   z-index:100;
   align-items:flex-end;
   justify-content:center;
@@ -948,11 +1226,17 @@ input,select,textarea{
 .modal-box{
   width:100%;
   max-width:480px;
-  max-height:90vh;
+  max-height:92vh;
   overflow-y:auto;
   background:white;
   border-radius:25px 25px 0 0;
   padding:22px;
+  animation:modalUp .3s ease;
+}
+
+@keyframes modalUp{
+  from{transform:translateY(100%)}
+  to{transform:translateY(0)}
 }
 
 .modal-header{
@@ -991,6 +1275,7 @@ input,select,textarea{
   display:grid;
   grid-template-columns:repeat(5,1fr);
   z-index:20;
+  box-shadow:0 -5px 20px rgba(15,23,42,.05);
 }
 
 .nav-item{
@@ -1009,7 +1294,7 @@ input,select,textarea{
 }
 
 .nav-item.active{
-  color:var(--blue);
+  color:#6d28d9;
   font-weight:bold;
 }
 
@@ -1066,26 +1351,87 @@ input,select,textarea{
     <div class="login-brand">
       <div class="diamond-logo">💎</div>
       <h1>True Networking</h1>
-      <p>Earn rewards by completing activities</p>
+      <p>Connect • Watch • Earn</p>
     </div>
 
     <div class="login-note">
-      🔐 Demo login for testing. Your information is stored only on this device.
+      🔐 Demo account: Your information is stored only on this device.
     </div>
 
-    <div class="form-group">
-      <label class="form-label">Full Name</label>
-      <input class="form-input" id="loginName" type="text" placeholder="Enter your name">
+    <div class="auth-tabs">
+      <button class="auth-tab active" id="registerTab" onclick="switchAuth('register')">
+        Register
+      </button>
+      <button class="auth-tab" id="loginTab" onclick="switchAuth('login')">
+        Log In
+      </button>
     </div>
 
-    <div class="form-group">
-      <label class="form-label">Email Address</label>
-      <input class="form-input" id="loginEmail" type="email" placeholder="Enter your email">
+    <div id="registerForm">
+
+      <button class="google-btn" onclick="googleDemoLogin()">
+        <span>🔵</span> Continue with Google
+      </button>
+
+      <div class="divider">OR REGISTER WITH EMAIL</div>
+
+      <div class="form-group">
+        <label class="form-label">Full Name</label>
+        <input class="form-input" id="registerName" type="text" placeholder="Enter your full name">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Email Address</label>
+        <input class="form-input" id="registerEmail" type="email" placeholder="Enter your email">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <input class="form-input" id="registerPassword" type="password" placeholder="Create a password">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Invite ID Code (Optional)</label>
+        <input class="form-input" id="registerInvite" type="text" placeholder="Enter invite ID code">
+      </div>
+
+      <button class="btn btn-primary" onclick="registerUser()">
+        Create Account
+      </button>
+
+      <button class="btn btn-outline" onclick="switchAuth('login')">
+        Already have an account? Log In
+      </button>
+
     </div>
 
-    <button class="btn btn-primary" onclick="loginUser()">
-      Continue to App
-    </button>
+    <div id="loginForm" style="display:none;">
+
+      <button class="google-btn" onclick="googleDemoLogin()">
+        <span>🔵</span> Continue with Google
+      </button>
+
+      <div class="divider">OR LOG IN WITH EMAIL</div>
+
+      <div class="form-group">
+        <label class="form-label">Email Address</label>
+        <input class="form-input" id="loginEmail" type="email" placeholder="Enter your email">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <input class="form-input" id="loginPassword" type="password" placeholder="Enter your password">
+      </div>
+
+      <button class="btn btn-primary" onclick="loginUser()">
+        Log In
+      </button>
+
+      <button class="btn btn-outline" onclick="switchAuth('register')">
+        Create New Account
+      </button>
+
+    </div>
 
   </div>
 </div>
@@ -1103,7 +1449,7 @@ input,select,textarea{
 
         <div>
           <div class="logo">True Networking</div>
-          <div class="header-small">Earn rewards by completing activities</div>
+          <div class="header-small">Connect • Watch • Earn</div>
         </div>
       </div>
 
@@ -1115,9 +1461,9 @@ input,select,textarea{
     </div>
 
     <div class="balance-box">
-      <div class="balance-label">Available Demo Balance</div>
+      <div class="balance-label">Available Balance</div>
       <div class="balance" id="headerBalance">$0.00</div>
-      <div class="balance-note">Demo balance for testing only</div>
+      <div class="balance-note">Demo rewards balance</div>
     </div>
 
     <div class="header-actions">
@@ -1138,11 +1484,54 @@ input,select,textarea{
     <div class="welcome">
       <div>
         <h2>Welcome back 👋</h2>
-        <p>Keep completing activities and grow your rewards.</p>
+        <p>Discover, connect and grow your rewards.</p>
       </div>
 
       <div class="home-avatar" id="homeAvatar">U</div>
     </div>
+
+    <div class="section-title">Live Stories</div>
+
+    <div class="story-row">
+
+      <div class="story">
+        <div class="story-avatar">
+          <div class="story-avatar-inner">🌟</div>
+        </div>
+        <div class="story-name">Your Story</div>
+      </div>
+
+      <div class="story">
+        <div class="story-avatar">
+          <div class="story-avatar-inner">😊</div>
+        </div>
+        <div class="story-name">Happiness</div>
+      </div>
+
+      <div class="story">
+        <div class="story-avatar">
+          <div class="story-avatar-inner">❤️</div>
+        </div>
+        <div class="story-name">Love</div>
+      </div>
+
+      <div class="story">
+        <div class="story-avatar">
+          <div class="story-avatar-inner">🌈</div>
+        </div>
+        <div class="story-name">Hope</div>
+      </div>
+
+      <div class="story">
+        <div class="story-avatar">
+          <div class="story-avatar-inner">🤝</div>
+        </div>
+        <div class="story-name">Friends</div>
+      </div>
+
+    </div>
+
+    <div class="section-title">Your Progress</div>
 
     <div class="stats">
 
@@ -1177,7 +1566,7 @@ input,select,textarea{
     <div class="card progress-card">
 
       <div class="progress-top">
-        <div class="progress-title">🎯 Goal: $5.50</div>
+        <div class="progress-title">💎 Goal: $5.50</div>
         <div class="progress-percent" id="progressPercent">0%</div>
       </div>
 
@@ -1192,6 +1581,10 @@ input,select,textarea{
 
     </div>
 
+    <div class="section-title">Featured Moments</div>
+
+    <div id="postList"></div>
+
     <div class="section-title">Quick Access</div>
 
     <div class="quick-grid">
@@ -1199,13 +1592,13 @@ input,select,textarea{
       <div class="quick-card" onclick="openPage('tasks')">
         <div class="quick-icon">🎯</div>
         <div class="quick-title">Daily Tasks</div>
-        <div class="quick-text">Complete available tasks and earn rewards.</div>
+        <div class="quick-text">Complete available tasks and earn demo rewards.</div>
       </div>
 
       <div class="quick-card" onclick="openPage('videos')">
         <div class="quick-icon">🎬</div>
         <div class="quick-title">Watch Videos</div>
-        <div class="quick-text">Watch three videos, three minutes each.</div>
+        <div class="quick-text">Watch four videos, three minutes each.</div>
       </div>
 
       <div class="quick-card" onclick="openPage('withdraw')">
@@ -1217,7 +1610,7 @@ input,select,textarea{
       <div class="quick-card" onclick="openPage('support')">
         <div class="quick-icon">🎧</div>
         <div class="quick-title">Customer Care</div>
-        <div class="quick-text">Contact support and submit complaints.</div>
+        <div class="quick-text">Get help or submit a complaint.</div>
       </div>
 
     </div>
@@ -1226,7 +1619,7 @@ input,select,textarea{
 
     <div class="card">
       <div class="card-text">
-        💎 Complete your eligible tasks and videos every day.
+        💎 Complete eligible tasks and videos every day.
         Your demo balance and progress are saved on this device.
         Withdrawals require the stated eligibility conditions.
       </div>
@@ -1280,7 +1673,7 @@ input,select,textarea{
     <div class="card">
       <div class="card-title">🎬 Video Rewards</div>
       <div class="card-text">
-        Three videos are available. Each video takes three minutes.
+        Four videos are available. Each video takes three minutes.
         Watch them one at a time.
       </div>
     </div>
@@ -1329,22 +1722,36 @@ input,select,textarea{
     <div class="card">
 
       <div class="form-group">
-        <label class="form-label">Amount</label>
-        <input class="form-input" id="withdrawAmount" type="number" step="0.01" placeholder="Enter amount">
+        <label class="form-label">Full Name</label>
+        <input class="form-input" id="withdrawFullName" type="text" placeholder="Enter account holder name">
       </div>
 
       <div class="form-group">
-        <label class="form-label">Payment Method</label>
-        <select class="form-input" id="withdrawMethod">
-          <option value="">Select payment method</option>
-          <option value="Bank Transfer">Bank Transfer</option>
-          <option value="Mobile Money">Mobile Money</option>
+        <label class="form-label">Bank Name</label>
+        <select class="form-input" id="withdrawBank">
+          <option value="">Select bank</option>
+          <option>OPay</option>
+          <option>PalmPay</option>
+          <option>Money Point</option>
+          <option>Facebank</option>
+          <option>GTBank</option>
+          <option>Access Bank</option>
+          <option>First Bank</option>
+          <option>UBA</option>
+          <option>Zenith Bank</option>
+          <option>Moniepoint</option>
+          <option>Other Bank</option>
         </select>
       </div>
 
       <div class="form-group">
         <label class="form-label">Account Number</label>
         <input class="form-input" id="withdrawAccount" type="text" placeholder="Enter account number">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Amount</label>
+        <input class="form-input" id="withdrawAmount" type="number" step="0.01" placeholder="Enter amount">
       </div>
 
       <button class="btn btn-success" onclick="requestWithdraw()">
@@ -1378,6 +1785,10 @@ input,select,textarea{
 
       <div class="profile-badge">✓ Active Demo Account</div>
 
+      <button class="btn btn-light" onclick="openProfileModal()">
+        ✏️ Edit Profile
+      </button>
+
     </div>
 
     <div class="menu-list">
@@ -1404,7 +1815,7 @@ input,select,textarea{
         <div class="menu-icon">🎁</div>
         <div class="menu-content">
           <div class="menu-title">Invite Friends</div>
-          <div class="menu-subtitle">Invite friends and earn demo bonuses</div>
+          <div class="menu-subtitle">Invite ID and sharing link</div>
         </div>
         <span>›</span>
       </button>
@@ -1643,21 +2054,67 @@ const videos = [
     icon:"💙",
     title:"A Touch of Kindness",
     description:"A short emotional story about kindness and helping others.",
-    reward:0.20
+    reward:0.20,
+    source:""
   },
   {
     id:2,
     icon:"🌈",
     title:"Moments of Happiness",
     description:"An inspiring video about joy, hope and positive moments.",
-    reward:0.20
+    reward:0.20,
+    source:""
   },
   {
     id:3,
     icon:"❤️",
     title:"Love and Friendship",
     description:"A warm story about love, friendship and caring for others.",
-    reward:0.20
+    reward:0.20,
+    source:""
+  },
+  {
+    id:4,
+    icon:"🌟",
+    title:"Hope for Tomorrow",
+    description:"A motivational story about hope, courage and a better future.",
+    reward:0.20,
+    source:""
+  }
+];
+
+/* =========================
+   HOME POSTS
+========================= */
+
+const posts = [
+  {
+    user:"True Networking",
+    avatar:"💎",
+    time:"Today",
+    image:"https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=900&q=80",
+    caption:"Connect with people, discover inspiring moments and grow together. 💎"
+  },
+  {
+    user:"Happy Moments",
+    avatar:"😊",
+    time:"Today",
+    image:"https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=900&q=80",
+    caption:"Friendship, kindness and happiness make every day special. ❤️"
+  },
+  {
+    user:"Hope Community",
+    avatar:"🌈",
+    time:"Yesterday",
+    image:"https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=900&q=80",
+    caption:"Every new day is another opportunity to learn and grow. 🌟"
+  },
+  {
+    user:"Love & Care",
+    avatar:"❤️",
+    time:"Yesterday",
+    image:"https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=900&q=80",
+    caption:"A little kindness can make a big difference in someone's life. 🤝"
   }
 ];
 
@@ -1670,6 +2127,11 @@ function defaultUser(){
     name:"",
     username:"",
     email:"",
+    phone:"",
+    password:"",
+    inviteCode:"",
+    invitedBy:"",
+    profileImage:"",
     balance:0,
     totalEarned:0,
     tasksCompleted:0,
@@ -1773,18 +2235,51 @@ function capitalize(text){
   return text.charAt(0).toUpperCase()+text.slice(1);
 }
 
-/* =========================
-   LOGIN
-========================= */
+function generateInviteCode(name){
+  const base=(name||"USER")
+    .replace(/[^a-zA-Z0-9]/g,"")
+    .toUpperCase()
+    .slice(0,6);
 
-function isLoggedIn(){
-  return localStorage.getItem("trueNetworkingLoggedIn")==="true";
+  return base+"676";
 }
 
-function loginUser(){
+function inviteLink(){
+  const user=getUser();
+  const code=user.inviteCode||"USER676";
+  return "https://truenetworking.demo/register?invite="+code;
+}
 
-  const name=document.getElementById("loginName").value.trim();
-  const email=document.getElementById("loginEmail").value.trim();
+/* =========================
+   AUTH
+========================= */
+
+function switchAuth(type){
+
+  const registerForm=document.getElementById("registerForm");
+  const loginForm=document.getElementById("loginForm");
+  const registerTab=document.getElementById("registerTab");
+  const loginTab=document.getElementById("loginTab");
+
+  if(type==="register"){
+    registerForm.style.display="block";
+    loginForm.style.display="none";
+    registerTab.classList.add("active");
+    loginTab.classList.remove("active");
+  }else{
+    registerForm.style.display="none";
+    loginForm.style.display="block";
+    registerTab.classList.remove("active");
+    loginTab.classList.add("active");
+  }
+}
+
+function registerUser(){
+
+  const name=document.getElementById("registerName").value.trim();
+  const email=document.getElementById("registerEmail").value.trim();
+  const password=document.getElementById("registerPassword").value;
+  const invitedBy=document.getElementById("registerInvite").value.trim();
 
   if(!name){
     showToast("Enter your full name.");
@@ -1796,11 +2291,19 @@ function loginUser(){
     return;
   }
 
+  if(password.length<4){
+    showToast("Password must be at least 4 characters.");
+    return;
+  }
+
   const user=getUser();
 
   user.name=name;
   user.email=email;
+  user.password=password;
   user.username=name.toLowerCase().replace(/\s+/g,"_");
+  user.inviteCode=generateInviteCode(name);
+  user.invitedBy=invitedBy;
   user.loginDate=todayDate();
 
   saveUser(user);
@@ -1809,7 +2312,69 @@ function loginUser(){
 
   showApp();
 
-  showToast("Welcome to True Networking!");
+  showToast("Account created successfully!");
+}
+
+function loginUser(){
+
+  const email=document.getElementById("loginEmail").value.trim();
+  const password=document.getElementById("loginPassword").value;
+
+  const user=getUser();
+
+  if(!email || !email.includes("@")){
+    showToast("Enter a valid email address.");
+    return;
+  }
+
+  if(!password){
+    showToast("Enter your password.");
+    return;
+  }
+
+  if(user.email && user.email!==email){
+    showToast("Email does not match the demo account.");
+    return;
+  }
+
+  if(user.password && user.password!==password){
+    showToast("Incorrect password.");
+    return;
+  }
+
+  if(!user.name){
+    showToast("Please register first.");
+    switchAuth("register");
+    return;
+  }
+
+  localStorage.setItem("trueNetworkingLoggedIn","true");
+
+  showApp();
+
+  showToast("Welcome back!");
+}
+
+function googleDemoLogin(){
+
+  const user=getUser();
+
+  if(!user.name){
+    user.name="Google Demo User";
+    user.email="googleuser@example.com";
+    user.username="google_demo_user";
+    user.password="google_demo";
+    user.inviteCode=generateInviteCode(user.name);
+    user.loginDate=todayDate();
+
+    saveUser(user);
+  }
+
+  localStorage.setItem("trueNetworkingLoggedIn","true");
+
+  showApp();
+
+  showToast("Google demo login successful!");
 }
 
 function logoutUser(){
@@ -1821,6 +2386,10 @@ function logoutUser(){
   document.getElementById("loginScreen").classList.add("active");
 
   showToast("You have been logged out.");
+}
+
+function isLoggedIn(){
+  return localStorage.getItem("trueNetworkingLoggedIn")==="true";
 }
 
 function showApp(){
@@ -1948,6 +2517,64 @@ function refreshHome(){
   document.getElementById("progressPercent").textContent=Math.round(progress)+"%";
   document.getElementById("progressEarned").textContent=money(user.totalEarned)+" earned";
   document.getElementById("progressDays").textContent="Day "+Math.min(user.activeDays||0,5)+" of 5";
+
+  renderPosts();
+}
+
+function renderPosts(){
+
+  const list=document.getElementById("postList");
+
+  list.innerHTML=posts.map(post=>`
+
+    <div class="post-card">
+
+      <div class="post-header">
+
+        <div class="post-avatar">${post.avatar}</div>
+
+        <div>
+          <div class="post-user">${post.user}</div>
+          <div class="post-time">${post.time}</div>
+        </div>
+
+      </div>
+
+      <img
+        class="post-image"
+        src="${post.image}"
+        alt="${post.caption}"
+      >
+
+      <div class="post-caption">${post.caption}</div>
+
+      <div class="post-actions">
+        <span class="post-action" onclick="showToast('Liked ❤️')">❤️ Like</span>
+        <span class="post-action" onclick="showToast('Comment feature coming soon.')">💬 Comment</span>
+        <span class="post-action" onclick="sharePost()">↗ Share</span>
+      </div>
+
+    </div>
+
+  `).join("");
+}
+
+function sharePost(){
+
+  const text="Join me on True Networking and discover amazing moments! 💎";
+
+  if(navigator.share){
+    navigator.share({
+      title:"True Networking",
+      text,
+      url:inviteLink()
+    }).catch(()=>{});
+  }else if(navigator.clipboard){
+    navigator.clipboard.writeText(text+" "+inviteLink());
+    showToast("Invite link copied.");
+  }else{
+    showToast("Share is not available on this device.");
+  }
 }
 
 /* =========================
@@ -2034,21 +2661,41 @@ function completeTask(taskId){
     return;
   }
 
-  user.completedTasks.push(key);
-  user.tasksCompleted=Number(user.tasksCompleted||0)+1;
-  user.balance=Number(user.balance||0)+task.reward;
-  user.totalEarned=Number(user.totalEarned||0)+task.reward;
-
-  addNotification(
-    "Task Completed",
-    task.title+" completed. "+money(task.reward)+" added to your demo balance.",
-    "🎯"
+  const button=document.querySelector(
+    `button[onclick="completeTask(${taskId})"]`
   );
 
-  saveUser(user);
-  refreshAll();
+  if(button){
+    button.disabled=true;
+    button.textContent="⏳ Claiming...";
+    button.classList.add("claiming");
+  }
 
-  showToast("Task completed! "+money(task.reward)+" added.");
+  setTimeout(()=>{
+
+    const latestUser=getUser();
+
+    if(latestUser.completedTasks.includes(key)){
+      return;
+    }
+
+    latestUser.completedTasks.push(key);
+    latestUser.tasksCompleted=Number(latestUser.tasksCompleted||0)+1;
+    latestUser.balance=Number(latestUser.balance||0)+task.reward;
+    latestUser.totalEarned=Number(latestUser.totalEarned||0)+task.reward;
+
+    addNotification(
+      "Task Completed",
+      task.title+" completed. "+money(task.reward)+" added to your demo balance.",
+      "🎯"
+    );
+
+    saveUser(latestUser);
+    refreshAll();
+
+    showToast("Task completed! "+money(task.reward)+" added.");
+
+  },1500);
 }
 
 /* =========================
@@ -2085,6 +2732,17 @@ function renderVideos(){
         <div class="progress-background">
           <div class="progress-bar" id="videoProgress${video.id}" style="width:${completed?"100":"0"}%"></div>
         </div>
+
+        ${video.source?`
+          <video class="video-player" controls preload="metadata">
+            <source src="${video.source}" type="video/mp4">
+            Your browser does not support video playback.
+          </video>
+        `:`
+          <div class="video-note">
+            🎬 Video placeholder: Add your own authorized video file/link to play real film and sound.
+          </div>
+        `}
 
         <button
           class="btn ${completed?"btn-success":"btn-primary"}"
@@ -2127,7 +2785,7 @@ function startVideo(videoId){
   const button=document.getElementById("videoBtn"+videoId);
 
   button.disabled=true;
-  button.textContent="Playing...";
+  button.textContent="▶ Playing...";
   button.className="btn btn-warning";
 
   videoIntervals[videoId]=setInterval(()=>{
@@ -2212,7 +2870,8 @@ function renderWithdraw(){
 
     <div class="history-item">
       <strong>${money(item.amount)}</strong><br>
-      Method: ${item.method}<br>
+      Full Name: ${item.fullName}<br>
+      Bank: ${item.bank}<br>
       Account: ${item.account}<br>
       Status: <span class="pending">${item.status}</span><br>
       Date: ${item.date}
@@ -2225,12 +2884,28 @@ function requestWithdraw(){
 
   const user=getUser();
 
-  const amount=Number(document.getElementById("withdrawAmount").value);
-  const method=document.getElementById("withdrawMethod").value;
+  const fullName=document.getElementById("withdrawFullName").value.trim();
+  const bank=document.getElementById("withdrawBank").value;
   const account=document.getElementById("withdrawAccount").value.trim();
+  const amount=Number(document.getElementById("withdrawAmount").value);
 
   if(Number(user.balance||0)<REQUIRED_AMOUNT || Number(user.activeDays||0)<REQUIRED_DAYS){
     showToast("You must reach $5.50 and complete 5 active days.");
+    return;
+  }
+
+  if(!fullName){
+    showToast("Enter your full name.");
+    return;
+  }
+
+  if(!bank){
+    showToast("Select your bank.");
+    return;
+  }
+
+  if(!account){
+    showToast("Enter your account number.");
     return;
   }
 
@@ -2244,19 +2919,10 @@ function requestWithdraw(){
     return;
   }
 
-  if(!method){
-    showToast("Select a payment method.");
-    return;
-  }
-
-  if(!account){
-    showToast("Enter your account number.");
-    return;
-  }
-
   const withdrawal={
     amount,
-    method,
+    fullName,
+    bank,
     account,
     date:new Date().toLocaleString(),
     status:"Pending Demo"
@@ -2273,9 +2939,10 @@ function requestWithdraw(){
 
   saveUser(user);
 
-  document.getElementById("withdrawAmount").value="";
-  document.getElementById("withdrawMethod").value="";
+  document.getElementById("withdrawFullName").value="";
+  document.getElementById("withdrawBank").value="";
   document.getElementById("withdrawAccount").value="";
+  document.getElementById("withdrawAmount").value="";
 
   refreshAll();
 
@@ -2283,7 +2950,7 @@ function requestWithdraw(){
 }
 
 /* =========================
-   ME
+   ME / PROFILE
 ========================= */
 
 function renderMe(){
@@ -2293,11 +2960,18 @@ function renderMe(){
   document.getElementById("profileName").textContent=user.name||"Demo User";
   document.getElementById("profileEmail").textContent=user.email||"user@example.com";
 
-  const firstLetter=user.name
-    ? user.name.charAt(0).toUpperCase()
-    : "U";
+  const avatar=document.getElementById("profileAvatar");
 
-  document.getElementById("profileAvatar").textContent=firstLetter;
+  if(user.profileImage){
+    avatar.innerHTML=`<img src="${user.profileImage}" alt="Profile picture">`;
+  }else{
+    const firstLetter=user.name
+      ? user.name.charAt(0).toUpperCase()
+      : "U";
+
+    avatar.textContent=firstLetter;
+  }
+
   document.getElementById("verificationStatus").textContent=
     user.verified?"✓ Verified":"Not verified";
 }
@@ -2318,6 +2992,11 @@ function openProfileModal(){
       <input class="form-input" id="editEmail" value="${user.email||""}">
     </div>
 
+    <div class="form-group">
+      <label class="form-label">Profile Picture</label>
+      <input class="form-input" id="profileImageInput" type="file" accept="image/*">
+    </div>
+
     <button class="btn btn-primary" onclick="saveProfile()">
       Save Changes
     </button>
@@ -2331,6 +3010,7 @@ function saveProfile(){
 
   const name=document.getElementById("editName").value.trim();
   const email=document.getElementById("editEmail").value.trim();
+  const file=document.getElementById("profileImageInput").files[0];
 
   if(!name || !email){
     showToast("Fill all fields.");
@@ -2339,13 +3019,38 @@ function saveProfile(){
 
   user.name=name;
   user.email=email;
+  user.username=name.toLowerCase().replace(/\s+/g,"_");
 
-  saveUser(user);
-  closeModal();
-  refreshAll();
+  if(file){
 
-  showToast("Profile updated successfully.");
+    const reader=new FileReader();
+
+    reader.onload=function(event){
+
+      user.profileImage=event.target.result;
+
+      saveUser(user);
+      closeModal();
+      refreshAll();
+
+      showToast("Profile updated successfully.");
+    };
+
+    reader.readAsDataURL(file);
+
+  }else{
+
+    saveUser(user);
+    closeModal();
+    refreshAll();
+
+    showToast("Profile updated successfully.");
+  }
 }
+
+/* =========================
+   FACE VERIFICATION
+========================= */
 
 function openVerificationModal(){
 
@@ -2366,54 +3071,126 @@ function openVerificationModal(){
   openModal("Face Verification",`
 
     <div class="card-text">
-      🛡️ Face verification will be connected to a secure verification service
-      in the production version of the app.
+      🛡️ Take a clear photo of your face using your phone camera.
+      This demo saves the photo on this device.
     </div>
 
-    <button class="btn btn-primary" onclick="completeDemoVerification()">
-      Complete Demo Verification
+    <div class="form-group" style="margin-top:15px;">
+      <label class="form-label">Take Face Photo</label>
+      <input class="form-input" id="faceImageInput" type="file" accept="image/*" capture="user">
+    </div>
+
+    <div id="facePreview" style="margin-top:12px;"></div>
+
+    <button class="btn btn-primary" onclick="completeFaceVerification()">
+      Complete Verification
     </button>
 
   `);
+
+  const input=document.getElementById("faceImageInput");
+
+  input.addEventListener("change",function(){
+
+    const file=input.files[0];
+
+    if(!file){
+      return;
+    }
+
+    const reader=new FileReader();
+
+    reader.onload=function(event){
+
+      document.getElementById("facePreview").innerHTML=`
+        <img
+          src="${event.target.result}"
+          style="width:100%;max-height:220px;object-fit:cover;border-radius:15px;"
+          alt="Face preview"
+        >
+      `;
+
+    };
+
+    reader.readAsDataURL(file);
+
+  });
 }
 
-function completeDemoVerification(){
+function completeFaceVerification(){
 
-  const user=getUser();
+  const input=document.getElementById("faceImageInput");
 
-  user.verified=true;
+  if(!input || !input.files[0]){
+    showToast("Please take or select a face photo first.");
+    return;
+  }
 
-  addNotification(
-    "Verification Completed",
-    "Your demo face verification has been completed.",
-    "🛡️"
-  );
+  const file=input.files[0];
+  const reader=new FileReader();
 
-  saveUser(user);
-  closeModal();
-  refreshAll();
+  reader.onload=function(event){
 
-  showToast("Demo verification completed.");
+    const user=getUser();
+
+    user.verified=true;
+    user.faceImage=event.target.result;
+
+    addNotification(
+      "Verification Completed",
+      "Your demo face verification has been completed.",
+      "🛡️"
+    );
+
+    saveUser(user);
+    closeModal();
+    refreshAll();
+
+    showToast("Demo verification completed.");
+
+  };
+
+  reader.readAsDataURL(file);
 }
+
+/* =========================
+   INVITE
+========================= */
 
 function openInviteModal(){
 
   const user=getUser();
 
+  const code=user.inviteCode||generateInviteCode(user.name);
+  const link=inviteLink();
+
   openModal("Invite Friends",`
 
     <div class="card-text">
-      Share your invite code with friends.
-      Referral rewards will be connected in the production version.
+      Invite friends using your ID Code or Invite Link.
+      Referral rewards are demo rewards for testing.
     </div>
 
     <div class="form-group" style="margin-top:15px;">
-      <label class="form-label">Your Invite Code</label>
-      <input class="form-input" value="${(user.username||"USER").toUpperCase()}123" readonly>
+      <label class="form-label">Your Invite ID Code</label>
+      <input class="form-input" id="inviteCodeInput" value="${code}" readonly>
     </div>
 
     <button class="btn btn-primary" onclick="copyInviteCode()">
-      Copy Invite Code
+      📋 Copy ID Code
+    </button>
+
+    <div class="form-group" style="margin-top:15px;">
+      <label class="form-label">Your Invite Link</label>
+      <input class="form-input" id="inviteLinkInput" value="${link}" readonly>
+    </div>
+
+    <button class="btn btn-light" onclick="copyInviteLink()">
+      🔗 Copy Invite Link
+    </button>
+
+    <button class="btn btn-success" onclick="shareInvite()">
+      📤 Share Invite
     </button>
 
   `);
@@ -2422,14 +3199,60 @@ function openInviteModal(){
 function copyInviteCode(){
 
   const user=getUser();
-  const code=(user.username||"USER").toUpperCase()+"123";
+  const code=user.inviteCode||generateInviteCode(user.name);
 
   if(navigator.clipboard){
     navigator.clipboard.writeText(code);
+    showToast("Invite ID Code copied.");
+  }else{
+    showToast("Copy is not available.");
   }
-
-  showToast("Invite code copied.");
 }
+
+function copyInviteLink(){
+
+  const link=inviteLink();
+
+  if(navigator.clipboard){
+    navigator.clipboard.writeText(link);
+    showToast("Invite link copied.");
+  }else{
+    showToast("Copy is not available.");
+  }
+}
+
+function shareInvite(){
+
+  const user=getUser();
+
+  const text=
+    "Join me on True Networking! 💎\n"+
+    "Use my Invite ID: "+(user.inviteCode||"USER676")+"\n"+
+    "Invite Link: "+inviteLink();
+
+  if(navigator.share){
+
+    navigator.share({
+      title:"Join True Networking",
+      text,
+      url:inviteLink()
+    }).catch(()=>{});
+
+  }else if(navigator.clipboard){
+
+    navigator.clipboard.writeText(text);
+    showToast("Invite message copied. You can share it on WhatsApp or Facebook.");
+
+  }else{
+
+    showToast("Share is not available on this device.");
+
+  }
+}
+
+/* =========================
+   SETTINGS
+========================= */
 
 function openSettingsModal(){
 
