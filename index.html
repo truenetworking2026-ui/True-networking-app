@@ -326,7 +326,7 @@ input,select,textarea{
 .stat-value{
   font-size:22px;
   font-weight:bold;
-  color:var(--blue);
+  color:var(--blue-dark);
 }
 
 .stat-label{
@@ -680,17 +680,6 @@ input,select,textarea{
   font-size:16px;
 }
 
-.video-season{
-  display:inline-block;
-  margin-top:5px;
-  padding:4px 8px;
-  border-radius:20px;
-  background:#ede9fe;
-  color:#6d28d9;
-  font-size:10px;
-  font-weight:bold;
-}
-
 .video-description{
   font-size:12px;
   color:var(--muted);
@@ -725,10 +714,6 @@ input,select,textarea{
 
 .video-completed{
   color:var(--green);
-}
-
-.video-ready{
-  color:var(--orange);
 }
 
 .progress-background{
@@ -1379,6 +1364,8 @@ input,select,textarea{
 
 <div class="app" id="mainApp">
 
+  <!-- HEADER -->
+
   <header class="header">
 
     <div class="header-top">
@@ -1401,7 +1388,7 @@ input,select,textarea{
 
     <div class="balance-box">
       <div class="balance-label">Available Demo Balance</div>
-      <div class="balance" id="headerBalance">$5.00</div>
+      <div class="balance" id="headerBalance">$0.00</div>
       <div class="balance-note">Demo balance for testing only</div>
     </div>
 
@@ -1450,7 +1437,7 @@ input,select,textarea{
 
       <div class="stat-card">
         <div class="stat-icon">💰</div>
-        <div class="stat-value" id="homeEarned">$5.00</div>
+        <div class="stat-value" id="homeEarned">$0.00</div>
         <div class="stat-label">Total Earned</div>
       </div>
 
@@ -1462,7 +1449,7 @@ input,select,textarea{
 
     </div>
 
-    <div class="section-title">🎥 Featured Videos — Season 2</div>
+    <div class="section-title">🎥 Featured Videos</div>
 
     <div class="story-scroller">
 
@@ -1470,28 +1457,35 @@ input,select,textarea{
         <img src="https://images.unsplash.com/photo-1500534623283-312aade485b7?w=400" alt="Video">
         <div class="story-overlay"></div>
         <div class="story-play">▶</div>
-        <div class="story-title">A Touch of Kindness</div>
+        <div class="story-title">Beautiful Moments</div>
       </div>
 
       <div class="story" onclick="openPage('videos')">
         <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=400" alt="Video">
         <div class="story-overlay"></div>
         <div class="story-play">▶</div>
-        <div class="story-title">Moments of Happiness</div>
+        <div class="story-title">Happy Memories</div>
       </div>
 
       <div class="story" onclick="openPage('videos')">
         <img src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=400" alt="Video">
         <div class="story-overlay"></div>
         <div class="story-play">▶</div>
-        <div class="story-title">Love and Friendship</div>
+        <div class="story-title">Friendship</div>
       </div>
 
       <div class="story" onclick="openPage('videos')">
         <img src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=400" alt="Video">
         <div class="story-overlay"></div>
         <div class="story-play">▶</div>
-        <div class="story-title">A New Beginning</div>
+        <div class="story-title">Love & Hope</div>
+      </div>
+
+      <div class="story" onclick="openPage('videos')">
+        <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=400" alt="Video">
+        <div class="story-overlay"></div>
+        <div class="story-play">▶</div>
+        <div class="story-title">New Beginning</div>
       </div>
 
     </div>
@@ -1501,8 +1495,8 @@ input,select,textarea{
     <div class="card progress-card">
 
       <div class="progress-top">
-        <div class="progress-title">🎯 Goal: $5.00</div>
-        <div class="progress-percent" id="progressPercent">100%</div>
+        <div class="progress-title">🎯 Goal: $5.50</div>
+        <div class="progress-percent" id="progressPercent">0%</div>
       </div>
 
       <div class="progress-bg">
@@ -1510,7 +1504,7 @@ input,select,textarea{
       </div>
 
       <div class="progress-info">
-        <span id="progressEarned">$5.00 earned</span>
+        <span id="progressEarned">$0.00 earned</span>
         <span id="progressDays">Day 0 of 5</span>
       </div>
 
@@ -1529,7 +1523,7 @@ input,select,textarea{
       <div class="quick-card" onclick="openPage('videos')">
         <div class="quick-icon">🎬</div>
         <div class="quick-title">Watch Videos</div>
-        <div class="quick-text">Watch four Season 2 videos and claim rewards.</div>
+        <div class="quick-text">Watch four videos and claim rewards.</div>
       </div>
 
       <div class="quick-card" onclick="openPage('withdraw')">
@@ -1599,19 +1593,18 @@ input,select,textarea{
 
   <section class="page" id="videosPage">
 
-    <div class="page-title">Watch Videos — Season 2</div>
+    <div class="page-title">Watch Videos</div>
 
     <div class="page-subtitle">
-      Open and play each video first. Watch for the full three minutes.
-      After the timer finishes, the Claim Reward button will appear.
+      Watch each video to complete it and claim its demo reward.
+      You can use your own authorized MP4 links or select videos from your phone.
     </div>
 
     <div class="card">
-      <div class="card-title">🎬 Season 2 Video Rewards</div>
+      <div class="card-title">🎬 Video Rewards</div>
       <div class="card-text">
-        Four new Season 2 videos are available.
-        Each video must be played for three minutes before its reward can be claimed.
-        Pausing the video pauses the timer.
+        Four videos are available. Each video has a real player with sound.
+        Watch them one at a time.
       </div>
     </div>
 
@@ -1638,12 +1631,12 @@ input,select,textarea{
 
       <div class="status-row">
         <span class="status-label">Available Balance</span>
-        <span class="status-value" id="withdrawBalance">$5.00</span>
+        <span class="status-value" id="withdrawBalance">$0.00</span>
       </div>
 
       <div class="status-row">
         <span class="status-label">Required Amount</span>
-        <span class="status-value">$5.00</span>
+        <span class="status-value">$5.50</span>
       </div>
 
       <div class="status-row">
@@ -1798,8 +1791,8 @@ input,select,textarea{
     <div class="card">
       <div class="card-title">🧪 Demo Testing</div>
       <div class="card-text">
-        Load this account to test withdrawal.
-        It sets your balance to $5.00 and active days to 5.
+        Use this only to test the withdrawal screen.
+        It marks the account as having completed five active days.
       </div>
 
       <button class="btn btn-warning" onclick="loadDemoTestingAccount()">
@@ -1964,7 +1957,7 @@ input,select,textarea{
 const TASK_REWARD = 0.20;
 const VIDEO_REWARD = 0.20;
 const VIDEO_DURATION = 180;
-const REQUIRED_AMOUNT = 5.00;
+const REQUIRED_AMOUNT = 5.50;
 const REQUIRED_DAYS = 5;
 
 let activeVideo = null;
@@ -2019,16 +2012,21 @@ const tasks = [
 ];
 
 /* =========================
-   VIDEO DATA - SEASON 2
+   VIDEO DATA
 ========================= */
+
+/*
+  IMPORTANT:
+  Wadannan sample links ne domin a gwada video player.
+  Daga baya za mu maye gurbinsu da ainihin authorized Hausa films.
+*/
 
 const videos = [
   {
     id:1,
     icon:"💙",
     title:"A Touch of Kindness",
-    season:"Season 2 • Episode 1",
-    description:"A touching story about kindness, sacrifice and helping someone in need.",
+    description:"A short emotional story about kindness and helping others.",
     reward:0.20,
     url:"https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
   },
@@ -2036,8 +2034,7 @@ const videos = [
     id:2,
     icon:"🌈",
     title:"Moments of Happiness",
-    season:"Season 2 • Episode 2",
-    description:"An inspiring story about joy, hope and finding happiness in simple moments.",
+    description:"An inspiring video about joy, hope and positive moments.",
     reward:0.20,
     url:"https://www.w3schools.com/html/mov_bbb.mp4"
   },
@@ -2045,8 +2042,7 @@ const videos = [
     id:3,
     icon:"❤️",
     title:"Love and Friendship",
-    season:"Season 2 • Episode 3",
-    description:"A warm story about love, friendship, loyalty and caring for others.",
+    description:"A warm story about love, friendship and caring for others.",
     reward:0.20,
     url:"https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
   },
@@ -2054,8 +2050,7 @@ const videos = [
     id:4,
     icon:"🌟",
     title:"A New Beginning",
-    season:"Season 2 • Episode 4",
-    description:"A beautiful story about hope, courage and starting a better tomorrow.",
+    description:"A beautiful story about hope and a better tomorrow.",
     reward:0.20,
     url:"https://www.w3schools.com/html/mov_bbb.mp4"
   }
@@ -2074,14 +2069,13 @@ function defaultUser(){
     phone:"",
     inviteCode:"",
     invitedBy:"",
-    balance:5.00,
-    totalEarned:5.00,
+    balance:0,
+    totalEarned:0,
     tasksCompleted:0,
     videosCompleted:0,
     activeDays:0,
     completedTasks:[],
     completedVideos:[],
-    videoReady:[],
     withdrawals:[],
     notifications:[],
     complaints:[],
@@ -2114,31 +2108,21 @@ function getUser(){
     return {
       ...defaultUser(),
       ...user,
-
       completedTasks:Array.isArray(user.completedTasks)
         ? user.completedTasks
         : [],
-
       completedVideos:Array.isArray(user.completedVideos)
         ? user.completedVideos.map(Number)
         : [],
-
-      videoReady:Array.isArray(user.videoReady)
-        ? user.videoReady.map(Number)
-        : [],
-
       withdrawals:Array.isArray(user.withdrawals)
         ? user.withdrawals
         : [],
-
       notifications:Array.isArray(user.notifications)
         ? user.notifications
         : [],
-
       complaints:Array.isArray(user.complaints)
         ? user.complaints
         : []
-
     };
 
   }catch(error){
@@ -2566,33 +2550,6 @@ function renderVideos(){
   list.innerHTML=videos.map(video=>{
 
     const completed=user.completedVideos.includes(video.id);
-    const ready=user.videoReady.includes(video.id);
-
-    let timerText="3:00";
-    let timerClass="";
-    let buttonText="▶ Open & Watch Video";
-    let buttonClass="btn-primary";
-    let buttonAction=`startVideo(${video.id})`;
-    let disabled="";
-
-    if(completed){
-
-      timerText="Completed";
-      timerClass="video-completed";
-      buttonText="✅ Claimed";
-      buttonClass="btn-success";
-      buttonAction="";
-      disabled="disabled";
-
-    }else if(ready){
-
-      timerText="Ready to Claim";
-      timerClass="video-ready";
-      buttonText="🎁 Claim Reward";
-      buttonClass="btn-success";
-      buttonAction=`claimVideo(${video.id})`;
-
-    }
 
     return `
 
@@ -2604,7 +2561,6 @@ function renderVideos(){
 
           <div>
             <div class="video-name">${video.title}</div>
-            <div class="video-season">${video.season}</div>
             <div class="video-description">${video.description}</div>
           </div>
 
@@ -2620,28 +2576,27 @@ function renderVideos(){
           controls
           playsinline
           preload="metadata"
-          loop
           src="${video.url}">
         </video>
 
-        <div class="video-timer ${timerClass}" id="videoTimer${video.id}">
-          ${timerText}
+        <div class="video-timer ${completed?"video-completed":""}" id="videoTimer${video.id}">
+          ${completed?"Completed":"3:00"}
         </div>
 
         <div class="progress-background">
           <div
             class="progress-bar"
             id="videoProgress${video.id}"
-            style="width:${completed||ready?"100":"0"}%">
+            style="width:${completed?"100":"0"}%">
           </div>
         </div>
 
         <button
-          class="btn ${buttonClass}"
+          class="btn ${completed?"btn-success":"btn-primary"}"
           id="videoBtn${video.id}"
-          onclick="${buttonAction}"
-          ${disabled}>
-          ${buttonText}
+          onclick="startVideo(${video.id})"
+          ${completed?"disabled":""}>
+          ${completed?"✅ Claimed":"▶ Start 3-Minute Video"}
         </button>
 
         <button
@@ -2675,9 +2630,8 @@ function renderVideos(){
         </div>
 
         <div class="video-note">
-          🎬 Open the video and watch for the full three minutes.
-          The timer pauses when the video is paused.
-          Claim Reward will appear only after the timer finishes.
+          🎬 Watch the full three minutes before claiming the reward.
+          The video must have an authorized source.
         </div>
 
       </div>
@@ -2742,24 +2696,45 @@ function loadLocalVideo(event,videoId){
 
 }
 
-/* =========================
-   VIDEO TIMER
-========================= */
+function startVideo(videoId){
 
-function runVideoTimer(videoId,player,timer,progress,button){
+  const user=getUser();
 
-  if(videoIntervals[videoId]){
+  if(user.completedVideos.includes(videoId)){
+    showToast("You already completed this video.");
     return;
   }
 
+  if(activeVideo!==null){
+    showToast("Finish the current video first.");
+    return;
+  }
+
+  const player=document.getElementById("videoPlayer"+videoId);
+  const timer=document.getElementById("videoTimer"+videoId);
+  const progress=document.getElementById("videoProgress"+videoId);
+  const button=document.getElementById("videoBtn"+videoId);
+
+  if(!player){
+    showToast("Video player not found.");
+    return;
+  }
+
+  activeVideo=videoId;
+
   let remaining=VIDEO_DURATION;
 
-  videoIntervals[videoId]=setInterval(()=>{
+  player.currentTime=0;
 
-    if(player.paused || player.ended){
-      button.textContent="▶ Playing Video...";
-      return;
-    }
+  player.play().catch(()=>{
+    showToast("Press the play button on the video to start.");
+  });
+
+  button.disabled=true;
+  button.textContent="Playing...";
+  button.className="btn btn-warning";
+
+  videoIntervals[videoId]=setInterval(()=>{
 
     remaining--;
 
@@ -2781,16 +2756,18 @@ function runVideoTimer(videoId,player,timer,progress,button){
 
       const latestUser=getUser();
 
-      if(
-        !latestUser.completedVideos.includes(videoId) &&
-        !latestUser.videoReady.includes(videoId)
-      ){
+      if(!latestUser.completedVideos.includes(videoId)){
 
-        latestUser.videoReady.push(videoId);
+        const video=videos.find(item=>item.id===videoId);
+
+        latestUser.completedVideos.push(videoId);
+        latestUser.videosCompleted=Number(latestUser.videosCompleted||0)+1;
+        latestUser.balance=Number(latestUser.balance||0)+video.reward;
+        latestUser.totalEarned=Number(latestUser.totalEarned||0)+video.reward;
 
         addNotification(
-          "Video Ready to Claim",
-          "You completed the three-minute watch time. Claim your reward now.",
+          "Video Completed",
+          video.title+" completed. "+money(video.reward)+" added to your demo balance.",
           "🎬"
         );
 
@@ -2802,119 +2779,11 @@ function runVideoTimer(videoId,player,timer,progress,button){
 
       refreshAll();
 
-      showToast("Video completed. Now press Claim Reward.");
+      showToast("Video completed! Reward added.");
 
     }
 
   },1000);
-
-}
-
-function startVideo(videoId){
-
-  const user=getUser();
-
-  if(user.completedVideos.includes(videoId)){
-    showToast("You already claimed this video.");
-    return;
-  }
-
-  if(user.videoReady.includes(videoId)){
-    showToast("This video is ready. Press Claim Reward.");
-    return;
-  }
-
-  if(activeVideo!==null){
-    showToast("Finish the current video first.");
-    return;
-  }
-
-  const player=document.getElementById("videoPlayer"+videoId);
-  const timer=document.getElementById("videoTimer"+videoId);
-  const progress=document.getElementById("videoProgress"+videoId);
-  const button=document.getElementById("videoBtn"+videoId);
-
-  if(!player){
-    showToast("Video player not found.");
-    return;
-  }
-
-  activeVideo=videoId;
-
-  player.currentTime=0;
-
-  button.disabled=true;
-  button.textContent="▶ Playing Video...";
-  button.className="btn btn-warning";
-
-  const beginTimer=()=>{
-
-    runVideoTimer(
-      videoId,
-      player,
-      timer,
-      progress,
-      button
-    );
-
-  };
-
-  player.addEventListener("playing",beginTimer,{once:true});
-
-  player.play().then(()=>{
-
-    beginTimer();
-
-  }).catch(()=>{
-
-    showToast("Press the play button inside the video to start.");
-
-  });
-
-}
-
-/* =========================
-   CLAIM VIDEO REWARD
-========================= */
-
-function claimVideo(videoId){
-
-  const user=getUser();
-
-  if(user.completedVideos.includes(videoId)){
-    showToast("You already claimed this video.");
-    return;
-  }
-
-  if(!user.videoReady.includes(videoId)){
-    showToast("Watch the full three minutes first.");
-    return;
-  }
-
-  const video=videos.find(item=>item.id===videoId);
-
-  if(!video){
-    showToast("Video not found.");
-    return;
-  }
-
-  user.videoReady=user.videoReady.filter(id=>id!==videoId);
-  user.completedVideos.push(videoId);
-
-  user.videosCompleted=Number(user.videosCompleted||0)+1;
-  user.balance=Number(user.balance||0)+video.reward;
-  user.totalEarned=Number(user.totalEarned||0)+video.reward;
-
-  addNotification(
-    "Video Reward Claimed",
-    video.title+" reward of "+money(video.reward)+" has been added to your demo balance.",
-    "🎁"
-  );
-
-  saveUser(user);
-  refreshAll();
-
-  showToast("Reward claimed! "+money(video.reward)+" added.");
 
 }
 
@@ -2978,7 +2847,7 @@ function requestWithdraw(){
   if(Number(user.balance||0)<REQUIRED_AMOUNT ||
      Number(user.activeDays||0)<REQUIRED_DAYS){
 
-    showToast("You must reach $5.00 and complete 5 active days.");
+    showToast("You must reach $5.50 and complete 5 active days.");
     return;
   }
 
@@ -3356,6 +3225,7 @@ function openInviteModal(){
 function copyInviteCode(){
 
   const user=getUser();
+
   const code=user.inviteCode||"";
 
   if(navigator.clipboard){
@@ -3619,21 +3489,26 @@ function loadDemoTestingAccount(){
 
   const user=getUser();
 
-  user.balance=5.00;
-  user.totalEarned=5.00;
-  user.tasksCompleted=0;
-  user.videosCompleted=0;
+  user.balance=5.50;
+  user.totalEarned=5.50;
+  user.tasksCompleted=5;
+  user.videosCompleted=4;
   user.activeDays=5;
   user.verified=true;
 
-  user.completedTasks=[];
+  user.completedTasks=[
+    "demo_task_1",
+    "demo_task_2",
+    "demo_task_3",
+    "demo_task_4",
+    "demo_task_5"
+  ];
 
-  user.completedVideos=[];
-  user.videoReady=[];
+  user.completedVideos=[1,2,3,4];
 
   addNotification(
     "Demo Testing Mode",
-    "Your account has been prepared with $5.00 and five active days for withdrawal testing.",
+    "Your account has been prepared for withdrawal testing.",
     "🧪"
   );
 
