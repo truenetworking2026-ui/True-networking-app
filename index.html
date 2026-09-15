@@ -15,17 +15,16 @@
 
 :root{
   --blue:#2563eb;
-  --blue2:#4f46e5;
-  --purple:#7c3aed;
-  --pink:#ec4899;
+  --blue-dark:#1d4ed8;
+  --blue-light:#eff6ff;
   --green:#16a34a;
   --orange:#f59e0b;
   --red:#dc2626;
   --text:#172033;
   --muted:#64748b;
   --border:#e2e8f0;
-  --bg:#f5f7fb;
-  --white:#fff;
+  --bg:#f1f5f9;
+  --white:#ffffff;
 }
 
 body{
@@ -58,47 +57,16 @@ input,select,textarea{
   margin:auto;
   background:#f8fafc;
   padding-bottom:85px;
-  overflow:hidden;
 }
 
-/* ================= HEADER ================= */
+/* HEADER */
 
 .header{
-  background:linear-gradient(135deg,#2563eb,#4f46e5,#7c3aed);
+  background:linear-gradient(135deg,#2563eb,#1d4ed8);
   color:white;
-  padding:20px 18px 25px;
-  border-bottom-left-radius:32px;
-  border-bottom-right-radius:32px;
-  position:relative;
-  overflow:hidden;
-}
-
-.header:before,
-.header:after{
-  content:"";
-  position:absolute;
-  border-radius:50%;
-  background:rgba(255,255,255,.08);
-  pointer-events:none;
-}
-
-.header:before{
-  width:180px;
-  height:180px;
-  right:-70px;
-  top:-80px;
-}
-
-.header:after{
-  width:120px;
-  height:120px;
-  left:-60px;
-  bottom:-70px;
-}
-
-.header>*{
-  position:relative;
-  z-index:1;
+  padding:20px 18px 22px;
+  border-bottom-left-radius:28px;
+  border-bottom-right-radius:28px;
 }
 
 .header-top{
@@ -117,18 +85,18 @@ input,select,textarea{
 .diamond-logo{
   width:48px;
   height:48px;
-  background:linear-gradient(135deg,#bfdbfe,#c4b5fd);
+  background:linear-gradient(135deg,#bfdbfe,#60a5fa);
   clip-path:polygon(50% 0%,100% 35%,50% 100%,0% 35%);
   display:flex;
   align-items:center;
   justify-content:center;
   color:#1e3a8a;
   font-size:25px;
-  filter:drop-shadow(0 4px 7px rgba(0,0,0,.18));
+  filter:drop-shadow(0 3px 5px rgba(0,0,0,.15));
 }
 
 .logo{
-  font-size:20px;
+  font-size:21px;
   font-weight:bold;
 }
 
@@ -139,8 +107,8 @@ input,select,textarea{
 }
 
 .notification-btn{
-  width:42px;
-  height:42px;
+  width:40px;
+  height:40px;
   border-radius:50%;
   background:rgba(255,255,255,.18);
   color:white;
@@ -150,20 +118,19 @@ input,select,textarea{
 
 .notification-dot{
   position:absolute;
-  top:7px;
-  right:7px;
-  width:8px;
-  height:8px;
+  top:8px;
+  right:8px;
+  width:7px;
+  height:7px;
   background:#facc15;
   border-radius:50%;
 }
 
 .balance-box{
   background:rgba(255,255,255,.15);
-  border:1px solid rgba(255,255,255,.25);
-  border-radius:22px;
+  border:1px solid rgba(255,255,255,.2);
+  border-radius:20px;
   padding:18px;
-  backdrop-filter:blur(8px);
 }
 
 .balance-label{
@@ -172,7 +139,7 @@ input,select,textarea{
 }
 
 .balance{
-  font-size:34px;
+  font-size:32px;
   font-weight:bold;
   margin:8px 0;
 }
@@ -190,33 +157,27 @@ input,select,textarea{
 }
 
 .header-action{
-  padding:13px 10px;
-  border-radius:14px;
-  background:rgba(255,255,255,.18);
+  padding:11px;
+  border-radius:12px;
+  background:rgba(255,255,255,.16);
   color:white;
   font-size:12px;
   font-weight:bold;
 }
 
-/* ================= PAGE ================= */
+/* PAGE */
 
 .page{
   display:none;
   padding:18px;
-  animation:fadeIn .3s ease;
 }
 
 .page.active{
   display:block;
 }
 
-@keyframes fadeIn{
-  from{opacity:0;transform:translateY(8px)}
-  to{opacity:1;transform:translateY(0)}
-}
-
 .page-title{
-  font-size:24px;
+  font-size:23px;
   font-weight:bold;
   margin-bottom:6px;
 }
@@ -225,23 +186,17 @@ input,select,textarea{
   color:var(--muted);
   font-size:13px;
   margin-bottom:18px;
-  line-height:1.6;
+  line-height:1.5;
 }
 
-.section-title{
-  font-size:17px;
-  font-weight:bold;
-  margin:22px 0 12px;
-}
-
-/* ================= CARDS ================= */
+/* CARDS */
 
 .card{
   background:white;
-  border-radius:20px;
+  border-radius:18px;
   padding:17px;
   margin-bottom:15px;
-  box-shadow:0 6px 22px rgba(15,23,42,.05);
+  box-shadow:0 5px 18px rgba(15,23,42,.05);
   border:1px solid var(--border);
 }
 
@@ -254,10 +209,16 @@ input,select,textarea{
 .card-text{
   font-size:13px;
   color:var(--muted);
-  line-height:1.7;
+  line-height:1.6;
 }
 
-/* ================= HOME ================= */
+.section-title{
+  font-size:16px;
+  font-weight:bold;
+  margin:20px 0 12px;
+}
+
+/* HOME */
 
 .welcome{
   display:flex;
@@ -267,19 +228,18 @@ input,select,textarea{
 }
 
 .welcome h2{
-  font-size:23px;
+  font-size:22px;
 }
 
 .welcome p{
   color:var(--muted);
   font-size:13px;
   margin-top:5px;
-  line-height:1.5;
 }
 
 .home-avatar{
-  width:52px;
-  height:52px;
+  width:48px;
+  height:48px;
   border-radius:50%;
   background:#dbeafe;
   color:#1d4ed8;
@@ -287,16 +247,7 @@ input,select,textarea{
   align-items:center;
   justify-content:center;
   font-weight:bold;
-  font-size:21px;
-  overflow:hidden;
-  flex-shrink:0;
-}
-
-.home-avatar img,
-.avatar img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
+  font-size:20px;
 }
 
 .stats{
@@ -308,23 +259,18 @@ input,select,textarea{
 
 .stat-card{
   background:white;
-  border-radius:18px;
-  padding:16px;
+  border-radius:16px;
+  padding:15px;
   border:1px solid var(--border);
-  transition:.2s;
-}
-
-.stat-card:hover{
-  transform:translateY(-3px);
 }
 
 .stat-icon{
-  font-size:24px;
+  font-size:23px;
   margin-bottom:9px;
 }
 
 .stat-value{
-  font-size:22px;
+  font-size:21px;
   font-weight:bold;
   color:var(--blue-dark);
 }
@@ -336,8 +282,8 @@ input,select,textarea{
 }
 
 .progress-card{
-  background:linear-gradient(135deg,#eff6ff,#ede9fe);
-  border:1px solid #c4b5fd;
+  background:linear-gradient(135deg,#eff6ff,#dbeafe);
+  border:1px solid #bfdbfe;
 }
 
 .progress-top{
@@ -353,14 +299,14 @@ input,select,textarea{
 }
 
 .progress-percent{
-  color:var(--purple);
+  color:var(--blue-dark);
   font-weight:bold;
-  font-size:14px;
+  font-size:13px;
 }
 
 .progress-bg{
-  height:11px;
-  background:#c7d2fe;
+  height:10px;
+  background:#bfdbfe;
   border-radius:20px;
   overflow:hidden;
 }
@@ -368,9 +314,9 @@ input,select,textarea{
 .progress-fill{
   height:100%;
   width:0%;
-  background:linear-gradient(90deg,#2563eb,#7c3aed,#ec4899);
+  background:linear-gradient(90deg,#2563eb,#60a5fa);
   border-radius:20px;
-  transition:.5s;
+  transition:.3s;
 }
 
 .progress-info{
@@ -378,7 +324,7 @@ input,select,textarea{
   justify-content:space-between;
   margin-top:10px;
   font-size:12px;
-  color:#4338ca;
+  color:#1e40af;
 }
 
 .quick-grid{
@@ -390,19 +336,13 @@ input,select,textarea{
 .quick-card{
   background:white;
   border:1px solid var(--border);
-  border-radius:18px;
+  border-radius:16px;
   padding:16px;
   cursor:pointer;
-  transition:.2s;
-}
-
-.quick-card:hover{
-  transform:translateY(-3px);
-  box-shadow:0 8px 20px rgba(37,99,235,.1);
 }
 
 .quick-icon{
-  font-size:27px;
+  font-size:26px;
   margin-bottom:9px;
 }
 
@@ -415,79 +355,15 @@ input,select,textarea{
   font-size:11px;
   color:var(--muted);
   margin-top:4px;
-  line-height:1.5;
+  line-height:1.4;
 }
 
-/* ================= MOVING FILM POSTS ================= */
-
-.story-scroller{
-  display:flex;
-  gap:12px;
-  overflow-x:auto;
-  padding:4px 2px 10px;
-  scrollbar-width:none;
-}
-
-.story-scroller::-webkit-scrollbar{
-  display:none;
-}
-
-.story{
-  min-width:112px;
-  height:150px;
-  border-radius:18px;
-  overflow:hidden;
-  position:relative;
-  background:linear-gradient(135deg,#2563eb,#7c3aed);
-  flex-shrink:0;
-  cursor:pointer;
-  box-shadow:0 6px 16px rgba(0,0,0,.1);
-}
-
-.story img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  opacity:.8;
-}
-
-.story-overlay{
-  position:absolute;
-  inset:0;
-  background:linear-gradient(transparent 35%,rgba(0,0,0,.75));
-}
-
-.story-title{
-  position:absolute;
-  bottom:10px;
-  left:9px;
-  right:9px;
-  color:white;
-  font-size:12px;
-  font-weight:bold;
-}
-
-.story-play{
-  position:absolute;
-  top:10px;
-  right:10px;
-  width:28px;
-  height:28px;
-  border-radius:50%;
-  background:rgba(255,255,255,.85);
-  color:#2563eb;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:12px;
-}
-
-/* ================= BUTTONS ================= */
+/* BUTTONS */
 
 .btn{
   width:100%;
   padding:13px 16px;
-  border-radius:13px;
+  border-radius:12px;
   font-weight:bold;
   margin-top:12px;
   transition:.2s;
@@ -503,7 +379,7 @@ input,select,textarea{
 }
 
 .btn-primary:hover{
-  background:#1d4ed8;
+  background:var(--blue-dark);
 }
 
 .btn-success{
@@ -522,8 +398,8 @@ input,select,textarea{
 }
 
 .btn-light{
-  background:#eff6ff;
-  color:#1d4ed8;
+  background:var(--blue-light);
+  color:var(--blue-dark);
 }
 
 .btn-outline{
@@ -537,16 +413,15 @@ input,select,textarea{
   border-radius:10px;
   font-size:12px;
   font-weight:bold;
-  margin-top:0;
 }
 
-/* ================= TASKS ================= */
+/* TASKS */
 
 .session-box{
   background:#eff6ff;
   border:1px solid #bfdbfe;
   color:#1e40af;
-  border-radius:16px;
+  border-radius:15px;
   padding:14px;
   font-size:13px;
   line-height:1.6;
@@ -571,7 +446,7 @@ input,select,textarea{
 
 .task-card{
   background:white;
-  border-radius:20px;
+  border-radius:18px;
   padding:17px;
   margin-bottom:14px;
   border:1px solid var(--border);
@@ -594,13 +469,12 @@ input,select,textarea{
 .task-icon{
   width:45px;
   height:45px;
-  border-radius:14px;
+  border-radius:13px;
   background:#dbeafe;
   display:flex;
   align-items:center;
   justify-content:center;
   font-size:23px;
-  flex-shrink:0;
 }
 
 .task-title{
@@ -646,13 +520,13 @@ input,select,textarea{
   font-weight:bold;
 }
 
-/* ================= VIDEOS ================= */
+/* VIDEOS */
 
 .video-card{
   background:white;
-  border-radius:20px;
+  border-radius:18px;
   padding:17px;
-  margin-bottom:16px;
+  margin-bottom:15px;
   border:1px solid var(--border);
   box-shadow:0 5px 18px rgba(15,23,42,.05);
 }
@@ -667,12 +541,12 @@ input,select,textarea{
   width:52px;
   height:52px;
   border-radius:15px;
-  background:linear-gradient(135deg,#dbeafe,#f5d0fe);
+  background:#dbeafe;
+  color:#1d4ed8;
   display:flex;
   align-items:center;
   justify-content:center;
   font-size:25px;
-  flex-shrink:0;
 }
 
 .video-name{
@@ -692,16 +566,6 @@ input,select,textarea{
   font-size:13px;
   color:#15803d;
   font-weight:bold;
-}
-
-.video-player{
-  width:100%;
-  height:210px;
-  background:#0f172a;
-  border-radius:15px;
-  margin-top:14px;
-  object-fit:cover;
-  display:block;
 }
 
 .video-timer{
@@ -726,7 +590,7 @@ input,select,textarea{
 .progress-bar{
   width:0%;
   height:100%;
-  background:linear-gradient(90deg,#2563eb,#7c3aed,#ec4899);
+  background:linear-gradient(90deg,#2563eb,#60a5fa);
   border-radius:20px;
   transition:width 1s linear;
 }
@@ -741,27 +605,52 @@ input,select,textarea{
   margin-top:12px;
 }
 
-.video-link-box{
+/* REAL VIDEO PLAYER */
+
+.video-player-wrap{
   display:none;
-  margin-top:12px;
-  padding:12px;
-  background:#f8fafc;
-  border-radius:12px;
+  margin-top:15px;
+  border-radius:15px;
+  overflow:hidden;
+  background:#000;
+  border:1px solid #cbd5e1;
 }
 
-.video-link-box.show{
+.video-player-wrap.active{
   display:block;
 }
 
-.video-link-box input{
+.video-player{
   width:100%;
-  padding:10px;
-  border:1px solid #cbd5e1;
-  border-radius:10px;
-  font-size:12px;
+  display:block;
+  background:#000;
+  max-height:260px;
 }
 
-/* ================= WITHDRAW ================= */
+.video-watch-status{
+  background:#eff6ff;
+  color:#1e40af;
+  border:1px solid #bfdbfe;
+  border-radius:12px;
+  padding:11px;
+  font-size:12px;
+  line-height:1.5;
+  margin-top:12px;
+}
+
+.video-watch-status.ready{
+  background:#dcfce7;
+  color:#166534;
+  border-color:#86efac;
+}
+
+.video-watch-status.warning{
+  background:#fff7ed;
+  color:#9a3412;
+  border-color:#fed7aa;
+}
+
+/* WITHDRAW */
 
 .withdraw-info{
   background:#fff7ed;
@@ -785,8 +674,7 @@ input,select,textarea{
 .status-row{
   display:flex;
   justify-content:space-between;
-  gap:10px;
-  padding:9px 0;
+  padding:8px 0;
   font-size:13px;
   border-bottom:1px solid #f1f5f9;
 }
@@ -801,7 +689,6 @@ input,select,textarea{
 
 .status-value{
   font-weight:bold;
-  text-align:right;
 }
 
 .form-group{
@@ -851,20 +738,20 @@ input,select,textarea{
   font-size:13px;
 }
 
-/* ================= PROFILE ================= */
+/* ME */
 
 .profile-top{
   text-align:center;
   background:white;
-  border-radius:20px;
+  border-radius:18px;
   padding:22px;
   border:1px solid var(--border);
   margin-bottom:15px;
 }
 
 .avatar{
-  width:100px;
-  height:100px;
+  width:80px;
+  height:80px;
   margin:auto;
   border-radius:50%;
   background:#dbeafe;
@@ -872,11 +759,9 @@ input,select,textarea{
   display:flex;
   justify-content:center;
   align-items:center;
-  font-size:36px;
+  font-size:32px;
   font-weight:bold;
   margin-bottom:12px;
-  overflow:hidden;
-  border:4px solid #eff6ff;
 }
 
 .profile-name{
@@ -904,7 +789,7 @@ input,select,textarea{
 .menu-list{
   background:white;
   border:1px solid var(--border);
-  border-radius:20px;
+  border-radius:18px;
   overflow:hidden;
   margin-bottom:15px;
 }
@@ -934,7 +819,6 @@ input,select,textarea{
   align-items:center;
   justify-content:center;
   font-size:18px;
-  flex-shrink:0;
 }
 
 .menu-content{
@@ -952,7 +836,7 @@ input,select,textarea{
   margin-top:3px;
 }
 
-/* ================= NOTIFICATIONS ================= */
+/* NOTIFICATIONS */
 
 .notification-item{
   display:flex;
@@ -974,7 +858,6 @@ input,select,textarea{
   align-items:center;
   justify-content:center;
   font-size:20px;
-  flex-shrink:0;
 }
 
 .notification-title{
@@ -995,12 +878,12 @@ input,select,textarea{
   margin-top:5px;
 }
 
-/* ================= SUPPORT ================= */
+/* SUPPORT */
 
 .support-box{
-  background:linear-gradient(135deg,#2563eb,#7c3aed);
+  background:linear-gradient(135deg,#2563eb,#1d4ed8);
   color:white;
-  border-radius:20px;
+  border-radius:18px;
   padding:20px;
   margin-bottom:15px;
 }
@@ -1038,12 +921,12 @@ input,select,textarea{
   font-size:21px;
 }
 
-/* ================= LOGIN ================= */
+/* LOGIN */
 
 .login-screen{
   display:none;
   min-height:100vh;
-  background:linear-gradient(135deg,#2563eb,#4f46e5,#7c3aed);
+  background:linear-gradient(135deg,#2563eb,#1d4ed8);
   padding:25px 18px;
   align-items:center;
   justify-content:center;
@@ -1057,9 +940,9 @@ input,select,textarea{
   width:100%;
   max-width:420px;
   background:white;
-  border-radius:26px;
+  border-radius:24px;
   padding:25px;
-  box-shadow:0 15px 40px rgba(0,0,0,.18);
+  box-shadow:0 15px 40px rgba(0,0,0,.15);
 }
 
 .login-brand{
@@ -1091,40 +974,13 @@ input,select,textarea{
   margin-bottom:18px;
 }
 
-.login-divider{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  margin:18px 0;
-  color:#94a3b8;
-  font-size:12px;
-}
-
-.login-divider:before,
-.login-divider:after{
-  content:"";
-  height:1px;
-  background:#e2e8f0;
-  flex:1;
-}
-
-.google-btn{
-  width:100%;
-  padding:13px;
-  border:1px solid #cbd5e1;
-  background:white;
-  border-radius:12px;
-  font-weight:bold;
-  color:#334155;
-}
-
-/* ================= MODAL ================= */
+/* MODAL */
 
 .modal{
   display:none;
   position:fixed;
   inset:0;
-  background:rgba(15,23,42,.6);
+  background:rgba(15,23,42,.55);
   z-index:100;
   align-items:flex-end;
   justify-content:center;
@@ -1137,17 +993,11 @@ input,select,textarea{
 .modal-box{
   width:100%;
   max-width:480px;
-  max-height:92vh;
+  max-height:90vh;
   overflow-y:auto;
   background:white;
-  border-radius:26px 26px 0 0;
+  border-radius:25px 25px 0 0;
   padding:22px;
-  animation:slideUp .25s ease;
-}
-
-@keyframes slideUp{
-  from{transform:translateY(100%)}
-  to{transform:translateY(0)}
 }
 
 .modal-header{
@@ -1171,55 +1021,7 @@ input,select,textarea{
   font-size:18px;
 }
 
-.camera-box{
-  background:#0f172a;
-  border-radius:18px;
-  overflow:hidden;
-  margin-bottom:12px;
-}
-
-#cameraVideo{
-  width:100%;
-  display:block;
-  min-height:250px;
-  object-fit:cover;
-}
-
-#capturedPhoto{
-  width:100%;
-  max-height:300px;
-  object-fit:cover;
-  border-radius:15px;
-  display:none;
-  margin-bottom:12px;
-}
-
-.invite-code-box{
-  background:#eff6ff;
-  border:1px dashed #60a5fa;
-  border-radius:14px;
-  padding:14px;
-  text-align:center;
-  font-size:20px;
-  font-weight:bold;
-  letter-spacing:2px;
-  color:#1d4ed8;
-  margin:12px 0;
-  word-break:break-all;
-}
-
-.invite-link-box{
-  background:#f8fafc;
-  border:1px solid var(--border);
-  border-radius:12px;
-  padding:12px;
-  font-size:11px;
-  color:var(--muted);
-  word-break:break-all;
-  line-height:1.5;
-}
-
-/* ================= BOTTOM NAV ================= */
+/* BOTTOM NAV */
 
 .bottom-nav{
   position:fixed;
@@ -1228,7 +1030,7 @@ input,select,textarea{
   transform:translateX(-50%);
   width:100%;
   max-width:480px;
-  height:74px;
+  height:72px;
   background:white;
   border-top:1px solid var(--border);
   display:grid;
@@ -1256,12 +1058,12 @@ input,select,textarea{
   font-weight:bold;
 }
 
-/* ================= TOAST ================= */
+/* TOAST */
 
 .toast{
   position:fixed;
   left:50%;
-  bottom:92px;
+  bottom:90px;
   transform:translateX(-50%) translateY(20px);
   background:#172033;
   color:white;
@@ -1282,11 +1084,11 @@ input,select,textarea{
   transform:translateX(-50%) translateY(0);
 }
 
-/* ================= RESPONSIVE ================= */
+/* RESPONSIVE */
 
 @media(max-width:360px){
   .balance{
-    font-size:28px;
+    font-size:27px;
   }
 
   .page-title{
@@ -1296,35 +1098,29 @@ input,select,textarea{
   .quick-title{
     font-size:13px;
   }
-
-  .video-player{
-    height:180px;
-  }
 }
 </style>
 </head>
 
 <body>
 
-<!-- ================= LOGIN ================= -->
-
+<!-- LOGIN SCREEN -->
 <div class="login-screen" id="loginScreen">
-
   <div class="login-box">
 
     <div class="login-brand">
       <div class="diamond-logo">💎</div>
       <h1>True Networking</h1>
-      <p>Connect • Watch • Earn</p>
+      <p>Earn rewards by completing activities</p>
     </div>
 
     <div class="login-note">
-      🔐 Demo account for testing. Your information is stored only on this device.
+      🔐 Demo login for testing. Your information is stored only on this device.
     </div>
 
     <div class="form-group">
       <label class="form-label">Full Name</label>
-      <input class="form-input" id="loginName" type="text" placeholder="Enter your full name">
+      <input class="form-input" id="loginName" type="text" placeholder="Enter your name">
     </div>
 
     <div class="form-group">
@@ -1332,40 +1128,17 @@ input,select,textarea{
       <input class="form-input" id="loginEmail" type="email" placeholder="Enter your email">
     </div>
 
-    <div class="form-group">
-      <label class="form-label">Password</label>
-      <input class="form-input" id="loginPassword" type="password" placeholder="Enter password">
-    </div>
-
-    <div class="form-group">
-      <label class="form-label">Invite ID Code (Optional)</label>
-      <input class="form-input" id="loginInvite" type="text" placeholder="Enter invite code">
-    </div>
-
     <button class="btn btn-primary" onclick="loginUser()">
-      Create Account / Login
+      Continue to App
     </button>
-
-    <div class="login-divider">OR</div>
-
-    <button class="google-btn" onclick="googleLogin()">
-      🌐 Continue with Google
-    </button>
-
-    <div class="card-text" style="text-align:center;margin-top:15px;">
-      Demo version. Real Google authentication will be connected later.
-    </div>
 
   </div>
-
 </div>
 
-<!-- ================= MAIN APP ================= -->
-
+<!-- MAIN APP -->
 <div class="app" id="mainApp">
 
   <!-- HEADER -->
-
   <header class="header">
 
     <div class="header-top">
@@ -1375,7 +1148,7 @@ input,select,textarea{
 
         <div>
           <div class="logo">True Networking</div>
-          <div class="header-small">Connect • Watch • Earn</div>
+          <div class="header-small">Earn rewards by completing activities</div>
         </div>
       </div>
 
@@ -1393,7 +1166,6 @@ input,select,textarea{
     </div>
 
     <div class="header-actions">
-
       <button class="header-action" onclick="openPage('withdraw')">
         💸 Withdraw
       </button>
@@ -1401,24 +1173,20 @@ input,select,textarea{
       <button class="header-action" onclick="openPage('tasks')">
         🎯 Daily Tasks
       </button>
-
     </div>
 
   </header>
 
-  <!-- ================= HOME ================= -->
-
+  <!-- HOME -->
   <section class="page active" id="homePage">
 
     <div class="welcome">
-
       <div>
         <h2>Welcome back 👋</h2>
-        <p>Discover videos, complete tasks and grow your demo rewards.</p>
+        <p>Keep completing activities and grow your rewards.</p>
       </div>
 
       <div class="home-avatar" id="homeAvatar">U</div>
-
     </div>
 
     <div class="stats">
@@ -1449,53 +1217,12 @@ input,select,textarea{
 
     </div>
 
-    <div class="section-title">🎥 Featured Videos</div>
-
-    <div class="story-scroller">
-
-      <div class="story" onclick="openPage('videos')">
-        <img src="https://images.unsplash.com/photo-1500534623283-312aade485b7?w=400" alt="Video">
-        <div class="story-overlay"></div>
-        <div class="story-play">▶</div>
-        <div class="story-title">Beautiful Moments</div>
-      </div>
-
-      <div class="story" onclick="openPage('videos')">
-        <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=400" alt="Video">
-        <div class="story-overlay"></div>
-        <div class="story-play">▶</div>
-        <div class="story-title">Happy Memories</div>
-      </div>
-
-      <div class="story" onclick="openPage('videos')">
-        <img src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=400" alt="Video">
-        <div class="story-overlay"></div>
-        <div class="story-play">▶</div>
-        <div class="story-title">Friendship</div>
-      </div>
-
-      <div class="story" onclick="openPage('videos')">
-        <img src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=400" alt="Video">
-        <div class="story-overlay"></div>
-        <div class="story-play">▶</div>
-        <div class="story-title">Love & Hope</div>
-      </div>
-
-      <div class="story" onclick="openPage('videos')">
-        <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=400" alt="Video">
-        <div class="story-overlay"></div>
-        <div class="story-play">▶</div>
-        <div class="story-title">New Beginning</div>
-      </div>
-
-    </div>
-
     <div class="section-title">Your 5-Day Progress</div>
 
     <div class="card progress-card">
 
       <div class="progress-top">
-        <div class="progress-title">🎯 Goal: $5.50</div>
+        <div class="progress-title">🎯 Goal: $5.00</div>
         <div class="progress-percent" id="progressPercent">0%</div>
       </div>
 
@@ -1517,13 +1244,13 @@ input,select,textarea{
       <div class="quick-card" onclick="openPage('tasks')">
         <div class="quick-icon">🎯</div>
         <div class="quick-title">Daily Tasks</div>
-        <div class="quick-text">Complete available tasks and earn demo rewards.</div>
+        <div class="quick-text">Complete available tasks and earn rewards.</div>
       </div>
 
       <div class="quick-card" onclick="openPage('videos')">
         <div class="quick-icon">🎬</div>
         <div class="quick-title">Watch Videos</div>
-        <div class="quick-text">Watch four videos and claim rewards.</div>
+        <div class="quick-text">Watch three videos, three minutes each.</div>
       </div>
 
       <div class="quick-card" onclick="openPage('withdraw')">
@@ -1544,20 +1271,18 @@ input,select,textarea{
 
     <div class="card">
       <div class="card-text">
-        💎 Complete eligible tasks and videos every day.
+        💎 Complete your eligible tasks and videos every day.
         Your demo balance and progress are saved on this device.
-        This version does not transfer real money.
+        Withdrawals require the stated eligibility conditions.
       </div>
     </div>
 
   </section>
 
-  <!-- ================= TASKS ================= -->
-
+  <!-- TASKS -->
   <section class="page" id="tasksPage">
 
     <div class="page-title">Daily Tasks</div>
-
     <div class="page-subtitle">
       Complete available tasks during the active session to earn demo rewards.
     </div>
@@ -1573,6 +1298,10 @@ input,select,textarea{
         Morning tasks are available from 5:00 AM to 4:59 PM.
       </div>
 
+      <div id="nextSessionText" style="margin-top:8px;font-size:12px;font-weight:bold;">
+        Next session: Evening Session at 5:00 PM
+      </div>
+
     </div>
 
     <div id="taskList"></div>
@@ -1583,27 +1312,24 @@ input,select,textarea{
         • Five tasks are available in each session.<br>
         • Each task can be completed once per session.<br>
         • A new session starts at 5:00 AM and 5:00 PM.<br>
-        • Rewards are demo rewards for testing.
+        • Rewards are added to your demo balance after claiming.
       </div>
     </div>
 
   </section>
 
-  <!-- ================= VIDEOS ================= -->
-
+  <!-- VIDEOS -->
   <section class="page" id="videosPage">
 
     <div class="page-title">Watch Videos</div>
-
     <div class="page-subtitle">
-      Watch each video to complete it and claim its demo reward.
-      You can use your own authorized MP4 links or select videos from your phone.
+      Open each video and watch for three minutes to complete it and claim its demo reward.
     </div>
 
     <div class="card">
       <div class="card-title">🎬 Video Rewards</div>
       <div class="card-text">
-        Four videos are available. Each video has a real player with sound.
+        Three videos are available. Each video takes three minutes.
         Watch them one at a time.
       </div>
     </div>
@@ -1612,12 +1338,10 @@ input,select,textarea{
 
   </section>
 
-  <!-- ================= WITHDRAW ================= -->
-
+  <!-- WITHDRAW -->
   <section class="page" id="withdrawPage">
 
     <div class="page-title">Withdraw</div>
-
     <div class="page-subtitle">
       Request a demo withdrawal after meeting the eligibility conditions.
     </div>
@@ -1636,7 +1360,7 @@ input,select,textarea{
 
       <div class="status-row">
         <span class="status-label">Required Amount</span>
-        <span class="status-value">$5.50</span>
+        <span class="status-value">$5.00</span>
       </div>
 
       <div class="status-row">
@@ -1654,47 +1378,26 @@ input,select,textarea{
     <div class="card">
 
       <div class="form-group">
-        <label class="form-label">Full Name</label>
-        <input class="form-input" id="withdrawFullName" type="text" placeholder="Enter account holder full name">
-      </div>
-
-      <div class="form-group">
-        <label class="form-label">Bank Name</label>
-
-        <select class="form-input" id="withdrawBank">
-          <option value="">Select bank</option>
-          <option>Opay</option>
-          <option>PalmPay</option>
-          <option>Money Point</option>
-          <option>Facebank</option>
-          <option>Moniepoint</option>
-          <option>GTBank</option>
-          <option>Access Bank</option>
-          <option>UBA</option>
-          <option>Zenith Bank</option>
-          <option>First Bank</option>
-          <option>Fidelity Bank</option>
-          <option>Union Bank</option>
-          <option>Stanbic IBTC</option>
-          <option>FCMB</option>
-          <option>Kuda</option>
-          <option>Other Bank</option>
-        </select>
-
-      </div>
-
-      <div class="form-group">
-        <label class="form-label">Account Number</label>
-        <input class="form-input" id="withdrawAccount" type="text" inputmode="numeric" placeholder="Enter account number">
-      </div>
-
-      <div class="form-group">
         <label class="form-label">Amount</label>
         <input class="form-input" id="withdrawAmount" type="number" step="0.01" placeholder="Enter amount">
       </div>
 
+      <div class="form-group">
+        <label class="form-label">Payment Method</label>
+        <select class="form-input" id="withdrawMethod">
+          <option value="">Select payment method</option>
+          <option value="Bank Transfer">Bank Transfer</option>
+          <option value="Mobile Money">Mobile Money</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Account Number</label>
+        <input class="form-input" id="withdrawAccount" type="text" placeholder="Enter account number">
+      </div>
+
       <button class="btn btn-success" onclick="requestWithdraw()">
-        💸 Request Withdrawal
+        Request Withdrawal
       </button>
 
     </div>
@@ -1708,15 +1411,11 @@ input,select,textarea{
 
   </section>
 
-  <!-- ================= ME ================= -->
-
+  <!-- ME -->
   <section class="page" id="mePage">
 
-    <div class="page-title">My Profile</div>
-
-    <div class="page-subtitle">
-      Manage your account, verification and preferences.
-    </div>
+    <div class="page-title">Me</div>
+    <div class="page-subtitle">Manage your account and preferences.</div>
 
     <div class="profile-top">
 
@@ -1726,7 +1425,7 @@ input,select,textarea{
 
       <div class="profile-email" id="profileEmail">user@example.com</div>
 
-      <div class="profile-badge" id="profileBadge">✓ Demo Account</div>
+      <div class="profile-badge">✓ Active Demo Account</div>
 
     </div>
 
@@ -1736,7 +1435,7 @@ input,select,textarea{
         <div class="menu-icon">👤</div>
         <div class="menu-content">
           <div class="menu-title">Profile Information</div>
-          <div class="menu-subtitle">Update your name and profile picture</div>
+          <div class="menu-subtitle">View and update your profile</div>
         </div>
         <span>›</span>
       </button>
@@ -1788,18 +1487,6 @@ input,select,textarea{
 
     </div>
 
-    <div class="card">
-      <div class="card-title">🧪 Demo Testing</div>
-      <div class="card-text">
-        Use this only to test the withdrawal screen.
-        It marks the account as having completed five active days.
-      </div>
-
-      <button class="btn btn-warning" onclick="loadDemoTestingAccount()">
-        Load Demo Testing Account
-      </button>
-    </div>
-
     <button class="btn btn-danger" onclick="logoutUser()">
       Log Out
     </button>
@@ -1810,15 +1497,11 @@ input,select,textarea{
 
   </section>
 
-  <!-- ================= NOTIFICATIONS ================= -->
-
+  <!-- NOTIFICATIONS -->
   <section class="page" id="notificationsPage">
 
     <div class="page-title">Notifications</div>
-
-    <div class="page-subtitle">
-      Stay updated with your account activities.
-    </div>
+    <div class="page-subtitle">Stay updated with your account activities.</div>
 
     <div class="card">
       <div id="notificationList"></div>
@@ -1826,15 +1509,11 @@ input,select,textarea{
 
   </section>
 
-  <!-- ================= SUPPORT ================= -->
-
+  <!-- SUPPORT -->
   <section class="page" id="supportPage">
 
     <div class="page-title">Customer Care</div>
-
-    <div class="page-subtitle">
-      We are here to help with your questions and complaints.
-    </div>
+    <div class="page-subtitle">We are here to help with your questions and complaints.</div>
 
     <div class="support-box">
       <h3>How can we help? 🎧</h3>
@@ -1864,7 +1543,6 @@ input,select,textarea{
 
       <div class="form-group">
         <label class="form-label">Complaint Category</label>
-
         <select class="form-input" id="supportCategory">
           <option value="">Select category</option>
           <option value="Task Problem">Task Problem</option>
@@ -1873,7 +1551,6 @@ input,select,textarea{
           <option value="Account Problem">Account Problem</option>
           <option value="Other">Other</option>
         </select>
-
       </div>
 
       <div class="form-group">
@@ -1898,8 +1575,7 @@ input,select,textarea{
 
 </div>
 
-<!-- ================= BOTTOM NAV ================= -->
-
+<!-- BOTTOM NAV -->
 <nav class="bottom-nav" id="bottomNav">
 
   <button class="nav-item active" id="navHome" onclick="openPage('home')">
@@ -1929,10 +1605,8 @@ input,select,textarea{
 
 </nav>
 
-<!-- ================= MODAL ================= -->
-
+<!-- MODAL -->
 <div class="modal" id="modal">
-
   <div class="modal-box">
 
     <div class="modal-header">
@@ -1943,13 +1617,11 @@ input,select,textarea{
     <div id="modalContent"></div>
 
   </div>
-
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script>
-
 /* =========================
    SETTINGS
 ========================= */
@@ -1957,12 +1629,12 @@ input,select,textarea{
 const TASK_REWARD = 0.20;
 const VIDEO_REWARD = 0.20;
 const VIDEO_DURATION = 180;
-const REQUIRED_AMOUNT = 5.50;
+
+const REQUIRED_AMOUNT = 5.00;
 const REQUIRED_DAYS = 5;
 
 let activeVideo = null;
 let videoIntervals = {};
-let cameraStream = null;
 
 /* =========================
    TASK DATA
@@ -2015,12 +1687,6 @@ const tasks = [
    VIDEO DATA
 ========================= */
 
-/*
-  IMPORTANT:
-  Wadannan sample links ne domin a gwada video player.
-  Daga baya za mu maye gurbinsu da ainihin authorized Hausa films.
-*/
-
 const videos = [
   {
     id:1,
@@ -2028,7 +1694,7 @@ const videos = [
     title:"A Touch of Kindness",
     description:"A short emotional story about kindness and helping others.",
     reward:0.20,
-    url:"https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
+    videoUrl:"https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
   },
   {
     id:2,
@@ -2036,7 +1702,7 @@ const videos = [
     title:"Moments of Happiness",
     description:"An inspiring video about joy, hope and positive moments.",
     reward:0.20,
-    url:"https://www.w3schools.com/html/mov_bbb.mp4"
+    videoUrl:"https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
   },
   {
     id:3,
@@ -2044,15 +1710,7 @@ const videos = [
     title:"Love and Friendship",
     description:"A warm story about love, friendship and caring for others.",
     reward:0.20,
-    url:"https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
-  },
-  {
-    id:4,
-    icon:"🌟",
-    title:"A New Beginning",
-    description:"A beautiful story about hope and a better tomorrow.",
-    reward:0.20,
-    url:"https://www.w3schools.com/html/mov_bbb.mp4"
+    videoUrl:"https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
   }
 ];
 
@@ -2061,32 +1719,32 @@ const videos = [
 ========================= */
 
 function defaultUser(){
-
   return {
     name:"",
     username:"",
     email:"",
-    phone:"",
-    inviteCode:"",
-    invitedBy:"",
-    balance:0,
-    totalEarned:0,
+
+    // DEMO TESTING ONLY
+    balance:5.00,
+    totalEarned:5.00,
     tasksCompleted:0,
     videosCompleted:0,
-    activeDays:0,
+    activeDays:5,
+
     completedTasks:[],
     completedVideos:[],
     withdrawals:[],
     notifications:[],
     complaints:[],
-    verified:false,
-    facePhoto:"",
-    profilePhoto:"",
-    lastActiveDate:"",
-    loginDate:"",
-    createdAt:new Date().toISOString()
-  };
 
+    verified:false,
+    lastActiveDate:todayDate(),
+    loginDate:todayDate(),
+    createdAt:new Date().toISOString(),
+
+    // Prevents demo balance from being reset every time
+    demoTestingPrepared:true
+  };
 }
 
 /* =========================
@@ -2105,30 +1763,52 @@ function getUser(){
 
     const user=JSON.parse(saved);
 
-    return {
+    const merged={
       ...defaultUser(),
       ...user,
+
       completedTasks:Array.isArray(user.completedTasks)
         ? user.completedTasks
         : [],
+
       completedVideos:Array.isArray(user.completedVideos)
         ? user.completedVideos.map(Number)
         : [],
+
       withdrawals:Array.isArray(user.withdrawals)
         ? user.withdrawals
         : [],
+
       notifications:Array.isArray(user.notifications)
         ? user.notifications
         : [],
+
       complaints:Array.isArray(user.complaints)
         ? user.complaints
         : []
     };
 
+    /*
+      ONE-TIME DEMO PREPARATION:
+      If the old account has not been prepared,
+      give it $5.00 and 5 active days for testing.
+    */
+
+    if(!merged.demoTestingPrepared){
+
+      merged.balance=5.00;
+      merged.totalEarned=5.00;
+      merged.activeDays=5;
+      merged.demoTestingPrepared=true;
+
+      saveUser(merged);
+    }
+
+    return merged;
+
   }catch(error){
     return defaultUser();
   }
-
 }
 
 function saveUser(user){
@@ -2140,19 +1820,15 @@ function saveUser(user){
 ========================= */
 
 function money(amount){
-
   return "$"+Number(amount||0).toLocaleString("en-US",{
     minimumFractionDigits:2,
     maximumFractionDigits:2
   });
-
 }
 
 function todayDate(){
-
   const now=new Date();
   return now.toISOString().split("T")[0];
-
 }
 
 function currentHour(){
@@ -2167,10 +1843,6 @@ function sessionKey(){
   return todayDate()+"_"+currentSession();
 }
 
-function capitalize(text){
-  return text.charAt(0).toUpperCase()+text.slice(1);
-}
-
 function showToast(message){
 
   const toast=document.getElementById("toast");
@@ -2181,35 +1853,10 @@ function showToast(message){
   setTimeout(()=>{
     toast.classList.remove("show");
   },3000);
-
 }
 
-function escapeHTML(text){
-
-  return String(text||"")
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
-
-}
-
-function generateInviteCode(name){
-
-  const base=(name||"USER")
-    .toUpperCase()
-    .replace(/[^A-Z0-9]/g,"")
-    .slice(0,6);
-
-  return base+"_"+Math.floor(1000+Math.random()*9000);
-
-}
-
-function getInviteLink(){
-
-  return location.origin+location.pathname+"?invite="+encodeURIComponent(getUser().inviteCode||"");
-
+function capitalize(text){
+  return text.charAt(0).toUpperCase()+text.slice(1);
 }
 
 /* =========================
@@ -2224,8 +1871,6 @@ function loginUser(){
 
   const name=document.getElementById("loginName").value.trim();
   const email=document.getElementById("loginEmail").value.trim();
-  const password=document.getElementById("loginPassword").value.trim();
-  const invite=document.getElementById("loginInvite").value.trim();
 
   if(!name){
     showToast("Enter your full name.");
@@ -2237,21 +1882,11 @@ function loginUser(){
     return;
   }
 
-  if(!password){
-    showToast("Enter your password.");
-    return;
-  }
-
-  let user=getUser();
-
-  if(!user.inviteCode){
-    user.inviteCode=generateInviteCode(name);
-  }
+  const user=getUser();
 
   user.name=name;
   user.email=email;
   user.username=name.toLowerCase().replace(/\s+/g,"_");
-  user.invitedBy=invite;
   user.loginDate=todayDate();
 
   saveUser(user);
@@ -2261,13 +1896,6 @@ function loginUser(){
   showApp();
 
   showToast("Welcome to True Networking!");
-
-}
-
-function googleLogin(){
-
-  showToast("Google login UI ready. Real Google authentication will be connected later.");
-
 }
 
 function logoutUser(){
@@ -2279,7 +1907,6 @@ function logoutUser(){
   document.getElementById("loginScreen").classList.add("active");
 
   showToast("You have been logged out.");
-
 }
 
 function showApp(){
@@ -2289,7 +1916,6 @@ function showApp(){
   document.getElementById("bottomNav").style.display="grid";
 
   refreshAll();
-
 }
 
 /* =========================
@@ -2337,7 +1963,6 @@ function openPage(page){
   }
 
   refreshAll();
-
 }
 
 /* =========================
@@ -2349,12 +1974,63 @@ function updateActiveDays(){
   const user=getUser();
   const today=todayDate();
 
-  if(user.lastActiveDate!==today){
+  /*
+    Keep the five demo days for testing.
+    In production this will be replaced with
+    a real server-side active-day system.
+  */
+
+  if(user.activeDays<REQUIRED_DAYS && user.lastActiveDate!==today){
 
     user.activeDays=Number(user.activeDays||0)+1;
     user.lastActiveDate=today;
 
     saveUser(user);
+  }
+}
+
+/* =========================
+   SESSION DISPLAY
+========================= */
+
+function updateSessionDisplay(){
+
+  const session=currentSession();
+
+  const sessionTitle=document.getElementById("sessionTitle");
+  const sessionBadge=document.getElementById("sessionBadge");
+  const sessionText=document.getElementById("sessionText");
+  const nextSessionText=document.getElementById("nextSessionText");
+
+  if(!sessionTitle || !sessionBadge || !sessionText){
+    return;
+  }
+
+  if(session==="morning"){
+
+    sessionTitle.textContent="Morning Session";
+    sessionBadge.textContent="5:00 AM";
+
+    sessionText.textContent=
+      "Morning tasks are available from 5:00 AM to 4:59 PM.";
+
+    if(nextSessionText){
+      nextSessionText.textContent=
+        "Next session: Evening Session at 5:00 PM";
+    }
+
+  }else{
+
+    sessionTitle.textContent="Evening Session";
+    sessionBadge.textContent="5:00 PM";
+
+    sessionText.textContent=
+      "Evening tasks are available from 5:00 PM to 4:59 AM.";
+
+    if(nextSessionText){
+      nextSessionText.textContent=
+        "Next session: Morning Session at 5:00 AM";
+    }
 
   }
 
@@ -2373,10 +2049,10 @@ function refreshAll(){
     document.getElementById("loginScreen").classList.add("active");
 
     return;
-
   }
 
   updateActiveDays();
+  updateSessionDisplay();
 
   refreshHome();
   renderTasks();
@@ -2385,7 +2061,6 @@ function refreshAll(){
   renderMe();
   renderNotifications();
   renderSupport();
-
 }
 
 /* =========================
@@ -2407,13 +2082,7 @@ function refreshHome(){
     ? user.name.charAt(0).toUpperCase()
     : "U";
 
-  const homeAvatar=document.getElementById("homeAvatar");
-
-  if(user.profilePhoto){
-    homeAvatar.innerHTML="<img src='"+user.profilePhoto+"' alt='Profile'>";
-  }else{
-    homeAvatar.textContent=firstLetter;
-  }
+  document.getElementById("homeAvatar").textContent=firstLetter;
 
   const progress=Math.min(
     (Number(user.totalEarned||0)/REQUIRED_AMOUNT)*100,
@@ -2423,8 +2092,8 @@ function refreshHome(){
   document.getElementById("progressFill").style.width=progress+"%";
   document.getElementById("progressPercent").textContent=Math.round(progress)+"%";
   document.getElementById("progressEarned").textContent=money(user.totalEarned)+" earned";
-  document.getElementById("progressDays").textContent="Day "+Math.min(user.activeDays||0,5)+" of 5";
-
+  document.getElementById("progressDays").textContent=
+    "Day "+Math.min(user.activeDays||0,5)+" of 5";
 }
 
 /* =========================
@@ -2439,41 +2108,24 @@ function renderTasks(){
   const session=currentSession();
   const key=sessionKey();
 
-  if(session==="morning"){
-
-    document.getElementById("sessionTitle").textContent="Morning Session";
-    document.getElementById("sessionBadge").textContent="5:00 AM";
-    document.getElementById("sessionText").textContent=
-      "Morning tasks are available from 5:00 AM to 4:59 PM.";
-
-  }else{
-
-    document.getElementById("sessionTitle").textContent="Evening Session";
-    document.getElementById("sessionBadge").textContent="5:00 PM";
-    document.getElementById("sessionText").textContent=
-      "Evening tasks are available from 5:00 PM to 4:59 AM.";
-
-  }
+  updateSessionDisplay();
 
   list.innerHTML=tasks.map(task=>{
 
     const completed=user.completedTasks.includes(key+"_"+task.id);
 
     return `
-
       <div class="task-card">
 
         <div class="task-header">
 
           <div class="task-left">
-
             <div class="task-icon">${task.icon}</div>
 
             <div>
               <div class="task-title">${task.title}</div>
               <div class="task-description">${task.description}</div>
             </div>
-
           </div>
 
           <div class="task-reward">+$${task.reward.toFixed(2)}</div>
@@ -2486,7 +2138,10 @@ function renderTasks(){
         </div>
 
         <div class="task-status ${completed?"task-completed":""}">
-          ${completed?"✅ Completed for this session.":"Task available to complete."}
+          ${completed
+            ?"✅ Completed for this session."
+            :"Task available to complete."
+          }
         </div>
 
         <button
@@ -2497,11 +2152,9 @@ function renderTasks(){
         </button>
 
       </div>
-
     `;
 
   }).join("");
-
 }
 
 function completeTask(taskId){
@@ -2535,7 +2188,6 @@ function completeTask(taskId){
   refreshAll();
 
   showToast("Task completed! "+money(task.reward)+" added.");
-
 }
 
 /* =========================
@@ -2552,43 +2204,56 @@ function renderVideos(){
     const completed=user.completedVideos.includes(video.id);
 
     return `
-
       <div class="video-card">
 
         <div class="video-top">
-
           <div class="video-icon">${video.icon}</div>
 
           <div>
             <div class="video-name">${video.title}</div>
             <div class="video-description">${video.description}</div>
           </div>
-
         </div>
 
         <div class="video-reward">
           Reward: +$${video.reward.toFixed(2)}
         </div>
 
-        <video
-          class="video-player"
-          id="videoPlayer${video.id}"
-          controls
-          playsinline
-          preload="metadata"
-          src="${video.url}">
-        </video>
-
-        <div class="video-timer ${completed?"video-completed":""}" id="videoTimer${video.id}">
+        <div class="video-timer ${completed?"video-completed":""}"
+             id="videoTimer${video.id}">
           ${completed?"Completed":"3:00"}
         </div>
 
         <div class="progress-background">
-          <div
-            class="progress-bar"
-            id="videoProgress${video.id}"
-            style="width:${completed?"100":"0"}%">
+          <div class="progress-bar"
+               id="videoProgress${video.id}"
+               style="width:${completed?"100":"0"}%">
           </div>
+        </div>
+
+        <!-- REAL VIDEO PLAYER -->
+        <div class="video-player-wrap" id="videoPlayerWrap${video.id}">
+
+          <video
+            class="video-player"
+            id="videoPlayer${video.id}"
+            controls
+            playsinline
+            preload="metadata"
+            loop
+          >
+            <source src="${video.videoUrl}" type="video/mp4">
+            Your browser does not support video playback.
+          </video>
+
+        </div>
+
+        <div class="video-watch-status ${completed?"ready":""}"
+             id="videoStatus${video.id}">
+          ${completed
+            ?"✅ This video has already been completed."
+            :"▶ Open the video and watch for 3 minutes to unlock the reward."
+          }
         </div>
 
         <button
@@ -2596,104 +2261,17 @@ function renderVideos(){
           id="videoBtn${video.id}"
           onclick="startVideo(${video.id})"
           ${completed?"disabled":""}>
-          ${completed?"✅ Claimed":"▶ Start 3-Minute Video"}
+          ${completed?"✅ Claimed":"▶ Open & Watch Video"}
         </button>
-
-        <button
-          class="btn btn-light"
-          onclick="toggleVideoLink(${video.id})">
-          🔗 Add / Change Video Link
-        </button>
-
-        <div class="video-link-box" id="videoLinkBox${video.id}">
-
-          <input
-            id="videoLink${video.id}"
-            type="url"
-            placeholder="Paste your authorized MP4 video link">
-
-          <button
-            class="btn btn-primary"
-            onclick="saveVideoLink(${video.id})">
-            Save Video Link
-          </button>
-
-          <label class="btn btn-outline" style="display:block;text-align:center;margin-top:10px;">
-            📁 Choose Video From Phone
-            <input
-              type="file"
-              accept="video/*"
-              style="display:none"
-              onchange="loadLocalVideo(event,${video.id})">
-          </label>
-
-        </div>
 
         <div class="video-note">
           🎬 Watch the full three minutes before claiming the reward.
-          The video must have an authorized source.
         </div>
 
       </div>
-
     `;
 
   }).join("");
-
-}
-
-function toggleVideoLink(videoId){
-
-  const box=document.getElementById("videoLinkBox"+videoId);
-
-  if(box){
-    box.classList.toggle("show");
-  }
-
-}
-
-function saveVideoLink(videoId){
-
-  const input=document.getElementById("videoLink"+videoId);
-  const url=input.value.trim();
-
-  if(!url){
-    showToast("Paste a valid video link.");
-    return;
-  }
-
-  const player=document.getElementById("videoPlayer"+videoId);
-
-  if(player){
-    player.src=url;
-    player.load();
-  }
-
-  showToast("Video link updated for this session.");
-
-}
-
-function loadLocalVideo(event,videoId){
-
-  const file=event.target.files[0];
-
-  if(!file){
-    return;
-  }
-
-  const player=document.getElementById("videoPlayer"+videoId);
-
-  if(player){
-
-    const localUrl=URL.createObjectURL(file);
-
-    player.src=localUrl;
-    player.load();
-
-    showToast("Your video is ready to play.");
-
-  }
-
 }
 
 function startVideo(videoId){
@@ -2710,13 +2288,22 @@ function startVideo(videoId){
     return;
   }
 
+  const video=videos.find(item=>item.id===videoId);
+
+  if(!video){
+    showToast("Video not found.");
+    return;
+  }
+
   const player=document.getElementById("videoPlayer"+videoId);
+  const playerWrap=document.getElementById("videoPlayerWrap"+videoId);
   const timer=document.getElementById("videoTimer"+videoId);
   const progress=document.getElementById("videoProgress"+videoId);
   const button=document.getElementById("videoBtn"+videoId);
+  const status=document.getElementById("videoStatus"+videoId);
 
   if(!player){
-    showToast("Video player not found.");
+    showToast("Video player is not available.");
     return;
   }
 
@@ -2724,26 +2311,53 @@ function startVideo(videoId){
 
   let remaining=VIDEO_DURATION;
 
-  player.currentTime=0;
-
-  player.play().catch(()=>{
-    showToast("Press the play button on the video to start.");
-  });
+  playerWrap.classList.add("active");
 
   button.disabled=true;
   button.textContent="Playing...";
   button.className="btn btn-warning";
 
+  status.className="video-watch-status warning";
+  status.textContent=
+    "🎬 Video is playing. Keep watching until the timer reaches 0:00.";
+
+  /*
+    Start video playback.
+    If browser blocks autoplay, user can tap
+    the play button inside the video.
+  */
+
+  const playPromise=player.play();
+
+  if(playPromise!==undefined){
+
+    playPromise.catch(()=>{
+      showToast("Tap the play button inside the video to start.");
+    });
+
+  }
+
   videoIntervals[videoId]=setInterval(()=>{
+
+    /*
+      Only count while the video is actually playing.
+      If paused, the timer stays where it is.
+    */
+
+    if(player.paused || player.ended){
+      return;
+    }
 
     remaining--;
 
     const minutes=Math.floor(remaining/60);
     const seconds=remaining%60;
 
-    timer.textContent=minutes+":"+String(seconds).padStart(2,"0");
+    timer.textContent=
+      minutes+":"+String(seconds).padStart(2,"0");
 
-    const percentage=((VIDEO_DURATION-remaining)/VIDEO_DURATION)*100;
+    const percentage=
+      ((VIDEO_DURATION-remaining)/VIDEO_DURATION)*100;
 
     progress.style.width=percentage+"%";
 
@@ -2752,28 +2366,33 @@ function startVideo(videoId){
       clearInterval(videoIntervals[videoId]);
       delete videoIntervals[videoId];
 
-      player.pause();
-
       const latestUser=getUser();
 
       if(!latestUser.completedVideos.includes(videoId)){
 
-        const video=videos.find(item=>item.id===videoId);
-
         latestUser.completedVideos.push(videoId);
-        latestUser.videosCompleted=Number(latestUser.videosCompleted||0)+1;
-        latestUser.balance=Number(latestUser.balance||0)+video.reward;
-        latestUser.totalEarned=Number(latestUser.totalEarned||0)+video.reward;
+
+        latestUser.videosCompleted=
+          Number(latestUser.videosCompleted||0)+1;
+
+        latestUser.balance=
+          Number(latestUser.balance||0)+video.reward;
+
+        latestUser.totalEarned=
+          Number(latestUser.totalEarned||0)+video.reward;
 
         addNotification(
           "Video Completed",
-          video.title+" completed. "+money(video.reward)+" added to your demo balance.",
+          video.title+" completed. "+
+          money(video.reward)+
+          " added to your demo balance.",
           "🎬"
         );
 
         saveUser(latestUser);
-
       }
+
+      player.pause();
 
       activeVideo=null;
 
@@ -2784,7 +2403,6 @@ function startVideo(videoId){
     }
 
   },1000);
-
 }
 
 /* =========================
@@ -2821,48 +2439,30 @@ function renderWithdraw(){
   history.innerHTML=user.withdrawals.slice().reverse().map(item=>`
 
     <div class="history-item">
-
       <strong>${money(item.amount)}</strong><br>
-      Full Name: ${escapeHTML(item.fullName)}<br>
-      Bank: ${escapeHTML(item.bank)}<br>
-      Account: ${escapeHTML(item.account)}<br>
-      Status: <span class="pending">${escapeHTML(item.status)}</span><br>
-      Date: ${escapeHTML(item.date)}
-
+      Method: ${item.method}<br>
+      Account: ${item.account}<br>
+      Status: <span class="pending">${item.status}</span><br>
+      Date: ${item.date}
     </div>
 
   `).join("");
-
 }
 
 function requestWithdraw(){
 
   const user=getUser();
 
-  const fullName=document.getElementById("withdrawFullName").value.trim();
-  const bank=document.getElementById("withdrawBank").value;
-  const account=document.getElementById("withdrawAccount").value.trim();
   const amount=Number(document.getElementById("withdrawAmount").value);
+  const method=document.getElementById("withdrawMethod").value;
+  const account=document.getElementById("withdrawAccount").value.trim();
 
-  if(Number(user.balance||0)<REQUIRED_AMOUNT ||
-     Number(user.activeDays||0)<REQUIRED_DAYS){
+  if(
+    Number(user.balance||0)<REQUIRED_AMOUNT ||
+    Number(user.activeDays||0)<REQUIRED_DAYS
+  ){
 
-    showToast("You must reach $5.50 and complete 5 active days.");
-    return;
-  }
-
-  if(!fullName){
-    showToast("Enter full name.");
-    return;
-  }
-
-  if(!bank){
-    showToast("Select a bank.");
-    return;
-  }
-
-  if(!account){
-    showToast("Enter account number.");
+    showToast("You must reach $5.00 and complete 5 active days.");
     return;
   }
 
@@ -2876,15 +2476,22 @@ function requestWithdraw(){
     return;
   }
 
-  const withdrawal={
+  if(!method){
+    showToast("Select a payment method.");
+    return;
+  }
 
+  if(!account){
+    showToast("Enter your account number.");
+    return;
+  }
+
+  const withdrawal={
     amount,
-    fullName,
-    bank,
+    method,
     account,
     date:new Date().toLocaleString(),
     status:"Pending Demo"
-
   };
 
   user.balance=Number(user.balance||0)-amount;
@@ -2898,50 +2505,37 @@ function requestWithdraw(){
 
   saveUser(user);
 
-  document.getElementById("withdrawFullName").value="";
-  document.getElementById("withdrawBank").value="";
-  document.getElementById("withdrawAccount").value="";
   document.getElementById("withdrawAmount").value="";
+  document.getElementById("withdrawMethod").value="";
+  document.getElementById("withdrawAccount").value="";
 
   refreshAll();
 
   showToast("Demo withdrawal request submitted.");
-
 }
 
 /* =========================
-   PROFILE
+   ME
 ========================= */
 
 function renderMe(){
 
   const user=getUser();
 
-  document.getElementById("profileName").textContent=user.name||"Demo User";
-  document.getElementById("profileEmail").textContent=user.email||"user@example.com";
+  document.getElementById("profileName").textContent=
+    user.name||"Demo User";
+
+  document.getElementById("profileEmail").textContent=
+    user.email||"user@example.com";
 
   const firstLetter=user.name
     ? user.name.charAt(0).toUpperCase()
     : "U";
 
-  const avatar=document.getElementById("profileAvatar");
-
-  if(user.profilePhoto){
-
-    avatar.innerHTML="<img src='"+user.profilePhoto+"' alt='Profile'>";
-
-  }else{
-
-    avatar.textContent=firstLetter;
-
-  }
+  document.getElementById("profileAvatar").textContent=firstLetter;
 
   document.getElementById("verificationStatus").textContent=
     user.verified?"✓ Verified":"Not verified";
-
-  document.getElementById("profileBadge").textContent=
-    user.verified?"✓ Verified Account":"✓ Demo Account";
-
 }
 
 function openProfileModal(){
@@ -2952,17 +2546,12 @@ function openProfileModal(){
 
     <div class="form-group">
       <label class="form-label">Full Name</label>
-      <input class="form-input" id="editName" value="${escapeHTML(user.name||"")}">
+      <input class="form-input" id="editName" value="${user.name||""}">
     </div>
 
     <div class="form-group">
       <label class="form-label">Email Address</label>
-      <input class="form-input" id="editEmail" value="${escapeHTML(user.email||"")}">
-    </div>
-
-    <div class="form-group">
-      <label class="form-label">Profile Picture</label>
-      <input class="form-input" id="profileFile" type="file" accept="image/*">
+      <input class="form-input" id="editEmail" value="${user.email||""}">
     </div>
 
     <button class="btn btn-primary" onclick="saveProfile()">
@@ -2970,7 +2559,6 @@ function openProfileModal(){
     </button>
 
   `);
-
 }
 
 function saveProfile(){
@@ -2979,7 +2567,6 @@ function saveProfile(){
 
   const name=document.getElementById("editName").value.trim();
   const email=document.getElementById("editEmail").value.trim();
-  const file=document.getElementById("profileFile").files[0];
 
   if(!name || !email){
     showToast("Fill all fields.");
@@ -2989,39 +2576,12 @@ function saveProfile(){
   user.name=name;
   user.email=email;
 
-  if(file){
+  saveUser(user);
+  closeModal();
+  refreshAll();
 
-    const reader=new FileReader();
-
-    reader.onload=function(){
-
-      user.profilePhoto=reader.result;
-
-      saveUser(user);
-      closeModal();
-      refreshAll();
-
-      showToast("Profile updated successfully.");
-
-    };
-
-    reader.readAsDataURL(file);
-
-  }else{
-
-    saveUser(user);
-    closeModal();
-    refreshAll();
-
-    showToast("Profile updated successfully.");
-
-  }
-
+  showToast("Profile updated successfully.");
 }
-
-/* =========================
-   FACE VERIFICATION
-========================= */
 
 function openVerificationModal(){
 
@@ -3032,117 +2592,32 @@ function openVerificationModal(){
     openModal("Face Verification",`
 
       <div class="card-text">
-        ✅ Your demo face verification is completed.
+        ✅ Your demo face verification is marked as completed.
       </div>
-
-      ${user.facePhoto?`<img src="${user.facePhoto}" style="width:100%;border-radius:15px;margin-top:15px;">`:""}
 
     `);
 
     return;
-
   }
 
   openModal("Face Verification",`
 
-    <div class="card-text" style="margin-bottom:15px;">
-      🛡️ Allow camera access to capture a face photo.
-      This demo saves the photo only on this device.
+    <div class="card-text">
+      🛡️ Face verification will be connected to a secure verification service
+      in the production version of the app.
     </div>
 
-    <div class="camera-box">
-      <video id="cameraVideo" autoplay playsinline></video>
-    </div>
-
-    <img id="capturedPhoto" alt="Captured face">
-
-    <button class="btn btn-primary" onclick="startCamera()">
-      📷 Open Camera
-    </button>
-
-    <button class="btn btn-success" onclick="captureFace()">
-      📸 Capture Face
-    </button>
-
-    <button class="btn btn-light" onclick="completeFaceVerification()">
-      Save Verification
+    <button class="btn btn-primary" onclick="completeDemoVerification()">
+      Complete Demo Verification
     </button>
 
   `);
-
 }
 
-async function startCamera(){
-
-  try{
-
-    cameraStream=await navigator.mediaDevices.getUserMedia({
-      video:true,
-      audio:false
-    });
-
-    const video=document.getElementById("cameraVideo");
-
-    if(video){
-      video.srcObject=cameraStream;
-    }
-
-    showToast("Camera opened. Position your face and capture.");
-
-  }catch(error){
-
-    showToast("Camera access was denied or unavailable.");
-
-  }
-
-}
-
-function captureFace(){
-
-  const video=document.getElementById("cameraVideo");
-
-  if(!video || !video.videoWidth){
-
-    showToast("Open the camera first.");
-    return;
-
-  }
-
-  const canvas=document.createElement("canvas");
-
-  canvas.width=video.videoWidth;
-  canvas.height=video.videoHeight;
-
-  const context=canvas.getContext("2d");
-
-  context.drawImage(video,0,0,canvas.width,canvas.height);
-
-  const photo=canvas.toDataURL("image/jpeg",0.8);
-
-  const image=document.getElementById("capturedPhoto");
-
-  image.src=photo;
-  image.style.display="block";
-
-  image.dataset.photo=photo;
-
-  showToast("Face photo captured.");
-
-}
-
-function completeFaceVerification(){
+function completeDemoVerification(){
 
   const user=getUser();
-  const image=document.getElementById("capturedPhoto");
 
-  if(!image || !image.dataset.photo){
-
-    showToast("Capture your face photo first.");
-    return;
-
-  }
-
-  user.facePhoto=image.dataset.photo;
   user.verified=true;
 
   addNotification(
@@ -3152,135 +2627,48 @@ function completeFaceVerification(){
   );
 
   saveUser(user);
-
-  stopCamera();
   closeModal();
   refreshAll();
 
   showToast("Demo verification completed.");
-
 }
-
-function stopCamera(){
-
-  if(cameraStream){
-
-    cameraStream.getTracks().forEach(track=>track.stop());
-    cameraStream=null;
-
-  }
-
-}
-
-/* =========================
-   INVITE
-========================= */
 
 function openInviteModal(){
 
   const user=getUser();
 
-  if(!user.inviteCode){
-
-    user.inviteCode=generateInviteCode(user.name);
-    saveUser(user);
-
-  }
-
-  const link=getInviteLink();
-
   openModal("Invite Friends",`
 
     <div class="card-text">
-      Invite friends using your ID code or invite link.
-      The $0.50 referral bonus is a demo rule for testing.
+      Share your invite code with friends.
+      Referral rewards will be connected in the production version.
     </div>
 
     <div class="form-group" style="margin-top:15px;">
-      <label class="form-label">Your Invite ID Code</label>
-      <div class="invite-code-box">${escapeHTML(user.inviteCode)}</div>
+      <label class="form-label">Your Invite Code</label>
+      <input class="form-input"
+             value="${(user.username||"USER").toUpperCase()}123"
+             readonly>
     </div>
 
     <button class="btn btn-primary" onclick="copyInviteCode()">
-      📋 Copy Invite Code
-    </button>
-
-    <div class="form-group" style="margin-top:15px;">
-      <label class="form-label">Your Invite Link</label>
-      <div class="invite-link-box">${escapeHTML(link)}</div>
-    </div>
-
-    <button class="btn btn-light" onclick="copyInviteLink()">
-      🔗 Copy Invite Link
-    </button>
-
-    <button class="btn btn-success" onclick="shareInvite()">
-      📤 Share Invite
+      Copy Invite Code
     </button>
 
   `);
-
 }
 
 function copyInviteCode(){
 
   const user=getUser();
-
-  const code=user.inviteCode||"";
+  const code=(user.username||"USER").toUpperCase()+"123";
 
   if(navigator.clipboard){
     navigator.clipboard.writeText(code);
   }
 
   showToast("Invite code copied.");
-
 }
-
-function copyInviteLink(){
-
-  const link=getInviteLink();
-
-  if(navigator.clipboard){
-    navigator.clipboard.writeText(link);
-  }
-
-  showToast("Invite link copied.");
-
-}
-
-function shareInvite(){
-
-  const user=getUser();
-
-  const link=getInviteLink();
-
-  const text=
-    "Join True Networking using my invite code "+user.inviteCode+
-    ". Invite link: "+link;
-
-  if(navigator.share){
-
-    navigator.share({
-      title:"True Networking",
-      text:text,
-      url:link
-    }).catch(()=>{});
-
-  }else{
-
-    if(navigator.clipboard){
-      navigator.clipboard.writeText(text);
-    }
-
-    showToast("Invite message copied. You can share it on WhatsApp or Facebook.");
-
-  }
-
-}
-
-/* =========================
-   SETTINGS
-========================= */
 
 function openSettingsModal(){
 
@@ -3296,11 +2684,11 @@ function openSettingsModal(){
         </div>
       </button>
 
-      <button class="menu-item" onclick="requestNotifications()">
+      <button class="menu-item" onclick="showToast('Notification settings coming soon.')">
         <div class="menu-icon">🔔</div>
         <div class="menu-content">
           <div class="menu-title">Notifications</div>
-          <div class="menu-subtitle">Enable browser notifications</div>
+          <div class="menu-subtitle">Enabled</div>
         </div>
       </button>
 
@@ -3315,36 +2703,6 @@ function openSettingsModal(){
     </div>
 
   `);
-
-}
-
-function requestNotifications(){
-
-  if(!("Notification" in window)){
-
-    showToast("Browser notifications are not supported.");
-    return;
-
-  }
-
-  Notification.requestPermission().then(permission=>{
-
-    if(permission==="granted"){
-
-      new Notification("True Networking",{
-        body:"Notifications are enabled for this browser."
-      });
-
-      showToast("Notifications enabled.");
-
-    }else{
-
-      showToast("Notification permission was not granted.");
-
-    }
-
-  });
-
 }
 
 /* =========================
@@ -3365,7 +2723,6 @@ function addNotification(title,text,icon){
   user.notifications=user.notifications.slice(0,30);
 
   saveUser(user);
-
 }
 
 function renderNotifications(){
@@ -3382,7 +2739,6 @@ function renderNotifications(){
     `;
 
     return;
-
   }
 
   list.innerHTML=user.notifications.map(item=>`
@@ -3392,15 +2748,14 @@ function renderNotifications(){
       <div class="notification-icon">${item.icon||"🔔"}</div>
 
       <div>
-        <div class="notification-title">${escapeHTML(item.title)}</div>
-        <div class="notification-text">${escapeHTML(item.text)}</div>
-        <div class="notification-time">${escapeHTML(item.date)}</div>
+        <div class="notification-title">${item.title}</div>
+        <div class="notification-text">${item.text}</div>
+        <div class="notification-time">${item.date}</div>
       </div>
 
     </div>
 
   `).join("");
-
 }
 
 /* =========================
@@ -3425,12 +2780,10 @@ function submitSupport(){
   }
 
   user.complaints.push({
-
     category,
     message,
     date:new Date().toLocaleString(),
     status:"Pending Demo"
-
   });
 
   addNotification(
@@ -3447,7 +2800,6 @@ function submitSupport(){
   refreshAll();
 
   showToast("Complaint submitted successfully.");
-
 }
 
 function renderSupport(){
@@ -3461,7 +2813,6 @@ function renderSupport(){
     history.className="empty";
 
     return;
-
   }
 
   history.className="";
@@ -3469,55 +2820,13 @@ function renderSupport(){
   history.innerHTML=user.complaints.slice().reverse().map(item=>`
 
     <div class="history-item">
-
-      <strong>${escapeHTML(item.category)}</strong><br>
-      ${escapeHTML(item.message)}<br>
-      Status: <span class="pending">${escapeHTML(item.status)}</span><br>
-      Date: ${escapeHTML(item.date)}
-
+      <strong>${item.category}</strong><br>
+      ${item.message}<br>
+      Status: <span class="pending">${item.status}</span><br>
+      Date: ${item.date}
     </div>
 
   `).join("");
-
-}
-
-/* =========================
-   DEMO TESTING ACCOUNT
-========================= */
-
-function loadDemoTestingAccount(){
-
-  const user=getUser();
-
-  user.balance=5.50;
-  user.totalEarned=5.50;
-  user.tasksCompleted=5;
-  user.videosCompleted=4;
-  user.activeDays=5;
-  user.verified=true;
-
-  user.completedTasks=[
-    "demo_task_1",
-    "demo_task_2",
-    "demo_task_3",
-    "demo_task_4",
-    "demo_task_5"
-  ];
-
-  user.completedVideos=[1,2,3,4];
-
-  addNotification(
-    "Demo Testing Mode",
-    "Your account has been prepared for withdrawal testing.",
-    "🧪"
-  );
-
-  saveUser(user);
-
-  refreshAll();
-
-  showToast("Demo account loaded. You can now test Withdraw.");
-
 }
 
 /* =========================
@@ -3529,15 +2838,11 @@ function openModal(title,content){
   document.getElementById("modalTitle").textContent=title;
   document.getElementById("modalContent").innerHTML=content;
   document.getElementById("modal").classList.add("active");
-
 }
 
 function closeModal(){
 
-  stopCamera();
-
   document.getElementById("modal").classList.remove("active");
-
 }
 
 /* =========================
@@ -3561,14 +2866,26 @@ function resetAccount(){
   videoIntervals={};
   activeVideo=null;
 
-  stopCamera();
-
   localStorage.removeItem("trueNetworkingUser");
   localStorage.removeItem("trueNetworkingLoggedIn");
 
   location.reload();
-
 }
+
+/* =========================
+   AUTOMATIC SESSION REFRESH
+========================= */
+
+setInterval(()=>{
+
+  if(isLoggedIn()){
+
+    updateSessionDisplay();
+    renderTasks();
+
+  }
+
+},60000);
 
 /* =========================
    START APP
