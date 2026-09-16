@@ -3168,7 +3168,7 @@ function renderWithdraw(){
 }
 
 function requestWithdraw(){
-
+  
   const user=getUser();
   const balance=Number(user.balance||0);
 
@@ -3239,24 +3239,25 @@ function requestWithdraw(){
 
   user.withdrawals.push(withdrawal);
 
-  addNotification(
-    "Withdrawal Request",
-    "Your demo withdrawal request has been submitted for "+money(amount)+".",
-    "💸"
-  );
+  user.balance -= amount;
+user.totalWithdrawn = (user.totalWithdrawn || 0) + amount;
 
-  saveUser(user);
-  registerReferralCode(user);
+saveUser(user);
 
+addNotification(`Withdrawal request of $${amount.toFixed(2)} submitted successfully.`);
+
+refreshAll();
+  
   document.getElementById("withdrawFullName").value="";
   document.getElementById("withdrawBank").value="";
   document.getElementById("withdrawAccount").value="";
   document.getElementById("withdrawAmount").value="";
 
-  refreshAll();
-
   showToast("Demo withdrawal request submitted.");
 
+  renderHome();
+renderWithdraw();
+  
 }
 
 /* =========================
