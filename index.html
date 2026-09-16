@@ -657,6 +657,17 @@ input,select,textarea{
   box-shadow:0 5px 18px rgba(15,23,42,.05);
 }
 
+.video-card.video-locked{
+  background:#f8fafc;
+  border:1px solid #cbd5e1;
+}
+
+.video-card.video-locked .video-player{
+  filter:grayscale(1);
+  opacity:.45;
+  pointer-events:none;
+}
+
 .video-top{
   display:flex;
   align-items:center;
@@ -763,6 +774,31 @@ input,select,textarea{
   border:1px solid #cbd5e1;
   border-radius:10px;
   font-size:12px;
+}
+
+.video-locked-label{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  background:#e2e8f0;
+  color:#475569;
+  border-radius:12px;
+  padding:12px;
+  margin-top:14px;
+  font-size:12px;
+  font-weight:bold;
+  line-height:1.5;
+}
+
+.video-season-label{
+  display:inline-block;
+  margin-top:8px;
+  padding:5px 9px;
+  border-radius:20px;
+  background:#ede9fe;
+  color:#6d28d9;
+  font-size:11px;
+  font-weight:bold;
 }
 
 /* ================= WITHDRAW ================= */
@@ -1490,7 +1526,7 @@ input,select,textarea{
 
     </div>
 
-    <div class="section-title">Your 5-Day Progress</div>
+    <div class="section-title">Your Progress</div>
 
     <div class="card progress-card">
 
@@ -1505,7 +1541,7 @@ input,select,textarea{
 
       <div class="progress-info">
         <span id="progressEarned">$0.00 earned</span>
-        <span id="progressDays">Day 0 of 5</span>
+        <span id="progressDays">Day 0</span>
       </div>
 
     </div>
@@ -1523,13 +1559,13 @@ input,select,textarea{
       <div class="quick-card" onclick="openPage('videos')">
         <div class="quick-icon">🎬</div>
         <div class="quick-title">Watch Videos</div>
-        <div class="quick-text">Watch four videos and claim rewards.</div>
+        <div class="quick-text">Watch three videos and claim rewards.</div>
       </div>
 
       <div class="quick-card" onclick="openPage('withdraw')">
         <div class="quick-icon">💸</div>
         <div class="quick-title">Withdraw</div>
-        <div class="quick-text">Check your withdrawal eligibility.</div>
+        <div class="quick-text">Withdraw whenever your balance reaches $5.00.</div>
       </div>
 
       <div class="quick-card" onclick="openPage('support')">
@@ -1603,9 +1639,11 @@ input,select,textarea{
     <div class="card">
       <div class="card-title">🎬 Video Rewards</div>
       <div class="card-text">
-        Four videos are available. Each video has a real player with sound.
-        Watch them one at a time. Reward is added only after you claim it.
+        Three permanent videos are available in every season.
+        Each video takes three minutes to complete.
+        After claiming, the video becomes locked until a new season starts.
       </div>
+      <span class="video-season-label" id="videoSeasonLabel">Season 1</span>
     </div>
 
     <div id="videoList"></div>
@@ -1619,12 +1657,13 @@ input,select,textarea{
     <div class="page-title">Withdraw</div>
 
     <div class="page-subtitle">
-      Request a demo withdrawal after meeting the eligibility conditions.
+      Request a demo withdrawal whenever your balance reaches $5.00.
+      You can withdraw any amount up to your available balance.
     </div>
 
     <div class="withdraw-info">
       ⚠️ This is a demo withdrawal form. No real money will be transferred.
-      A real payout system will be connected later.
+      Minimum withdrawal balance is $5.00. Active days are not required.
     </div>
 
     <div class="withdraw-status">
@@ -1635,18 +1674,23 @@ input,select,textarea{
       </div>
 
       <div class="status-row">
-        <span class="status-label">Required Amount</span>
+        <span class="status-label">Minimum Balance</span>
         <span class="status-value">$5.00</span>
       </div>
 
       <div class="status-row">
         <span class="status-label">Required Active Days</span>
-        <span class="status-value">5 Days</span>
+        <span class="status-value">Not Required</span>
       </div>
 
       <div class="status-row">
         <span class="status-label">Your Eligibility</span>
         <span class="status-value" id="withdrawEligibility">Not Eligible</span>
+      </div>
+
+      <div class="status-row">
+        <span class="status-label">Withdrawal Limit</span>
+        <span class="status-value" id="withdrawLimit">$0.00</span>
       </div>
 
     </div>
@@ -1690,7 +1734,7 @@ input,select,textarea{
 
       <div class="form-group">
         <label class="form-label">Amount</label>
-        <input class="form-input" id="withdrawAmount" type="number" step="0.01" placeholder="Enter amount">
+        <input class="form-input" id="withdrawAmount" type="number" step="0.01" min="5" placeholder="Enter amount">
       </div>
 
       <button class="btn btn-success" onclick="requestWithdraw()">
@@ -1754,7 +1798,7 @@ input,select,textarea{
         <div class="menu-icon">🎁</div>
         <div class="menu-content">
           <div class="menu-title">Invite Friends</div>
-          <div class="menu-subtitle">Invite friends and earn demo bonuses</div>
+          <div class="menu-subtitle">Invite friends and earn $0.50 per successful referral</div>
         </div>
         <span>›</span>
       </button>
@@ -1789,11 +1833,23 @@ input,select,textarea{
     </div>
 
     <div class="card">
+      <div class="card-title">🎁 Referral Summary</div>
+      <div class="card-text">
+        Successful Referrals:
+        <strong id="profileReferralCount">0</strong><br>
+        Referral Earnings:
+        <strong id="profileReferralEarnings">$0.00</strong><br>
+        Reward per successful referral:
+        <strong>$0.50</strong>
+      </div>
+    </div>
+
+    <div class="card">
       <div class="card-title">🧪 Demo Testing</div>
       <div class="card-text">
         Use this only to test the withdrawal screen.
-        It marks the account as having completed five active days
-        and gives the account a demo balance of $5.00.
+        It gives the account a demo balance of $5.00.
+        Active days are not required for withdrawal.
       </div>
 
       <button class="btn btn-warning" onclick="loadDemoTestingAccount()">
@@ -1958,8 +2014,16 @@ input,select,textarea{
 const TASK_REWARD = 0.20;
 const VIDEO_REWARD = 0.20;
 const VIDEO_DURATION = 180;
+
 const REQUIRED_AMOUNT = 5.00;
-const REQUIRED_DAYS = 5;
+const REFERRAL_REWARD = 0.50;
+
+/*
+  Idan sabon season ya fara, canza wadannan
+  zuwa season-2 da Season 2.
+*/
+const CURRENT_SEASON = "season-1";
+const CURRENT_SEASON_NAME = "Season 1";
 
 let activeVideo = null;
 let videoIntervals = {};
@@ -2013,41 +2077,36 @@ const tasks = [
 ];
 
 /* =========================
-   VIDEO DATA
+   PERMANENT VIDEO DATA
 ========================= */
 
 const videos = [
   {
     id:1,
     icon:"💙",
-    title:"A Touch of Kindness",
-    description:"A short emotional story about kindness and helping others.",
-    reward:0.20,
-    url:"https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
+    title:"A Story That Touches the Heart",
+    description:"Watch this emotional and inspiring story.",
+    reward:VIDEO_REWARD,
+    duration:VIDEO_DURATION,
+    url:"https://www.w3schools.com/html/mov_bbb.mp4"
   },
   {
     id:2,
-    icon:"🌈",
-    title:"Moments of Happiness",
-    description:"An inspiring video about joy, hope and positive moments.",
-    reward:0.20,
-    url:"https://www.w3schools.com/html/mov_bbb.mp4"
+    icon:"❤️",
+    title:"Love, Kindness and Happiness",
+    description:"A short video about love, kindness and happiness.",
+    reward:VIDEO_REWARD,
+    duration:VIDEO_DURATION,
+    url:"https://www.w3schools.com/html/movie.mp4"
   },
   {
     id:3,
-    icon:"❤️",
-    title:"Love and Friendship",
-    description:"A warm story about love, friendship and caring for others.",
-    reward:0.20,
+    icon:"🌱",
+    title:"Hope and a Better Future",
+    description:"A motivational video about hope and success.",
+    reward:VIDEO_REWARD,
+    duration:VIDEO_DURATION,
     url:"https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
-  },
-  {
-    id:4,
-    icon:"🌟",
-    title:"A New Beginning",
-    description:"A beautiful story about hope and a better tomorrow.",
-    reward:0.20,
-    url:"https://www.w3schools.com/html/mov_bbb.mp4"
   }
 ];
 
@@ -2064,6 +2123,9 @@ function defaultUser(){
     phone:"",
     inviteCode:"",
     invitedBy:"",
+    referralCount:0,
+    referralEarnings:0,
+    referredUsers:[],
     balance:0,
     totalEarned:0,
     tasksCompleted:0,
@@ -2108,10 +2170,13 @@ function getUser(){
         ? user.completedTasks
         : [],
       completedVideos:Array.isArray(user.completedVideos)
-        ? user.completedVideos.map(Number)
+        ? user.completedVideos
         : [],
       videoReady:Array.isArray(user.videoReady)
-        ? user.videoReady.map(Number)
+        ? user.videoReady
+        : [],
+      referredUsers:Array.isArray(user.referredUsers)
+        ? user.referredUsers
         : [],
       withdrawals:Array.isArray(user.withdrawals)
         ? user.withdrawals
@@ -2207,13 +2272,19 @@ function generateInviteCode(name){
 
 function getInviteLink(){
 
-  return location.origin+location.pathname+"?invite="+encodeURIComponent(getUser().inviteCode||"");
+  return location.origin+location.pathname+
+    "?invite="+encodeURIComponent(getUser().inviteCode||"");
+
+}
+
+function getSeasonVideoKey(videoId){
+
+  return CURRENT_SEASON+"_"+Number(videoId);
 
 }
 
 /* =========================
-   LOGIN
-========================= */
+   LOGIN ========================= */
 
 function isLoggedIn(){
   return localStorage.getItem("trueNetworkingLoggedIn")==="true";
@@ -2250,8 +2321,15 @@ function loginUser(){
   user.name=name;
   user.email=email;
   user.username=name.toLowerCase().replace(/\s+/g,"_");
-  user.invitedBy=invite;
   user.loginDate=todayDate();
+
+  /*
+    Referral demo:
+    Ana neman inviter a cikin localStorage na wannan browser.
+    A backend za a iya mayar da wannan ya zama referral na gaske
+    tsakanin wayoyi daban-daban.
+  */
+  processReferral(user,invite);
 
   saveUser(user);
 
@@ -2260,6 +2338,114 @@ function loginUser(){
   showApp();
 
   showToast("Welcome to True Networking!");
+
+}
+
+function processReferral(user,invite){
+
+  if(!invite){
+    return;
+  }
+
+  if(user.invitedBy){
+    return;
+  }
+
+  const normalizedInvite=invite.trim().toUpperCase();
+
+  if(normalizedInvite===String(user.inviteCode||"").toUpperCase()){
+    return;
+  }
+
+  user.invitedBy=normalizedInvite;
+
+  const registryKey="trueNetworkingReferralRegistry";
+
+  let registry=[];
+
+  try{
+    registry=JSON.parse(localStorage.getItem(registryKey)||"[]");
+  }catch(error){
+    registry=[];
+  }
+
+  const inviterIndex=registry.findIndex(
+    item=>String(item.code||"").toUpperCase()===normalizedInvite
+  );
+
+  if(inviterIndex>=0){
+
+    const inviter=registry[inviterIndex];
+
+    if(!Array.isArray(inviter.referredUsers)){
+      inviter.referredUsers=[];
+    }
+
+    const newUserIdentifier=user.email||user.username||user.name;
+
+    if(!inviter.referredUsers.includes(newUserIdentifier)){
+
+      inviter.referredUsers.push(newUserIdentifier);
+      inviter.referralCount=Number(inviter.referralCount||0)+1;
+      inviter.referralEarnings=Number(
+        (Number(inviter.referralEarnings||0)+REFERRAL_REWARD).toFixed(2)
+      );
+      inviter.balance=Number(
+        (Number(inviter.balance||0)+REFERRAL_REWARD).toFixed(2)
+      );
+      inviter.totalEarned=Number(
+        (Number(inviter.totalEarned||0)+REFERRAL_REWARD).toFixed(2)
+      );
+
+      localStorage.setItem(registryKey,JSON.stringify(registry));
+
+    }
+
+  }
+
+}
+
+function registerReferralCode(user){
+
+  if(!user.inviteCode){
+    return;
+  }
+
+  const registryKey="trueNetworkingReferralRegistry";
+
+  let registry=[];
+
+  try{
+    registry=JSON.parse(localStorage.getItem(registryKey)||"[]");
+  }catch(error){
+    registry=[];
+  }
+
+  const index=registry.findIndex(
+    item=>String(item.code||"").toUpperCase()===
+    String(user.inviteCode||"").toUpperCase()
+  );
+
+  const record={
+    code:user.inviteCode,
+    name:user.name,
+    email:user.email,
+    referralCount:Number(user.referralCount||0),
+    referralEarnings:Number(user.referralEarnings||0),
+    balance:Number(user.balance||0),
+    totalEarned:Number(user.totalEarned||0),
+    referredUsers:Array.isArray(user.referredUsers)
+      ? user.referredUsers
+      : []
+  };
+
+  if(index>=0){
+    registry[index]=record;
+  }else{
+    registry.push(record);
+  }
+
+  localStorage.setItem(registryKey,JSON.stringify(registry));
 
 }
 
@@ -2422,7 +2608,7 @@ function refreshHome(){
   document.getElementById("progressFill").style.width=progress+"%";
   document.getElementById("progressPercent").textContent=Math.round(progress)+"%";
   document.getElementById("progressEarned").textContent=money(user.totalEarned)+" earned";
-  document.getElementById("progressDays").textContent="Day "+Math.min(user.activeDays||0,5)+" of 5";
+  document.getElementById("progressDays").textContent="Day "+(user.activeDays||0);
 
 }
 
@@ -2531,6 +2717,7 @@ function completeTask(taskId){
   );
 
   saveUser(user);
+  registerReferralCode(user);
   refreshAll();
 
   showToast("Task completed! "+money(task.reward)+" added.");
@@ -2538,18 +2725,28 @@ function completeTask(taskId){
 }
 
 /* =========================
-   VIDEOS
-========================= */
+   VIDEOS ========================= */
 
 function renderVideos(){
 
   const user=getUser();
   const list=document.getElementById("videoList");
 
+  const seasonLabel=document.getElementById("videoSeasonLabel");
+
+  if(seasonLabel){
+    seasonLabel.textContent=CURRENT_SEASON_NAME;
+  }
+
   list.innerHTML=videos.map(video=>{
 
-    const completed=user.completedVideos.includes(video.id);
-    const ready=user.videoReady.includes(video.id);
+    const seasonVideoKey=getSeasonVideoKey(video.id);
+
+    const completed=
+      user.completedVideos.includes(seasonVideoKey) ||
+      user.completedVideos.includes(video.id);
+
+    const ready=user.videoReady.includes(seasonVideoKey);
 
     let timerText="3:00";
     let timerClass="";
@@ -2557,15 +2754,23 @@ function renderVideos(){
     let buttonClass="btn-primary";
     let buttonAction=`startVideo(${video.id})`;
     let disabled="";
+    let lockedLabel="";
 
     if(completed){
 
       timerText="Claimed";
       timerClass="video-completed";
-      buttonText="✅ Claimed";
+      buttonText="🔒 Locked";
       buttonClass="btn-success";
       buttonAction="";
       disabled="disabled";
+
+      lockedLabel=`
+        <div class="video-locked-label">
+          🔒 This video is locked after claiming.
+          It will open again when a new season starts.
+        </div>
+      `;
 
     }else if(ready){
 
@@ -2579,7 +2784,7 @@ function renderVideos(){
 
     return `
 
-      <div class="video-card">
+      <div class="video-card ${completed?"video-locked":""}">
 
         <div class="video-top">
 
@@ -2599,7 +2804,7 @@ function renderVideos(){
         <video
           class="video-player"
           id="videoPlayer${video.id}"
-          controls
+          ${completed?"":"controls"}
           playsinline
           preload="metadata"
           src="${video.url}">
@@ -2620,45 +2825,51 @@ function renderVideos(){
         <button
           class="btn ${buttonClass}"
           id="videoBtn${video.id}"
-          onclick="${buttonAction}"
+          ${buttonAction?`onclick="${buttonAction}"`:""}
           ${disabled}>
           ${buttonText}
         </button>
 
-        <button
-          class="btn btn-light"
-          onclick="toggleVideoLink(${video.id})">
-          🔗 Add / Change Video Link
-        </button>
+        ${
+          completed
+          ? lockedLabel
+          : `
+            <button
+              class="btn btn-light"
+              onclick="toggleVideoLink(${video.id})">
+              🔗 Add / Change Video Link
+            </button>
 
-        <div class="video-link-box" id="videoLinkBox${video.id}">
+            <div class="video-link-box" id="videoLinkBox${video.id}">
 
-          <input
-            id="videoLink${video.id}"
-            type="url"
-            placeholder="Paste your authorized MP4 video link">
+              <input
+                id="videoLink${video.id}"
+                type="url"
+                placeholder="Paste your authorized MP4 video link">
 
-          <button
-            class="btn btn-primary"
-            onclick="saveVideoLink(${video.id})">
-            Save Video Link
-          </button>
+              <button
+                class="btn btn-primary"
+                onclick="saveVideoLink(${video.id})">
+                Save Video Link
+              </button>
 
-          <label class="btn btn-outline" style="display:block;text-align:center;margin-top:10px;">
-            📁 Choose Video From Phone
-            <input
-              type="file"
-              accept="video/*"
-              style="display:none"
-              onchange="loadLocalVideo(event,${video.id})">
-          </label>
+              <label class="btn btn-outline" style="display:block;text-align:center;margin-top:10px;">
+                📁 Choose Video From Phone
+                <input
+                  type="file"
+                  accept="video/*"
+                  style="display:none"
+                  onchange="loadLocalVideo(event,${video.id})">
+              </label>
 
-        </div>
+            </div>
+          `
+        }
 
         <div class="video-note">
           🎬 Watch the full three minutes before claiming the reward.
           After the timer finishes, press Claim Reward.
-          The video must have an authorized source.
+          This video becomes locked after claiming until a new season starts.
         </div>
 
       </div>
@@ -2682,6 +2893,11 @@ function toggleVideoLink(videoId){
 function saveVideoLink(videoId){
 
   const input=document.getElementById("videoLink"+videoId);
+
+  if(!input){
+    return;
+  }
+
   const url=input.value.trim();
 
   if(!url){
@@ -2733,13 +2949,17 @@ function loadLocalVideo(event,videoId){
 function startVideo(videoId){
 
   const user=getUser();
+  const seasonVideoKey=getSeasonVideoKey(videoId);
 
-  if(user.completedVideos.includes(videoId)){
-    showToast("You already claimed this video.");
+  if(
+    user.completedVideos.includes(seasonVideoKey) ||
+    user.completedVideos.includes(videoId)
+  ){
+    showToast("You already claimed this video. It is locked.");
     return;
   }
 
-  if(user.videoReady.includes(videoId)){
+  if(user.videoReady.includes(seasonVideoKey)){
     showToast("This video is ready. Press Claim Reward.");
     return;
   }
@@ -2780,11 +3000,6 @@ function startVideo(videoId){
 
   videoIntervals[videoId]=setInterval(()=>{
 
-    /*
-      Timer yana raguwa ne kawai idan video yana playing.
-      Idan an yi pause, timer zai tsaya.
-    */
-
     if(player.paused || player.ended){
       return;
     }
@@ -2810,11 +3025,11 @@ function startVideo(videoId){
       const latestUser=getUser();
 
       if(
-        !latestUser.completedVideos.includes(videoId) &&
-        !latestUser.videoReady.includes(videoId)
+        !latestUser.completedVideos.includes(seasonVideoKey) &&
+        !latestUser.videoReady.includes(seasonVideoKey)
       ){
 
-        latestUser.videoReady.push(videoId);
+        latestUser.videoReady.push(seasonVideoKey);
 
         const video=videos.find(item=>item.id===videoId);
 
@@ -2843,13 +3058,17 @@ function startVideo(videoId){
 function claimVideo(videoId){
 
   const user=getUser();
+  const seasonVideoKey=getSeasonVideoKey(videoId);
 
-  if(user.completedVideos.includes(videoId)){
-    showToast("You already claimed this video.");
+  if(
+    user.completedVideos.includes(seasonVideoKey) ||
+    user.completedVideos.includes(videoId)
+  ){
+    showToast("You already claimed this video. It is locked.");
     return;
   }
 
-  if(!user.videoReady.includes(videoId)){
+  if(!user.videoReady.includes(seasonVideoKey)){
     showToast("Watch the full three-minute video before claiming.");
     return;
   }
@@ -2862,10 +3081,10 @@ function claimVideo(videoId){
   }
 
   user.videoReady=user.videoReady.filter(
-    id=>Number(id)!==Number(videoId)
+    key=>String(key)!==String(seasonVideoKey)
   );
 
-  user.completedVideos.push(videoId);
+  user.completedVideos.push(seasonVideoKey);
 
   user.videosCompleted=Number(user.videosCompleted||0)+1;
 
@@ -2884,31 +3103,40 @@ function claimVideo(videoId){
   );
 
   saveUser(user);
+  registerReferralCode(user);
 
   refreshAll();
 
-  showToast("Reward claimed! "+money(video.reward)+" added.");
+  showToast("Reward claimed! "+money(video.reward)+" added. Video locked.");
 
 }
 
 /* =========================
-   WITHDRAW
-========================= */
+   WITHDRAW ========================= */
 
 function renderWithdraw(){
 
   const user=getUser();
+  const balance=Number(user.balance||0);
 
-  document.getElementById("withdrawBalance").textContent=money(user.balance);
+  document.getElementById("withdrawBalance").textContent=money(balance);
+  document.getElementById("withdrawLimit").textContent=money(balance);
 
-  const eligible=
-    Number(user.balance||0)>=REQUIRED_AMOUNT &&
-    Number(user.activeDays||0)>=REQUIRED_DAYS;
+  const eligible=balance>=REQUIRED_AMOUNT;
 
   const eligibility=document.getElementById("withdrawEligibility");
 
-  eligibility.textContent=eligible?"Eligible":"Not Eligible";
+  eligibility.textContent=eligible
+    ? "Eligible"
+    : "Not Eligible — Need "+money(REQUIRED_AMOUNT-balance)+" more";
+
   eligibility.style.color=eligible?"#16a34a":"#dc2626";
+
+  const amountInput=document.getElementById("withdrawAmount");
+
+  if(amountInput){
+    amountInput.max=balance.toFixed(2);
+  }
 
   const history=document.getElementById("withdrawHistory");
 
@@ -2942,18 +3170,20 @@ function renderWithdraw(){
 function requestWithdraw(){
 
   const user=getUser();
+  const balance=Number(user.balance||0);
 
   const fullName=document.getElementById("withdrawFullName").value.trim();
   const bank=document.getElementById("withdrawBank").value;
   const account=document.getElementById("withdrawAccount").value.trim();
   const amount=Number(document.getElementById("withdrawAmount").value);
 
-  if(
-    Number(user.balance||0)<REQUIRED_AMOUNT ||
-    Number(user.activeDays||0)<REQUIRED_DAYS
-  ){
+  if(balance<REQUIRED_AMOUNT){
 
-    showToast("You must reach $5.00 and complete 5 active days.");
+    showToast(
+      "Withdrawal is locked. You need "+
+      money(REQUIRED_AMOUNT-balance)+" more to reach $5.00."
+    );
+
     return;
   }
 
@@ -2982,8 +3212,13 @@ function requestWithdraw(){
     return;
   }
 
-  if(amount>Number(user.balance||0)){
-    showToast("Insufficient demo balance.");
+  if(amount<REQUIRED_AMOUNT){
+    showToast("Minimum withdrawal amount is $5.00.");
+    return;
+  }
+
+  if(amount>balance){
+    showToast("You cannot withdraw more than your balance.");
     return;
   }
 
@@ -2999,18 +3234,19 @@ function requestWithdraw(){
   };
 
   user.balance=Number(
-    (Number(user.balance||0)-amount).toFixed(2)
+    (balance-amount).toFixed(2)
   );
 
   user.withdrawals.push(withdrawal);
 
   addNotification(
     "Withdrawal Request",
-    "Your demo withdrawal request has been submitted.",
+    "Your demo withdrawal request has been submitted for "+money(amount)+".",
     "💸"
   );
 
   saveUser(user);
+  registerReferralCode(user);
 
   document.getElementById("withdrawFullName").value="";
   document.getElementById("withdrawBank").value="";
@@ -3055,6 +3291,12 @@ function renderMe(){
 
   document.getElementById("profileBadge").textContent=
     user.verified?"✓ Verified Account":"✓ Demo Account";
+
+  document.getElementById("profileReferralCount").textContent=
+    user.referralCount||0;
+
+  document.getElementById("profileReferralEarnings").textContent=
+    money(user.referralEarnings||0);
 
 }
 
@@ -3112,6 +3354,7 @@ function saveProfile(){
       user.profilePhoto=reader.result;
 
       saveUser(user);
+      registerReferralCode(user);
       closeModal();
       refreshAll();
 
@@ -3124,6 +3367,7 @@ function saveProfile(){
   }else{
 
     saveUser(user);
+    registerReferralCode(user);
     closeModal();
     refreshAll();
 
@@ -3271,6 +3515,7 @@ function completeFaceVerification(){
   );
 
   saveUser(user);
+  registerReferralCode(user);
 
   stopCamera();
   closeModal();
@@ -3292,12 +3537,11 @@ function stopCamera(){
 }
 
 /* =========================
-   INVITE
-========================= */
+   INVITE ========================= */
 
 function openInviteModal(){
 
-  const user=getUser();
+  let user=getUser();
 
   if(!user.inviteCode){
 
@@ -3306,13 +3550,15 @@ function openInviteModal(){
 
   }
 
+  registerReferralCode(user);
+
   const link=getInviteLink();
 
   openModal("Invite Friends",`
 
     <div class="card-text">
       Invite friends using your ID code or invite link.
-      The $0.50 referral bonus is a demo rule for testing.
+      You will receive <strong>$0.50</strong> for each successful referral.
     </div>
 
     <div class="form-group" style="margin-top:15px;">
@@ -3336,6 +3582,15 @@ function openInviteModal(){
     <button class="btn btn-success" onclick="shareInvite()">
       📤 Share Invite
     </button>
+
+    <div class="card" style="margin-top:15px;">
+      <div class="card-text">
+        Successful Referrals:
+        <strong>${user.referralCount||0}</strong><br>
+        Total Referral Earnings:
+        <strong>${money(user.referralEarnings||0)}</strong>
+      </div>
+    </div>
 
   `);
 
@@ -3397,8 +3652,7 @@ function shareInvite(){
 }
 
 /* =========================
-   SETTINGS
-========================= */
+   SETTINGS ========================= */
 
 function openSettingsModal(){
 
@@ -3466,8 +3720,7 @@ function requestNotifications(){
 }
 
 /* =========================
-   NOTIFICATIONS
-========================= */
+   NOTIFICATIONS ========================= */
 
 function addNotification(title,text,icon){
 
@@ -3522,8 +3775,7 @@ function renderNotifications(){
 }
 
 /* =========================
-   SUPPORT
-========================= */
+   SUPPORT ========================= */
 
 function submitSupport(){
 
@@ -3600,18 +3852,11 @@ function renderSupport(){
 }
 
 /* =========================
-   DEMO TESTING ACCOUNT
-========================= */
+   DEMO TESTING ACCOUNT ========================= */
 
 function loadDemoTestingAccount(){
 
   const user=getUser();
-
-  /*
-    Wannan demo account yana da $5.00 da kwana 5.
-    An bar videos ba su kammala ba domin a iya gwada
-    Start Video -> Ready to Claim -> Claim Reward.
-  */
 
   user.balance=5.00;
   user.totalEarned=5.00;
@@ -3633,11 +3878,12 @@ function loadDemoTestingAccount(){
 
   addNotification(
     "Demo Testing Mode",
-    "Your account has been prepared for withdrawal testing with $5.00 balance and 5 active days.",
+    "Your account has been prepared for withdrawal testing with $5.00 balance. Active days are not required.",
     "🧪"
   );
 
   saveUser(user);
+  registerReferralCode(user);
 
   refreshAll();
 
@@ -3646,8 +3892,7 @@ function loadDemoTestingAccount(){
 }
 
 /* =========================
-   MODAL
-========================= */
+   MODAL ========================= */
 
 function openModal(title,content){
 
@@ -3666,8 +3911,7 @@ function closeModal(){
 }
 
 /* =========================
-   RESET
-========================= */
+   RESET ========================= */
 
 function resetAccount(){
 
@@ -3696,8 +3940,7 @@ function resetAccount(){
 }
 
 /* =========================
-   START APP
-========================= */
+   START APP ========================= */
 
 if(isLoggedIn()){
 
@@ -3714,4 +3957,4 @@ if(isLoggedIn()){
 </script>
 
 </body>
-  </html> 
+  </html>
