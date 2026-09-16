@@ -1,11 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ha">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>True Networking</title>
 
 <style>
+:root{
+  --bg:#080d1c;
+  --card:#141d35;
+  --card2:#202c4d;
+  --text:#fff;
+  --muted:#aab5d2;
+  --blue:#4f8cff;
+  --purple:#8b5cf6;
+  --pink:#e95cff;
+  --green:#28d17c;
+  --red:#ff5577;
+  --border:#ffffff14;
+}
+
 *{
   box-sizing:border-box;
   margin:0;
@@ -13,1042 +27,405 @@
   font-family:Arial,sans-serif;
 }
 
-:root{
-  --blue:#2563eb;
-  --blue-dark:#1d4ed8;
-  --green:#16a34a;
-  --red:#dc2626;
-  --orange:#f59e0b;
-  --purple:#7c3aed;
-  --bg:#f3f6fb;
-  --card:#ffffff;
-  --text:#172033;
-  --muted:#64748b;
-  --border:#e2e8f0;
-  --shadow:0 8px 25px rgba(15,23,42,.08);
-}
-
 body{
-  background:var(--bg);
+  background:
+    radial-gradient(circle at top,#293b78 0,#0b1020 42%,#060a14 100%);
   color:var(--text);
   min-height:100vh;
 }
 
-button,
-input,
-select,
-textarea{
+button,input,select,textarea{
   font:inherit;
 }
 
 button{
+  border:0;
   cursor:pointer;
-}
-
-button:disabled{
-  cursor:not-allowed;
-  opacity:.65;
 }
 
 .app{
   max-width:520px;
   margin:auto;
   min-height:100vh;
-  background:var(--bg);
   padding-bottom:85px;
 }
 
-.login-screen{
-  display:none;
-  min-height:100vh;
-  padding:25px 18px;
-  align-items:center;
-  justify-content:center;
-}
-
-.login-screen.active{
-  display:flex;
-}
-
-.login-box{
-  width:100%;
-  max-width:420px;
-  background:var(--card);
-  border-radius:25px;
-  padding:28px 20px;
-  box-shadow:var(--shadow);
-}
-
-.logo-box{
-  text-align:center;
-  margin-bottom:25px;
-}
-
-.logo-circle{
-  width:75px;
-  height:75px;
-  border-radius:50%;
-  background:linear-gradient(135deg,var(--blue),var(--purple));
-  color:#fff;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:32px;
-  font-weight:bold;
-  margin:0 auto 12px;
-}
-
-.logo-box h1{
-  font-size:26px;
-  margin-bottom:6px;
-}
-
-.logo-box p{
-  color:var(--muted);
-  font-size:14px;
-}
-
-.form-group{
-  margin-bottom:15px;
-}
-
-.form-label{
-  display:block;
-  font-size:13px;
-  font-weight:bold;
-  margin-bottom:7px;
-  color:var(--text);
-}
-
-.form-input,
-.form-select,
-.form-textarea,
-input,
-select,
-textarea{
-  width:100%;
-  border:1px solid var(--border);
-  background:#fff;
-  color:var(--text);
-  border-radius:12px;
-  padding:13px 14px;
-  outline:none;
-}
-
-.form-input:focus,
-.form-select:focus,
-.form-textarea:focus,
-input:focus,
-select:focus,
-textarea:focus{
-  border-color:var(--blue);
-  box-shadow:0 0 0 3px rgba(37,99,235,.1);
-}
-
-textarea{
-  min-height:110px;
-  resize:vertical;
-}
-
-.btn{
-  width:100%;
-  border:0;
-  border-radius:12px;
-  padding:13px 15px;
-  font-weight:bold;
-  margin-top:10px;
-  transition:.2s;
-}
-
-.btn:hover{
-  transform:translateY(-1px);
-}
-
-.btn-primary{
-  background:var(--blue);
-  color:#fff;
-}
-
-.btn-primary:hover{
-  background:var(--blue-dark);
-}
-
-.btn-success{
-  background:var(--green);
-  color:#fff;
-}
-
-.btn-warning{
-  background:var(--orange);
-  color:#fff;
-}
-
-.btn-light{
-  background:#eef2ff;
-  color:#1e40af;
-}
-
-.btn-outline{
-  background:#fff;
-  color:var(--blue);
-  border:1px solid var(--blue);
-}
-
-.btn-danger{
-  background:var(--red);
-  color:#fff;
-}
-
-.divider{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  color:var(--muted);
-  font-size:12px;
-  margin:18px 0;
-}
-
-.divider:before,
-.divider:after{
-  content:"";
-  height:1px;
-  background:var(--border);
-  flex:1;
-}
-
-.header{
-  background:linear-gradient(135deg,var(--blue),var(--purple));
-  color:#fff;
-  padding:18px 17px 22px;
-  border-radius:0 0 25px 25px;
-}
-
-.header-top{
+header{
   display:flex;
   align-items:center;
   justify-content:space-between;
-  gap:10px;
-}
-
-.header-brand{
-  display:flex;
-  align-items:center;
-  gap:10px;
-}
-
-.header-logo{
-  width:42px;
-  height:42px;
-  border-radius:14px;
-  background:rgba(255,255,255,.2);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-weight:bold;
-  font-size:19px;
-}
-
-.header-brand h2{
-  font-size:18px;
-}
-
-.header-brand p{
-  font-size:11px;
-  opacity:.85;
-  margin-top:3px;
-}
-
-.header-actions{
-  display:flex;
-  gap:8px;
-}
-
-.icon-btn{
-  width:38px;
-  height:38px;
-  border:0;
-  border-radius:12px;
-  background:rgba(255,255,255,.18);
-  color:#fff;
-  font-size:18px;
-}
-
-.balance-card{
-  margin-top:20px;
-  background:rgba(255,255,255,.14);
-  border:1px solid rgba(255,255,255,.2);
-  border-radius:18px;
   padding:16px;
+  position:sticky;
+  top:0;
+  z-index:5;
+  background:#0b1020e8;
+  backdrop-filter:blur(15px);
 }
 
-.balance-label{
-  font-size:12px;
-  opacity:.85;
-}
-
-.balance-amount{
-  font-size:30px;
-  font-weight:bold;
-  margin:5px 0 14px;
-}
-
-.balance-row{
+.brand{
   display:flex;
-  justify-content:space-between;
   align-items:center;
-  gap:10px;
+  gap:11px;
+  font-size:20px;
+  font-weight:800;
 }
 
-.header-mini-btn{
-  border:0;
-  border-radius:10px;
-  background:#fff;
-  color:var(--blue);
-  padding:9px 12px;
-  font-size:12px;
-  font-weight:bold;
+.logo{
+  width:43px;
+  height:43px;
+  display:grid;
+  place-items:center;
+  transform:rotate(45deg);
+  border-radius:12px;
+  background:linear-gradient(135deg,#70e8ff,#635bff,#e95cff);
+  box-shadow:0 0 28px #6d5cff66;
+}
+
+.logo span{
+  transform:rotate(-45deg);
+  font-size:23px;
+}
+
+.iconbtn{
+  width:40px;
+  height:40px;
+  border-radius:50%;
+  background:var(--card);
+  color:white;
+  font-size:18px;
 }
 
 .page{
   display:none;
-  padding:18px 15px;
+  padding:10px 16px;
 }
 
 .page.active{
   display:block;
 }
 
-.page-title{
-  font-size:23px;
-  font-weight:bold;
-  margin-bottom:5px;
+.hero{
+  position:relative;
+  overflow:hidden;
+  padding:20px;
+  border-radius:24px;
+  margin-bottom:16px;
+  background:linear-gradient(135deg,#293e87,#702e82);
 }
 
-.page-subtitle{
+.hero:after{
+  content:"◆";
+  position:absolute;
+  right:18px;
+  top:15px;
+  font-size:90px;
+  opacity:.12;
+}
+
+h1{
+  font-size:27px;
+  margin:9px 0;
+}
+
+h2{
+  font-size:21px;
+  margin:18px 0 10px;
+}
+
+.small{
   color:var(--muted);
   font-size:13px;
-  margin-bottom:18px;
+  line-height:1.5;
+}
+
+.muted{
+  color:var(--muted);
+}
+
+.balance{
+  font-size:34px;
+  font-weight:800;
+  margin:12px 0;
+}
+
+.row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:12px;
 }
 
 .card{
-  background:var(--card);
+  background:linear-gradient(145deg,#18233f,#11192e);
+  border:1px solid var(--border);
   border-radius:18px;
-  padding:17px;
-  box-shadow:var(--shadow);
-  margin-bottom:15px;
-}
-
-.card-title{
-  font-size:16px;
-  font-weight:bold;
-  margin-bottom:7px;
-}
-
-.card-text{
-  color:var(--muted);
-  font-size:13px;
-  line-height:1.6;
-}
-
-.stats-grid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:12px;
-  margin-bottom:15px;
-}
-
-.stat-card{
-  background:var(--card);
-  border-radius:17px;
   padding:15px;
-  box-shadow:var(--shadow);
+  margin-bottom:12px;
+  box-shadow:0 8px 25px #0002;
 }
 
-.stat-icon{
-  font-size:23px;
-  margin-bottom:8px;
-}
-
-.stat-value{
+.stat{
   font-size:22px;
-  font-weight:bold;
+  font-weight:800;
+  margin-top:7px;
 }
 
-.stat-label{
+.btn{
+  padding:12px 16px;
+  border-radius:13px;
+  background:var(--blue);
+  color:white;
+  font-weight:700;
+}
+
+.btn.secondary{
+  background:var(--card2);
+}
+
+.btn.green{
+  background:var(--green);
+  color:#06150d;
+}
+
+.btn.danger{
+  background:var(--red);
+}
+
+.btn.full{
+  width:100%;
+  margin-top:10px;
+}
+
+.pill{
+  display:inline-block;
+  padding:6px 10px;
+  border-radius:99px;
+  background:#ffffff16;
+  color:#dce4ff;
   font-size:12px;
-  color:var(--muted);
-  margin-top:4px;
 }
 
-.section-heading{
+.progress{
+  height:10px;
+  background:#303b59;
+  border-radius:99px;
+  overflow:hidden;
+}
+
+.progress i{
+  display:block;
+  height:100%;
+  background:linear-gradient(90deg,#4f8cff,#e95cff);
+  border-radius:99px;
+  transition:width .4s;
+}
+
+.task{
   display:flex;
-  justify-content:space-between;
   align-items:center;
-  gap:10px;
-  margin:20px 0 12px;
+  gap:12px;
 }
 
-.section-heading h3{
-  font-size:17px;
+.task .num{
+  width:38px;
+  height:38px;
+  border-radius:12px;
+  background:#29385e;
+  display:grid;
+  place-items:center;
+  font-weight:800;
+  flex-shrink:0;
 }
 
-.section-heading span{
-  font-size:12px;
-  color:var(--blue);
+.task.done .num{
+  background:var(--green);
+  color:#06150d;
 }
 
-.avatar{
-  width:62px;
-  height:62px;
-  border-radius:50%;
-  background:linear-gradient(135deg,var(--blue),var(--purple));
+.task .claim{
+  margin-left:auto;
+  padding:9px 11px;
+  border-radius:10px;
+  background:var(--blue);
   color:#fff;
+  font-weight:700;
+}
+
+.task.done .claim{
+  background:#30405b;
+  color:#aab4d0;
+}
+
+.video{
+  height:190px;
+  border-radius:18px;
+  background:linear-gradient(135deg,#4b236e,#1b5c76);
   display:flex;
   align-items:center;
   justify-content:center;
-  font-size:25px;
-  font-weight:bold;
+  position:relative;
   overflow:hidden;
+  margin-bottom:10px;
 }
 
-.avatar img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
-
-.profile-mini{
-  display:flex;
-  align-items:center;
-  gap:12px;
-}
-
-.profile-mini h3{
-  font-size:16px;
-  margin-bottom:4px;
-}
-
-.profile-mini p{
-  color:var(--muted);
-  font-size:12px;
-}
-
-.featured-grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:10px;
-}
-
-.featured-item{
-  min-height:120px;
-  border-radius:15px;
-  padding:12px 8px;
-  color:#fff;
-  display:flex;
-  flex-direction:column;
-  justify-content:flex-end;
-  font-size:12px;
-  font-weight:bold;
-  overflow:hidden;
-}
-
-.featured-item:nth-child(1){
-  background:linear-gradient(145deg,#ec4899,#be185d);
-}
-
-.featured-item:nth-child(2){
-  background:linear-gradient(145deg,#f59e0b,#b45309);
-}
-
-.featured-item:nth-child(3){
-  background:linear-gradient(145deg,#10b981,#047857);
-}
-
-.featured-item .featured-icon{
-  font-size:27px;
-  margin-bottom:auto;
-}
-
-.progress-card{
-  background:linear-gradient(135deg,#172554,#3730a3);
-  color:#fff;
-  border-radius:18px;
-  padding:18px;
-  margin-bottom:15px;
-}
-
-.progress-top{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:10px;
-  margin-bottom:14px;
-}
-
-.progress-title{
-  font-size:15px;
-  font-weight:bold;
-}
-
-.progress-percent{
-  font-size:22px;
-  font-weight:bold;
-}
-
-.progress-background{
-  width:100%;
-  height:10px;
-  border-radius:20px;
-  background:rgba(255,255,255,.2);
-  overflow:hidden;
-}
-
-.progress-fill{
-  height:100%;
-  width:0;
-  border-radius:20px;
-  background:#fff;
-  transition:width .3s ease;
-}
-
-.progress-bottom{
-  display:flex;
-  justify-content:space-between;
-  gap:10px;
-  margin-top:10px;
-  font-size:12px;
+.video .play{
+  font-size:55px;
   opacity:.9;
 }
 
-.quick-grid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:12px;
+.video .tag{
+  position:absolute;
+  top:10px;
+  left:10px;
+  background:#0008;
+  padding:6px 9px;
+  border-radius:9px;
+  font-size:12px;
 }
 
-.quick-card{
-  background:var(--card);
-  border-radius:17px;
-  padding:16px;
-  box-shadow:var(--shadow);
+input,select,textarea{
+  width:100%;
+  padding:13px;
+  border:1px solid #ffffff20;
+  background:#0d1528;
+  color:#fff;
+  border-radius:12px;
+  margin:7px 0 12px;
+  outline:none;
+}
+
+label{
+  font-size:13px;
+  color:var(--muted);
+}
+
+.avatar{
+  width:86px;
+  height:86px;
+  border-radius:50%;
+  object-fit:cover;
+  background:#34466f;
+  border:3px solid #6e8cff;
+}
+
+.profile-head{
+  text-align:center;
+  padding:20px;
+}
+
+.menu{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:15px 4px;
+  border-bottom:1px solid #ffffff12;
   cursor:pointer;
 }
 
-.quick-icon{
-  font-size:28px;
-  margin-bottom:9px;
+.menu:last-child{
+  border:0;
 }
 
-.quick-card h4{
-  font-size:14px;
-  margin-bottom:5px;
-}
-
-.quick-card p{
-  font-size:12px;
-  color:var(--muted);
-  line-height:1.5;
-}
-
-.task-card,
-.video-card{
-  background:var(--card);
-  border-radius:18px;
-  padding:16px;
-  box-shadow:var(--shadow);
-  margin-bottom:15px;
-}
-
-.task-header,
-.video-top{
-  display:flex;
-  justify-content:space-between;
-  align-items:flex-start;
-  gap:12px;
-}
-
-.task-left,
-.video-top{
-  display:flex;
-  gap:11px;
-}
-
-.task-icon,
-.video-icon{
-  width:45px;
-  height:45px;
-  flex-shrink:0;
-  border-radius:14px;
-  background:#eff6ff;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:23px;
-}
-
-.task-title,
-.video-name{
-  font-weight:bold;
-  font-size:15px;
-  margin-bottom:5px;
-}
-
-.task-description,
-.video-description{
-  font-size:12px;
-  color:var(--muted);
-  line-height:1.5;
-}
-
-.task-reward,
-.video-reward{
-  color:var(--green);
-  font-weight:bold;
-  white-space:nowrap;
-  font-size:13px;
-}
-
-.task-meta{
-  display:flex;
-  flex-wrap:wrap;
-  gap:10px;
-  color:var(--muted);
-  font-size:11px;
-  margin:14px 0 10px;
-}
-
-.task-status{
-  padding:10px;
-  border-radius:10px;
-  background:#f8fafc;
-  color:var(--muted);
-  font-size:12px;
-  margin-bottom:10px;
-}
-
-.task-completed{
-  background:#f0fdf4;
-  color:var(--green);
-}
-
-.video-player{
-  width:100%;
-  border-radius:14px;
-  margin-top:15px;
-  background:#000;
-  max-height:230px;
-}
-
-.video-timer{
-  text-align:center;
-  font-size:22px;
-  font-weight:bold;
-  margin:13px 0;
-  color:var(--blue);
-}
-
-.video-completed{
-  color:var(--green);
-}
-
-.video-ready{
-  color:var(--orange);
-}
-
-.video-card .progress-background{
-  background:#e2e8f0;
-  margin-bottom:12px;
-}
-
-.video-card .progress-bar{
-  height:100%;
-  background:var(--blue);
-  border-radius:20px;
-  transition:width .3s ease;
-}
-
-.video-link-box{
-  display:none;
-  margin-top:12px;
-  padding:12px;
-  background:#f8fafc;
-  border-radius:13px;
-}
-
-.video-link-box.show{
-  display:block;
-}
-
-.video-note{
-  font-size:11px;
-  color:var(--muted);
-  line-height:1.6;
-  margin-top:13px;
-}
-
-.eligibility-box{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:10px;
-  background:#f8fafc;
-  border-radius:13px;
-  padding:14px;
-  margin-bottom:15px;
-}
-
-.eligibility-label{
-  font-size:13px;
-  color:var(--muted);
-}
-
-.eligibility-status{
-  font-weight:bold;
-  font-size:13px;
-}
-
-.history-item{
-  border:1px solid var(--border);
-  border-radius:13px;
-  padding:13px;
-  font-size:12px;
-  line-height:1.7;
-  margin-bottom:10px;
-  background:#fff;
-}
-
-.pending{
-  color:var(--orange);
-  font-weight:bold;
-}
-
-.empty{
-  color:var(--muted);
-  text-align:center;
-  padding:25px 10px;
-  font-size:13px;
-}
-
-.profile-card{
-  text-align:center;
-}
-
-.profile-card .avatar{
-  margin:0 auto 12px;
-  width:85px;
-  height:85px;
-  font-size:32px;
-}
-
-.profile-card h2{
-  font-size:20px;
-  margin-bottom:5px;
-}
-
-.profile-card p{
-  color:var(--muted);
-  font-size:13px;
-}
-
-.profile-badge{
-  display:inline-block;
-  margin-top:10px;
-  padding:7px 12px;
-  border-radius:20px;
-  background:#eff6ff;
-  color:var(--blue);
-  font-size:12px;
-  font-weight:bold;
-}
-
-.menu-list{
-  display:flex;
-  flex-direction:column;
-  gap:10px;
-}
-
-.menu-item{
-  width:100%;
-  border:1px solid var(--border);
-  background:#fff;
-  border-radius:14px;
-  padding:13px;
-  display:flex;
-  align-items:center;
-  gap:12px;
-  text-align:left;
-}
-
-.menu-icon{
-  width:40px;
-  height:40px;
-  border-radius:12px;
-  background:#eff6ff;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:20px;
-  flex-shrink:0;
-}
-
-.menu-content{
+.menu span{
   flex:1;
 }
 
-.menu-title{
-  font-size:14px;
-  font-weight:bold;
-  margin-bottom:4px;
-}
-
-.menu-subtitle{
-  font-size:12px;
-  color:var(--muted);
-}
-
-.menu-arrow{
-  color:var(--muted);
-  font-size:18px;
-}
-
-.notification-item{
-  display:flex;
-  gap:12px;
-  padding:14px 0;
-  border-bottom:1px solid var(--border);
-}
-
-.notification-item:last-child{
-  border-bottom:0;
-}
-
-.notification-icon{
-  width:40px;
-  height:40px;
-  border-radius:12px;
-  background:#eff6ff;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:20px;
-  flex-shrink:0;
-}
-
-.notification-title{
-  font-size:14px;
-  font-weight:bold;
-  margin-bottom:4px;
-}
-
-.notification-text{
-  color:var(--muted);
-  font-size:12px;
-  line-height:1.5;
-}
-
-.notification-time{
-  color:#94a3b8;
-  font-size:10px;
-  margin-top:5px;
-}
-
-.invite-code-box,
-.invite-link-box{
-  background:#f8fafc;
-  border:1px dashed var(--blue);
-  border-radius:12px;
-  padding:13px;
-  font-size:13px;
-  word-break:break-all;
-  margin-top:6px;
-}
-
-.camera-box{
-  background:#111827;
-  border-radius:15px;
-  overflow:hidden;
-  margin-bottom:12px;
-  min-height:220px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-
-.camera-box video{
-  width:100%;
-  max-height:300px;
-  object-fit:cover;
-}
-
-#capturedPhoto{
-  width:100%;
-  border-radius:15px;
-  margin-bottom:12px;
-  display:none;
-}
-
-.modal{
-  display:none;
-  position:fixed;
-  inset:0;
-  background:rgba(15,23,42,.65);
-  z-index:1000;
-  padding:20px;
-  align-items:flex-end;
-  justify-content:center;
-}
-
-.modal.active{
-  display:flex;
-}
-
-.modal-box{
-  width:100%;
-  max-width:500px;
-  max-height:90vh;
-  overflow-y:auto;
-  background:#fff;
-  border-radius:23px 23px 0 0;
-  padding:20px;
-  animation:slideUp .25s ease;
-}
-
-@keyframes slideUp{
-  from{
-    transform:translateY(30px);
-    opacity:0;
-  }
-  to{
-    transform:translateY(0);
-    opacity:1;
-  }
-}
-
-.modal-header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:10px;
-  margin-bottom:18px;
-}
-
-.modal-header h3{
-  font-size:19px;
-}
-
-.modal-close{
-  width:35px;
-  height:35px;
-  border:0;
-  border-radius:10px;
-  background:#f1f5f9;
-  color:var(--text);
-  font-size:20px;
-}
-
-.language-grid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:9px;
-  margin-top:10px;
-}
-
-.language-option{
-  border:1px solid var(--border);
-  background:#fff;
-  border-radius:12px;
-  padding:12px 9px;
-  text-align:left;
-  font-size:12px;
-}
-
-.language-option.selected{
-  border-color:var(--blue);
-  background:#eff6ff;
-  color:var(--blue);
-  font-weight:bold;
-}
-
-.bottom-nav{
+.nav{
   position:fixed;
   bottom:0;
   left:50%;
   transform:translateX(-50%);
-  width:100%;
-  max-width:520px;
-  display:none;
-  grid-template-columns:repeat(5,1fr);
-  gap:4px;
-  background:#fff;
-  border-top:1px solid var(--border);
-  padding:8px 8px calc(8px + env(safe-area-inset-bottom));
-  z-index:900;
+  width:min(520px,100%);
+  display:flex;
+  justify-content:space-around;
+  background:#10182cf2;
+  border-top:1px solid #ffffff15;
+  padding:10px 5px;
+  z-index:10;
 }
 
-.nav-item{
-  border:0;
-  background:#fff;
-  color:#64748b;
-  padding:7px 3px;
-  border-radius:12px;
-  font-size:10px;
+.nav button{
+  background:none;
+  color:var(--muted);
+  font-size:11px;
   display:flex;
   flex-direction:column;
   align-items:center;
   gap:4px;
 }
 
-.nav-item span:first-child{
-  font-size:20px;
+.nav button.active{
+  color:#fff;
 }
 
-.nav-item.active{
-  color:var(--blue);
-  background:#eff6ff;
-  font-weight:bold;
+.nav b{
+  font-size:21px;
 }
 
 .toast{
   position:fixed;
+  top:75px;
   left:50%;
-  bottom:90px;
-  transform:translateX(-50%) translateY(20px);
-  background:#172033;
-  color:#fff;
-  padding:13px 17px;
+  transform:translateX(-50%);
+  background:#26365d;
+  padding:12px 18px;
   border-radius:12px;
-  font-size:12px;
+  z-index:20;
+  display:none;
+  box-shadow:0 8px 25px #0006;
   max-width:90%;
   text-align:center;
-  opacity:0;
-  pointer-events:none;
-  transition:.25s;
-  z-index:2000;
 }
 
-.toast.show{
-  opacity:1;
-  transform:translateX(-50%) translateY(0);
+.modal{
+  position:fixed;
+  inset:0;
+  background:#0009;
+  display:none;
+  align-items:flex-end;
+  z-index:30;
 }
 
-.small-note{
-  color:var(--muted);
-  font-size:11px;
-  line-height:1.6;
-  margin-top:10px;
+.modal.show{
+  display:flex;
 }
 
-@media(max-width:360px){
-  .featured-grid{
-    grid-template-columns:1fr;
-  }
+.sheet{
+  width:min(520px,100%);
+  background:#141e35;
+  border-radius:25px 25px 0 0;
+  padding:20px;
+  max-height:90vh;
+  overflow:auto;
+}
 
-  .featured-item{
-    min-height:95px;
-  }
+.auth{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+}
 
-  .language-grid{
-    grid-template-columns:1fr;
+.authbox{
+  width:100%;
+  max-width:430px;
+}
+
+.adminBadge{
+  color:#ffd166;
+}
+
+@media(min-width:600px){
+  .app{
+    border-left:1px solid #ffffff08;
+    border-right:1px solid #ffffff08;
   }
 }
 </style>
@@ -1056,620 +433,1029 @@ textarea{
 
 <body>
 
-<!-- LOGIN SCREEN -->
-<div class="login-screen active" id="loginScreen">
-  <div class="login-box">
+<div id="toast" class="toast"></div>
 
-    <div class="logo-box">
-      <div class="logo-circle">TN</div>
-      <h1>True Networking</h1>
-      <p>Connect, complete tasks and earn demo rewards.</p>
+<!-- AUTH -->
+<div id="auth" class="auth">
+  <div class="authbox">
+
+    <div class="hero">
+      <div class="brand">
+        <div class="logo"><span>◆</span></div>
+        True Networking
+      </div>
+      <h1>Haɗa kai, kalli video, kammala task.</h1>
+      <p class="small">
+        Wannan frontend demo ne. Kada a saka ainihin bayanan banki a nan.
+      </p>
     </div>
 
-    <div class="form-group">
-      <label class="form-label">Full Name</label>
-      <input
-        class="form-input"
-        id="loginName"
-        type="text"
-        placeholder="Enter your full name">
+    <div class="card">
+      <h2 id="authTitle">Register</h2>
+
+      <div id="registerFields">
+        <label>Full name</label>
+        <input id="regName" placeholder="Sunanka">
+
+        <label>Invite ID code (optional)</label>
+        <input id="regInvite" placeholder="Misali: TN123456">
+      </div>
+
+      <label>Email ko phone number</label>
+      <input id="loginId" placeholder="Email ko phone">
+
+      <label>Password</label>
+      <input id="loginPass" type="password" placeholder="Password">
+
+      <button class="btn full" onclick="login()">Enter</button>
+
+      <button class="btn secondary full" onclick="googleDemo()">
+        Continue with Google
+      </button>
+
+      <p class="small" style="text-align:center;margin-top:14px">
+        Demo login: zaka iya shiga da kowane bayani.
+      </p>
+
+      <button class="btn secondary full" onclick="toggleAuth()">
+        Canza zuwa Register/Login
+      </button>
     </div>
-
-    <div class="form-group">
-      <label class="form-label">Email Address</label>
-      <input
-        class="form-input"
-        id="loginEmail"
-        type="email"
-        placeholder="Enter your email">
-    </div>
-
-    <div class="form-group">
-      <label class="form-label">Password</label>
-      <input
-        class="form-input"
-        id="loginPassword"
-        type="password"
-        placeholder="Create or enter password">
-    </div>
-
-    <div class="form-group">
-      <label class="form-label">Invite ID Code</label>
-      <input
-        class="form-input"
-        id="loginInvite"
-        type="text"
-        placeholder="Optional invite code">
-    </div>
-
-    <button class="btn btn-primary" onclick="loginUser()">
-      Login / Register
-    </button>
-
-    <div class="divider">OR</div>
-
-    <button class="btn btn-light" onclick="googleLogin()">
-      Continue with Google
-    </button>
-
-    <p class="small-note">
-      This is a local demo application. Account information is saved only
-      in this browser/device.
-    </p>
 
   </div>
 </div>
 
-<!-- MAIN APP -->
-<div class="app" id="mainApp" style="display:none;">
+<!-- APP -->
+<div id="app" class="app" style="display:none">
 
-  <!-- HEADER -->
-  <header class="header">
+<header>
+  <div class="brand">
+    <div class="logo"><span>◆</span></div>
+    <span>True Networking</span>
+  </div>
+  <button class="iconbtn" onclick="openPage('notifications')">🔔</button>
+</header>
 
-    <div class="header-top">
+<!-- HOME -->
+<section id="home" class="page active">
 
-      <div class="header-brand">
-        <div class="header-logo">TN</div>
-        <div>
-          <h2>True Networking</h2>
-          <p>Reward and networking demo</p>
-        </div>
-      </div>
+  <div class="hero">
+    <span class="pill">Season 01 • Active</span>
+    <h1>Sannu, <span id="helloName">User</span> 👋</h1>
+    <p class="small">Ka kammala task ɗinka na yau.</p>
 
-      <div class="header-actions">
-        <button class="icon-btn" onclick="openPage('notifications')">
-          🔔
-        </button>
-        <button class="icon-btn" onclick="openPage('me')">
-          👤
-        </button>
-      </div>
+    <div class="balance" id="homeBalance">$0.00</div>
 
+    <div class="row">
+      <span class="small">Available reward</span>
+      <button class="btn" onclick="openPage('withdraw')">
+        Withdraw
+      </button>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <span class="small">5 days progress</span>
+      <div class="stat" id="homeProgress">0%</div>
     </div>
 
-    <div class="balance-card">
+    <div class="card">
+      <span class="small">Invite earnings</span>
+      <div class="stat" id="inviteEarn">$0.00</div>
+    </div>
+  </div>
 
-      <div class="balance-label">Available Demo Balance</div>
-      <div class="balance-amount" id="headerBalance">$0.00</div>
+  <h2>Featured videos</h2>
+  <div id="homeVideos"></div>
 
-      <div class="balance-row">
-        <span style="font-size:12px;opacity:.85;">
-          Complete tasks and videos
-        </span>
+  <h2>Quick actions</h2>
+  <div class="grid">
+    <button class="btn secondary" onclick="openPage('tasks')">
+      📋 Tasks
+    </button>
+    <button class="btn secondary" onclick="openPage('me')">
+      👤 Me
+    </button>
+  </div>
 
-        <button class="header-mini-btn" onclick="openPage('withdraw')">
-          Withdraw
-        </button>
-      </div>
+</section>
 
+<!-- TASKS -->
+<section id="tasks" class="page">
+
+  <div class="hero">
+    <span class="pill">Daily tasks</span>
+    <h1>Tasks & Videos</h1>
+    <p class="small">Sabon season: 5:00 AM da 5:00 PM</p>
+
+    <div class="row">
+      <b id="seasonTimer">Season active</b>
+      <span class="pill">5 days</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="row">
+      <b>5 days progress</b>
+      <b id="taskPercent">0%</b>
     </div>
 
-  </header>
-
-  <!-- HOME PAGE -->
-  <section class="page active" id="homePage">
-
-    <div class="profile-mini card">
-      <div class="avatar" id="homeAvatar">U</div>
-
-      <div>
-        <h3 id="homeGreeting">Welcome back</h3>
-        <p>Keep completing your daily activities.</p>
-      </div>
+    <div class="progress" style="margin-top:10px">
+      <i id="taskBar" style="width:0%"></i>
     </div>
 
-    <div class="stats-grid">
+    <p class="small" style="margin-top:8px">
+      Target: $5.00 / kwana biyar • Minimum withdraw: $8.00
+    </p>
+  </div>
 
-      <div class="stat-card">
-        <div class="stat-icon">🎯</div>
-        <div class="stat-value" id="homeTasks">0</div>
-        <div class="stat-label">Tasks Completed</div>
-      </div>
+  <h2>Tasks guda 5</h2>
+  <div id="taskList"></div>
 
-      <div class="stat-card">
-        <div class="stat-icon">🎬</div>
-        <div class="stat-value" id="homeVideos">0</div>
-        <div class="stat-label">Videos Completed</div>
-      </div>
+  <h2>Videos guda 4</h2>
+  <p class="small">
+    Kowane video yana ɗaukar minti 3.
+    Bayan an gama kallo zaka iya claiming.
+  </p>
 
-      <div class="stat-card">
-        <div class="stat-icon">💰</div>
-        <div class="stat-value" id="homeEarned">$0.00</div>
-        <div class="stat-label">Total Earned</div>
-      </div>
+  <div id="videoList"></div>
 
-      <div class="stat-card">
-        <div class="stat-icon">📅</div>
-        <div class="stat-value" id="homeDays">0</div>
-        <div class="stat-label">Active Days</div>
-      </div>
+</section>
 
+<!-- ME -->
+<section id="me" class="page">
+
+  <div class="card profile-head">
+
+    <img id="avatar" class="avatar" src="" alt="Profile picture">
+
+    <h2 id="profileName">User</h2>
+    <p class="small" id="profileEmail">user@example.com</p>
+
+    <span class="pill" id="verifyStatus">
+      ⚠️ Not verified
+    </span>
+
+    <button class="btn full" onclick="uploadAvatar()">
+      📷 Change profile picture
+    </button>
+
+    <button class="btn green full" onclick="verifyFace()">
+      📸 Face verification
+    </button>
+
+    <input
+      id="avatarFile"
+      type="file"
+      accept="image/*"
+      style="display:none"
+      onchange="saveAvatar(event)"
+    >
+
+  </div>
+
+  <div class="card">
+
+    <div class="menu" onclick="openInvite()">
+      <b>🔗</b>
+      <span>
+        <strong>Invite</strong><br>
+        <small class="muted">ID code da invite link</small>
+      </span>
+      ›
     </div>
 
-    <div class="section-heading">
-      <h3>Featured Stories</h3>
-      <span>Watch & learn</span>
+    <div class="menu" onclick="openPage('settings')">
+      <b>⚙️</b>
+      <span>
+        <strong>Settings</strong><br>
+        <small class="muted">Language da sauran zaɓuɓɓuka</small>
+      </span>
+      ›
     </div>
 
-    <div class="featured-grid">
-
-      <div class="featured-item">
-        <div class="featured-icon">❤️</div>
-        A Story That Touches the Heart
-      </div>
-
-      <div class="featured-item">
-        <div class="featured-icon">😊</div>
-        Love, Kindness and Happiness
-      </div>
-
-      <div class="featured-item">
-        <div class="featured-icon">🌅</div>
-        Hope and a Better Future
-      </div>
-
+    <div class="menu" onclick="openPage('notifications')">
+      <b>🔔</b>
+      <span>
+        <strong>Notifications</strong><br>
+        <small class="muted">Sabbin task da sanarwa</small>
+      </span>
+      ›
     </div>
 
-    <div class="section-heading">
-      <h3>Your Progress</h3>
-      <span>5-day cycle</span>
+    <div class="menu" onclick="openPage('support')">
+      <b>🎧</b>
+      <span>
+        <strong>Customer care</strong><br>
+        <small class="muted">Tura korafi ko tambaya</small>
+      </span>
+      ›
     </div>
 
-    <div class="progress-card">
-
-      <div class="progress-top">
-        <div class="progress-title">Your 5-Day Progress</div>
-        <div class="progress-percent" id="progressPercent">0%</div>
-      </div>
-
-      <div class="progress-background">
-        <div class="progress-fill" id="progressFill"></div>
-      </div>
-
-      <div class="progress-bottom">
-        <span id="progressEarned">$0.00 earned</span>
-        <span id="progressDays">Day 0 of 5</span>
-      </div>
-
+    <div class="menu" onclick="openAdmin()">
+      <b>🔐</b>
+      <span>
+        <strong>Admin</strong><br>
+        <small class="muted">Admin dashboard demo</small>
+      </span>
+      ›
     </div>
 
-    <div class="section-heading">
-      <h3>Quick Access</h3>
+    <div class="menu" onclick="logout()">
+      <b>🚪</b>
+      <span><strong>Log out</strong></span>
+      ›
     </div>
 
-    <div class="quick-grid">
+  </div>
 
-      <div class="quick-card" onclick="openPage('tasks')">
-        <div class="quick-icon">🎯</div>
-        <h4>Daily Tasks</h4>
-        <p>Complete daily tasks and claim rewards.</p>
-      </div>
+</section>
 
-      <div class="quick-card" onclick="openPage('videos')">
-        <div class="quick-icon">🎬</div>
-        <h4>Watch Videos</h4>
-        <p>Watch three videos and claim rewards.</p>
-      </div>
+<!-- WITHDRAW -->
+<section id="withdraw" class="page">
 
-      <div class="quick-card" onclick="openPage('withdraw')">
-        <div class="quick-icon">💸</div>
-        <h4>Withdraw</h4>
-        <p>Request a demo withdrawal after eligibility.</p>
-      </div>
-
-      <div class="quick-card" onclick="openPage('me')">
-        <div class="quick-icon">👤</div>
-        <h4>My Profile</h4>
-        <p>Manage your profile and account settings.</p>
-      </div>
-
-    </div>
-
-  </section>
-
-  <!-- TASKS PAGE -->
-  <section class="page" id="tasksPage">
-
-    <h1 class="page-title">Daily Tasks</h1>
-    <p class="page-subtitle">
-      Complete available tasks during the current session.
+  <div class="hero">
+    <span class="pill">Secure withdrawal</span>
+    <h1>Withdraw</h1>
+    <p class="small">
+      Minimum withdraw $8.00.
+      Wannan demo ne har sai an haɗa payment provider.
     </p>
 
-    <div class="card">
+    <div class="balance" id="withdrawBalance">$0.00</div>
+  </div>
 
-      <div class="section-heading" style="margin-top:0;">
-        <h3 id="sessionTitle">Morning Session</h3>
-        <span id="sessionBadge">5:00 AM</span>
-      </div>
+  <div class="card">
 
-      <p class="card-text" id="sessionText">
-        Morning tasks are available from 5:00 AM to 4:59 PM.
-      </p>
+    <label>Bank</label>
+    <select id="bank">
+      <option>OPay</option>
+      <option>PalmPay</option>
+      <option>Money Point</option>
+      <option>Facebank</option>
+      <option>GTBank</option>
+      <option>Access Bank</option>
+      <option>UBA</option>
+      <option>Zenith Bank</option>
+      <option>First Bank</option>
+      <option>Moniepoint</option>
+    </select>
 
+    <label>Full name</label>
+    <input id="bankName" placeholder="Sunan account">
+
+    <label>Account number</label>
+    <input id="accountNo" maxlength="10" placeholder="0123456789">
+
+    <label>Amount (USD)</label>
+    <input id="amount" type="number" placeholder="8">
+
+    <button class="btn full" onclick="requestWithdraw()">
+      Submit withdrawal request
+    </button>
+
+  </div>
+
+  <h2>Withdrawal history</h2>
+  <div id="withdrawHistory"></div>
+
+</section>
+
+<!-- SETTINGS -->
+<section id="settings" class="page">
+
+  <div class="hero">
+    <h1>Settings</h1>
+    <p class="small">Ka tsara app yadda kake so.</p>
+  </div>
+
+  <div class="card">
+
+    <label>Language</label>
+    <select id="language" onchange="changeLang()">
+      <option>Hausa</option>
+      <option>English</option>
+      <option>Arabic</option>
+      <option>French</option>
+      <option>Yoruba</option>
+      <option>Igbo</option>
+      <option>Spanish</option>
+      <option>Turkish</option>
+      <option>Hindi</option>
+      <option>Chinese</option>
+    </select>
+
+    <div class="menu">
+      <span>Push notifications</span>
+      <input type="checkbox" checked style="width:auto">
     </div>
 
-    <div id="taskList"></div>
+    <div class="menu">
+      <span>Sound effects</span>
+      <input type="checkbox" checked style="width:auto">
+    </div>
 
-  </section>
+    <button class="btn danger full" onclick="resetDemo()">
+      Reset demo data
+    </button>
 
-  <!-- VIDEOS PAGE -->
-  <section class="page" id="videosPage">
+  </div>
 
-    <h1 class="page-title">Reward Videos</h1>
-    <p class="page-subtitle">
-      Watch three videos for three minutes each before claiming rewards.
+</section>
+
+<!-- NOTIFICATIONS -->
+<section id="notifications" class="page">
+
+  <div class="hero">
+    <h1>Notifications</h1>
+    <p class="small">Sanarwa na app</p>
+  </div>
+
+  <div id="noticeList"></div>
+
+</section>
+
+<!-- CUSTOMER CARE -->
+<section id="support" class="page">
+
+  <div class="hero">
+    <h1>Customer Care</h1>
+    <p class="small">Muna sauraron korafinka.</p>
+  </div>
+
+  <div class="card">
+
+    <label>Subject</label>
+    <input id="supportSubject" placeholder="Misali: Withdrawal issue">
+
+    <label>Message</label>
+    <textarea id="supportMsg" rows="5"
+      placeholder="Rubuta bayaninka..."></textarea>
+
+    <button class="btn full" onclick="sendSupport()">
+      Tura korafi
+    </button>
+
+  </div>
+
+</section>
+
+<!-- ADMIN -->
+<section id="admin" class="page">
+
+  <div class="hero">
+    <span class="pill adminBadge">ADMIN ONLY</span>
+    <h1>Admin Dashboard</h1>
+    <p class="small">Admin code: 676841</p>
+  </div>
+
+  <div class="grid">
+
+    <div class="card">
+      <span class="small">Total users</span>
+      <div class="stat" id="adminUsers">1</div>
+    </div>
+
+    <div class="card">
+      <span class="small">Total balance</span>
+      <div class="stat" id="adminMoney">$0</div>
+    </div>
+
+    <div class="card">
+      <span class="small">Pending withdrawals</span>
+      <div class="stat" id="adminPending">0</div>
+    </div>
+
+    <div class="card">
+      <span class="small">Admin share</span>
+      <div class="stat">10%</div>
+    </div>
+
+  </div>
+
+  <div class="card">
+    <h2>Reward distribution</h2>
+    <p class="small">
+      User share: 90% • Admin share: 10%.
+      Ainihin payout yana buƙatar backend.
     </p>
 
-    <div class="card">
-      <div class="card-title">Three videos are available.</div>
-      <div class="card-text">
-        Watch the full three minutes of each video. After the timer finishes,
-        press Claim Reward.
-      </div>
-    </div>
+    <button class="btn full" onclick="adminApprove()">
+      Approve selected pending requests
+    </button>
+  </div>
 
-    <div id="videoList"></div>
+  <h2>Withdrawal requests</h2>
+  <div id="adminWithdrawals"></div>
 
-  </section>
+</section>
 
-  <!-- WITHDRAW PAGE -->
-  <section class="page" id="withdrawPage">
+<!-- NAVIGATION -->
+<nav class="nav">
 
-    <h1 class="page-title">Withdraw</h1>
-    <p class="page-subtitle">
-      Submit a demo withdrawal request after meeting the requirements.
-    </p>
-
-    <div class="card">
-
-      <div class="card-title">Withdrawal Requirements</div>
-
-      <div class="card-text">
-        You must have at least $5.00 and complete 5 active days.
-      </div>
-
-      <div class="eligibility-box" style="margin-top:15px;">
-
-        <div>
-          <div class="eligibility-label">Current Balance</div>
-          <strong id="withdrawBalance">$0.00</strong>
-        </div>
-
-        <div style="text-align:right;">
-          <div class="eligibility-label">Status</div>
-          <div class="eligibility-status" id="withdrawEligibility">
-            Not Eligible
-          </div>
-        </div>
-
-      </div>
-
-    </div>
-
-    <div class="card">
-
-      <div class="card-title">Request Withdrawal</div>
-
-      <div class="form-group" style="margin-top:15px;">
-        <label class="form-label">Full Name</label>
-        <input
-          class="form-input"
-          id="withdrawFullName"
-          type="text"
-          placeholder="Enter account holder name">
-      </div>
-
-      <div class="form-group">
-        <label class="form-label">Bank</label>
-        <select class="form-select" id="withdrawBank">
-          <option value="">Select bank</option>
-          <option value="Access Bank">Access Bank</option>
-          <option value="GTBank">GTBank</option>
-          <option value="First Bank">First Bank</option>
-          <option value="UBA">UBA</option>
-          <option value="Zenith Bank">Zenith Bank</option>
-          <option value="Opay">Opay</option>
-          <option value="PalmPay">PalmPay</option>
-          <option value="Kuda Bank">Kuda Bank</option>
-          <option value="Other Bank">Other Bank</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label class="form-label">Account Number</label>
-        <input
-          class="form-input"
-          id="withdrawAccount"
-          type="number"
-          placeholder="Enter account number">
-      </div>
-
-      <div class="form-group">
-        <label class="form-label">Amount</label>
-        <input
-          class="form-input"
-          id="withdrawAmount"
-          type="number"
-          step="0.01"
-          placeholder="Enter amount">
-      </div>
-
-      <button class="btn btn-primary" onclick="requestWithdraw()">
-        Submit Withdrawal Request
-      </button>
-
-      <p class="small-note">
-        This is a demo withdrawal. No real money is transferred.
-      </p>
-
-    </div>
-
-    <div class="card">
-
-      <div class="card-title">Withdrawal History</div>
-
-      <div id="withdrawHistory" class="empty">
-        No withdrawal request yet.
-      </div>
-
-    </div>
-
-  </section>
-
-  <!-- PROFILE PAGE -->
-  <section class="page" id="mePage">
-
-    <h1 class="page-title">My Profile</h1>
-    <p class="page-subtitle">
-      Manage your account information and settings.
-    </p>
-
-    <div class="card profile-card">
-
-      <div class="avatar" id="profileAvatar">U</div>
-
-      <h2 id="profileName">Demo User</h2>
-      <p id="profileEmail">user@example.com</p>
-
-      <div class="profile-badge" id="profileBadge">
-        ✓ Demo Account
-      </div>
-
-      <button class="btn btn-primary" onclick="openProfileModal()">
-        ✏️ Edit Profile
-      </button>
-
-    </div>
-
-    <div class="card">
-
-      <div class="menu-list">
-
-        <button class="menu-item" onclick="openVerificationModal()">
-          <div class="menu-icon">🛡️</div>
-          <div class="menu-content">
-            <div class="menu-title">Face Verification</div>
-            <div class="menu-subtitle" id="verificationStatus">
-              Not verified
-            </div>
-          </div>
-          <div class="menu-arrow">›</div>
-        </button>
-
-        <button class="menu-item" onclick="openInviteModal()">
-          <div class="menu-icon">🤝</div>
-          <div class="menu-content">
-            <div class="menu-title">Invite Friends</div>
-            <div class="menu-subtitle">
-              ID code and invite link
-            </div>
-          </div>
-          <div class="menu-arrow">›</div>
-        </button>
-
-        <button class="menu-item" onclick="openSettingsModal()">
-          <div class="menu-icon">⚙️</div>
-          <div class="menu-content">
-            <div class="menu-title">Settings</div>
-            <div class="menu-subtitle">
-              Language, notifications and security
-            </div>
-          </div>
-          <div class="menu-arrow">›</div>
-        </button>
-
-        <button class="menu-item" onclick="openPage('notifications')">
-          <div class="menu-icon">🔔</div>
-          <div class="menu-content">
-            <div class="menu-title">Notifications</div>
-            <div class="menu-subtitle">
-              View your account notifications
-            </div>
-          </div>
-          <div class="menu-arrow">›</div>
-        </button>
-
-        <button class="menu-item" onclick="openPage('support')">
-          <div class="menu-icon">🎧</div>
-          <div class="menu-content">
-            <div class="menu-title">Customer Care</div>
-            <div class="menu-subtitle">
-              Submit a complaint or question
-            </div>
-          </div>
-          <div class="menu-arrow">›</div>
-        </button>
-
-      </div>
-
-    </div>
-
-    <div class="card">
-
-      <div class="card-title">Demo Testing</div>
-
-      <p class="card-text">
-        Load $5.00 balance and 5 active days to test the withdrawal page.
-      </p>
-
-      <button class="btn btn-success" onclick="loadDemoTestingAccount()">
-        🧪 Load Demo Testing Account
-      </button>
-
-      <button class="btn btn-danger" onclick="resetAccount()">
-        Reset Demo Account
-      </button>
-
-      <button class="btn btn-light" onclick="logoutUser()">
-        Logout
-      </button>
-
-    </div>
-
-  </section>
-
-  <!-- NOTIFICATIONS PAGE -->
-  <section class="page" id="notificationsPage">
-
-    <h1 class="page-title">Notifications</h1>
-    <p class="page-subtitle">
-      Your latest account activities.
-    </p>
-
-    <div class="card">
-      <div id="notificationList">
-        <div class="empty">No notifications yet.</div>
-      </div>
-    </div>
-
-  </section>
-
-  <!-- SUPPORT PAGE -->
-  <section class="page" id="supportPage">
-
-    <h1 class="page-title">Customer Care</h1>
-    <p class="page-subtitle">
-      Send your complaint, question or feedback.
-    </p>
-
-    <div class="card">
-
-      <div class="form-group">
-        <label class="form-label">Category</label>
-        <select class="form-select" id="supportCategory">
-          <option value="">Select category</option>
-          <option value="Account">Account</option>
-          <option value="Withdrawal">Withdrawal</option>
-          <option value="Tasks">Tasks</option>
-          <option value="Videos">Videos</option>
-          <option value="Verification">Verification</option>
-          <option value="Other">Other</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label class="form-label">Message</label>
-        <textarea
-          class="form-textarea"
-          id="supportMessage"
-          placeholder="Write your complaint or question"></textarea>
-      </div>
-
-      <button class="btn btn-primary" onclick="submitSupport()">
-        Submit Message
-      </button>
-
-    </div>
-
-    <div class="card">
-
-      <div class="card-title">Support History</div>
-
-      <div id="supportHistory" class="empty">
-        No complaint submitted yet.
-      </div>
-
-    </div>
-
-  </section>
-
-</div>
-
-<!-- BOTTOM NAVIGATION -->
-<nav class="bottom-nav" id="bottomNav">
-
-  <button class="nav-item active" id="navHome" onclick="openPage('home')">
-    <span>🏠</span>
-    <span>Home</span>
+  <button onclick="openPage('home')" data-page="home">
+    <b>⌂</b>Home
   </button>
 
-  <button class="nav-item" id="navTasks" onclick="openPage('tasks')">
-    <span>🎯</span>
-    <span>Tasks</span>
+  <button onclick="openPage('tasks')" data-page="tasks">
+    <b>✓</b>Tasks
   </button>
 
-  <button class="nav-item" id="navVideos" onclick="openPage('videos')">
-    <span>🎬</span>
-    <span>Videos</span>
+  <button onclick="openPage('withdraw')" data-page="withdraw">
+    <b>₿</b>Withdraw
   </button>
 
-  <button class="nav-item" id="navWithdraw" onclick="openPage('withdraw')">
-    <span>💸</span>
-    <span>Withdraw</span>
-  </button>
-
-  <button class="nav-item" id="navMe" onclick="openPage('me')">
-    <span>👤</span>
-    <span>Me</span>
+  <button onclick="openPage('me')" data-page="me">
+    <b>●</b>Me
   </button>
 
 </nav>
 
+</div>
+
 <!-- MODAL -->
-<div class="modal" id="modal">
+<div id="modal" class="modal"
+  onclick="if(event.target.id==='modal')closeModal()">
 
-  <div class="modal-box">
-
-    <div class="modal-header">
-      <h3 id="modalTitle">Modal</h3>
-      <button class="modal-close" onclick="closeModal()">×</button>
-    </div>
-
-    <div id="modalContent"></div>
-
-  </div>
+  <div class="sheet" id="sheet"></div>
 
 </div>
 
-<!-- TOAST -->
-<div class="toast" id="toast"></div>
-
-<!-- A NAN ZA A SAKA JAVASCRIPT PART 2 -->
-
 <script>
+const KEY="tn_demo_v1";
 
-/* Za a saka sabon JavaScript Part 2 a nan */
+let state=JSON.parse(localStorage.getItem(KEY)||"null")||{
+  user:null,
+  balance:0,
+  progress:0,
+  invite:0,
+  verified:false,
+  avatar:"",
+  tasks:Array(5).fill(false),
+  videos:Array(4).fill(false),
+  withdrawals:[],
+  notices:[
+    {
+      t:"Barka da zuwa True Networking",
+      d:"Ka fara da tabbatar da profile ɗinka."
+    }
+  ]
+};
 
+function save(){
+  localStorage.setItem(KEY,JSON.stringify(state));
+}
+
+function toast(message){
+  const box=document.getElementById("toast");
+  box.textContent=message;
+  box.style.display="block";
+
+  setTimeout(()=>{
+    box.style.display="none";
+  },2500);
+}
+
+function toggleAuth(){
+  const fields=document.getElementById("registerFields");
+  const isHidden=fields.style.display==="none";
+
+  fields.style.display=isHidden?"block":"none";
+
+  document.getElementById("authTitle").textContent=
+    isHidden?"Register":"Login";
+}
+
+function login(){
+  const id=document.getElementById("loginId").value.trim()
+    ||"demo@example.com";
+
+  const name=document.getElementById("regName").value.trim()
+    ||"Demo User";
+
+  state.user={
+    name:name,
+    email:id
+  };
+
+  save();
+
+  document.getElementById("auth").style.display="none";
+  document.getElementById("app").style.display="block";
+
+  render();
+  toast("An shiga lafiya");
+}
+
+function googleDemo(){
+  document.getElementById("loginId").value=
+    "google.user@example.com";
+
+  document.getElementById("regName").value="Google User";
+
+  login();
+}
+
+function logout(){
+  document.getElementById("app").style.display="none";
+  document.getElementById("auth").style.display="flex";
+  toast("An fita");
+}
+
+function openPage(id){
+  document.querySelectorAll(".page").forEach(page=>{
+    page.classList.remove("active");
+  });
+
+  document.getElementById(id).classList.add("active");
+
+  document.querySelectorAll(".nav button").forEach(button=>{
+    button.classList.toggle(
+      "active",
+      button.dataset.page===id
+    );
+  });
+
+  render();
+}
+
+function render(){
+
+  if(!state.user)return;
+
+  document.getElementById("helloName").textContent=
+    state.user.name.split(" ")[0];
+
+  document.getElementById("profileName").textContent=
+    state.user.name;
+
+  document.getElementById("profileEmail").textContent=
+    state.user.email;
+
+  document.getElementById("homeBalance").textContent=
+    "$"+state.balance.toFixed(2);
+
+  document.getElementById("withdrawBalance").textContent=
+    "$"+state.balance.toFixed(2);
+
+  document.getElementById("homeProgress").textContent=
+    state.progress+"%";
+
+  document.getElementById("inviteEarn").textContent=
+    "$"+state.invite.toFixed(2);
+
+  document.getElementById("taskPercent").textContent=
+    state.progress+"%";
+
+  document.getElementById("taskBar").style.width=
+    state.progress+"%";
+
+  document.getElementById("verifyStatus").textContent=
+    state.verified?"✅ Verified":"⚠️ Not verified";
+
+  if(state.avatar){
+    document.getElementById("avatar").src=state.avatar;
+  }
+
+  renderTasks();
+  renderVideos();
+  renderHistory();
+  renderNotices();
+  renderAdmin();
+}
+
+function renderTasks(){
+
+  const names=[
+    "Complete daily check-in",
+    "Read learning content",
+    "React to community post",
+    "Share approved content",
+    "Finish daily review"
+  ];
+
+  document.getElementById("taskList").innerHTML=
+    names.map((name,i)=>`
+
+      <div class="card task ${state.tasks[i]?"done":""}">
+
+        <div class="num">
+          ${state.tasks[i]?"✓":i+1}
+        </div>
+
+        <div style="flex:1">
+          <b>${name}</b>
+          <p class="small">Reward: $0.25</p>
+        </div>
+
+        <button class="claim" onclick="claimTask(${i})">
+          ${state.tasks[i]?"Claimed":"Claim"}
+        </button>
+
+      </div>
+
+    `).join("");
+}
+
+function videoCard(title){
+  return`
+
+    <div class="card">
+
+      <div class="video">
+        <span class="tag">Hausa • 03:00</span>
+        <span class="play">▶</span>
+      </div>
+
+      <b>${title}</b>
+
+      <p class="small">
+        Video na demo. Ka kalli minti 3 kafin claiming.
+      </p>
+
+    </div>
+
+  `;
+}
+
+function renderVideos(){
+
+  const titles=[
+    "Tausayi da bege",
+    "Armashi da farin ciki",
+    "Soyayya da mutunci",
+    "Sabon labari mai kyau"
+  ];
+
+  document.getElementById("videoList").innerHTML=
+    titles.map((title,i)=>`
+
+      ${videoCard(title)}
+
+      <div class="card task ${state.videos[i]?"done":""}">
+
+        <div class="num">
+          ${state.videos[i]?"✓":"▶"}
+        </div>
+
+        <div style="flex:1">
+          <b>Video ${i+1}</b>
+          <p class="small">Reward: $0.25</p>
+        </div>
+
+        <button class="claim" onclick="claimVideo(${i})">
+          ${state.videos[i]?"Claimed":"Watch & claim"}
+        </button>
+
+      </div>
+
+    `).join("");
+
+  document.getElementById("homeVideos").innerHTML=
+    titles.slice(0,3).map(title=>videoCard(title)).join("");
+}
+
+function claimTask(i){
+
+  if(!state.verified){
+    toast("Da farko ka yi face verification");
+    return;
+  }
+
+  if(!state.tasks[i]){
+
+    state.tasks[i]=true;
+    state.balance+=0.25;
+    state.progress=Math.min(100,state.progress+10);
+
+    state.notices.unshift({
+      t:"Task claimed",
+      d:"An ƙara $0.25 zuwa balance ɗinka."
+    });
+
+    save();
+    render();
+
+    toast("Task claimed +$0.25");
+  }
+}
+
+function claimVideo(i){
+
+  if(!state.verified){
+    toast("Da farko ka yi face verification");
+    return;
+  }
+
+  if(!state.videos[i]){
+
+    state.videos[i]=true;
+    state.balance+=0.25;
+    state.progress=Math.min(100,state.progress+10);
+
+    state.notices.unshift({
+      t:"Video claimed",
+      d:"An ƙara $0.25 zuwa balance ɗinka."
+    });
+
+    save();
+    render();
+
+    toast("Video claimed +$0.25");
+  }
+}
+
+function uploadAvatar(){
+  document.getElementById("avatarFile").click();
+}
+
+function saveAvatar(event){
+
+  const file=event.target.files[0];
+
+  if(!file)return;
+
+  const reader=new FileReader();
+
+  reader.onload=()=>{
+    state.avatar=reader.result;
+    save();
+    render();
+    toast("An sabunta profile picture");
+  };
+
+  reader.readAsDataURL(file);
+}
+
+function verifyFace(){
+
+  const accepted=confirm(
+    "Wannan demo ne. Ainihin face verification zai buƙaci backend. Ka amince a ci gaba?"
+  );
+
+  if(accepted){
+
+    state.verified=true;
+
+    state.notices.unshift({
+      t:"Face verification",
+      d:"An kammala demo verification."
+    });
+
+    save();
+    render();
+
+    toast("Verification complete");
+  }
+}
+
+function openInvite(){
+
+  document.getElementById("sheet").innerHTML=`
+
+    <h2>Invite friends</h2>
+
+    <p class="small">ID code ɗinka</p>
+    <input id="inviteCode" value="TN676841" readonly>
+
+    <p class="small">Invite link</p>
+    <input id="inviteLink"
+      value="https://truenetworking.example/register?ref=TN676841"
+      readonly>
+
+    <button class="btn full" onclick="copyInvite()">
+      Copy invite link
+    </button>
+
+    <button class="btn secondary full" onclick="closeModal()">
+      Close
+    </button>
+
+  `;
+
+  document.getElementById("modal").classList.add("show");
+}
+
+function copyInvite(){
+
+  const link=
+    "https://truenetworking.example/register?ref=TN676841";
+
+  if(navigator.clipboard){
+    navigator.clipboard.writeText(link);
+  }
+
+  toast("An kwafi invite link");
+}
+
+function closeModal(){
+  document.getElementById("modal").classList.remove("show");
+}
+
+function requestWithdraw(){
+
+  const amount=Number(
+    document.getElementById("amount").value
+  );
+
+  if(state.progress<100){
+    toast("Sai ka kai 100% progress kafin withdraw");
+    return;
+  }
+
+  if(state.balance<8||amount<8){
+    toast("Minimum withdraw $8 ne");
+    return;
+  }
+
+  if(amount>state.balance){
+    toast("Balance bai isa ba");
+    return;
+  }
+
+  if(!document.getElementById("accountNo").value.match(/^\d{10}$/)){
+    toast("Account number ya zama digits 10");
+    return;
+  }
+
+  state.withdrawals.unshift({
+    bank:document.getElementById("bank").value,
+    name:document.getElementById("bankName").value,
+    amount:amount,
+    status:"Pending",
+    date:new Date().toLocaleString()
+  });
+
+  state.balance-=amount;
+  state.progress=0;
+  state.tasks=Array(5).fill(false);
+  state.videos=Array(4).fill(false);
+
+  state.notices.unshift({
+    t:"Withdrawal request",
+    d:"An karɓi request ɗinka. Status: Pending."
+  });
+
+  save();
+  render();
+
+  toast("An aika withdrawal request");
+}
+
+function renderHistory(){
+
+  document.getElementById("withdrawHistory").innerHTML=
+    state.withdrawals.length?
+
+    state.withdrawals.map(w=>`
+
+      <div class="card">
+
+        <div class="row">
+          <b>${w.bank}</b>
+          <span class="pill">${w.status}</span>
+        </div>
+
+        <p class="small">
+          ${w.name} • ${w.date}
+        </p>
+
+        <strong>$${w.amount.toFixed(2)}</strong>
+
+      </div>
+
+    `).join("")
+
+    :
+
+    "<p class='muted'>Babu withdrawal history.</p>";
+}
+
+function renderNotices(){
+
+  document.getElementById("noticeList").innerHTML=
+    state.notices.map(n=>`
+
+      <div class="card">
+        <b>🔔 ${n.t}</b>
+        <p class="small" style="margin-top:6px">
+          ${n.d}
+        </p>
+      </div>
+
+    `).join("");
+}
+
+function openAdmin(){
+
+  const code=prompt("Shigar da admin code");
+
+  if(code!=="676841"){
+    toast("Admin code ba daidai ba");
+    return;
+  }
+
+  openPage("admin");
+}
+
+function renderAdmin(){
+
+  document.getElementById("adminUsers").textContent=
+    state.user?1:0;
+
+  document.getElementById("adminMoney").textContent=
+    "$"+state.balance.toFixed(2);
+
+  document.getElementById("adminPending").textContent=
+    state.withdrawals.filter(
+      w=>w.status==="Pending"
+    ).length;
+
+  document.getElementById("adminWithdrawals").innerHTML=
+    state.withdrawals.length?
+
+    state.withdrawals.map(w=>`
+
+      <div class="card">
+
+        <div class="row">
+          <b>${w.bank}</b>
+          <span class="pill">${w.status}</span>
+        </div>
+
+        <p class="small">
+          ${w.name} • ${w.date}
+        </p>
+
+        <b>$${w.amount.toFixed(2)}</b>
+
+      </div>
+
+    `).join("")
+
+    :
+
+    "<p class='muted'>Babu requests.</p>";
+}
+
+function adminApprove(){
+
+  const code=prompt("Shigar da admin code");
+
+  if(code!=="676841"){
+    toast("Admin code ba daidai ba");
+    return;
+  }
+
+  state.withdrawals.forEach(w=>{
+    if(w.status==="Pending"){
+      w.status="Approved (demo)";
+    }
+  });
+
+  save();
+  render();
+
+  toast("An approve requests a demo");
+}
+
+function changeLang(){
+  toast("An zaɓi: "+
+    document.getElementById("language").value);
+}
+
+function sendSupport(){
+
+  const subject=
+    document.getElementById("supportSubject").value;
+
+  const message=
+    document.getElementById("supportMsg").value;
+
+  if(!subject||!message){
+    toast("Cika dukkan fields");
+    return;
+  }
+
+  state.notices.unshift({
+    t:"Customer care",
+    d:"An aika korafinka zuwa support."
+  });
+
+  save();
+  render();
+
+  toast("An aika korafi");
+}
+
+function resetDemo(){
+
+  if(confirm("A share dukkan demo data?")){
+    localStorage.removeItem(KEY);
+    location.reload();
+  }
+}
 </script>
 
 </body>
