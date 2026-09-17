@@ -3267,31 +3267,111 @@ document.addEventListener("DOMContentLoaded",()=>{
   margin-top:7px;
 }
 </style>
+  
+  <style>
+/* =========================================
+   TRUE NETWORKING - CLEAN TASKS & VIDEOS FIX
+   ========================================= */
+
+.security-card,
+.video-admin-card{
+  background:linear-gradient(145deg,#18223d,#11192e);
+  border:1px solid #ffffff12;
+  border-radius:18px;
+  padding:15px;
+  margin-top:12px;
+}
+
+.security-card h3,
+.video-admin-card h3{
+  margin-bottom:10px;
+}
+
+.video-admin-item{
+  border:1px solid #ffffff15;
+  border-radius:14px;
+  padding:12px;
+  margin-top:10px;
+}
+
+.video-admin-item video{
+  width:100%;
+  max-height:220px;
+  border-radius:12px;
+  background:#000;
+  margin-top:8px;
+}
+
+.password-strength{
+  font-size:12px;
+  margin-top:-7px;
+  margin-bottom:8px;
+  color:var(--muted);
+}
+
+.security-note{
+  font-size:12px;
+  color:var(--muted);
+  line-height:1.5;
+  margin-top:8px;
+}
+
+.video-permanent{
+  border:1px solid #28d17c55;
+  background:#123426;
+  color:#b9ffda;
+  padding:6px 9px;
+  border-radius:8px;
+  font-size:11px;
+  display:inline-block;
+  margin-top:7px;
+}
+
+.season-closed{
+  background:#552033!important;
+}
+
+.season-open{
+  background:#164d38!important;
+}
+</style>
 
 <script>
-/* =========================
-   TRUE NETWORKING UPDATE
-   ========================= */
-
 (function(){
 
-  const OLD_KEY = typeof KEY !== "undefined" ? KEY : "tn_demo_v1";
+  /* =========================================
+     STATE PREPARATION
+     ========================================= */
 
-  function ensureState(){
-    if(typeof state === "undefined") return;
+  function prepareState(){
 
-    if(!state.user) state.user = null;
-
-    if(!state.userPassword){
-      state.userPassword = "";
+    if(typeof state === "undefined"){
+      console.error("True Networking: state bai samu ba.");
+      return false;
     }
 
-    if(!state.securityPin){
-      state.securityPin = "";
+    if(!state.user){
+      state.user = null;
     }
 
-    if(!state.language){
-      state.language = "Hausa";
+    if(typeof state.balance !== "number"){
+      state.balance = Number(state.balance || 0);
+    }
+
+    if(typeof state.progress !== "number"){
+      state.progress = Number(state.progress || 0);
+    }
+
+    if(!Array.isArray(state.tasks)){
+      state.tasks = Array(5).fill(false);
+    }
+
+    while(state.tasks.length < 5){
+      state.tasks.push(false);
+    }
+
+    if(!Array.isArray(state.videos)){
+      state.videos = [];
     }
 
     if(!Array.isArray(state.permanentVideos)){
@@ -3319,153 +3399,64 @@ document.addEventListener("DOMContentLoaded",()=>{
           source:"",
           duration:180,
           createdAt:new Date().toISOString()
-        },
-        {
-          id:"video_4",
-          title:"Sabon labari mai kyau",
-          description:"Video mai dauke da labari mai kyau.",
-          source:"",
-          duration:180,
-          createdAt:new Date().toISOString()
         }
       ];
     }
 
-    if(!Array.isArray(state.seasonHistory)){
-      state.seasonHistory = [];
+    while(state.videos.length < state.permanentVideos.length){
+      state.videos.push(false);
     }
 
-    if(!state.seasonNumber){
+    if(!Array.isArray(state.notices)){
+      state.notices = [];
+    }
+
+    if(!Array.isArray(state.withdrawals)){
+      state.withdrawals = [];
+    }
+
+    if(typeof state.userPassword !== "string"){
+      state.userPassword = "";
+    }
+
+    if(typeof state.securityPin !== "string"){
+      state.securityPin = "";
+    }
+
+    if(!state.language){
+      state.language = "Hausa";
+    }
+
+    if(typeof state.verified !== "boolean"){
+      state.verified = false;
+    }
+
+    if(typeof state.invite !== "number"){
+      state.invite = Number(state.invite || 0);
+    }
+
+    if(typeof state.seasonNumber !== "number"){
       state.seasonNumber = 1;
     }
 
     if(!state.seasonDate){
-      state.seasonDate = new Date().toISOString().slice(0,10);
-    }
-
-    if(!state.seasonTasks){
-      state.seasonTasks = {};
-    }
-
-    if(!state.seasonVideos){
-      state.seasonVideos = {};
-    }
-
-    save();
-  }
-
-  function getNigeriaTime(){
-    return new Date(
-      new Date().toLocaleString("en-US",{timeZone:"Africa/Lagos"})
-    );
-  }
-
-  function getSeasonStatus(){
-    const now = getNigeriaTime();
-    const hour = now.getHours();
-    const minute = now.getMinutes();
-
-    const currentMinutes = hour * 60 + minute;
-    const startMinutes = 5 * 60;
-    const endMinutes = 17 * 60;
-
-    return {
-      active:currentMinutes >= startMinutes && currentMinutes < endMinutes,
-      before:currentMinutes < startMinutes,
-      after:currentMinutes >= endMinutes,
-      now,
-      currentMinutes,
-      startMinutes,
-      endMinutes
-    };
-  }
-
-  function getSeasonKey(){
-    const now = getNigeriaTime();
-    return now.getFullYear()+"-"+String(now.getMonth()+1).padStart(2,"0")+"-"+String(now.getDate()).padStart(2,"0");
-  }
-
-  function resetForNewSeason(){
-    ensureState();
-
-    const today = getSeasonKey();
-
-    if(state.seasonDate !== today){
-      state.seasonDate = today;
-      state.seasonNumber = Number(state.seasonNumber || 1) + 1;
-      state.progress = 0;
-      state.tasks = Array(5).fill(false);
-      state.videos = Array(state.permanentVideos.length).fill(false);
-      state.seasonTasks = {};
-      state.seasonVideos = {};
-
-      state.notices.unshift({
-        t:"Sabon season ya fara",
-        d:"An bude sabon season. Lokacin season yana daga 5:00 AM zuwa 5:00 PM."
-      });
-
-      save();
-    }
-  }
-
-  function seasonIsActive(){
-    const status = getSeasonStatus();
-
-    if(!status.active){
-      if(status.before){
-        toast("Season bai fara ba. Zai bude da karfe 5:00 AM.");
-      }else{
-        toast("Season ya rufe. Zai sake bude gobe da karfe 5:00 AM.");
-      }
-      return false;
+      state.seasonDate = getNigeriaDateKey();
     }
 
     return true;
   }
 
-  function updateSeasonTimer(){
-    const timer = document.getElementById("seasonTimer");
-    if(!timer) return;
+  function saveState(){
+    if(typeof save === "function"){
+      save();
+    }
+  }
 
-    const status = getSeasonStatus();
-    const now = status.now;
-
-    if(status.active){
-      timer.classList.remove("season-closed");
-      timer.classList.add("season-open");
-
-      const remaining = status.endMinutes - status.currentMinutes;
-      const h = Math.floor(remaining / 60);
-      const m = remaining % 60;
-
-      timer.textContent =
-        "Season "+(state.seasonNumber || 1)+
-        " yana aiki • Ya rage "+h+"h "+m+"m";
-    }else if(status.before){
-      timer.classList.remove("season-open");
-      timer.classList.add("season-closed");
-
-      const remaining = status.startMinutes - status.currentMinutes;
-      const h = Math.floor(remaining / 60);
-      const m = remaining % 60;
-
-      timer.textContent =
-        "Season a rufe • Zai bude cikin "+h+"h "+m+"m";
+  function safeToast(message){
+    if(typeof toast === "function"){
+      toast(message);
     }else{
-      timer.classList.remove("season-open");
-      timer.classList.add("season-closed");
-
-      const tomorrow = new Date(now);
-      tomorrow.setDate(tomorrow.getDate()+1);
-      tomorrow.setHours(5,0,0,0);
-
-      const difference = tomorrow - now;
-      const totalMinutes = Math.max(0,Math.floor(difference / 60000));
-      const h = Math.floor(totalMinutes / 60);
-      const m = totalMinutes % 60;
-
-      timer.textContent =
-        "Season ya rufe • Zai sake bude cikin "+h+"h "+m+"m";
+      alert(message);
     }
   }
 
@@ -3478,53 +3469,291 @@ document.addEventListener("DOMContentLoaded",()=>{
       .replace(/'/g,"&#039;");
   }
 
-  function videoCard(video,index){
-    const watched = state.videos[index] === true;
-    const source = video.source || "";
+  /* =========================================
+     NIGERIA TIME AND SEASON
+     ========================================= */
 
-    let media = "";
+  function getNigeriaTime(){
+    return new Date(
+      new Date().toLocaleString("en-US",{
+        timeZone:"Africa/Lagos"
+      })
+    );
+  }
 
-    if(source){
-      media = `
+  function getNigeriaDateKey(){
+    const now = getNigeriaTime();
+
+    return now.getFullYear()+"-"+
+      String(now.getMonth()+1).padStart(2,"0")+"-"+
+      String(now.getDate()).padStart(2,"0");
+  }
+
+  function getSeasonStatus(){
+
+    const now = getNigeriaTime();
+    const currentMinutes =
+      now.getHours()*60 + now.getMinutes();
+
+    const startMinutes = 5*60;
+    const endMinutes = 17*60;
+
+    return {
+      now,
+      currentMinutes,
+      startMinutes,
+      endMinutes,
+      active:
+        currentMinutes >= startMinutes &&
+        currentMinutes < endMinutes,
+      before:currentMinutes < startMinutes,
+      after:currentMinutes >= endMinutes
+    };
+  }
+
+  function resetNewDay(){
+
+    if(!prepareState()) return;
+
+    const today = getNigeriaDateKey();
+
+    if(state.seasonDate !== today){
+
+      state.seasonDate = today;
+      state.seasonNumber =
+        Number(state.seasonNumber || 1) + 1;
+
+      state.progress = 0;
+      state.tasks = Array(5).fill(false);
+      state.videos =
+        Array(state.permanentVideos.length).fill(false);
+
+      state.notices.unshift({
+        t:"Sabon season ya fara",
+        d:"An sake bude tasks da videos na yau."
+      });
+
+      saveState();
+    }
+  }
+
+  function seasonIsActive(){
+
+    const status = getSeasonStatus();
+
+    if(!status.active){
+
+      if(status.before){
+        safeToast(
+          "Season bai fara ba. Zai bude da karfe 5:00 AM."
+        );
+      }else{
+        safeToast(
+          "Season ya rufe. Zai sake bude gobe da karfe 5:00 AM."
+        );
+      }
+
+      return false;
+    }
+
+    return true;
+  }
+
+  function updateSeasonTimer(){
+
+    const timer = document.getElementById("seasonTimer");
+
+    if(!timer || !prepareState()) return;
+
+    const status = getSeasonStatus();
+
+    timer.classList.remove("season-open","season-closed");
+
+    if(status.active){
+
+      timer.classList.add("season-open");
+
+      const remaining =
+        status.endMinutes - status.currentMinutes;
+
+      const hours = Math.floor(remaining/60);
+      const minutes = remaining%60;
+
+      timer.textContent =
+        "Season "+state.seasonNumber+
+        " yana aiki • Ya rage "+
+        hours+"h "+minutes+"m";
+
+    }else if(status.before){
+
+      timer.classList.add("season-closed");
+
+      const remaining =
+        status.startMinutes - status.currentMinutes;
+
+      const hours = Math.floor(remaining/60);
+      const minutes = remaining%60;
+
+      timer.textContent =
+        "Season a rufe • Zai bude cikin "+
+        hours+"h "+minutes+"m";
+
+    }else{
+
+      timer.classList.add("season-closed");
+
+      const tomorrow = new Date(status.now);
+      tomorrow.setDate(tomorrow.getDate()+1);
+      tomorrow.setHours(5,0,0,0);
+
+      const difference = tomorrow-status.now;
+      const totalMinutes =
+        Math.max(0,Math.floor(difference/60000));
+
+      const hours = Math.floor(totalMinutes/60);
+      const minutes = totalMinutes%60;
+
+      timer.textContent =
+        "Season ya rufe • Zai sake bude cikin "+
+        hours+"h "+minutes+"m";
+    }
+  }
+
+  /* =========================================
+     TASKS
+     ========================================= */
+
+  window.renderTasks = function(){
+
+    if(!prepareState()) return;
+
+    const list = document.getElementById("taskList");
+
+    if(!list) return;
+
+    const taskNames = [
+      "Complete daily check-in",
+      "Read learning content",
+      "React to community post",
+      "Share approved content",
+      "Finish daily review"
+    ];
+
+    list.innerHTML = taskNames.map(function(name,index){
+
+      const done = state.tasks[index] === true;
+
+      return `
+        <div class="card task ${done ? "done" : ""}">
+
+          <div class="num">
+            ${done ? "✓" : index+1}
+          </div>
+
+          <div style="flex:1">
+            <b>${name}</b>
+            <p class="small">
+              Reward: $0.25
+            </p>
+          </div>
+
+          <button
+            class="claim"
+            onclick="claimTask(${index})">
+            ${done ? "Claimed" : "Claim"}
+          </button>
+
+        </div>
+      `;
+
+    }).join("");
+  };
+
+  window.claimTask = function(index){
+
+    if(!prepareState()) return;
+
+    if(!state.user){
+      safeToast("Da farko ka shiga account.");
+      return;
+    }
+
+    if(!seasonIsActive()) return;
+
+    if(!state.verified){
+      safeToast("Da farko ka yi face verification.");
+      return;
+    }
+
+    if(state.tasks[index] === true){
+      safeToast("An riga an claim wannan task.");
+      return;
+    }
+
+    state.tasks[index] = true;
+
+    state.balance =
+      Number(state.balance || 0) + 0.25;
+
+    state.progress =
+      Math.min(
+        100,
+        Number(state.progress || 0) + 10
+      );
+
+    state.notices.unshift({
+      t:"Task claimed",
+      d:"An kara $0.25 zuwa balance dinka."
+    });
+
+    saveState();
+
+    if(typeof render === "function"){
+      render();
+    }
+
+    renderTasks();
+    renderVideos();
+
+    safeToast("Task claimed +$0.25");
+  };
+
+  /* =========================================
+     VIDEOS
+     ========================================= */
+
+  function createVideoMedia(video){
+
+    if(video.source){
+
+      return `
         <video
           controls
           preload="metadata"
-          src="${escapeHTML(source)}"
-          style="width:100%;height:190px;object-fit:cover;border-radius:18px;background:#000">
+          src="${escapeHTML(video.source)}"
+          style="
+            width:100%;
+            height:190px;
+            object-fit:cover;
+            border-radius:18px;
+            background:#000;
+          ">
         </video>
       `;
-    }else{
-      media = `
-        <div class="video">
-          <span class="tag">Hausa • 03:00</span>
-          <span class="play">▶</span>
-        </div>
-      `;
+
     }
 
     return `
-      <div class="card">
-        ${media}
-        <b>${escapeHTML(video.title)}</b>
-        <p class="small">${escapeHTML(video.description || "Video na True Networking.")}</p>
-        <span class="video-permanent">Permanent video</span>
-      </div>
-
-      <div class="card task ${watched ? "done" : ""}">
-        <div class="num">${watched ? "✓" : "▶"}</div>
-        <div style="flex:1">
-          <b>Video ${index+1}</b>
-          <p class="small">Reward: $0.25</p>
-        </div>
-        <button class="claim" onclick="claimPermanentVideo(${index})">
-          ${watched ? "Claimed" : "Watch & claim"}
-        </button>
+      <div class="video">
+        <span class="tag">Hausa • 03:00</span>
+        <span class="play">▶</span>
       </div>
     `;
   }
 
   window.renderVideos = function(){
-    ensureState();
+
+    if(!prepareState()) return;
 
     const videos = state.permanentVideos || [];
 
@@ -3532,159 +3761,500 @@ document.addEventListener("DOMContentLoaded",()=>{
     const home = document.getElementById("homeVideos");
 
     if(list){
-      list.innerHTML = videos.map((video,index)=>{
-        return videoCard(video,index);
+
+      list.innerHTML = videos.map(function(video,index){
+
+        const watched =
+          state.videos[index] === true;
+
+        return `
+          <div class="card">
+
+            ${createVideoMedia(video)}
+
+            <b>${escapeHTML(video.title)}</b>
+
+            <p class="small">
+              ${escapeHTML(
+                video.description ||
+                "Video na True Networking."
+              )}
+            </p>
+
+            <span class="video-permanent">
+              Permanent video
+            </span>
+
+          </div>
+
+          <div class="card task ${watched ? "done" : ""}">
+
+            <div class="num">
+              ${watched ? "✓" : "▶"}
+            </div>
+
+            <div style="flex:1">
+              <b>Video ${index+1}</b>
+              <p class="small">
+                Reward: $0.25
+              </p>
+            </div>
+
+            <button
+              class="claim"
+              onclick="claimPermanentVideo(${index})">
+              ${watched ? "Claimed" : "Watch & claim"}
+            </button>
+
+          </div>
+        `;
+
       }).join("");
     }
 
     if(home){
-      home.innerHTML = videos.slice(0,3).map((video,index)=>{
-        const source = video.source || "";
 
-        return `
-          <div class="card">
-            ${
-              source
-              ?
-              `<video controls preload="metadata" src="${escapeHTML(source)}"
-                style="width:100%;height:190px;object-fit:cover;border-radius:18px;background:#000"></video>`
-              :
-              `<div class="video">
-                <span class="tag">Hausa • 03:00</span>
-                <span class="play">▶</span>
-              </div>`
-            }
-            <b>${escapeHTML(video.title)}</b>
-            <p class="small">${escapeHTML(video.description || "Video na True Networking.")}</p>
-            <span class="video-permanent">Permanent video</span>
-          </div>
-        `;
-      }).join("");
+      home.innerHTML = videos
+        .slice(0,3)
+        .map(function(video){
+
+          return `
+            <div class="card">
+
+              ${createVideoMedia(video)}
+
+              <b>${escapeHTML(video.title)}</b>
+
+              <p class="small">
+                ${escapeHTML(
+                  video.description ||
+                  "Video na True Networking."
+                )}
+              </p>
+
+              <span class="video-permanent">
+                Permanent video
+              </span>
+
+            </div>
+          `;
+
+        }).join("");
     }
   };
 
   window.claimPermanentVideo = function(index){
-    ensureState();
+
+    if(!prepareState()) return;
 
     if(!state.user){
-      toast("Da farko ka shiga account.");
+      safeToast("Da farko ka shiga account.");
       return;
     }
 
     if(!seasonIsActive()) return;
 
     if(!state.verified){
-      toast("Da farko ka yi face verification.");
+      safeToast("Da farko ka yi face verification.");
       return;
     }
 
-    if(!state.videos[index]){
-      state.videos[index] = true;
-      state.balance = Number(state.balance || 0) + 0.25;
-      state.progress = Math.min(100,Number(state.progress || 0) + 10);
-
-      state.notices.unshift({
-        t:"Video claimed",
-        d:"An kara $0.25 saboda ka kalli video."
-      });
-
-      save();
-      render();
-      toast("Video claimed +$0.25");
-    }else{
-      toast("An riga an claim wannan video a wannan season.");
+    if(state.videos[index] === true){
+      safeToast(
+        "An riga an claim wannan video a wannan season."
+      );
+      return;
     }
+
+    state.videos[index] = true;
+
+    state.balance =
+      Number(state.balance || 0) + 0.25;
+
+    state.progress =
+      Math.min(
+        100,
+        Number(state.progress || 0) + 10
+      );
+
+    state.notices.unshift({
+      t:"Video claimed",
+      d:"An kara $0.25 saboda ka kalli video."
+    });
+
+    saveState();
+
+    if(typeof render === "function"){
+      render();
+    }
+
+    renderVideos();
+    renderTasks();
+
+    safeToast("Video claimed +$0.25");
   };
 
-  window.claimTask = function(index){
-    ensureState();
+  /* =========================================
+     CLEAN RENDER WRAPPER
+     ========================================= */
 
-    if(!state.user){
-      toast("Da farko ka shiga account.");
-      return;
+  const originalRender =
+    typeof window.render === "function"
+      ? window.render
+      : null;
+
+  window.render = function(){
+
+    if(!prepareState()) return;
+
+    if(originalRender){
+      try{
+        originalRender();
+      }catch(error){
+        console.warn(
+          "Tsohon render ya samu warning:",
+          error
+        );
+      }
     }
 
-    if(!seasonIsActive()) return;
-
-    if(!state.verified){
-      toast("Da farko ka yi face verification.");
-      return;
+    if(state.user){
+      renderTasks();
+      renderVideos();
     }
 
-    if(!state.tasks[index]){
-      state.tasks[index] = true;
-      state.balance = Number(state.balance || 0) + 0.25;
-      state.progress = Math.min(100,Number(state.progress || 0) + 10);
-
-      state.notices.unshift({
-        t:"Task claimed",
-        d:"An kara $0.25 zuwa balance dinka."
-      });
-
-      save();
-      render();
-      toast("Task claimed +$0.25");
-    }else{
-      toast("An riga an claim wannan task.");
-    }
+    updateSeasonTimer();
   };
 
-  window.openSecuritySettings = function(){
-    document.getElementById("sheet").innerHTML = `
-      <h2>Security Settings</h2>
+  /* =========================================
+     PERMANENT VIDEO MANAGER
+     ========================================= */
 
-      <div class="security-card">
-        <h3>Canza password</h3>
-        <label>Old password</label>
-        <input id="oldPassword" type="password" placeholder="Shigar da tsohon password">
+  window.openVideoManager = function(){
 
-        <label>New password</label>
-        <input id="newPassword" type="password" placeholder="Shigar da sabon password" oninput="checkPasswordStrength()">
+    if(!prepareState()) return;
 
-        <div id="passwordStrength" class="password-strength">
-          Password strength
+    const sheet = document.getElementById("sheet");
+    const modal = document.getElementById("modal");
+
+    if(!sheet || !modal){
+      safeToast("Ba a samu modal na video manager ba.");
+      return;
+    }
+
+    const videos = state.permanentVideos || [];
+
+    sheet.innerHTML = `
+      <h2>Permanent Video Manager</h2>
+
+      <p class="small">
+        Videos da aka saka a nan ba za su goge yayin sabon season ba.
+      </p>
+
+      <div class="video-admin-card">
+
+        <h3>Daura sabon video</h3>
+
+        <label>Video title</label>
+        <input
+          id="adminVideoTitle"
+          placeholder="Sunan video">
+
+        <label>Video description</label>
+        <textarea
+          id="adminVideoDescription"
+          rows="3"
+          placeholder="Bayani akan video"></textarea>
+
+        <label>Video URL</label>
+        <input
+          id="adminVideoURL"
+          placeholder="https://example.com/video.mp4">
+
+        <label>Ko zabi video daga waya</label>
+        <input
+          id="adminVideoFile"
+          type="file"
+          accept="video/*">
+
+        <button
+          class="btn full"
+          onclick="addPermanentVideo()">
+          Add permanent video
+        </button>
+
+      </div>
+
+      <div class="video-admin-card">
+
+        <h3>Videos da suke cikin app</h3>
+
+        <div id="adminVideoList">
+
+          ${
+            videos.length
+            ?
+            videos.map(function(video,index){
+
+              return `
+                <div class="video-admin-item">
+
+                  <b>
+                    ${index+1}. ${escapeHTML(video.title)}
+                  </b>
+
+                  <p class="small">
+                    ${escapeHTML(video.description || "")}
+                  </p>
+
+                  ${
+                    video.source
+                    ?
+                    `<video
+                      controls
+                      src="${escapeHTML(video.source)}">
+                    </video>`
+                    :
+                    `<p class="small">
+                      Babu video source tukuna.
+                    </p>`
+                  }
+
+                  <button
+                    class="btn danger full"
+                    onclick="deletePermanentVideo(${index})">
+                    Delete video
+                  </button>
+
+                </div>
+              `;
+
+            }).join("")
+            :
+            `<p class="small">Babu video.</p>`
+          }
+
         </div>
-
-        <label>Confirm new password</label>
-        <input id="confirmPassword" type="password" placeholder="Sake shigar da sabon password">
-
-        <button class="btn full" onclick="changeSecurityPassword()">
-          Save new password
-        </button>
-
-        <p class="security-note">
-          Sabon password zai kasance a cikin wannan browser din demo.
-          Ainihin tsaro na production yana bukatar backend da database.
-        </p>
       </div>
 
-      <div class="security-card">
-        <h3>Canza security PIN</h3>
-        <label>Old security PIN</label>
-        <input id="oldPin" type="password" maxlength="6" placeholder="Old PIN">
-
-        <label>New security PIN</label>
-        <input id="newPin" type="password" maxlength="6" placeholder="Sabon PIN">
-
-        <label>Confirm new security PIN</label>
-        <input id="confirmPin" type="password" maxlength="6" placeholder="Sake shigar da PIN">
-
-        <button class="btn full" onclick="changeSecurityPin()">
-          Save security PIN
-        </button>
-      </div>
-
-      <button class="btn secondary full" onclick="closeModal()">
+      <button
+        class="btn secondary full"
+        onclick="closeModal()">
         Close
       </button>
     `;
 
-    document.getElementById("modal").classList.add("show");
+    modal.classList.add("show");
+  };
+
+  window.addPermanentVideo = function(){
+
+    if(!prepareState()) return;
+
+    const titleInput =
+      document.getElementById("adminVideoTitle");
+
+    const descriptionInput =
+      document.getElementById("adminVideoDescription");
+
+    const urlInput =
+      document.getElementById("adminVideoURL");
+
+    const fileInput =
+      document.getElementById("adminVideoFile");
+
+    if(!titleInput || !descriptionInput ||
+       !urlInput || !fileInput){
+
+      safeToast("Wuraren saka video ba su samu ba.");
+      return;
+    }
+
+    const title = titleInput.value.trim();
+    const description = descriptionInput.value.trim();
+    const url = urlInput.value.trim();
+    const file = fileInput.files[0];
+
+    if(!title){
+      safeToast("Shigar da sunan video.");
+      return;
+    }
+
+    if(!url && !file){
+      safeToast("Saka URL ko zabi video daga waya.");
+      return;
+    }
+
+    function addVideo(source){
+
+      state.permanentVideos.push({
+        id:"video_"+Date.now(),
+        title:title,
+        description:
+          description ||
+          "Permanent video na True Networking.",
+        source:source || "",
+        duration:180,
+        createdAt:new Date().toISOString()
+      });
+
+      state.videos.push(false);
+
+      saveState();
+      renderVideos();
+
+      openVideoManager();
+
+      safeToast("An saka permanent video.");
+    }
+
+    if(file){
+
+      const reader = new FileReader();
+
+      reader.onload = function(){
+        addVideo(reader.result);
+      };
+
+      reader.readAsDataURL(file);
+
+    }else{
+
+      addVideo(url);
+
+    }
+  };
+
+  window.deletePermanentVideo = function(index){
+
+    if(!prepareState()) return;
+
+    if(!confirm("Kana son share wannan video?")){
+      return;
+    }
+
+    state.permanentVideos.splice(index,1);
+    state.videos.splice(index,1);
+
+    saveState();
+
+    renderVideos();
+    openVideoManager();
+
+    safeToast("An share video.");
+  };
+
+  /* =========================================
+     SECURITY SETTINGS
+     ========================================= */
+
+  window.openSecuritySettings = function(){
+
+    if(!prepareState()) return;
+
+    const sheet = document.getElementById("sheet");
+    const modal = document.getElementById("modal");
+
+    if(!sheet || !modal){
+      safeToast("Security modal bai samu ba.");
+      return;
+    }
+
+    sheet.innerHTML = `
+      <h2>Security Settings</h2>
+
+      <div class="security-card">
+
+        <h3>Canza password</h3>
+
+        <label>Old password</label>
+        <input
+          id="oldPassword"
+          type="password"
+          placeholder="Tsohon password">
+
+        <label>New password</label>
+        <input
+          id="newPassword"
+          type="password"
+          placeholder="Sabon password"
+          oninput="checkPasswordStrength()">
+
+        <div
+          id="passwordStrength"
+          class="password-strength">
+          Password strength
+        </div>
+
+        <label>Confirm new password</label>
+        <input
+          id="confirmPassword"
+          type="password"
+          placeholder="Sake shigar da password">
+
+        <button
+          class="btn full"
+          onclick="changeSecurityPassword()">
+          Save new password
+        </button>
+
+        <p class="security-note">
+          Wannan demo ne na browser. Production app yana bukatar
+          backend da database domin cikakken tsaro.
+        </p>
+
+      </div>
+
+      <div class="security-card">
+
+        <h3>Canza security PIN</h3>
+
+        <label>Old security PIN</label>
+        <input
+          id="oldPin"
+          type="password"
+          maxlength="6"
+          placeholder="Tsohon PIN">
+
+        <label>New security PIN</label>
+        <input
+          id="newPin"
+          type="password"
+          maxlength="6"
+          placeholder="Sabon PIN">
+
+        <label>Confirm new security PIN</label>
+        <input
+          id="confirmPin"
+          type="password"
+          maxlength="6"
+          placeholder="Sake shigar da PIN">
+
+        <button
+          class="btn full"
+          onclick="changeSecurityPin()">
+          Save security PIN
+        </button>
+
+      </div>
+
+      <button
+        class="btn secondary full"
+        onclick="closeModal()">
+        Close
+      </button>
+    `;
+
+    modal.classList.add("show");
   };
 
   window.checkPasswordStrength = function(){
-    const input = document.getElementById("newPassword");
-    const output = document.getElementById("passwordStrength");
+
+    const input =
+      document.getElementById("newPassword");
+
+    const output =
+      document.getElementById("passwordStrength");
 
     if(!input || !output) return;
 
@@ -3702,447 +4272,132 @@ document.addEventListener("DOMContentLoaded",()=>{
   };
 
   window.changeSecurityPassword = function(){
-    ensureState();
 
-    const oldPassword = document.getElementById("oldPassword").value;
-    const newPassword = document.getElementById("newPassword").value;
-    const confirmPassword = document.getElementById("confirmPassword").value;
+    if(!prepareState()) return;
 
-    if(!state.userPassword){
-      if(oldPassword !== ""){
-        toast("Babu tsohon password a wannan account.");
+    const oldPassword =
+      document.getElementById("oldPassword").value;
+
+    const newPassword =
+      document.getElementById("newPassword").value;
+
+    const confirmPassword =
+      document.getElementById("confirmPassword").value;
+
+    if(state.userPassword){
+
+      if(oldPassword !== state.userPassword){
+        safeToast("Tsohon password bai dace ba.");
         return;
       }
-    }else if(oldPassword !== state.userPassword){
-      toast("Tsohon password bai dace ba.");
+
+    }else if(oldPassword !== ""){
+
+      safeToast("Babu tsohon password a account.");
       return;
     }
 
     if(newPassword.length < 6){
-      toast("Sabon password ya zama akalla haruffa 6.");
+      safeToast(
+        "Sabon password ya zama akalla haruffa 6."
+      );
       return;
     }
 
     if(newPassword !== confirmPassword){
-      toast("Sabbin password ba su yi daidai ba.");
+      safeToast("Password ba su yi daidai ba.");
       return;
     }
 
     state.userPassword = newPassword;
-    save();
 
-    closeModal();
-    toast("An canza password cikin nasara.");
+    saveState();
+
+    if(typeof closeModal === "function"){
+      closeModal();
+    }
+
+    safeToast("An canza password cikin nasara.");
   };
 
   window.changeSecurityPin = function(){
-    ensureState();
 
-    const oldPin = document.getElementById("oldPin").value;
-    const newPin = document.getElementById("newPin").value;
-    const confirmPin = document.getElementById("confirmPin").value;
+    if(!prepareState()) return;
 
-    if(state.securityPin && oldPin !== state.securityPin){
-      toast("Tsohon security PIN bai dace ba.");
+    const oldPin =
+      document.getElementById("oldPin").value;
+
+    const newPin =
+      document.getElementById("newPin").value;
+
+    const confirmPin =
+      document.getElementById("confirmPin").value;
+
+    if(state.securityPin &&
+       oldPin !== state.securityPin){
+
+      safeToast("Tsohon security PIN bai dace ba.");
       return;
     }
 
     if(!/^\d{4,6}$/.test(newPin)){
-      toast("Security PIN ya zama digits 4 zuwa 6.");
+      safeToast(
+        "Security PIN ya zama digits 4 zuwa 6."
+      );
       return;
     }
 
     if(newPin !== confirmPin){
-      toast("Sabbin PIN ba su yi daidai ba.");
+      safeToast("PIN ba su yi daidai ba.");
       return;
     }
 
     state.securityPin = newPin;
-    save();
 
-    closeModal();
-    toast("An canza security PIN cikin nasara.");
+    saveState();
+
+    if(typeof closeModal === "function"){
+      closeModal();
+    }
+
+    safeToast("An canza security PIN cikin nasara.");
   };
 
-  window.openVideoManager = function(){
-    ensureState();
-
-    const videos = state.permanentVideos || [];
-
-    document.getElementById("sheet").innerHTML = `
-      <h2>Permanent Video Manager</h2>
-      <p class="small">
-        Duk video da aka saka a nan zai kasance permanent a cikin app.
-        Sabon season zai sake bude tasks da video claims, amma ba zai goge videos ba.
-      </p>
-
-      <div class="video-admin-card">
-        <h3>Daura sabon video</h3>
-
-        <label>Video title</label>
-        <input id="adminVideoTitle" placeholder="Misali: Sabon video na yau">
-
-        <label>Video description</label>
-        <textarea id="adminVideoDescription" rows="3" placeholder="Bayani akan video"></textarea>
-
-        <label>Video URL</label>
-        <input id="adminVideoURL" placeholder="https://example.com/video.mp4">
-
-        <label>Ko ka zabi video daga waya</label>
-        <input id="adminVideoFile" type="file" accept="video/*">
-
-        <button class="btn full" onclick="addPermanentVideo()">
-          Add permanent video
-        </button>
-      </div>
-
-      <div class="video-admin-card">
-        <h3>Videos da suke cikin app</h3>
-        <div id="adminVideoList">
-          ${
-            videos.length
-            ?
-            videos.map((video,index)=>`
-              <div class="video-admin-item">
-                <b>${index+1}. ${escapeHTML(video.title)}</b>
-                <p class="small">${escapeHTML(video.description || "")}</p>
-                ${
-                  video.source
-                  ?
-                  `<video controls src="${escapeHTML(video.source)}"></video>`
-                  :
-                  `<p class="small">Babu video source tukuna.</p>`
-                }
-                <button class="btn danger full" onclick="deletePermanentVideo(${index})">
-                  Delete video
-                </button>
-              </div>
-            `).join("")
-            :
-            `<p class="small">Babu video.</p>`
-          }
-        </div>
-      </div>
-
-      <button class="btn secondary full" onclick="closeModal()">
-        Close
-      </button>
-    `;
-
-    document.getElementById("modal").classList.add("show");
-  };
-
-  window.addPermanentVideo = function(){
-    ensureState();
-
-    const title = document.getElementById("adminVideoTitle").value.trim();
-    const description = document.getElementById("adminVideoDescription").value.trim();
-    const url = document.getElementById("adminVideoURL").value.trim();
-    const fileInput = document.getElementById("adminVideoFile");
-    const file = fileInput.files[0];
-
-    if(!title){
-      toast("Shigar da sunan video.");
-      return;
-    }
-
-    if(!url && !file){
-      toast("Saka video URL ko zabi video daga waya.");
-      return;
-    }
-
-    if(file){
-      const reader = new FileReader();
-
-      reader.onload = function(){
-        state.permanentVideos.push({
-          id:"video_"+Date.now(),
-          title,
-          description:description || "Permanent video na True Networking.",
-          source:reader.result,
-          duration:180,
-          createdAt:new Date().toISOString()
-        });
-
-        state.videos.push(false);
-
-        save();
-        renderVideos();
-        openVideoManager();
-        toast("An saka permanent video.");
-      };
-
-      reader.readAsDataURL(file);
-      return;
-    }
-
-    state.permanentVideos.push({
-      id:"video_"+Date.now(),
-      title,
-      description:description || "Permanent video na True Networking.",
-      source:url,
-      duration:180,
-      createdAt:new Date().toISOString()
-    });
-
-    state.videos.push(false);
-
-    save();
-    renderVideos();
-    openVideoManager();
-    toast("An saka permanent video.");
-  };
-
-  window.deletePermanentVideo = function(index){
-    ensureState();
-
-    if(!confirm("Kana son share wannan video?")) return;
-
-    state.permanentVideos.splice(index,1);
-    state.videos.splice(index,1);
-
-    save();
-    renderVideos();
-    openVideoManager();
-    toast("An share video.");
-  };
-
-  window.openPage = function(id){
-    document.querySelectorAll(".page").forEach(page=>{
-      page.classList.remove("active");
-    });
-
-    const target = document.getElementById(id);
-
-    if(target){
-      target.classList.add("active");
-    }
-
-    document.querySelectorAll(".nav button").forEach(button=>{
-      button.classList.toggle("active",button.dataset.page === id);
-    });
-
-    render();
-    updateSeasonTimer();
-  };
-
-  window.render = function(){
-    ensureState();
-
-    if(!state.user) return;
-
-    const helloName = document.getElementById("helloName");
-    const profileName = document.getElementById("profileName");
-    const profileEmail = document.getElementById("profileEmail");
-    const homeBalance = document.getElementById("homeBalance");
-    const withdrawBalance = document.getElementById("withdrawBalance");
-    const homeProgress = document.getElementById("homeProgress");
-    const inviteEarn = document.getElementById("inviteEarn");
-    const taskPercent = document.getElementById("taskPercent");
-    const taskBar = document.getElementById("taskBar");
-    const verifyStatus = document.getElementById("verifyStatus");
-    const avatar = document.getElementById("avatar");
-
-    if(helloName) helloName.textContent = state.user.name.split(" ")[0];
-    if(profileName) profileName.textContent = state.user.name;
-    if(profileEmail) profileEmail.textContent = state.user.email;
-
-    if(homeBalance) homeBalance.textContent = "$"+Number(state.balance || 0).toFixed(2);
-    if(withdrawBalance) withdrawBalance.textContent = "$"+Number(state.balance || 0).toFixed(2);
-
-    if(homeProgress) homeProgress.textContent = Number(state.progress || 0)+"%";
-    if(inviteEarn) inviteEarn.textContent = "$"+Number(state.invite || 0).toFixed(2);
-    if(taskPercent) taskPercent.textContent = Number(state.progress || 0)+"%";
-    if(taskBar) taskBar.style.width = Number(state.progress || 0)+"%";
-
-    if(verifyStatus){
-      verifyStatus.textContent = state.verified ? "✅ Verified" : "⚠️ Not verified";
-    }
-
-    if(avatar && state.avatar){
-      avatar.src = state.avatar;
-    }
-
-    renderTasks();
-    renderVideos();
-    renderHistory();
-    renderNotices();
-    renderAdmin();
-    updateSeasonTimer();
-  };
-
-  window.renderTasks = function(){
-    ensureState();
-
-    const names = [
-      "Complete daily check-in",
-      "Read learning content",
-      "React to community post",
-      "Share approved content",
-      "Finish daily review"
-    ];
-
-    const list = document.getElementById("taskList");
-    if(!list) return;
-
-    list.innerHTML = names.map((name,index)=>{
-      const done = state.tasks[index] === true;
-
-      return `
-        <div class="card task ${done ? "done" : ""}">
-          <div class="num">${done ? "✓" : index+1}</div>
-          <div style="flex:1">
-            <b>${name}</b>
-            <p class="small">Reward: $0.25</p>
-          </div>
-          <button class="claim" onclick="claimTask(${index})">
-            ${done ? "Claimed" : "Claim"}
-          </button>
-        </div>
-      `;
-    }).join("");
-  };
-
-  window.renderAdmin = function(){
-    ensureState();
-
-    const users = document.getElementById("adminUsers");
-    const money = document.getElementById("adminMoney");
-    const pending = document.getElementById("adminPending");
-    const withdrawals = document.getElementById("adminWithdrawals");
-
-    if(users) users.textContent = state.user ? "1" : "0";
-    if(money) money.textContent = "$"+Number(state.balance || 0).toFixed(2);
-
-    if(pending){
-      pending.textContent = state.withdrawals.filter(item=>item.status === "Pending").length;
-    }
-
-    if(withdrawals){
-      withdrawals.innerHTML = state.withdrawals.length
-        ?
-        state.withdrawals.map(item=>`
-          <div class="card">
-            <div class="row">
-              <b>${escapeHTML(item.bank)}</b>
-              <span class="pill">${escapeHTML(item.status)}</span>
-            </div>
-            <p class="small">${escapeHTML(item.name)} • ${escapeHTML(item.date)}</p>
-            <b>$${Number(item.amount).toFixed(2)}</b>
-          </div>
-        `).join("")
-        :
-        '<p class="muted">Babu requests.</p>';
-    }
-  };
-
-  window.login = function(){
-    ensureState();
-
-    const id = document.getElementById("loginId").value.trim() || "demo@example.com";
-    const name = document.getElementById("regName").value.trim() || "Demo User";
-    const password = document.getElementById("loginPass").value;
-
-    if(state.userPassword && password !== state.userPassword){
-      toast("Password bai dace ba.");
-      return;
-    }
-
-    state.user = {
-      name,
-      email:id
-    };
-
-    if(!state.userPassword && password){
-      state.userPassword = password;
-    }
-
-    save();
-
-    document.getElementById("auth").style.display = "none";
-    document.getElementById("app").style.display = "block";
-
-    render();
-    toast("An shiga lafiya.");
-  };
-
-  window.changeLang = function(){
-    const language = document.getElementById("language").value;
-    state.language = language;
-    save();
-    toast("An canza language zuwa "+language);
-  };
-
-  window.requestWithdraw = function(){
-    ensureState();
-
-    const amount = Number(document.getElementById("amount").value);
-
-    if(!seasonIsActive()){
-      return;
-    }
-
-    if(state.progress < 100){
-      toast("Sai ka kai 100% progress kafin withdraw.");
-      return;
-    }
-
-    if(state.balance < 8 || amount < 8){
-      toast("Minimum withdraw $8 ne.");
-      return;
-    }
-
-    if(amount > state.balance){
-      toast("Balance bai isa ba.");
-      return;
-    }
-
-    if(!document.getElementById("accountNo").value.match(/^\d{10}$/)){
-      toast("Account number ya zama digits 10.");
-      return;
-    }
-
-    state.withdrawals.unshift({
-      bank:document.getElementById("bank").value,
-      name:document.getElementById("bankName").value,
-      amount,
-      status:"Pending",
-      date:new Date().toLocaleString()
-    });
-
-    state.balance -= amount;
-    state.progress = 0;
-    state.tasks = Array(5).fill(false);
-    state.videos = Array(state.permanentVideos.length).fill(false);
-
-    state.notices.unshift({
-      t:"Withdrawal request",
-      d:"An karbi request dinka. Status: Pending."
-    });
-
-    save();
-    render();
-    toast("An aika withdrawal request.");
-  };
+  /* =========================================
+     EXTRA MENUS
+     ========================================= */
 
   window.addSecurityMenu = function(){
-    const settingsPage = document.getElementById("settings");
+
+    const settingsPage =
+      document.getElementById("settings");
 
     if(!settingsPage) return;
-    if(document.getElementById("securityMenuAdded")) return;
 
-    const card = settingsPage.querySelector(".card");
+    if(document.getElementById("securityMenuAdded")){
+      return;
+    }
+
+    const card =
+      settingsPage.querySelector(".card");
+
     if(!card) return;
 
     const security = document.createElement("div");
+
     security.id = "securityMenuAdded";
     security.className = "security-card";
+
     security.innerHTML = `
       <h3>Security</h3>
+
       <p class="small">
         Canza password da security PIN na account dinka.
       </p>
-      <button class="btn full" onclick="openSecuritySettings()">
+
+      <button
+        class="btn full"
+        onclick="openSecuritySettings()">
         🔐 Security Settings
       </button>
     `;
@@ -4151,20 +4406,31 @@ document.addEventListener("DOMContentLoaded",()=>{
   };
 
   window.addVideoAdminMenu = function(){
-    const adminPage = document.getElementById("admin");
+
+    const adminPage =
+      document.getElementById("admin");
 
     if(!adminPage) return;
-    if(document.getElementById("videoManagerAdded")) return;
+
+    if(document.getElementById("videoManagerAdded")){
+      return;
+    }
 
     const manager = document.createElement("div");
+
     manager.id = "videoManagerAdded";
     manager.className = "video-admin-card";
+
     manager.innerHTML = `
       <h3>Permanent Videos</h3>
+
       <p class="small">
-        Admin zai iya saka sabon video wanda duk users zasu kalla.
+        Admin zai iya saka sabon video wanda users zasu kalla.
       </p>
-      <button class="btn full" onclick="openVideoManager()">
+
+      <button
+        class="btn full"
+        onclick="openVideoManager()">
         🎬 Manage Permanent Videos
       </button>
     `;
@@ -4172,28 +4438,39 @@ document.addEventListener("DOMContentLoaded",()=>{
     adminPage.appendChild(manager);
   };
 
-  ensureState();
+  /* =========================================
+     INITIALIZATION
+     ========================================= */
+
+  if(prepareState()){
+
+    resetNewDay();
+
+    setTimeout(function(){
+
+      if(typeof render === "function"){
+        render();
+      }
+
+      addSecurityMenu();
+      addVideoAdminMenu();
+      updateSeasonTimer();
+
+    },300);
+
+  }
 
   setInterval(function(){
-    ensureState();
-    resetForNewSeason();
+
+    if(!prepareState()) return;
+
+    resetNewDay();
     updateSeasonTimer();
+
   },60000);
-
-  setTimeout(function(){
-    ensureState();
-    resetForNewSeason();
-    addSecurityMenu();
-    addVideoAdminMenu();
-    updateSeasonTimer();
-
-    if(typeof render === "function"){
-      render();
-    }
-  },500);
 
 })();
   </script>
-  
-</body>
+
+  </body>
   </html>
