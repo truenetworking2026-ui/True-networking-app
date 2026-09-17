@@ -2561,6 +2561,275 @@ document.querySelectorAll(".logo").forEach(logo=>{
   });
 });
 
+<!-- MULTI-LANGUAGE SYSTEM -->
+<script>
+const translations = {
+  English:{
+    home:"Home", tasks:"Tasks", wallet:"Wallet", me:"Me",
+    balance:"Balance", progress:"Progress", notifications:"Notifications",
+    settings:"Settings", security:"Security", language:"Language",
+    logout:"Log Out", login:"Log In", register:"Register",
+    invite:"Invite", withdraw:"Withdraw", save:"Save", cancel:"Cancel",
+    claimed:"✓ Claimed", start:"Start", watch:"Watch",
+    dailyTasks:"Daily Tasks", videos:"Videos", completed:"Completed",
+    available:"Available", reward:"Reward", profile:"Profile",
+    changePassword:"Change Password", selectLanguage:"Select Language"
+  },
+  Hausa:{
+    home:"Gida", tasks:"Ayyuka", wallet:"Wallet", me:"Ni",
+    balance:"Ma'auni", progress:"Ci gaba", notifications:"Sanarwa",
+    settings:"Saituna", security:"Tsaro", language:"Harshe",
+    logout:"Fita", login:"Shiga", register:"Yi Rajista",
+    invite:"Gayyata", withdraw:"Cire Kudi", save:"Ajiye", cancel:"Soke",
+    claimed:"✓ An Karɓa", start:"Fara", watch:"Kalla",
+    dailyTasks:"Ayyukan Yau", videos:"Bidiyoyi", completed:"An Kammala",
+    available:"Akwai", reward:"Lada", profile:"Bayanan Kai",
+    changePassword:"Canza Kalmar Sirri", selectLanguage:"Zaɓi Harshe"
+  },
+  Arabic:{
+    home:"الرئيسية", tasks:"المهام", wallet:"المحفظة", me:"أنا",
+    balance:"الرصيد", progress:"التقدم", notifications:"الإشعارات",
+    settings:"الإعدادات", security:"الأمان", language:"اللغة",
+    logout:"تسجيل الخروج", login:"تسجيل الدخول", register:"التسجيل",
+    invite:"دعوة", withdraw:"سحب", save:"حفظ", cancel:"إلغاء",
+    claimed:"✓ تم الاستلام", start:"ابدأ", watch:"شاهد",
+    dailyTasks:"المهام اليومية", videos:"الفيديوهات", completed:"مكتمل",
+    available:"متاح", reward:"المكافأة", profile:"الملف الشخصي",
+    changePassword:"تغيير كلمة المرور", selectLanguage:"اختر اللغة"
+  },
+  French:{
+    home:"Accueil", tasks:"Tâches", wallet:"Portefeuille", me:"Moi",
+    balance:"Solde", progress:"Progression", notifications:"Notifications",
+    settings:"Paramètres", security:"Sécurité", language:"Langue",
+    logout:"Déconnexion", login:"Connexion", register:"Inscription",
+    invite:"Inviter", withdraw:"Retirer", save:"Enregistrer", cancel:"Annuler",
+    claimed:"✓ Réclamé", start:"Commencer", watch:"Regarder",
+    dailyTasks:"Tâches quotidiennes", videos:"Vidéos", completed:"Terminé",
+    available:"Disponible", reward:"Récompense", profile:"Profil",
+    changePassword:"Changer le mot de passe", selectLanguage:"Choisir la langue"
+  },
+  Spanish:{
+    home:"Inicio", tasks:"Tareas", wallet:"Billetera", me:"Yo",
+    balance:"Saldo", progress:"Progreso", notifications:"Notificaciones",
+    settings:"Configuración", security:"Seguridad", language:"Idioma",
+    logout:"Cerrar sesión", login:"Iniciar sesión", register:"Registrarse",
+    invite:"Invitar", withdraw:"Retirar", save:"Guardar", cancel:"Cancelar",
+    claimed:"✓ Reclamado", start:"Iniciar", watch:"Ver",
+    dailyTasks:"Tareas diarias", videos:"Videos", completed:"Completado",
+    available:"Disponible", reward:"Recompensa", profile:"Perfil",
+    changePassword:"Cambiar contraseña", selectLanguage:"Seleccionar idioma"
+  },
+  Portuguese:{
+    home:"Início", tasks:"Tarefas", wallet:"Carteira", me:"Eu",
+    balance:"Saldo", progress:"Progresso", notifications:"Notificações",
+    settings:"Configurações", security:"Segurança", language:"Idioma",
+    logout:"Sair", login:"Entrar", register:"Registrar",
+    invite:"Convidar", withdraw:"Sacar", save:"Salvar", cancel:"Cancelar",
+    claimed:"✓ Reivindicado", start:"Começar", watch:"Assistir",
+    dailyTasks:"Tarefas diárias", videos:"Vídeos", completed:"Concluído",
+    available:"Disponível", reward:"Recompensa", profile:"Perfil",
+    changePassword:"Alterar senha", selectLanguage:"Selecionar idioma"
+  },
+  German:{
+    home:"Startseite", tasks:"Aufgaben", wallet:"Wallet", me:"Ich",
+    balance:"Guthaben", progress:"Fortschritt", notifications:"Benachrichtigungen",
+    settings:"Einstellungen", security:"Sicherheit", language:"Sprache",
+    logout:"Abmelden", login:"Anmelden", register:"Registrieren",
+    invite:"Einladen", withdraw:"Auszahlen", save:"Speichern", cancel:"Abbrechen",
+    claimed:"✓ Eingelöst", start:"Start", watch:"Ansehen",
+    dailyTasks:"Tägliche Aufgaben", videos:"Videos", completed:"Abgeschlossen",
+    available:"Verfügbar", reward:"Belohnung", profile:"Profil",
+    changePassword:"Passwort ändern", selectLanguage:"Sprache auswählen"
+  },
+  Turkish:{
+    home:"Ana Sayfa", tasks:"Görevler", wallet:"Cüzdan", me:"Ben",
+    balance:"Bakiye", progress:"İlerleme", notifications:"Bildirimler",
+    settings:"Ayarlar", security:"Güvenlik", language:"Dil",
+    logout:"Çıkış Yap", login:"Giriş Yap", register:"Kayıt Ol",
+    invite:"Davet Et", withdraw:"Para Çek", save:"Kaydet", cancel:"İptal",
+    claimed:"✓ Alındı", start:"Başlat", watch:"İzle",
+    dailyTasks:"Günlük Görevler", videos:"Videolar", completed:"Tamamlandı",
+    available:"Mevcut", reward:"Ödül", profile:"Profil",
+    changePassword:"Şifre Değiştir", selectLanguage:"Dil Seç"
+  },
+  Swahili:{
+    home:"Nyumbani", tasks:"Kazi", wallet:"Mkoba", me:"Mimi",
+    balance:"Salio", progress:"Maendeleo", notifications:"Arifa",
+    settings:"Mipangilio", security:"Usalama", language:"Lugha",
+    logout:"Toka", login:"Ingia", register:"Jisajili",
+    invite:"Alika", withdraw:"Toa Pesa", save:"Hifadhi", cancel:"Ghairi",
+    claimed:"✓ Imedaiwa", start:"Anza", watch:"Tazama",
+    dailyTasks:"Kazi za Kila Siku", videos:"Video", completed:"Imekamilika",
+    available:"Inapatikana", reward:"Zawadi", profile:"Wasifu",
+    changePassword:"Badilisha Nenosiri", selectLanguage:"Chagua Lugha"
+  }
+};
+
+const languageNames = {
+  English:"🇬🇧 English",
+  Hausa:"🇳🇬 Hausa",
+  Arabic:"🇸🇦 العربية",
+  French:"🇫🇷 Français",
+  Spanish:"🇪🇸 Español",
+  Portuguese:"🇵🇹 Português",
+  German:"🇩🇪 Deutsch",
+  Turkish:"🇹🇷 Türkçe",
+  Swahili:"🇰🇪 Kiswahili"
+};
+
+function getLanguage(){
+  return localStorage.getItem("true_networking_language") || "English";
+}
+
+function setLanguage(lang){
+  if(!translations[lang]) return;
+
+  localStorage.setItem("true_networking_language",lang);
+
+  if(typeof state !== "undefined"){
+    state.language = lang;
+  }
+
+  applyLanguage();
+}
+
+function t(key){
+  const lang = getLanguage();
+  return translations[lang]?.[key] ||
+         translations.English[key] ||
+         key;
+}
+
+function applyLanguage(){
+
+  const lang = getLanguage();
+
+  document.documentElement.lang =
+    lang === "Hausa" ? "ha" :
+    lang === "Arabic" ? "ar" :
+    lang === "French" ? "fr" :
+    lang === "Spanish" ? "es" :
+    lang === "Portuguese" ? "pt" :
+    lang === "German" ? "de" :
+    lang === "Turkish" ? "tr" :
+    lang === "Swahili" ? "sw" : "en";
+
+  document.documentElement.dir =
+    lang === "Arabic" ? "rtl" : "ltr";
+
+  document.querySelectorAll("[data-lang]").forEach(el=>{
+    const key = el.getAttribute("data-lang");
+    if(translations[lang]?.[key]){
+      el.textContent = translations[lang][key];
+    }
+  });
+
+  document.querySelectorAll("[data-lang-placeholder]").forEach(el=>{
+    const key = el.getAttribute("data-lang-placeholder");
+    if(translations[lang]?.[key]){
+      el.placeholder = translations[lang][key];
+    }
+  });
+
+  const selector = document.getElementById("languageSelector");
+  if(selector){
+    selector.value = lang;
+  }
+
+  if(typeof updateAll === "function"){
+    updateAll();
+  }
+}
+
+function openLanguageSelector(){
+  const old = document.getElementById("languageModal");
+  if(old) old.remove();
+
+  const modal = document.createElement("div");
+  modal.id = "languageModal";
+
+  modal.style.cssText = `
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.65);
+    z-index:99999;
+    display:flex;
+    align-items:flex-end;
+    justify-content:center;
+    padding:15px;
+  `;
+
+  modal.innerHTML = `
+    <div style="
+      width:100%;
+      max-width:520px;
+      max-height:80vh;
+      overflow:auto;
+      background:var(--card,#fff);
+      color:var(--text,#151827);
+      border-radius:25px;
+      padding:22px;
+    ">
+      <h3 style="margin-bottom:5px">${t("selectLanguage")}</h3>
+
+      <p style="
+        color:var(--muted,#7d8295);
+        font-size:13px;
+        margin-bottom:18px;
+      ">
+        Choose your preferred language
+      </p>
+
+      <select
+        id="languageSelector"
+        onchange="setLanguage(this.value);closeLanguageSelector();"
+        style="
+          width:100%;
+          padding:15px;
+          border-radius:14px;
+          border:1px solid var(--line,#e8eaf2);
+          background:var(--bg,#f6f7fb);
+          color:var(--text,#151827);
+          font-size:16px;
+        "
+      >
+        ${Object.keys(languageNames).map(lang=>`
+          <option value="${lang}" ${getLanguage()===lang?"selected":""}>
+            ${languageNames[lang]}
+          </option>
+        `).join("")}
+      </select>
+
+      <button
+        onclick="closeLanguageSelector()"
+        style="
+          width:100%;
+          margin-top:12px;
+          padding:14px;
+          border:0;
+          border-radius:14px;
+          background:#e9eaf0;
+          color:#333;
+          font-weight:700;
+        "
+      >
+        ${t("cancel")}
+      </button>
+    </div>
+  `;
+
+  document.body.appendChild(modal);
+}
+
+function closeLanguageSelector(){
+  const modal = document.getElementById("languageModal");
+  if(modal) modal.remove();
+}
+
+document.addEventListener("DOMContentLoaded",()=>{
+  applyLanguage();
+});
+
 init();
 </script>-
 </body>
