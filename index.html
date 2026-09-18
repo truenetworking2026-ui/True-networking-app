@@ -3030,19 +3030,19 @@ function updateHomeUI(){
 
   document
     .textContentomeVideosDone")
-    ?.textContent =
+    .textContent =
       `${videosDone}/3`;
 
 
   document
     .getElementById("homeDay")
-    ?.textContent =
+    .textContent =
       `Day ${State.currentDay}`;
 
 
   document
     .getElementById("homeProgressText")
-    ?.textContent =
+    .textContent =
       `${progress}%`;
 
 
@@ -3062,7 +3062,7 @@ function updateHomeUI(){
 
   document
     .getElementById("welcomeName")
-    ?.textContent =
+    .textContent =
       State.user.name || "User";
 
 }
@@ -3082,13 +3082,13 @@ function updateTaskUI(){
 
   document
     .getElementById("taskHeaderCount")
-    ?.textContent =
+    .textContent =
       `${completed}/5`;
 
 
   document
     .getElementById("taskHeaderText")
-    ?.textContent =
+    .textContent =
       completed===5
         ? "All 5 tasks completed today"
         : "Complete your tasks today";
@@ -3147,13 +3147,13 @@ function updateProfileUI(){
 
   document
     .getElementById("profileName")
-    ?.textContent =
+    .textContent =
       State.user.name || "User";
 
 
   document
     .getElementById("profileEmail")
-    ?.textContent =
+    .textContent =
       State.user.email ||
       "user@example.com";
 
@@ -3213,7 +3213,7 @@ function updateWithdrawUI(){
 
   document
     .getElementById("withdrawBalance")
-    ?.textContent =
+    .textContent =
       "$"+Number(State.balance).toFixed(2);
 
 
