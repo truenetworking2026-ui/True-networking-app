@@ -2500,6 +2500,1646 @@ document.querySelectorAll(".logo").forEach(logo=>{
 });  
   
 init();  
+/* =========================================================
+   TRUE NETWORKING
+   MAIN APP STATE
+   ========================================================= */
+
+const State = {
+  user: {
+    name: "User",
+    email: "user@example.com",
+    avatar: "https://i.pravatar.cc/200?img=12",
+    verified: false
+  },
+
+  balance: 0,
+
+  currentDay: 1,
+
+  tasks: Array(5).fill(null).map((_, i) => ({
+    id: i + 1,
+    completed: false
+  })),
+
+  videos: Array(3).fill(null).map((_, i) => ({
+    id: i + 1,
+    completed: false
+  })),
+
+  withdrawals: [],
+
+  authMode: "register",
+
+  darkMode: false,
+
+  language: "English",
+
+  currentVideo: null,
+
+  videoTimer: null,
+
+  videoSeconds: 180
+};
+
+
+/* =========================================================
+   TASK DATA
+   ========================================================= */
+
+const TASK_DATA = [
+  {
+    title: "Daily Social Task",
+    description: "Complete this simple daily activity and claim your reward.",
+    reward: 0.20,
+    tag: "Daily",
+    type: "Task"
+  },
+  {
+    title: "Community Task",
+    description: "Take part in the True Networking community activity.",
+    reward: 0.20,
+    tag: "Community",
+    type: "Task"
+  },
+  {
+    title: "Engagement Task",
+    description: "Complete the engagement activity to receive your reward.",
+    reward: 0.20,
+    tag: "Engagement",
+    type: "Task"
+  },
+  {
+    title: "Learning Task",
+    description: "Complete this short learning activity and claim your reward.",
+    reward: 0.20,
+    tag: "Learning",
+    type: "Task"
+  },
+  {
+    title: "Daily Bonus Task",
+    description: "Finish the daily bonus activity to increase your progress.",
+    reward: 0.20,
+    tag: "Bonus",
+    type: "Task"
+  }
+];
+
+
+/* =========================================================
+   VIDEO DATA
+   ========================================================= */
+
+const VIDEO_DATA = [
+  {
+    title: "A Story of Love",
+    description: "A short emotional story about love, kindness and hope.",
+    reward: 0.20,
+    src: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
+  },
+  {
+    title: "Happiness & Hope",
+    description: "A positive video about happiness, courage and a better future.",
+    reward: 0.20,
+    src: "https://www.w3schools.com/html/mov_bbb.mp4"
+  },
+  {
+    title: "Keep Moving Forward",
+    description: "An inspiring story filled with emotion, excitement and motivation.",
+    reward: 0.20,
+    src: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
+  }
+];
+
+
+/* =========================================================
+   LOCAL STORAGE
+   ========================================================= */
+
+function saveState(){
+
+  localStorage.setItem(
+    "trueNetworkingState",
+    JSON.stringify(State)
+  );
+
+}
+
+
+function loadState(){
+
+  const saved = localStorage.getItem("trueNetworkingState");
+
+  if(!saved) return;
+
+  try{
+
+    const data = JSON.parse(saved);
+
+    Object.assign(State, data);
+
+  }catch(error){
+
+    console.log("Could not load saved state:", error);
+
+  }
+
+}
+
+
+/* =========================================================
+   TOAST
+   ========================================================= */
+
+function showToast(message){
+
+  const toast = document.getElementById("toast");
+
+  if(!toast) return;
+
+  toast.textContent = message;
+
+  toast.classList.remove("hidden");
+
+  clearTimeout(window.toastTimer);
+
+  window.toastTimer = setTimeout(() => {
+
+    toast.classList.add("hidden");
+
+  }, 2500);
+
+}
+
+
+/* =========================================================
+   SPLASH
+   ========================================================= */
+
+function hideSplash(){
+
+  const splash = document.getElementById("splash");
+
+  if(!splash) return;
+
+  setTimeout(() => {
+
+    splash.classList.add("hidden");
+
+    checkLogin();
+
+  }, 1500);
+
+}
+
+
+/* =========================================================
+   LOGIN CHECK
+   ========================================================= */
+
+function checkLogin(){
+
+  const loggedIn =
+    localStorage.getItem("trueNetworkingLoggedIn");
+
+  const auth = document.getElementById("authScreen");
+  const app = document.getElementById("mainApp");
+
+  if(loggedIn === "true"){
+
+    if(auth) auth.classList.add("hidden");
+
+    if(app) app.classList.remove("hidden");
+
+    updateAllUI();
+
+  }else{
+
+    if(auth) auth.classList.remove("hidden");
+
+    if(app) app.classList.add("hidden");
+
+  }
+
+}
+
+
+/* =========================================================
+   AUTH MODE
+   ========================================================= */
+
+function toggleAuth(){
+
+  State.authMode =
+    State.authMode === "register"
+      ? "login"
+      : "register";
+
+  const title =
+    document.getElementById("authTitle");
+
+  const subtitle =
+    document.getElementById("authSubtitle");
+
+  const registerFields =
+    document.getElementById("registerFields");
+
+  const submit =
+    document.getElementById("authSubmit");
+
+  const switchText =
+    document.getElementById("authSwitchText");
+
+  const switchBtn =
+    document.getElementById("authSwitchBtn");
+
+  if(State.authMode === "register"){
+
+    title.textContent = "Create account";
+
+    subtitle.textContent =
+      "Register to start using True Networking.";
+
+    registerFields.classList.remove("hidden");
+
+    submit.textContent = "Register";
+
+    switchText.textContent =
+      "Already have an account?";
+
+    switchBtn.textContent = "Login";
+
+  }else{
+
+    title.textContent = "Welcome back";
+
+    subtitle.textContent =
+      "Login to continue using True Networking.";
+
+    registerFields.classList.add("hidden");
+
+    submit.textContent = "Login";
+
+    switchText.textContent =
+      "Don't have an account?";
+
+    switchBtn.textContent = "Register";
+
+  }
+
+}
+
+
+/* =========================================================
+   AUTH SUBMIT
+   ========================================================= */
+
+function submitAuth(){
+
+  const name =
+    document.getElementById("authName");
+
+  const email =
+    document.getElementById("authEmail");
+
+  const password =
+    document.getElementById("authPassword");
+
+  if(!email.value.trim()){
+
+    showToast("Please enter your email or phone number.");
+
+    return;
+
+  }
+
+  if(!password.value.trim()){
+
+    showToast("Please enter your password.");
+
+    return;
+
+  }
+
+  if(State.authMode === "register"){
+
+    if(!name.value.trim()){
+
+      showToast("Please enter your full name.");
+
+      return;
+
+    }
+
+    State.user.name = name.value.trim();
+
+  }
+
+  State.user.email = email.value.trim();
+
+  localStorage.setItem(
+    "trueNetworkingLoggedIn",
+    "true"
+  );
+
+  saveState();
+
+  const auth =
+    document.getElementById("authScreen");
+
+  const app =
+    document.getElementById("mainApp");
+
+  auth.classList.add("hidden");
+
+  app.classList.remove("hidden");
+
+  updateAllUI();
+
+  showToast(
+    State.authMode === "register"
+      ? "Account created successfully."
+      : "Login successful."
+  );
+
+}
+
+
+/* =========================================================
+   DEMO GOOGLE LOGIN
+   ========================================================= */
+
+function demoGoogleLogin(){
+
+  State.user.name = "Google User";
+
+  State.user.email = "googleuser@example.com";
+
+  localStorage.setItem(
+    "trueNetworkingLoggedIn",
+    "true"
+  );
+
+  saveState();
+
+  document
+    .getElementById("authScreen")
+    .classList.add("hidden");
+
+  document
+    .getElementById("mainApp")
+    .classList.remove("hidden");
+
+  updateAllUI();
+
+  showToast("Google demo login successful.");
+
+}
+
+
+/* =========================================================
+   PAGE NAVIGATION
+   ========================================================= */
+
+function showPage(page){
+
+  const pages = [
+    "home",
+    "tasks",
+    "withdraw",
+    "profile",
+    "notifications"
+  ];
+
+  pages.forEach(name => {
+
+    const element =
+      document.getElementById(name + "Page");
+
+    if(element){
+
+      element.classList.add("hidden");
+
+    }
+
+  });
+
+
+  const target =
+    document.getElementById(page + "Page");
+
+  if(target){
+
+    target.classList.remove("hidden");
+
+  }
+
+
+  document
+    .querySelectorAll(".nav-btn")
+    .forEach(btn => {
+
+      btn.classList.remove("active");
+
+    });
+
+
+  if(page === "home"){
+
+    document
+      .getElementById("navHome")
+      ?.classList.add("active");
+
+  }
+
+  if(page === "tasks"){
+
+    document
+      .getElementById("navTasks")
+      ?.classList.add("active");
+
+  }
+
+  if(page === "withdraw"){
+
+    document
+      .getElementById("navWallet")
+      ?.classList.add("active");
+
+    updateWithdrawUI();
+
+  }
+
+  if(page === "profile"){
+
+    document
+      .getElementById("navProfile")
+      ?.classList.add("active");
+
+  }
+
+}
+
+
+/* =========================================================
+   TASK RENDER
+   ========================================================= */
+
+function renderTasks(){
+
+  const list =
+    document.getElementById("taskList");
+
+  if(!list) return;
+
+  list.innerHTML = "";
+
+  TASK_DATA.forEach((task, index) => {
+
+    const completed =
+      State.tasks[index]?.completed === true;
+
+    const card =
+      document.createElement("div");
+
+    card.className = "task-card";
+
+    card.innerHTML = `
+      <div class="task-thumb"
+           style="
+             display:flex;
+             align-items:center;
+             justify-content:center;
+             font-size:30px;
+             background:linear-gradient(135deg,#fff1c8,#ffe0a0);
+           ">
+        🎯
+      </div>
+
+      <div class="task-main">
+
+        <h3>${task.title}</h3>
+
+        <p>${task.description}</p>
+
+        <div class="task-meta">
+
+          <span class="tag">
+            ${task.tag}
+          </span>
+
+          <span class="tag orange">
+            +$${task.reward.toFixed(2)}
+          </span>
+
+          <span class="tag green">
+            Twice daily
+          </span>
+
+        </div>
+
+        <button
+          class="task-button ${completed ? "claimed" : ""}"
+          ${completed ? "disabled" : ""}
+          onclick="claimTask(${index})">
+
+          ${completed
+            ? "✓ Claimed"
+            : "Claim $"+task.reward.toFixed(2)}
+
+        </button>
+
+      </div>
+    `;
+
+    list.appendChild(card);
+
+  });
+
+
+  renderVideoTasks();
+
+}
+
+
+/* =========================================================
+   VIDEO TASKS
+   ========================================================= */
+
+function renderVideoTasks(){
+
+  const list =
+    document.getElementById("taskList");
+
+  if(!list) return;
+
+
+  const heading =
+    document.createElement("div");
+
+  heading.style.marginTop = "10px";
+
+  heading.innerHTML = `
+    <div class="section-heading">
+      <h2>Daily Videos</h2>
+      <span style="
+        color:var(--muted);
+        font-size:11px;
+      ">
+        3 videos • 3 minutes each
+      </span>
+    </div>
+  `;
+
+  list.appendChild(heading);
+
+
+  VIDEO_DATA.forEach((video, index) => {
+
+    const completed =
+      State.videos[index]?.completed === true;
+
+    const card =
+      document.createElement("div");
+
+    card.className = "task-card";
+
+    card.innerHTML = `
+
+      <div class="task-thumb"
+           style="
+             display:flex;
+             align-items:center;
+             justify-content:center;
+             font-size:30px;
+             background:linear-gradient(135deg,#e9e4ff,#d8ceff);
+           ">
+        🎬
+      </div>
+
+      <div class="task-main">
+
+        <h3>${video.title}</h3>
+
+        <p>${video.description}</p>
+
+        <div class="task-meta">
+
+          <span class="tag">
+            Video
+          </span>
+
+          <span class="tag orange">
+            3 Minutes
+          </span>
+
+          <span class="tag green">
+            +$${video.reward.toFixed(2)}
+          </span>
+
+        </div>
+
+        <button
+          class="task-button ${completed ? "claimed" : ""}"
+          ${completed ? "disabled" : ""}
+          onclick="openVideo(${index})">
+
+          ${completed
+            ? "✓ Claimed"
+            : "▶ Start Video"}
+
+        </button>
+
+      </div>
+    `;
+
+    list.appendChild(card);
+
+  });
+
+}
+
+
+/* =========================================================
+   CLAIM TASK
+   ========================================================= */
+
+function claimTask(index){
+
+  if(State.tasks[index]?.completed){
+
+    showToast("This task has already been claimed.");
+
+    return;
+
+  }
+
+
+  State.tasks[index].completed = true;
+
+  State.balance =
+    Number((State.balance + TASK_DATA[index].reward).toFixed(2));
+
+  saveState();
+
+  updateAllUI();
+
+  showToast(
+    `Task completed! +$${TASK_DATA[index].reward.toFixed(2)}`
+  );
+
+}
+
+
+/* =========================================================
+   VIDEO MODAL
+   ========================================================= */
+
+function openVideo(index){
+
+  if(State.videos[index]?.completed){
+
+    showToast("This video has already been claimed.");
+
+    return;
+
+  }
+
+
+  State.currentVideo = index;
+
+  State.videoSeconds = 180;
+
+
+  const modal =
+    document.getElementById("videoModal");
+
+  const video =
+    document.getElementById("taskVideo");
+
+  const title =
+    document.getElementById("modalTitle");
+
+  const description =
+    document.getElementById("modalDescription");
+
+  const timer =
+    document.getElementById("videoTimer");
+
+  const button =
+    document.getElementById("finishVideoBtn");
+
+
+  title.textContent =
+    VIDEO_DATA[index].title;
+
+  description.textContent =
+    VIDEO_DATA[index].description +
+    " Watch for 3 minutes before claiming your reward.";
+
+
+  video.src =
+    VIDEO_DATA[index].src;
+
+  video.currentTime = 0;
+
+  button.disabled = true;
+
+  button.textContent =
+    "Watch until the timer ends";
+
+  timer.textContent = "03:00";
+
+
+  modal.classList.remove("hidden");
+
+
+  clearInterval(State.videoTimer);
+
+  State.videoTimer =
+    setInterval(() => {
+
+      State.videoSeconds--;
+
+      const minutes =
+        Math.floor(State.videoSeconds / 60);
+
+      const seconds =
+        State.videoSeconds % 60;
+
+      timer.textContent =
+        `${String(minutes).padStart(2,"0")}:${String(seconds).padStart(2,"0")}`;
+
+
+      if(State.videoSeconds <= 0){
+
+        clearInterval(State.videoTimer);
+
+        button.disabled = false;
+
+        button.textContent =
+          `Claim $${VIDEO_DATA[index].reward.toFixed(2)}`;
+
+      }
+
+    },1000);
+
+}
+
+
+/* =========================================================
+   FINISH VIDEO
+   ========================================================= */
+
+function finishVideo(){
+
+  const index = State.currentVideo;
+
+  if(index === null || index === undefined){
+
+    return;
+
+  }
+
+
+  if(State.videoSeconds > 0){
+
+    showToast("Please watch until the timer ends.");
+
+    return;
+
+  }
+
+
+  if(State.videos[index].completed){
+
+    showToast("Video already claimed.");
+
+    return;
+
+  }
+
+
+  State.videos[index].completed = true;
+
+  State.balance =
+    Number(
+      (
+        State.balance +
+        VIDEO_DATA[index].reward
+      ).toFixed(2)
+    );
+
+
+  saveState();
+
+  closeVideoModal();
+
+  updateAllUI();
+
+  showToast(
+    `Video completed! +$${VIDEO_DATA[index].reward.toFixed(2)}`
+  );
+
+}
+
+
+/* =========================================================
+   CLOSE VIDEO
+   ========================================================= */
+
+function closeVideoModal(){
+
+  clearInterval(State.videoTimer);
+
+  State.videoTimer = null;
+
+  const modal =
+    document.getElementById("videoModal");
+
+  const video =
+    document.getElementById("taskVideo");
+
+  if(video){
+
+    video.pause();
+
+    video.removeAttribute("src");
+
+    video.load();
+
+  }
+
+  if(modal){
+
+    modal.classList.add("hidden");
+
+  }
+
+}
+
+
+/* =========================================================
+   PROGRESS
+   ========================================================= */
+
+function calculateProgress(){
+
+  const taskCount =
+    State.tasks.filter(t => t.completed).length;
+
+  const videoCount =
+    State.videos.filter(v => v.completed).length;
+
+
+  const totalCompleted =
+    taskCount + videoCount;
+
+  const totalItems =
+    State.tasks.length + State.videos.length;
+
+
+  return Math.round(
+    (totalCompleted / totalItems) * 100
+  );
+
+}
+
+
+/* =========================================================
+   UPDATE HOME
+   ========================================================= */
+
+function updateHomeUI(){
+
+  const taskDone =
+    State.tasks.filter(t => t.completed).length;
+
+  const videoDone =
+    State.videos.filter(v => v.completed).length;
+
+
+  const progress =
+    calculateProgress();
+
+
+  const balance =
+    `$${State.balance.toFixed(2)}`;
+
+
+  document
+    .getElementById("homeBalance")
+    ?.textContent = balance;
+
+
+  document
+    .getElementById("homeTasksDone")
+    ?.textContent =
+      `${taskDone}/5`;
+
+
+  document
+    .getElementById("homeVideosDone")
+    ?.textContent =
+      `${videoDone}/3`;
+
+
+  document
+    .getElementById("homeDay")
+    ?.textContent =
+      `Day ${State.currentDay}`;
+
+
+  document
+    .getElementById("homeProgressText")
+    ?.textContent =
+      `${progress}%`;
+
+
+  const bar =
+    document.getElementById("homeProgressBar");
+
+  if(bar){
+
+    bar.style.width =
+      `${progress}%`;
+
+  }
+
+
+  const welcome =
+    document.getElementById("welcomeName");
+
+  if(welcome){
+
+    welcome.textContent =
+      State.user.name || "User";
+
+  }
+
+}
+
+
+/* =========================================================
+   UPDATE TASK HEADER
+   ========================================================= */
+
+function updateTaskUI(){
+
+  const completed =
+    State.tasks.filter(t => t.completed).length;
+
+
+  const count =
+    document.getElementById("taskHeaderCount");
+
+  if(count){
+
+    count.textContent =
+      `${completed}/5`;
+
+  }
+
+
+  const text =
+    document.getElementById("taskHeaderText");
+
+  if(text){
+
+    if(completed === 5){
+
+      text.textContent =
+        "All 5 tasks completed today";
+
+    }else{
+
+      text.textContent =
+        "Complete your tasks today";
+
+    }
+
+  }
+
+
+  renderTasks();
+
+}
+
+
+/* =========================================================
+   UPDATE PROFILE
+   ========================================================= */
+
+function updateProfileUI(){
+
+  document
+    .getElementById("profileName")
+    ?.textContent =
+      State.user.name || "User";
+
+
+  document
+    .getElementById("profileEmail")
+    ?.textContent =
+      State.user.email || "user@example.com";
+
+
+  const avatar =
+    document.getElementById("profileAvatar");
+
+  if(avatar && State.user.avatar){
+
+    avatar.src =
+      State.user.avatar;
+
+  }
+
+
+  const status =
+    document.getElementById("verifyStatus");
+
+  if(status){
+
+    status.textContent =
+      State.user.verified
+        ? "✓ Verified"
+        : "›";
+
+  }
+
+}
+
+
+/* =========================================================
+   UPDATE WITHDRAW
+   ========================================================= */
+
+function updateWithdrawUI(){
+
+  document
+    .getElementById("withdrawBalance")
+    ?.textContent =
+      `$${State.balance.toFixed(2)}`;
+
+
+  const history =
+    document.getElementById("withdrawHistory");
+
+  if(!history) return;
+
+
+  if(State.withdrawals.length === 0){
+
+    history.innerHTML =
+      `<div class="empty">
+        No withdrawal requests yet.
+      </div>`;
+
+    return;
+
+  }
+
+
+  history.innerHTML =
+    State.withdrawals.map(item => `
+
+      <div style="
+        padding:12px 0;
+        border-bottom:1px solid var(--line);
+      ">
+
+        <div style="
+          display:flex;
+          justify-content:space-between;
+        ">
+
+          <strong>
+            $${Number(item.amount).toFixed(2)}
+          </strong>
+
+          <span class="status pending">
+            Pending
+          </span>
+
+        </div>
+
+        <small style="
+          color:var(--muted);
+        ">
+          ${item.bank} • ${item.account}
+        </small>
+
+      </div>
+
+    `).join("");
+
+}
+
+
+/* =========================================================
+   UPDATE EVERYTHING
+   ========================================================= */
+
+function updateAllUI(){
+
+  updateHomeUI();
+
+  updateTaskUI();
+
+  updateProfileUI();
+
+  updateWithdrawUI();
+
+}
+
+
+/* =========================================================
+   WITHDRAW TABS
+   ========================================================= */
+
+function selectWithdrawTab(button){
+
+  document
+    .querySelectorAll(".tab")
+    .forEach(tab => {
+
+      tab.classList.remove("active");
+
+    });
+
+  button.classList.add("active");
+
+}
+
+
+/* =========================================================
+   WITHDRAW REQUEST
+   ========================================================= */
+
+function requestWithdraw(){
+
+  const bank =
+    document.getElementById("bankName").value;
+
+  const name =
+    document.getElementById("withdrawName").value.trim();
+
+  const account =
+    document.getElementById("accountNumber").value.trim();
+
+  const amount =
+    Number(
+      document.getElementById("withdrawAmount").value
+    );
+
+
+  if(!bank){
+
+    showToast("Please select your bank.");
+
+    return;
+
+  }
+
+
+  if(!name){
+
+    showToast("Please enter account holder name.");
+
+    return;
+
+  }
+
+
+  if(!/^\d{10}$/.test(account)){
+
+    showToast("Account number must contain 10 digits.");
+
+    return;
+
+  }
+
+
+  if(!amount || amount < 8){
+
+    showToast("Minimum withdrawal is $8.00.");
+
+    return;
+
+  }
+
+
+  if(amount > State.balance){
+
+    showToast("Insufficient balance.");
+
+    return;
+
+  }
+
+
+  State.withdrawals.unshift({
+
+    bank,
+    name,
+    account,
+    amount,
+    status:"pending",
+    date:new Date().toLocaleString()
+
+  });
+
+
+  saveState();
+
+  updateWithdrawUI();
+
+  showToast(
+    "Withdrawal request recorded as pending."
+  );
+
+}
+
+
+/* =========================================================
+   AVATAR UPLOAD
+   ========================================================= */
+
+function uploadAvatar(event){
+
+  const file =
+    event.target.files?.[0];
+
+  if(!file) return;
+
+
+  const reader =
+    new FileReader();
+
+
+  reader.onload = function(){
+
+    State.user.avatar =
+      reader.result;
+
+    saveState();
+
+    updateProfileUI();
+
+    showToast("Profile picture updated.");
+
+  };
+
+
+  reader.readAsDataURL(file);
+
+}
+
+
+/* =========================================================
+   EDIT PROFILE
+   ========================================================= */
+
+function editProfile(){
+
+  const newName =
+    prompt(
+      "Enter your new full name:",
+      State.user.name
+    );
+
+
+  if(!newName) return;
+
+
+  State.user.name =
+    newName.trim();
+
+  saveState();
+
+  updateAllUI();
+
+  showToast("Profile updated.");
+
+}
+
+
+/* =========================================================
+   FACE VERIFICATION
+   ========================================================= */
+
+function faceVerification(){
+
+  if(State.user.verified){
+
+    showToast("Your face is already verified.");
+
+    return;
+
+  }
+
+
+  const approved =
+    confirm(
+      "Demo Face Verification\n\n" +
+      "In the real app, this will open your phone camera " +
+      "for face verification.\n\n" +
+      "Continue with demo verification?"
+    );
+
+
+  if(!approved) return;
+
+
+  State.user.verified = true;
+
+  saveState();
+
+  updateProfileUI();
+
+  showToast(
+    "Face verification completed in demo mode."
+  );
+
+}
+
+
+/* =========================================================
+   SECURITY
+   ========================================================= */
+
+function securityInfo(){
+
+  showToast(
+    "Your account security settings are protected."
+  );
+
+}
+
+
+/* =========================================================
+   DARK MODE
+   ========================================================= */
+
+function toggleDarkMode(){
+
+  State.darkMode =
+    !State.darkMode;
+
+
+  document.body.classList.toggle(
+    "dark-mode",
+    State.darkMode
+  );
+
+
+  const switchElement =
+    document.getElementById("darkSwitch");
+
+  if(switchElement){
+
+    switchElement.classList.toggle(
+      "active",
+      State.darkMode
+    );
+
+  }
+
+
+  saveState();
+
+}
+
+
+/* =========================================================
+   LANGUAGE
+   ========================================================= */
+
+function showLanguage(){
+
+  const choice =
+    prompt(
+      "Choose language:\n\n" +
+      "1 = English\n" +
+      "2 = Hausa",
+      State.language === "Hausa" ? "2" : "1"
+    );
+
+
+  if(choice === "2"){
+
+    State.language = "Hausa";
+
+    showToast("Hausa language selected.");
+
+  }else if(choice === "1"){
+
+    State.language = "English";
+
+    showToast("English language selected.");
+
+  }else{
+
+    return;
+
+  }
+
+
+  saveState();
+
+}
+
+
+/* =========================================================
+   INVITE
+   ========================================================= */
+
+function inviteFriends(){
+
+  const inviteCode =
+    "TN" +
+    Math.random()
+      .toString(36)
+      .substring(2,8)
+      .toUpperCase();
+
+
+  const inviteText =
+    `Join me on True Networking.\n\n` +
+    `Invite Code: ${inviteCode}`;
+
+
+  if(navigator.share){
+
+    navigator.share({
+
+      title:"True Networking",
+
+      text:inviteText
+
+    }).catch(() => {});
+
+  }else{
+
+    navigator.clipboard
+      ?.writeText(inviteText);
+
+    showToast(
+      "Invite information copied."
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   SHARE APP
+   ========================================================= */
+
+function shareApp(){
+
+  if(navigator.share){
+
+    navigator.share({
+
+      title:"True Networking",
+
+      text:
+        "Join True Networking and complete tasks to earn rewards."
+
+    }).catch(() => {});
+
+  }else{
+
+    showToast("Share feature opened.");
+
+  }
+
+}
+
+
+/* =========================================================
+   LIKE FEED
+   ========================================================= */
+
+function likeFeed(button){
+
+  button.textContent =
+    button.textContent === "♡"
+      ? "♥"
+      : "♡";
+
+}
+
+
+/* =========================================================
+   LOGOUT
+   ========================================================= */
+
+function logout(){
+
+  const confirmLogout =
+    confirm(
+      "Are you sure you want to logout?"
+    );
+
+
+  if(!confirmLogout) return;
+
+
+  localStorage.removeItem(
+    "trueNetworkingLoggedIn"
+  );
+
+
+  document
+    .getElementById("mainApp")
+    .classList.add("hidden");
+
+
+  document
+    .getElementById("authScreen")
+    .classList.remove("hidden");
+
+
+  showToast("You have been logged out.");
+
+}
+
+
+/* =========================================================
+   ADMIN DEMO
+   ========================================================= */
+
+function closeAdmin(){
+
+  document
+    .getElementById("adminPage")
+    ?.classList.add("hidden");
+
+  document
+    .getElementById("mainApp")
+    ?.classList.remove("hidden");
+
+}
+
+
+function adminApproveAll(){
+
+  showToast(
+    "All pending demo requests approved."
+  );
+
+}
+
+
+function clearDemoData(){
+
+  const ok =
+    confirm(
+      "Clear all True Networking demo data?"
+    );
+
+
+  if(!ok) return;
+
+
+  localStorage.removeItem(
+    "trueNetworkingState"
+  );
+
+  location.reload();
+
+}
+
+
+/* =========================================================
+   START APPLICATION
+   ========================================================= */
+
+loadState();
+
+document.addEventListener(
+  "DOMContentLoaded",
+  () => {
+
+    if(State.darkMode){
+
+      document.body.classList.add(
+        "dark-mode"
+      );
+
+      document
+        .getElementById("darkSwitch")
+        ?.classList.add("active");
+
+    }
+
+    hideSplash();
+
+  }
+); 
 </script>  
 </body>  
 </html>
