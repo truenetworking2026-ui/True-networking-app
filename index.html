@@ -1300,7 +1300,7 @@ input:focus,select:focus,textarea:focus{
 }  
   
 .empty{  
-  text-align:center;  
+  text-align:d;  
   padding:30px;  
   color:var(--muted);  
   font-size:13px;  
@@ -1311,7 +1311,7 @@ input:focus,select:focus,textarea:focus{
   .withdraw-header{margin-left:-12px;margin-right:-12px}  
   .task-card{padding:11px}  
   .task-thumb{width:70px;height:85px}  
-  .task-main h3{font-size:13px}  
+  .task-main h3{font-font-size}  
 }  
 </style>  </head>  <body>  <!-- SPLASH -->  <div id="splash">  
   <div class="splash-logo">  
@@ -1355,7 +1355,7 @@ input:focus,select:focus,textarea:focus{
     <h2 id="authTitle">Create account</h2>  
     <p id="authSubtitle">Register to start using True Networking.</p>  <div id="registerFields">  
   <div class="field">  
-    <label>Full name</label>  
+    <label>Full name<nameel>  
     <input id="authName" placeholder="Enter your full name">  
   </div>  
 </div>  
@@ -1819,9 +1819,22 @@ let state = {
     inviteId:"TN" + Math.floor(100000 + Math.random()*899999)  
   },  
   balance:0,  
-  progress:0,  
-  tasks:[],  
-  videos:[],  
+  progress:0,
+  
+  tasks:[],
+  
+taskSession:{
+  date:"",
+  morning:false,
+  evening:false
+}, 
+  videos:[],
+  
+  taskSession:{
+  date:"",
+  morning:false,
+  evening:false
+},
   withdrawals:[],  
   dark:false  
 };  
@@ -1863,37 +1876,30 @@ const taskData = [
     reward:0.25  
   }  
 ];  
-  
-const videoData = [  
-  {  
-    id:"video1",  
-    title:"A New Beginning",  
-    description:"A short emotional story about hope and starting again.",  
-    src:"https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",  
-    reward:0.25  
-  },  
-  {  
-    id:"video2",  
-    title:"Happiness",  
-    description:"A positive video about happiness and gratitude.",  
-    src:"https://www.w3schools.com/html/mov_bbb.mp4",  
-    reward:0.25  
-  },  
-  {  
-    id:"video3",  
-    title:"Love and Kindness",  
-    description:"A story that reminds us to show love and kindness.",  
-    src:"https://media.w3.org/2010/05/sintel/trailer.mp4",  
-    reward:0.25  
-  },  
-  {  
-    id:"video4",  
-    title:"Keep Moving Forward",  
-    description:"An inspiring video about patience and determination.",  
-    src:"https://media.w3.org/2010/05/bunny/trailer.mp4",  
-    reward:0.25  
-  }  
-];  
+
+    const videoData = [
+  {
+    id:"video1",
+    title:"A New Beginning",
+    description:"A short emotional story about hope and starting again.",
+    src:"https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
+    reward:0.50
+  },
+  {
+    id:"video2",
+    title:"Happiness",
+    description:"A positive video about happiness, gratitude and joy.",
+    src:"https://www.w3schools.com/html/mov_bbb.mp4",
+    reward:0.50
+  },
+  {
+    id:"video3",
+    title:"Love and Kindness",
+    description:"A beautiful story about love, kindness and caring for others.",
+    src:"https://media.w3.org/2010/05/sintel/trailer.mp4",
+    reward:0.50
+  }
+];
   
 let activeVideoId = null;  
 let videoInterval = null;  
@@ -1919,7 +1925,75 @@ function loadState(){
     document.body.classList.add("dark-mode");  
   }  
 }  
-  
+
+function resetDailySession(){
+  const today = new Date().toISOString().slice(0,10);
+
+  if(!state.taskSession){
+    state.taskSession = {
+      date:"",
+      morning:false,
+      evening:false
+    };
+  }
+
+  if(state.taskSession.date !== today){
+    state.taskSession = {
+      date:today,
+      morning:false,
+      evening:false
+    };
+
+    state.tasks = [];
+    state.videos = [];
+
+    saveState();
+  }
+}
+
+function getCurrentSession(){
+  const now = new Date();
+  const hour = now.getHours();
+
+  if(hour >= 5 && hour < 17){
+    return "morning";
+  }
+
+  if(hour >= 17){
+    return "evening";
+  }
+
+  return "closed";
+      }
+
+    function canDoTasksNow(){
+  const session = getCurrentSession();
+
+  if(session === "closed"){
+    showToast("Daily tasks open at 5:00 AM.");
+    return false;
+  }
+
+  if(!state.taskSession){
+    state.taskSession = {
+      date:"",
+      morning:false,
+      evening:false
+    };
+  }
+
+  if(state.taskSession[session]){
+    showToast(
+      session === "morning"
+        ? "Morning tasks have already been completed."
+        : "Evening tasks have already been completed."
+    );
+    return false;
+  }
+
+  return true;
+    }
+    
 function showToast(message){  
   const toast = document.getElementById("toast");  
   toast.textContent = message;  
@@ -1931,10 +2005,11 @@ function money(value){
   return "$" + Number(value || 0).toFixed(2);  
 }  
   
-function init(){  
-  loadState();  
-  
-  setTimeout(()=>{  
+function init(){
+  loadState();
+  resetDailySession();
+
+  setTimeout(()=>{ 
     document.getElementById("splash").classList.add("hidden");  
   
     if(state.loggedIn){  
@@ -2045,7 +2120,7 @@ function updateAll(){
   const completedVideos = state.videos.length;  
   
   document.getElementById("homeTasksDone").textContent = completedTasks + "/5";  
-  document.getElementById("homeVideosDone").textContent = completedVideos + "/4";  
+  document.getElementById("homeVideosDone").textContent = completedVideos + "/3";  
   document.getElementById("homeDay").textContent = "Day " + Math.min(5,Math.floor(state.progress/20)+1);  
   
   document.getElementById("taskHeaderCount").textContent = completedTasks + "/5";  
@@ -2112,7 +2187,8 @@ function renderTasks(){
   });  
 }  
   
-function claimNormalTask(id){  
+function claimNormalTask(id){ 
+  if(!canDoTasksNow()) return;
   if(state.tasks.includes(id)){  
     showToast("This task has already been claimed.");  
     return;  
@@ -2161,11 +2237,15 @@ function openVideo(id){
 }  
   
 function finishVideo(){  
-  if(!activeVideoId || videoSeconds > 0) return;  
+  if(!completedVideo || videoSeconds > 0) return;  
   
   if(!state.videos.includes(activeVideoId)){  
     state.videos.push(activeVideoId);  
-    state.balance += 0.25;  
+    const completedVideo = videoData.find(v => v.id === activeVideoId);
+
+  if(completedvideo){
+  state.balance += completedVideo.reward;
+}
     state.progress = Math.min(100,state.progress + 10);  
     saveState();  
     updateAll();  
