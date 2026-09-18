@@ -4072,13 +4072,3006 @@ function updateAllUI(){
 }
 
 
+<script>
+
 /* =========================================================
-   START
+   TRUE NETWORKING
+   CLEAN JAVASCRIPT - FIXED LOADING + TASKS + VIDEOS
+   ========================================================= */
+
+const APP_KEY = "true_networking_state_final_v2";
+const LOGIN_KEY = "true_networking_logged_in_final_v2";
+
+
+/* =========================================================
+   APP STATE
+   ========================================================= */
+
+const State = {
+
+  user:{
+    name:"User",
+    email:"user@example.com",
+    avatar:"https://i.pravatar.cc/200?img=12",
+    verified:false,
+    inviteId:""
+  },
+
+  balance:0,
+
+  currentDay:1,
+
+  tasks:[],
+
+  videos:[],
+
+  withdrawals:[],
+
+  authMode:"register",
+
+  darkMode:false,
+
+  language:"English",
+
+  currentVideo:null,
+
+  videoTimer:null,
+
+  videoSeconds:180
+
+};
+
+
+/* =========================================================
+   TASK DATA
+   ========================================================= */
+
+const TASK_DATA = [
+
+  {
+    title:"Daily Social Task",
+    description:
+      "Complete this simple daily activity and claim your reward.",
+    reward:0.20,
+    tag:"Daily"
+  },
+
+  {
+    title:"Community Task",
+    description:
+      "Take part in the True Networking community activity.",
+    reward:0.20,
+    tag:"Community"
+  },
+
+  {
+    title:"Engagement Task",
+    description:
+      "Complete the engagement activity to receive your reward.",
+    reward:0.20,
+    tag:"Engagement"
+  },
+
+  {
+    title:"Learning Task",
+    description:
+      "Complete this short learning activity and claim your reward.",
+    reward:0.20,
+    tag:"Learning"
+  },
+
+  {
+    title:"Daily Bonus Task",
+    description:
+      "Finish the daily bonus activity to increase your progress.",
+    reward:0.20,
+    tag:"Bonus"
+  }
+
+];
+
+
+/* =========================================================
+   VIDEO DATA
+   ========================================================= */
+
+const VIDEO_DATA = [
+
+  {
+    title:"A Story of Love",
+    description:
+      "A short emotional story about love, kindness and hope.",
+    reward:0.20,
+    src:
+      "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
+  },
+
+  {
+    title:"Happiness & Hope",
+    description:
+      "A positive video about happiness, courage and a better future.",
+    reward:0.20,
+    src:
+      "https://www.w3schools.com/html/mov_bbb.mp4"
+  },
+
+  {
+    title:"Keep Moving Forward",
+    description:
+      "An inspiring story filled with emotion, excitement and motivation.",
+    reward:0.20,
+    src:
+      "https://media.w3.org/2010/05/bunny/trailer.mp4"
+  }
+
+];
+
+
+/* =========================================================
+   CREATE DEFAULT TASKS / VIDEOS
+   ========================================================= */
+
+function createDefaultTasks(){
+
+  return Array.from(
+    {length:5},
+    (_,index)=>({
+      id:index+1,
+      completed:false
+    })
+  );
+
+}
+
+
+function createDefaultVideos(){
+
+  return Array.from(
+    {length:3},
+    (_,index)=>({
+      id:index+1,
+      completed:false
+    })
+  );
+
+}
+
+
+/* =========================================================
+   SAVE STATE
+   ========================================================= */
+
+function saveState(){
+
+  try{
+
+    localStorage.setItem(
+      APP_KEY,
+      JSON.stringify({
+        user:State.user,
+        balance:State.balance,
+        currentDay:State.currentDay,
+        tasks:State.tasks,
+        videos:State.videos,
+        withdrawals:State.withdrawals,
+        authMode:State.authMode,
+        darkMode:State.darkMode,
+        language:State.language
+      })
+    );
+
+  }catch(error){
+
+    console.error(
+      "Save state error:",
+      error
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   LOAD STATE
+   ========================================================= */
+
+function loadState(){
+
+  State.tasks=createDefaultTasks();
+
+  State.videos=createDefaultVideos();
+
+  State.withdrawals=[];
+
+
+  const saved =
+    localStorage.getItem(APP_KEY);
+
+
+  if(saved){
+
+    try{
+
+      const data=JSON.parse(saved);
+
+
+      if(data.user){
+
+        State.user={
+          ...State.user,
+          ...data.user
+        };
+
+      }
+
+
+      if(typeof data.balance==="number"){
+
+        State.balance=data.balance;
+
+      }
+
+
+      if(Number.isFinite(data.currentDay)){
+
+        State.currentDay=data.currentDay;
+
+      }
+
+
+      if(Array.isArray(data.tasks) &&
+         data.tasks.length===5){
+
+        State.tasks=data.tasks.map(
+          (task,index)=>({
+
+            id:index+1,
+
+            completed:
+              task.completed===true
+
+          })
+        );
+
+      }
+
+
+      if(Array.isArray(data.videos) &&
+         data.videos.length===3){
+
+        State.videos=data.videos.map(
+          (video,index)=>({
+
+            id:index+1,
+
+            completed:
+              video.completed===true
+
+          })
+        );
+
+      }
+
+
+      if(Array.isArray(data.withdrawals)){
+
+        State.withdrawals=data.withdrawals;
+
+      }
+
+
+      if(data.authMode){
+
+        State.authMode=data.authMode;
+
+      }
+
+
+      if(typeof data.darkMode==="boolean"){
+
+        State.darkMode=data.darkMode;
+
+      }
+
+
+      if(data.language){
+
+        State.language=data.language;
+
+      }
+
+    }catch(error){
+
+      console.error(
+        "Load state error:",
+        error
+      );
+
+      State.tasks=createDefaultTasks();
+
+      State.videos=createDefaultVideos();
+
+      State.withdrawals=[];
+
+    }
+
+  }
+
+
+  if(!State.user){
+
+    State.user={
+
+      name:"User",
+
+      email:"user@example.com",
+
+      avatar:
+        "https://i.pravatar.cc/200?img=12",
+
+      verified:false,
+
+      inviteId:""
+
+    };
+
+  }
+
+
+  if(!State.user.inviteId){
+
+    State.user.inviteId=
+      "TN"+
+      Math.floor(
+        100000+
+        Math.random()*899999
+      );
+
+  }
+
+
+  saveState();
+
+}
+
+
+/* =========================================================
+   TOAST
+   ========================================================= */
+
+function showToast(message){
+
+  const toast=
+    document.getElementById("toast");
+
+
+  if(!toast){
+
+    alert(message);
+
+    return;
+
+  }
+
+
+  toast.textContent=message;
+
+  toast.classList.remove("hidden");
+
+
+  clearTimeout(window.toastTimer);
+
+
+  window.toastTimer=
+    setTimeout(()=>{
+
+      toast.classList.add("hidden");
+
+    },2600);
+
+}
+
+
+/* =========================================================
+   SPLASH
+   ========================================================= */
+
+function startApp(){
+
+  loadState();
+
+
+  setTimeout(()=>{
+
+    const splash=
+      document.getElementById("splash");
+
+
+    if(splash){
+
+      splash.classList.add("hidden");
+
+    }
+
+
+    checkLogin();
+
+  },1400);
+
+}
+
+
+/* =========================================================
+   LOGIN CHECK
+   ========================================================= */
+
+function checkLogin(){
+
+  const loggedIn=
+    localStorage.getItem(LOGIN_KEY);
+
+
+  const auth=
+    document.getElementById("authScreen");
+
+
+  const app=
+    document.getElementById("mainApp");
+
+
+  if(loggedIn==="true"){
+
+    if(auth){
+
+      auth.classList.add("hidden");
+
+    }
+
+
+    if(app){
+
+      app.classList.remove("hidden");
+
+    }
+
+
+    applyDarkMode();
+
+    updateAllUI();
+
+    showPage("home");
+
+  }else{
+
+    if(auth){
+
+      auth.classList.remove("hidden");
+
+    }
+
+
+    if(app){
+
+      app.classList.add("hidden");
+
+    }
+
+  }
+
+}
+
+
+/* =========================================================
+   AUTH TOGGLE
+   ========================================================= */
+
+function toggleAuth(){
+
+  State.authMode=
+    State.authMode==="register"
+      ?"login"
+      :"register";
+
+
+  const register=
+    document.getElementById(
+      "registerFields"
+    );
+
+
+  const title=
+    document.getElementById(
+      "authTitle"
+    );
+
+
+  const subtitle=
+    document.getElementById(
+      "authSubtitle"
+    );
+
+
+  const submit=
+    document.getElementById(
+      "authSubmit"
+    );
+
+
+  const switchText=
+    document.getElementById(
+      "authSwitchText"
+    );
+
+
+  const switchBtn=
+    document.getElementById(
+      "authSwitchBtn"
+    );
+
+
+  if(State.authMode==="register"){
+
+    if(title){
+
+      title.textContent=
+        "Create account";
+
+    }
+
+
+    if(subtitle){
+
+      subtitle.textContent=
+        "Register to start using True Networking.";
+
+    }
+
+
+    if(register){
+
+      register.classList.remove("hidden");
+
+    }
+
+
+    if(submit){
+
+      submit.textContent="Register";
+
+    }
+
+
+    if(switchText){
+
+      switchText.textContent=
+        "Already have an account?";
+
+    }
+
+
+    if(switchBtn){
+
+      switchBtn.textContent="Login";
+
+    }
+
+  }else{
+
+    if(title){
+
+      title.textContent=
+        "Welcome back";
+
+    }
+
+
+    if(subtitle){
+
+      subtitle.textContent=
+        "Login to continue using True Networking.";
+
+    }
+
+
+    if(register){
+
+      register.classList.add("hidden");
+
+    }
+
+
+    if(submit){
+
+      submit.textContent="Login";
+
+    }
+
+
+    if(switchText){
+
+      switchText.textContent=
+        "Don't have an account?";
+
+    }
+
+
+    if(switchBtn){
+
+      switchBtn.textContent="Register";
+
+    }
+
+  }
+
+
+  saveState();
+
+}
+
+
+/* =========================================================
+   AUTH SUBMIT
+   ========================================================= */
+
+function submitAuth(){
+
+  const nameInput=
+    document.getElementById("authName");
+
+
+  const emailInput=
+    document.getElementById("authEmail");
+
+
+  const passwordInput=
+    document.getElementById("authPassword");
+
+
+  const name=
+    nameInput
+      ?nameInput.value.trim()
+      :"";
+
+
+  const email=
+    emailInput
+      ?emailInput.value.trim()
+      :"";
+
+
+  const password=
+    passwordInput
+      ?passwordInput.value.trim()
+      :"";
+
+
+  if(!email){
+
+    showToast(
+      "Please enter your email or phone number."
+    );
+
+    return;
+
+  }
+
+
+  if(!password){
+
+    showToast(
+      "Please enter your password."
+    );
+
+    return;
+
+  }
+
+
+  if(State.authMode==="register"){
+
+    if(!name){
+
+      showToast(
+        "Please enter your full name."
+      );
+
+      return;
+
+    }
+
+
+    State.user.name=name;
+
+  }
+
+
+  State.user.email=email;
+
+
+  if(!State.user.inviteId){
+
+    State.user.inviteId=
+      "TN"+
+      Math.floor(
+        100000+
+        Math.random()*899999
+      );
+
+  }
+
+
+  localStorage.setItem(
+    LOGIN_KEY,
+    "true"
+  );
+
+
+  saveState();
+
+
+  const auth=
+    document.getElementById(
+      "authScreen"
+    );
+
+
+  const app=
+    document.getElementById(
+      "mainApp"
+    );
+
+
+  if(auth){
+
+    auth.classList.add("hidden");
+
+  }
+
+
+  if(app){
+
+    app.classList.remove("hidden");
+
+  }
+
+
+  updateAllUI();
+
+  showPage("home");
+
+
+  showToast(
+    State.authMode==="register"
+      ?"Account created successfully."
+      :"Login successful."
+  );
+
+}
+
+
+/* =========================================================
+   GOOGLE DEMO LOGIN
+   ========================================================= */
+
+function demoGoogleLogin(){
+
+  State.user.name="Google User";
+
+  State.user.email=
+    "googleuser@example.com";
+
+
+  if(!State.user.inviteId){
+
+    State.user.inviteId=
+      "TN"+
+      Math.floor(
+        100000+
+        Math.random()*899999
+      );
+
+  }
+
+
+  localStorage.setItem(
+    LOGIN_KEY,
+    "true"
+  );
+
+
+  saveState();
+
+
+  const auth=
+    document.getElementById(
+      "authScreen"
+    );
+
+
+  const app=
+    document.getElementById(
+      "mainApp"
+    );
+
+
+  if(auth){
+
+    auth.classList.add("hidden");
+
+  }
+
+
+  if(app){
+
+    app.classList.remove("hidden");
+
+  }
+
+
+  updateAllUI();
+
+  showPage("home");
+
+
+  showToast(
+    "Google demo login successful."
+  );
+
+}
+
+
+/* =========================================================
+   PAGE NAVIGATION
+   ========================================================= */
+
+function showPage(page){
+
+  const pages=[
+    "home",
+    "tasks",
+    "withdraw",
+    "profile",
+    "notifications"
+  ];
+
+
+  pages.forEach(name=>{
+
+    const element=
+      document.getElementById(
+        name+"Page"
+      );
+
+
+    if(element){
+
+      element.classList.add("hidden");
+
+    }
+
+  });
+
+
+  const selected=
+    document.getElementById(
+      page+"Page"
+    );
+
+
+  if(selected){
+
+    selected.classList.remove("hidden");
+
+  }
+
+
+  document
+    .querySelectorAll(".nav-btn")
+    .forEach(button=>{
+
+      button.classList.remove("active");
+
+    });
+
+
+  if(page==="home"){
+
+    document
+      .getElementById("navHome")
+      ?.classList.add("active");
+
+  }
+
+
+  if(page==="tasks"){
+
+    document
+      .getElementById("navTasks")
+      ?.classList.add("active");
+
+    renderTasks();
+
+  }
+
+
+  if(page==="withdraw"){
+
+    document
+      .getElementById("navWallet")
+      ?.classList.add("active");
+
+    updateWithdrawUI();
+
+  }
+
+
+  if(page==="profile"){
+
+    document
+      .getElementById("navProfile")
+      ?.classList.add("active");
+
+    updateProfileUI();
+
+  }
+
+}
+
+
+/* =========================================================
+   RENDER TASKS
+   ========================================================= */
+
+function renderTasks(){
+
+  const list=
+    document.getElementById(
+      "taskList"
+    );
+
+
+  if(!list){
+
+    return;
+
+  }
+
+
+  list.innerHTML="";
+
+
+  TASK_DATA.forEach((task,index)=>{
+
+    const completed=
+      State.tasks[index] &&
+      State.tasks[index].completed===true;
+
+
+    const card=
+      document.createElement("div");
+
+
+    card.className="task-card";
+
+
+    card.innerHTML=`
+
+      <div
+        class="task-thumb"
+        style="
+          display:flex;
+          align-items:center;
+          justify-content:center;
+          font-size:32px;
+          background:linear-gradient(
+            135deg,
+            #fff1c8,
+            #ffe0a0
+          );
+        "
+      >
+        🎯
+      </div>
+
+      <div class="task-main">
+
+        <h3>${task.title}</h3>
+
+        <p>${task.description}</p>
+
+        <div class="task-meta">
+
+          <span class="tag">
+            ${task.tag}
+          </span>
+
+          <span class="tag orange">
+            +$${task.reward.toFixed(2)}
+          </span>
+
+          <span class="tag green">
+            Twice Daily
+          </span>
+
+        </div>
+
+        <button
+          class="task-button ${
+            completed ? "claimed" : ""
+          }"
+          ${
+            completed
+              ? "disabled"
+              : ""
+          }
+          onclick="claimTask(${index})"
+        >
+
+          ${
+            completed
+              ?"✓ Claimed"
+              :"Claim $"+task.reward.toFixed(2)
+          }
+
+        </button>
+
+      </div>
+
+    `;
+
+
+    list.appendChild(card);
+
+  });
+
+
+  renderVideoTasks();
+
+}
+
+
+/* =========================================================
+   RENDER VIDEO TASKS
+   ========================================================= */
+
+function renderVideoTasks(){
+
+  const list=
+    document.getElementById(
+      "taskList"
+    );
+
+
+  if(!list){
+
+    return;
+
+  }
+
+
+  const heading=
+    document.createElement("div");
+
+
+  heading.className="section-heading";
+
+  heading.style.marginTop="20px";
+
+
+  heading.innerHTML=`
+
+    <h2>Daily Videos</h2>
+
+    <span>
+      3 videos • 3 minutes each
+    </span>
+
+  `;
+
+
+  list.appendChild(heading);
+
+
+  VIDEO_DATA.forEach((video,index)=>{
+
+    const completed=
+      State.videos[index] &&
+      State.videos[index].completed===true;
+
+
+    const card=
+      document.createElement("div");
+
+
+    card.className="task-card";
+
+
+    card.innerHTML=`
+
+      <div
+        class="task-thumb"
+        style="
+          display:flex;
+          align-items:center;
+          justify-content:center;
+          font-size:32px;
+          background:linear-gradient(
+            135deg,
+            #e9e4ff,
+            #d8ceff
+          );
+        "
+      >
+        🎬
+      </div>
+
+      <div class="task-main">
+
+        <h3>${video.title}</h3>
+
+        <p>${video.description}</p>
+
+        <div class="task-meta">
+
+          <span class="tag">
+            Video
+          </span>
+
+          <span class="tag orange">
+            3 Minutes
+          </span>
+
+          <span class="tag green">
+            +$${video.reward.toFixed(2)}
+          </span>
+
+        </div>
+
+        <button
+          class="task-button ${
+            completed ? "claimed" : ""
+          }"
+          ${
+            completed
+              ? "disabled"
+              : ""
+          }
+          onclick="openVideo(${index})"
+        >
+
+          ${
+            completed
+              ?"✓ Claimed"
+              :"▶ Start Video"
+          }
+
+        </button>
+
+      </div>
+
+    `;
+
+
+    list.appendChild(card);
+
+  });
+
+}
+
+
+/* =========================================================
+   CLAIM TASK
+   ========================================================= */
+
+function claimTask(index){
+
+  if(!State.tasks[index]){
+
+    State.tasks[index]={
+      id:index+1,
+      completed:false
+    };
+
+  }
+
+
+  if(State.tasks[index].completed){
+
+    showToast(
+      "This task has already been claimed."
+    );
+
+    return;
+
+  }
+
+
+  State.tasks[index].completed=true;
+
+
+  State.balance=
+    Number(
+      (
+        Number(State.balance)+
+        Number(TASK_DATA[index].reward)
+      ).toFixed(2)
+    );
+
+
+  saveState();
+
+  updateAllUI();
+
+  renderTasks();
+
+
+  showToast(
+    "Task completed! +$"+
+    TASK_DATA[index].reward.toFixed(2)
+  );
+
+}
+
+
+/* =========================================================
+   OPEN VIDEO
+   ========================================================= */
+
+function openVideo(index){
+
+  if(
+    !VIDEO_DATA[index] ||
+    !State.videos[index]
+  ){
+
+    return;
+
+  }
+
+
+  if(State.videos[index].completed){
+
+    showToast(
+      "This video has already been claimed."
+    );
+
+    return;
+
+  }
+
+
+  State.currentVideo=index;
+
+  State.videoSeconds=180;
+
+
+  const modal=
+    document.getElementById(
+      "videoModal"
+    );
+
+
+  const video=
+    document.getElementById(
+      "taskVideo"
+    );
+
+
+  const title=
+    document.getElementById(
+      "modalTitle"
+    );
+
+
+  const description=
+    document.getElementById(
+      "modalDescription"
+    );
+
+
+  const timer=
+    document.getElementById(
+      "videoTimer"
+    );
+
+
+  const button=
+    document.getElementById(
+      "finishVideoBtn"
+    );
+
+
+  if(!modal ||
+     !video ||
+     !title ||
+     !description ||
+     !timer ||
+     !button){
+
+    return;
+
+  }
+
+
+  title.textContent=
+    VIDEO_DATA[index].title;
+
+
+  description.textContent=
+    VIDEO_DATA[index].description+
+    " Watch for 3 minutes before claiming your reward.";
+
+
+  video.src=
+    VIDEO_DATA[index].src;
+
+
+  video.currentTime=0;
+
+
+  button.disabled=true;
+
+  button.textContent=
+    "Watch until the timer ends";
+
+
+  timer.textContent="03:00";
+
+
+  modal.classList.remove("hidden");
+
+
+  clearInterval(State.videoTimer);
+
+
+  State.videoTimer=
+    setInterval(()=>{
+
+      if(State.videoSeconds>0){
+
+        State.videoSeconds--;
+
+      }
+
+
+      const minutes=
+        Math.floor(
+          State.videoSeconds/60
+        );
+
+
+      const seconds=
+        State.videoSeconds%60;
+
+
+      timer.textContent=
+        String(minutes).padStart(2,"0")+
+        ":"+
+        String(seconds).padStart(2,"0");
+
+
+      if(State.videoSeconds<=0){
+
+        clearInterval(
+          State.videoTimer
+        );
+
+        State.videoTimer=null;
+
+        button.disabled=false;
+
+        button.textContent=
+          "Claim $"+
+          VIDEO_DATA[index]
+            .reward
+            .toFixed(2);
+
+      }
+
+    },1000);
+
+
+  video.play().catch(()=>{});
+
+}
+
+
+/* =========================================================
+   FINISH VIDEO
+   ========================================================= */
+
+function finishVideo(){
+
+  const index=
+    State.currentVideo;
+
+
+  if(
+    index===null ||
+    index===undefined
+  ){
+
+    return;
+
+  }
+
+
+  if(State.videoSeconds>0){
+
+    showToast(
+      "Please watch until the timer ends."
+    );
+
+    return;
+
+  }
+
+
+  if(!State.videos[index]){
+
+    return;
+
+  }
+
+
+  if(State.videos[index].completed){
+
+    showToast(
+      "Video already claimed."
+    );
+
+    return;
+
+  }
+
+
+  State.videos[index].completed=true;
+
+
+  State.balance=
+    Number(
+      (
+        Number(State.balance)+
+        Number(VIDEO_DATA[index].reward)
+      ).toFixed(2)
+    );
+
+
+  saveState();
+
+
+  closeVideoModal();
+
+
+  updateAllUI();
+
+
+  renderTasks();
+
+
+  showToast(
+    "Video completed! +$"+
+    VIDEO_DATA[index]
+      .reward
+      .toFixed(2)
+  );
+
+}
+
+
+/* =========================================================
+   CLOSE VIDEO
+   ========================================================= */
+
+function closeVideoModal(){
+
+  clearInterval(
+    State.videoTimer
+  );
+
+
+  State.videoTimer=null;
+
+  State.currentVideo=null;
+
+  State.videoSeconds=180;
+
+
+  const video=
+    document.getElementById(
+      "taskVideo"
+    );
+
+
+  if(video){
+
+    video.pause();
+
+    video.removeAttribute("src");
+
+    video.load();
+
+  }
+
+
+  const modal=
+    document.getElementById(
+      "videoModal"
+    );
+
+
+  if(modal){
+
+    modal.classList.add("hidden");
+
+  }
+
+}
+
+
+/* =========================================================
+   PROGRESS
+   ========================================================= */
+
+function calculateProgress(){
+
+  const taskCount=
+    State.tasks.filter(
+      task=>task.completed===true
+    ).length;
+
+
+  const videoCount=
+    State.videos.filter(
+      video=>video.completed===true
+    ).length;
+
+
+  const total=
+    taskCount+videoCount;
+
+
+  const maximum=8;
+
+
+  return Math.round(
+    (total/maximum)*100
+  );
+
+}
+
+
+/* =========================================================
+   UPDATE HOME
+   ========================================================= */
+
+function updateHomeUI(){
+
+  const tasksDone=
+    State.tasks.filter(
+      task=>task.completed===true
+    ).length;
+
+
+  const videosDone=
+    State.videos.filter(
+      video=>video.completed===true
+    ).length;
+
+
+  const progress=
+    calculateProgress();
+
+
+  const homeBalance=
+    document.getElementById(
+      "homeBalance"
+    );
+
+
+  if(homeBalance){
+
+    homeBalance.textContent=
+      "$"+
+      Number(State.balance)
+        .toFixed(2);
+
+  }
+
+
+  const homeTasksDone=
+    document.getElementById(
+      "homeTasksDone"
+    );
+
+
+  if(homeTasksDone){
+
+    homeTasksDone.textContent=
+      tasksDone+"/5";
+
+  }
+
+
+  const homeVideosDone=
+    document.getElementById(
+      "homeVideosDone"
+    );
+
+
+  if(homeVideosDone){
+
+    homeVideosDone.textContent=
+      videosDone+"/3";
+
+  }
+
+
+  const homeDay=
+    document.getElementById(
+      "homeDay"
+    );
+
+
+  if(homeDay){
+
+    homeDay.textContent=
+      "Day "+
+      State.currentDay;
+
+  }
+
+
+  const homeProgressText=
+    document.getElementById(
+      "homeProgressText"
+    );
+
+
+  if(homeProgressText){
+
+    homeProgressText.textContent=
+      progress+"%";
+
+  }
+
+
+  const bar=
+    document.getElementById(
+      "homeProgressBar"
+    );
+
+
+  if(bar){
+
+    bar.style.width=
+      progress+"%";
+
+  }
+
+
+  const welcomeName=
+    document.getElementById(
+      "welcomeName"
+    );
+
+
+  if(welcomeName){
+
+    welcomeName.textContent=
+      State.user.name ||
+      "User";
+
+  }
+
+}
+
+
+/* =========================================================
+   UPDATE TASK UI
+   ========================================================= */
+
+function updateTaskUI(){
+
+  const completed=
+    State.tasks.filter(
+      task=>task.completed===true
+    ).length;
+
+
+  const headerCount=
+    document.getElementById(
+      "taskHeaderCount"
+    );
+
+
+  if(headerCount){
+
+    headerCount.textContent=
+      completed+"/5";
+
+  }
+
+
+  const headerText=
+    document.getElementById(
+      "taskHeaderText"
+    );
+
+
+  if(headerText){
+
+    headerText.textContent=
+      completed===5
+        ?"All 5 tasks completed today"
+        :"Complete your tasks today";
+
+  }
+
+
+  updateDays();
+
+}
+
+
+/* =========================================================
+   UPDATE DAYS
+   ========================================================= */
+
+function updateDays(){
+
+  for(let i=1;i<=5;i++){
+
+    const day=
+      document.getElementById(
+        "day"+i
+      );
+
+
+    if(!day){
+
+      continue;
+
+    }
+
+
+    day.classList.remove(
+      "active",
+      "done"
+    );
+
+
+    if(i<State.currentDay){
+
+      day.classList.add("done");
+
+    }
+
+
+    if(i===State.currentDay){
+
+      day.classList.add("active");
+
+    }
+
+  }
+
+}
+
+
+/* =========================================================
+   UPDATE PROFILE
+   ========================================================= */
+
+function updateProfileUI(){
+
+  const profileName=
+    document.getElementById(
+      "profileName"
+    );
+
+
+  if(profileName){
+
+    profileName.textContent=
+      State.user.name ||
+      "User";
+
+  }
+
+
+  const profileEmail=
+    document.getElementById(
+      "profileEmail"
+    );
+
+
+  if(profileEmail){
+
+    profileEmail.textContent=
+      State.user.email ||
+      "user@example.com";
+
+  }
+
+
+  const avatar=
+    document.getElementById(
+      "profileAvatar"
+    );
+
+
+  if(avatar){
+
+    avatar.src=
+      State.user.avatar ||
+      "https://i.pravatar.cc/200?img=12";
+
+  }
+
+
+  const status=
+    document.getElementById(
+      "verifyStatus"
+    );
+
+
+  if(status){
+
+    status.textContent=
+      State.user.verified
+        ?"✓ Verified"
+        :"Not verified";
+
+  }
+
+
+  const language=
+    document.getElementById(
+      "languageStatus"
+    );
+
+
+  if(language){
+
+    language.textContent=
+      State.language;
+
+  }
+
+
+  const darkSwitch=
+    document.getElementById(
+      "darkSwitch"
+    );
+
+
+  if(darkSwitch){
+
+    darkSwitch.classList.toggle(
+      "active",
+      State.darkMode
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   WITHDRAW UI
+   ========================================================= */
+
+function updateWithdrawUI(){
+
+  const balance=
+    document.getElementById(
+      "withdrawBalance"
+    );
+
+
+  if(balance){
+
+    balance.textContent=
+      "$"+
+      Number(State.balance)
+        .toFixed(2);
+
+  }
+
+
+  const history=
+    document.getElementById(
+      "withdrawHistory"
+    );
+
+
+  if(!history){
+
+    return;
+
+  }
+
+
+  if(
+    !Array.isArray(
+      State.withdrawals
+    ) ||
+    State.withdrawals.length===0
+  ){
+
+    history.innerHTML=
+      `
+      <div class="empty">
+        No withdrawal requests yet.
+      </div>
+      `;
+
+    return;
+
+  }
+
+
+  history.innerHTML=
+    State.withdrawals
+      .map(item=>`
+
+        <div
+          style="
+            padding:12px 0;
+            border-bottom:1px solid var(--line);
+          "
+        >
+
+          <div
+            style="
+              display:flex;
+              justify-content:space-between;
+              gap:8px;
+            "
+          >
+
+            <strong>
+              $${Number(item.amount).toFixed(2)}
+            </strong>
+
+            <span
+              class="status ${item.status}"
+            >
+              ${item.status}
+            </span>
+
+          </div>
+
+          <small
+            style="
+              color:var(--muted);
+              display:block;
+              margin-top:5px;
+            "
+          >
+            ${item.bank}
+            •
+            ${item.account}
+          </small>
+
+          <small
+            style="
+              color:var(--muted);
+              display:block;
+              margin-top:3px;
+            "
+          >
+            ${item.date}
+          </small>
+
+        </div>
+
+      `)
+      .join("");
+
+}
+
+
+/* =========================================================
+   WITHDRAW TAB
+   ========================================================= */
+
+function selectWithdrawTab(button){
+
+  document
+    .querySelectorAll(".tab")
+    .forEach(tab=>{
+
+      tab.classList.remove(
+        "active"
+      );
+
+    });
+
+
+  if(button){
+
+    button.classList.add(
+      "active"
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   REQUEST WITHDRAW
+   ========================================================= */
+
+function requestWithdraw(){
+
+  const bankElement=
+    document.getElementById(
+      "bankName"
+    );
+
+
+  const nameElement=
+    document.getElementById(
+      "withdrawName"
+    );
+
+
+  const accountElement=
+    document.getElementById(
+      "accountNumber"
+    );
+
+
+  const amountElement=
+    document.getElementById(
+      "withdrawAmount"
+    );
+
+
+  const bank=
+    bankElement
+      ?bankElement.value
+      :"";
+
+
+  const name=
+    nameElement
+      ?nameElement.value.trim()
+      :"";
+
+
+  const account=
+    accountElement
+      ?accountElement.value.trim()
+      :"";
+
+
+  const amount=
+    amountElement
+      ?Number(amountElement.value)
+      :0;
+
+
+  if(!bank){
+
+    showToast(
+      "Please select your bank."
+    );
+
+    return;
+
+  }
+
+
+  if(!name){
+
+    showToast(
+      "Please enter account holder name."
+    );
+
+    return;
+
+  }
+
+
+  if(!/^\d{10}$/.test(account)){
+
+    showToast(
+      "Account number must contain 10 digits."
+    );
+
+    return;
+
+  }
+
+
+  if(!amount || amount<8){
+
+    showToast(
+      "Minimum withdrawal is $8.00."
+    );
+
+    return;
+
+  }
+
+
+  if(amount>Number(State.balance)){
+
+    showToast(
+      "Insufficient balance."
+    );
+
+    return;
+
+  }
+
+
+  State.balance=
+    Number(
+      (
+        Number(State.balance)-amount
+      ).toFixed(2)
+    );
+
+
+  State.withdrawals.unshift({
+
+    bank:bank,
+
+    name:name,
+
+    account:account,
+
+    amount:amount,
+
+    status:"pending",
+
+    date:new Date().toLocaleString()
+
+  });
+
+
+  saveState();
+
+  updateAllUI();
+
+
+  if(bankElement){
+
+    bankElement.value="";
+
+  }
+
+
+  if(nameElement){
+
+    nameElement.value="";
+
+  }
+
+
+  if(accountElement){
+
+    accountElement.value="";
+
+  }
+
+
+  if(amountElement){
+
+    amountElement.value="";
+
+  }
+
+
+  showToast(
+    "Withdrawal request recorded as pending."
+  );
+
+}
+
+
+/* =========================================================
+   AVATAR
+   ========================================================= */
+
+function uploadAvatar(event){
+
+  const file=
+    event.target.files &&
+    event.target.files[0];
+
+
+  if(!file){
+
+    return;
+
+  }
+
+
+  if(!file.type.startsWith("image/")){
+
+    showToast(
+      "Please select an image file."
+    );
+
+    return;
+
+  }
+
+
+  const reader=
+    new FileReader();
+
+
+  reader.onload=function(eventResult){
+
+    State.user.avatar=
+      eventResult.target.result;
+
+
+    saveState();
+
+    updateProfileUI();
+
+
+    showToast(
+      "Profile picture updated."
+    );
+
+  };
+
+
+  reader.readAsDataURL(file);
+
+}
+
+
+/* =========================================================
+   EDIT PROFILE
+   ========================================================= */
+
+function editProfile(){
+
+  const name=
+    prompt(
+      "Enter your new full name:",
+      State.user.name
+    );
+
+
+  if(!name ||
+     !name.trim()){
+
+    return;
+
+  }
+
+
+  State.user.name=
+    name.trim();
+
+
+  saveState();
+
+  updateAllUI();
+
+
+  showToast(
+    "Profile updated."
+  );
+
+}
+
+
+/* =========================================================
+   FACE VERIFICATION
+   ========================================================= */
+
+function faceVerification(){
+
+  if(State.user.verified){
+
+    showToast(
+      "Your face is already verified."
+    );
+
+    return;
+
+  }
+
+
+  if(
+    !navigator.mediaDevices ||
+    !navigator.mediaDevices.getUserMedia
+  ){
+
+    showToast(
+      "Camera is not supported by this browser."
+    );
+
+    return;
+
+  }
+
+
+  navigator.mediaDevices
+    .getUserMedia({
+      video:true
+    })
+    .then(stream=>{
+
+      stream
+        .getTracks()
+        .forEach(track=>{
+
+          track.stop();
+
+        });
+
+
+      State.user.verified=true;
+
+
+      saveState();
+
+      updateProfileUI();
+
+
+      showToast(
+        "Face verification completed in demo mode."
+      );
+
+    })
+    .catch(()=>{
+
+      showToast(
+        "Camera permission was not granted."
+      );
+
+    });
+
+}
+
+
+/* =========================================================
+   SECURITY
+   ========================================================= */
+
+function securityInfo(){
+
+  alert(
+    "True Networking Security\n\n"+
+    "• Keep your password private.\n"+
+    "• Do not share your login code.\n"+
+    "• Use a secure email or phone number.\n"+
+    "• Never share sensitive account information."
+  );
+
+}
+
+
+/* =========================================================
+   DARK MODE
+   ========================================================= */
+
+function applyDarkMode(){
+
+  document.body.classList.toggle(
+    "dark-mode",
+    State.darkMode===true
+  );
+
+
+  const darkSwitch=
+    document.getElementById(
+      "darkSwitch"
+    );
+
+
+  if(darkSwitch){
+
+    darkSwitch.classList.toggle(
+      "active",
+      State.darkMode===true
+    );
+
+  }
+
+}
+
+
+function toggleDarkMode(){
+
+  State.darkMode=
+    !State.darkMode;
+
+
+  applyDarkMode();
+
+  saveState();
+
+
+  showToast(
+    State.darkMode
+      ?"Dark mode enabled."
+      :"Light mode enabled."
+  );
+
+}
+
+
+/* =========================================================
+   LANGUAGE
+   ========================================================= */
+
+function showLanguage(){
+
+  const choice=
+    prompt(
+      "Choose language:\n\n"+
+      "1 = English\n"+
+      "2 = Hausa",
+      State.language==="Hausa"
+        ?"2"
+        :"1"
+    );
+
+
+  if(choice==="1"){
+
+    State.language="English";
+
+    saveState();
+
+    updateProfileUI();
+
+
+    showToast(
+      "English language selected."
+    );
+
+  }
+
+
+  if(choice==="2"){
+
+    State.language="Hausa";
+
+    saveState();
+
+    updateProfileUI();
+
+
+    showToast(
+      "Hausa language selected."
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   INVITE FRIENDS
+   ========================================================= */
+
+function inviteFriends(){
+
+  if(!State.user.inviteId){
+
+    State.user.inviteId=
+      "TN"+
+      Math.floor(
+        100000+
+        Math.random()*899999
+      );
+
+    saveState();
+
+  }
+
+
+  const inviteLink=
+    location.href.split("?")[0]+
+    "?invite="+
+    State.user.inviteId;
+
+
+  const text=
+    "Join me on True Networking.\n\n"+
+    "Invite ID: "+
+    State.user.inviteId+
+    "\n\nInvite Link: "+
+    inviteLink;
+
+
+  if(navigator.share){
+
+    navigator.share({
+
+      title:"True Networking",
+
+      text:text
+
+    }).catch(()=>{});
+
+    return;
+
+  }
+
+
+  if(navigator.clipboard){
+
+    navigator.clipboard
+      .writeText(text)
+      .then(()=>{
+
+        showToast(
+          "Invite information copied."
+        );
+
+      })
+      .catch(()=>{
+
+        prompt(
+          "Copy your invite information:",
+          text
+        );
+
+      });
+
+    return;
+
+  }
+
+
+  prompt(
+    "Copy your invite information:",
+    text
+  );
+
+}
+
+
+/* =========================================================
+   SHARE APP
+   ========================================================= */
+
+function shareApp(){
+
+  const text=
+    "Join True Networking and complete tasks to earn rewards.";
+
+
+  if(navigator.share){
+
+    navigator.share({
+
+      title:"True Networking",
+
+      text:text
+
+    }).catch(()=>{});
+
+    return;
+
+  }
+
+
+  if(navigator.clipboard){
+
+    navigator.clipboard
+      .writeText(location.href)
+      .then(()=>{
+
+        showToast(
+          "App link copied."
+        );
+
+      })
+      .catch(()=>{
+
+        prompt(
+          "Copy this app link:",
+          location.href
+        );
+
+      });
+
+    return;
+
+  }
+
+
+  prompt(
+    "Copy this app link:",
+    location.href
+  );
+
+}
+
+
+/* =========================================================
+   LIKE FEED
+   ========================================================= */
+
+function likeFeed(button){
+
+  if(!button){
+
+    return;
+
+  }
+
+
+  button.textContent=
+    button.textContent==="♡"
+      ?"♥"
+      :"♡";
+
+}
+
+
+/* =========================================================
+   LOGOUT
+   ========================================================= */
+
+function logout(){
+
+  const ok=
+    confirm(
+      "Are you sure you want to logout?"
+    );
+
+
+  if(!ok){
+
+    return;
+
+  }
+
+
+  localStorage.removeItem(
+    LOGIN_KEY
+  );
+
+
+  const app=
+    document.getElementById(
+      "mainApp"
+    );
+
+
+  const auth=
+    document.getElementById(
+      "authScreen"
+    );
+
+
+  if(app){
+
+    app.classList.add("hidden");
+
+  }
+
+
+  if(auth){
+
+    auth.classList.remove("hidden");
+
+  }
+
+
+  showToast(
+    "You have been logged out."
+  );
+
+}
+
+
+/* =========================================================
+   ADMIN
+   ========================================================= */
+
+let logoClicks=0;
+
+let logoTimer=null;
+
+
+function openAdmin(){
+
+  const code=
+    prompt(
+      "Enter admin code:"
+    );
+
+
+  if(code!=="676841"){
+
+    showToast(
+      "Incorrect admin code."
+    );
+
+    return;
+
+  }
+
+
+  const app=
+    document.getElementById(
+      "mainApp"
+    );
+
+
+  const admin=
+    document.getElementById(
+      "adminPage"
+    );
+
+
+  if(app){
+
+    app.classList.add("hidden");
+
+  }
+
+
+  if(admin){
+
+    admin.classList.remove("hidden");
+
+  }
+
+
+  updateAdmin();
+
+}
+
+
+function closeAdmin(){
+
+  const admin=
+    document.getElementById(
+      "adminPage"
+    );
+
+
+  if(admin){
+
+    admin.classList.add("hidden");
+
+  }
+
+
+  const app=
+    document.getElementById(
+      "mainApp"
+    );
+
+
+  if(app){
+
+    app.classList.remove("hidden");
+
+  }
+
+
+  showPage("home");
+
+}
+
+
+function updateAdmin(){
+
+  const adminUsers=
+    document.getElementById(
+      "adminUsers"
+    );
+
+
+  if(adminUsers){
+
+    adminUsers.textContent="1";
+
+  }
+
+
+  const adminVerified=
+    document.getElementById(
+      "adminVerified"
+    );
+
+
+  if(adminVerified){
+
+    adminVerified.textContent=
+      State.user.verified
+        ?"1"
+        :"0";
+
+  }
+
+
+  const adminRewards=
+    document.getElementById(
+      "adminRewards"
+    );
+
+
+  if(adminRewards){
+
+    adminRewards.textContent=
+      "$"+
+      Number(State.balance)
+        .toFixed(2);
+
+  }
+
+
+  const adminPending=
+    document.getElementById(
+      "adminPending"
+    );
+
+
+  if(adminPending){
+
+    adminPending.textContent=
+      State.withdrawals.filter(
+        item=>item.status==="pending"
+      ).length;
+
+  }
+
+}
+
+
+function adminApproveAll(){
+
+  let count=0;
+
+
+  State.withdrawals.forEach(item=>{
+
+    if(item.status==="pending"){
+
+      item.status="approved";
+
+      count++;
+
+    }
+
+  });
+
+
+  saveState();
+
+  updateAdmin();
+
+  updateWithdrawUI();
+
+
+  showToast(
+    count+
+    " withdrawal request(s) approved."
+  );
+
+}
+
+
+/* =========================================================
+   CLEAR DEMO DATA
+   ========================================================= */
+
+function clearDemoData(){
+
+  const ok=
+    confirm(
+      "Clear all True Networking demo data?"
+    );
+
+
+  if(!ok){
+
+    return;
+
+  }
+
+
+  localStorage.removeItem(
+    APP_KEY
+  );
+
+
+  localStorage.removeItem(
+    LOGIN_KEY
+  );
+
+
+  location.reload();
+
+}
+
+
+/* =========================================================
+   HIDDEN ADMIN
+   ========================================================= */
+
+function setupAdminLogo(){
+
+  document
+    .querySelectorAll(".logo")
+    .forEach(logo=>{
+
+      logo.addEventListener(
+        "click",
+        ()=>{
+
+          logoClicks++;
+
+          clearTimeout(
+            logoTimer
+          );
+
+
+          logoTimer=
+            setTimeout(()=>{
+
+              logoClicks=0;
+
+            },1500);
+
+
+          if(logoClicks>=5){
+
+            logoClicks=0;
+
+            openAdmin();
+
+          }
+
+        }
+      );
+
+    });
+
+}
+
+
+/* =========================================================
+   UPDATE EVERYTHING
+   ========================================================= */
+
+function updateAllUI(){
+
+  updateHomeUI();
+
+  updateTaskUI();
+
+  updateProfileUI();
+
+  updateWithdrawUI();
+
+  applyDarkMode();
+
+}
+
+
+/* =========================================================
+   START APP
    ========================================================= */
 
 document.addEventListener(
   "DOMContentLoaded",
   ()=>{
+
+    setupAdminLogo();
 
     startApp();
 
