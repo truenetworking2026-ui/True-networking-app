@@ -1800,4 +1800,707 @@ input:focus,select:focus,textarea:focus{
       Clear demo data  
     </button>  
   </div>  
-</div>  <div id="toast" class="toast hidden"></div>  <script>
+</div>  <div id="toast" class="toast hidden"></div>  
+  <script>
+/* =========================  
+   TRUE NETWORKING APP LOGIC  
+========================= */  
+  
+const APP_KEY = "true_networking_state_v3";  
+  
+let state = {  
+  loggedIn:false,  
+  isRegister:true,  
+  user:{  
+    name:"Demo User",  
+    email:"demo@example.com",  
+    avatar:"https://i.pravatar.cc/200?img=12",  
+    verified:false,  
+    inviteId:"TN" + Math.floor(100000 + Math.random()*899999)  
+  },  
+  balance:0,  
+  progress:0,  
+  tasks:[],  
+  videos:[],  
+  withdrawals:[],  
+  dark:false  
+};  
+  
+const taskData = [  
+  {  
+    id:"task1",  
+    title:"Daily Check-in",  
+    description:"Open the app and complete your daily check-in.",  
+    icon:"📅",  
+    reward:0.25  
+  },  
+  {  
+    id:"task2",  
+    title:"Read Article",  
+    description:"Read an article from the True Networking feed.",  
+    icon:"📚",  
+    reward:0.25  
+  },  
+  {  
+    id:"task3",  
+    title:"Like a Post",  
+    description:"Like a post and interact with the community.",  
+    icon:"❤️",  
+    reward:0.25  
+  },  
+  {  
+    id:"task4",  
+    title:"Share Content",  
+    description:"Share a useful post with your friends.",  
+    icon:"↗️",  
+    reward:0.25  
+  },  
+  {  
+    id:"task5",  
+    title:"Community Support",  
+    description:"Send a positive comment on a video post.",  
+    icon:"💬",  
+    reward:0.25  
+  }  
+];  
+  
+const videoData = [  
+  {  
+    id:"video1",  
+    title:"A New Beginning",  
+    description:"A short emotional story about hope and starting again.",  
+    src:"https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",  
+    reward:0.25  
+  },  
+  {  
+    id:"video2",  
+    title:"Happiness",  
+    description:"A positive video about happiness and gratitude.",  
+    src:"https://www.w3schools.com/html/mov_bbb.mp4",  
+    reward:0.25  
+  },  
+  {  
+    id:"video3",  
+    title:"Love and Kindness",  
+    description:"A story that reminds us to show love and kindness.",  
+    src:"https://media.w3.org/2010/05/sintel/trailer.mp4",  
+    reward:0.25  
+  },  
+  {  
+    id:"video4",  
+    title:"Keep Moving Forward",  
+    description:"An inspiring video about patience and determination.",  
+    src:"https://media.w3.org/2010/05/bunny/trailer.mp4",  
+    reward:0.25  
+  }  
+];  
+  
+let activeVideoId = null;  
+let videoInterval = null;  
+let videoSeconds = 180;  
+  
+function saveState(){  
+  localStorage.setItem(APP_KEY, JSON.stringify(state));  
+}  
+  
+function loadState(){  
+  const saved = localStorage.getItem(APP_KEY);  
+  if(saved){  
+    try{  
+      state = JSON.parse(saved);  
+    }catch(e){}  
+  }  
+  
+  if(!Array.isArray(state.tasks)) state.tasks = [];  
+  if(!Array.isArray(state.videos)) state.videos = [];  
+  if(!Array.isArray(state.withdrawals)) state.withdrawals = [];  
+  
+  if(state.dark){  
+    document.body.classList.add("dark-mode");  
+  }  
+}  
+  
+function showToast(message){  
+  const toast = document.getElementById("toast");  
+  toast.textContent = message;  
+  toast.classList.remove("hidden");  
+  setTimeout(()=>toast.classList.add("hidden"),2600);  
+}  
+  
+function money(value){  
+  return "$" + Number(value || 0).toFixed(2);  
+}  
+  
+function init(){  
+  loadState();  
+  
+  setTimeout(()=>{  
+    document.getElementById("splash").classList.add("hidden");  
+  
+    if(state.loggedIn){  
+      openMainApp();  
+    }else{  
+      document.getElementById("authScreen").classList.remove("hidden");  
+    }  
+  },1400);  
+}  
+  
+function toggleAuth(){  
+  state.isRegister = !state.isRegister;  
+  
+  document.getElementById("authTitle").textContent =  
+    state.isRegister ? "Create account" : "Welcome back";  
+  
+  document.getElementById("authSubtitle").textContent =  
+    state.isRegister  
+    ? "Register to start using True Networking."  
+    : "Login to continue to your account.";  
+  
+  document.getElementById("registerFields").classList.toggle("hidden", !state.isRegister);  
+  
+  document.getElementById("authSubmit").textContent =  
+    state.isRegister ? "Register" : "Login";  
+  
+  document.getElementById("authSwitchText").textContent =  
+    state.isRegister ? "Already have an account?" : "Don't have an account?";  
+  
+  document.getElementById("authSwitchBtn").textContent =  
+    state.isRegister ? "Login" : "Register";  
+}  
+  
+function submitAuth(){  
+  const name = document.getElementById("authName").value.trim();  
+  const email = document.getElementById("authEmail").value.trim();  
+  const password = document.getElementById("authPassword").value.trim();  
+  
+  if(state.isRegister && !name){  
+    showToast("Please enter your full name.");  
+    return;  
+  }  
+  
+  if(!email || !password){  
+    showToast("Please fill all required fields.");  
+    return;  
+  }  
+  
+  if(state.isRegister){  
+    state.user.name = name;  
+  }  
+  
+  state.user.email = email;  
+  state.loggedIn = true;  
+  saveState();  
+  openMainApp();  
+  showToast(state.isRegister ? "Account created successfully." : "Login successful.");  
+}  
+  
+function demoGoogleLogin(){  
+  state.loggedIn = true;  
+  state.user.name = "Google User";  
+  state.user.email = "googleuser@example.com";  
+  saveState();  
+  openMainApp();  
+  showToast("Google demo login successful.");  
+}  
+  
+function openMainApp(){  
+  document.getElementById("authScreen").classList.add("hidden");  
+  document.getElementById("mainApp").classList.remove("hidden");  
+  document.getElementById("adminPage").classList.add("hidden");  
+  updateAll();  
+  showPage("home");  
+}  
+  
+function showPage(page){  
+  const pages = ["home","tasks","withdraw","profile","notifications"];  
+  
+  pages.forEach(name=>{  
+    const el = document.getElementById(name+"Page");  
+    if(el) el.classList.add("hidden");  
+  });  
+  
+  const target = document.getElementById(page+"Page");  
+  if(target) target.classList.remove("hidden");  
+  
+  document.querySelectorAll(".nav-btn").forEach(btn=>btn.classList.remove("active"));  
+  
+  if(page==="home") document.getElementById("navHome").classList.add("active");  
+  if(page==="tasks") document.getElementById("navTasks").classList.add("active");  
+  if(page==="withdraw") document.getElementById("navWallet").classList.add("active");  
+  if(page==="profile") document.getElementById("navProfile").classList.add("active");  
+  
+  if(page==="tasks") renderTasks();  
+  if(page==="withdraw") renderWithdrawals();  
+  if(page==="profile") updateProfile();  
+}  
+  
+function updateAll(){  
+  document.getElementById("welcomeName").textContent = state.user.name || "User";  
+  document.getElementById("homeBalance").textContent = money(state.balance);  
+  document.getElementById("withdrawBalance").textContent = money(state.balance);  
+  document.getElementById("homeProgressText").textContent = state.progress + "%";  
+  document.getElementById("homeProgressBar").style.width = state.progress + "%";  
+  
+  const completedTasks = state.tasks.length;  
+  const completedVideos = state.videos.length;  
+  
+  document.getElementById("homeTasksDone").textContent = completedTasks + "/5";  
+  document.getElementById("homeVideosDone").textContent = completedVideos + "/4";  
+  document.getElementById("homeDay").textContent = "Day " + Math.min(5,Math.floor(state.progress/20)+1);  
+  
+  document.getElementById("taskHeaderCount").textContent = completedTasks + "/5";  
+  document.getElementById("taskHeaderText").textContent =  
+    completedTasks >= 5 ? "All daily tasks completed" : "Complete your tasks today";  
+  
+  updateProfile();  
+  renderWithdrawals();  
+}  
+  
+function renderTasks(){  
+  const list = document.getElementById("taskList");  
+  list.innerHTML = "";  
+  
+  taskData.forEach(task=>{  
+    const claimed = state.tasks.includes(task.id);  
+  
+    const div = document.createElement("div");  
+    div.className = "task-card";  
+    div.innerHTML = `  
+      <div class="task-thumb" style="display:flex;align-items:center;justify-content:center;font-size:42px;background:linear-gradient(145deg,#fff1c7,#ffe3a2)">  
+        ${task.icon}  
+      </div>  
+      <div class="task-main">  
+        <h3>${task.title}</h3>  
+        <p>${task.description}</p>  
+        <div class="task-meta">  
+          <span class="tag orange">+$${task.reward.toFixed(2)}</span>  
+          <span class="tag">Daily</span>  
+        </div>  
+        <button class="task-button ${claimed ? "claimed":""}"  
+          ${claimed ? "disabled":""}  
+          onclick="claimNormalTask('${task.id}')">  
+          ${claimed ? "✓ Claimed" : "Complete Task"}  
+        </button>  
+      </div>  
+    `;  
+    list.appendChild(div);  
+  });  
+  
+  videoData.forEach(video=>{  
+    const watched = state.videos.includes(video.id);  
+  
+    const div = document.createElement("div");  
+    div.className = "task-card";  
+    div.innerHTML = `  
+      <video class="task-thumb" muted playsinline  
+        src="${video.src}"></video>  
+      <div class="task-main">  
+        <h3>${video.title}</h3>  
+        <p>${video.description}</p>  
+        <div class="task-meta">  
+          <span class="tag orange">+$${video.reward.toFixed(2)}</span>  
+          <span class="tag green">3 minutes</span>  
+        </div>  
+        <button class="task-button ${watched ? "claimed":""}"  
+          ${watched ? "disabled":""}  
+          onclick="openVideo('${video.id}')">  
+          ${watched ? "✓ Claimed" : "▶ Watch Video"}  
+        </button>  
+      </div>  
+    `;  
+    list.appendChild(div);  
+  });  
+}  
+  
+function claimNormalTask(id){  
+  if(state.tasks.includes(id)){  
+    showToast("This task has already been claimed.");  
+    return;  
+  }  
+  
+  state.tasks.push(id);  
+  state.balance += 0.25;  
+  state.progress = Math.min(100,state.progress + 10);  
+  saveState();  
+  updateAll();  
+  renderTasks();  
+  showToast("Task completed. $0.25 added.");  
+}  
+  
+function openVideo(id){  
+  const video = videoData.find(v=>v.id===id);  
+  if(!video) return;  
+  
+  activeVideoId = id;  
+  videoSeconds = 180;  
+  
+  document.getElementById("taskVideo").src = video.src;  
+  document.getElementById("modalTitle").textContent = video.title;  
+  document.getElementById("modalDescription").textContent =  
+    "Watch the video for 3 minutes before claiming your reward.";  
+  document.getElementById("videoTimer").textContent = "03:00";  
+  document.getElementById("finishVideoBtn").disabled = true;  
+  document.getElementById("finishVideoBtn").textContent = "Watch until the timer ends";  
+  
+  document.getElementById("videoModal").classList.remove("hidden");  
+  
+  clearInterval(videoInterval);  
+  videoInterval = setInterval(()=>{  
+    videoSeconds--;  
+  
+    const min = String(Math.floor(videoSeconds/60)).padStart(2,"0");  
+    const sec = String(videoSeconds%60).padStart(2,"0");  
+    document.getElementById("videoTimer").textContent = min + ":" + sec;  
+  
+    if(videoSeconds <= 0){  
+      clearInterval(videoInterval);  
+      document.getElementById("finishVideoBtn").disabled = false;  
+      document.getElementById("finishVideoBtn").textContent = "Claim $0.25";  
+    }  
+  },1000);  
+}  
+  
+function finishVideo(){  
+  if(!activeVideoId || videoSeconds > 0) return;  
+  
+  if(!state.videos.includes(activeVideoId)){  
+    state.videos.push(activeVideoId);  
+    state.balance += 0.25;  
+    state.progress = Math.min(100,state.progress + 10);  
+    saveState();  
+    updateAll();  
+    renderTasks();  
+    showToast("Video completed. $0.25 added.");  
+  }  
+  
+  closeVideoModal();  
+}  
+  
+function closeVideoModal(){  
+  clearInterval(videoInterval);  
+  const video = document.getElementById("taskVideo");  
+  video.pause();  
+  video.removeAttribute("src");  
+  video.load();  
+  document.getElementById("videoModal").classList.add("hidden");  
+  activeVideoId = null;  
+}  
+  
+function renderWithdrawals(){  
+  const box = document.getElementById("withdrawHistory");  
+  const adminBox = document.getElementById("adminWithdrawals");  
+  
+  if(!state.withdrawals.length){  
+    box.innerHTML = '<div class="empty">No withdrawal requests yet.</div>';  
+    adminBox.innerHTML = '<div class="empty">No requests found.</div>';  
+    return;  
+  }  
+  
+  box.innerHTML = state.withdrawals.slice().reverse().map(item=>`  
+    <div style="padding:13px 0;border-bottom:1px solid var(--line)">  
+      <div style="display:flex;justify-content:space-between;gap:8px">  
+        <b>${money(item.amount)}</b>  
+        <span class="status ${item.status}">${item.status}</span>  
+      </div>  
+      <div style="font-size:11px;color:var(--muted);margin-top:6px">  
+        ${item.bank} • ${item.account} • ${item.date}  
+      </div>  
+    </div>  
+  `).join("");  
+  
+  adminBox.innerHTML = `  
+    <table class="admin-table">  
+      <thead>  
+        <tr>  
+          <th>Bank</th>  
+          <th>Amount</th>  
+          <th>Status</th>  
+        </tr>  
+      </thead>  
+      <tbody>  
+        ${state.withdrawals.slice().reverse().map(item=>`  
+          <tr>  
+            <td>${item.bank}</td>  
+            <td>${money(item.amount)}</td>  
+            <td><span class="status ${item.status}">${item.status}</span></td>  
+          </tr>  
+        `).join("")}  
+      </tbody>  
+    </table>  
+  `;  
+}  
+  
+function requestWithdraw(){  
+  const bank = document.getElementById("bankName").value;  
+  const name = document.getElementById("withdrawName").value.trim();  
+  const account = document.getElementById("accountNumber").value.trim();  
+  const amount = Number(document.getElementById("withdrawAmount").value);  
+  
+  if(!bank || !name || !account || !amount){  
+    showToast("Please complete all withdrawal fields.");  
+    return;  
+  }  
+  
+  if(account.length !== 10){  
+    showToast("Account number must contain 10 digits.");  
+    return;  
+  }  
+  
+  if(amount < 8){  
+    showToast("Minimum withdrawal is $8.00.");  
+    return;  
+  }  
+  
+  if(amount > state.balance){  
+    showToast("Insufficient balance.");  
+    return;  
+  }  
+  
+  state.balance -= amount;  
+  
+  state.withdrawals.push({  
+    bank,  
+    name,  
+    account,  
+    amount,  
+    status:"pending",  
+    date:new Date().toLocaleString()  
+  });  
+  
+  saveState();  
+  updateAll();  
+  
+  document.getElementById("bankName").value = "";  
+  document.getElementById("withdrawName").value = "";  
+  document.getElementById("accountNumber").value = "";  
+  document.getElementById("withdrawAmount").value = "";  
+  
+  showToast("Withdrawal request submitted as pending.");  
+}  
+  
+function selectWithdrawTab(button){  
+  document.querySelectorAll(".tab").forEach(tab=>tab.classList.remove("active"));  
+  button.classList.add("active");  
+  showToast(button.textContent + " option selected.");  
+}  
+  
+function updateProfile(){  
+  document.getElementById("profileName").textContent = state.user.name || "User";  
+  document.getElementById("profileEmail").textContent = state.user.email || "user@example.com";  
+  document.getElementById("profileAvatar").src = state.user.avatar || "https://i.pravatar.cc/200?img=12";  
+  document.getElementById("verifyStatus").textContent = state.user.verified ? "✓" : "›";  
+  document.getElementById("verifyStatus").style.color = state.user.verified ? "#16b979" : "";  
+}  
+  
+function uploadAvatar(event){  
+  const file = event.target.files[0];  
+  if(!file) return;  
+  
+  const reader = new FileReader();  
+  reader.onload = function(e){  
+    state.user.avatar = e.target.result;  
+    saveState();  
+    updateProfile();  
+    showToast("Profile picture updated.");  
+  };  
+  reader.readAsDataURL(file);  
+}  
+  
+function editProfile(){  
+  const newName = prompt("Enter your new full name:",state.user.name);  
+  if(newName && newName.trim()){  
+    state.user.name = newName.trim();  
+    saveState();  
+    updateAll();  
+    showToast("Profile updated.");  
+  }  
+}  
+  
+function faceVerification(){  
+  if(state.user.verified){  
+    showToast("Your account is already verified.");  
+    return;  
+  }  
+  
+  const proceed = confirm(  
+    "Face verification demo: allow camera access to test the verification screen. Continue?"  
+  );  
+  
+  if(!proceed) return;  
+  
+  if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){  
+    showToast("Camera is not supported by this browser.");  
+    return;  
+  }  
+  
+  navigator.mediaDevices.getUserMedia({video:true})  
+    .then(stream=>{  
+      stream.getTracks().forEach(track=>track.stop());  
+      state.user.verified = true;  
+      saveState();  
+      updateProfile();  
+      showToast("Face verification demo completed.");  
+    })  
+    .catch(()=>{  
+      showToast("Camera permission was not granted.");  
+    });  
+}  
+  
+function securityInfo(){  
+  alert("Security settings:\n\n• Keep your password private.\n• Do not share your login code.\n• Use a secure email or phone number.\n\nAdvanced security will be connected to the backend later.");  
+}  
+  
+function toggleDarkMode(){  
+  state.dark = !state.dark;  
+  document.body.classList.toggle("dark-mode",state.dark);  
+  document.getElementById("darkSwitch").classList.toggle("active",state.dark);  
+  saveState();  
+  showToast(state.dark ? "Dark mode enabled." : "Light mode enabled.");  
+}  
+  
+function inviteFriends(){  
+  const inviteLink = location.href + "?invite=" + state.user.inviteId;  
+  
+  const text =  
+    "Join me on True Networking. My invite ID is " +  
+    state.user.inviteId +  
+    ". Invite link: " +  
+    inviteLink;  
+  
+  if(navigator.share){  
+    navigator.share({  
+      title:"True Networking",  
+      text  
+    }).catch(()=>{});  
+  }else{  
+    prompt("Copy your invite information:",text);  
+  }  
+}  
+  
+function showLanguage(){  
+  const language = prompt("Choose language: English or Hausa","English");  
+  if(language){  
+    showToast("Language selected: " + language + ". Full translation will be added later.");  
+  }  
+}  
+  
+function shareApp(){  
+  const text = "Join me on True Networking: " + location.href;  
+  
+  if(navigator.share){  
+    navigator.share({  
+      title:"True Networking",  
+      text  
+    }).catch(()=>{});  
+  }else{  
+    prompt("Copy this link:",text);  
+  }  
+}  
+  
+function likeFeed(button){  
+  if(button.textContent==="♡"){  
+    button.textContent="♥";  
+    button.style.color="#ff4b7d";  
+    showToast("Post liked.");  
+  }else{  
+    button.textContent="♡";  
+    button.style.color="white";  
+  }  
+}  
+  
+function logout(){  
+  const yes = confirm("Are you sure you want to logout?");  
+  if(!yes) return;  
+  
+  state.loggedIn = false;  
+  saveState();  
+  
+  document.getElementById("mainApp").classList.add("hidden");  
+  document.getElementById("authScreen").classList.remove("hidden");  
+  showToast("You have logged out.");  
+}  
+  
+function openAdmin(){  
+  const code = prompt("Enter admin code:");  
+  
+  if(code !== "676841"){  
+    showToast("Incorrect admin code.");  
+    return;  
+  }  
+  
+  document.getElementById("mainApp").classList.add("hidden");  
+  document.getElementById("adminPage").classList.remove("hidden");  
+  updateAdmin();  
+}  
+  
+function closeAdmin(){  
+  document.getElementById("adminPage").classList.add("hidden");  
+  document.getElementById("mainApp").classList.remove("hidden");  
+  showPage("home");  
+}  
+  
+function updateAdmin(){  
+  document.getElementById("adminUsers").textContent = "1";  
+  document.getElementById("adminVerified").textContent = state.user.verified ? "1" : "0";  
+  document.getElementById("adminRewards").textContent = money(state.balance);  
+  document.getElementById("adminPending").textContent =  
+    state.withdrawals.filter(w=>w.status==="pending").length;  
+  
+  renderWithdrawals();  
+}  
+  
+function adminApproveAll(){  
+  let count = 0;  
+  
+  state.withdrawals.forEach(item=>{  
+    if(item.status==="pending"){  
+      item.status = "approved";  
+      count++;  
+    }  
+  });  
+  
+  saveState();  
+  updateAdmin();  
+  showToast(count + " request(s) approved in demo.");  
+}  
+  
+function clearDemoData(){  
+  const yes = confirm("This will clear tasks, videos, balance and withdrawals. Continue?");  
+  if(!yes) return;  
+  
+  state.balance = 0;  
+  state.progress = 0;  
+  state.tasks = [];  
+  state.videos = [];  
+  state.withdrawals = [];  
+  saveState();  
+  updateAll();  
+  updateAdmin();  
+  showToast("Demo data cleared.");  
+}  
+  
+/* Hidden admin access:  
+   Tap the True Networking logo five times quickly. */  
+let logoClicks = 0;  
+let logoTimer;  
+  
+document.querySelectorAll(".logo").forEach(logo=>{  
+  logo.addEventListener("click",()=>{  
+    logoClicks++;  
+    clearTimeout(logoTimer);  
+  
+    logoTimer = setTimeout(()=>{  
+      logoClicks = 0;  
+    },1500);  
+  
+    if(logoClicks >= 5){  
+      logoClicks = 0;  
+      openAdmin();  
+    }  
+  });  
+});  
+  
+init();  
+</script>  
+</body>  
+</html>
