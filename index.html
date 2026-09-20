@@ -31,6 +31,92 @@ body{
   color:var(--text);  
   min-height:100vh;  
 }  
+
+.five-day-progress{
+  background:var(--card);
+  border-radius:22px;
+  padding:18px;
+  margin-top:15px;
+  box-shadow:var(--shadow);
+}
+
+.five-day-title{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+
+.five-day-title div{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+}
+
+.five-day-title span{
+  font-size:12px;
+  color:var(--muted);
+}
+
+.five-day-bar{
+  height:9px;
+  background:#e8eaf2;
+  border-radius:20px;
+  overflow:hidden;
+  margin:15px 0;
+}
+
+#fiveDayBar{
+  width:0%;
+  height:100%;
+  background:linear-gradient(
+    90deg,
+    #635bff,
+    #9b5cff
+  );
+  border-radius:20px;
+  transition:.3s;
+}
+
+.day-row{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:7px;
+}
+
+.day-item{
+  text-align:center;
+  font-size:10px;
+  color:var(--muted);
+}
+
+.day-item b{
+  width:32px;
+  height:32px;
+  margin:0 auto 5px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:50%;
+  background:#f0f1f7;
+  color:#777;
+}
+
+.day-item.completed b{
+  background:#16b979;
+  color:white;
+}
+
+.day-item.active b{
+  background:#635bff;
+  color:white;
+}
+
+.day-item.completed span,
+.day-item.active span{
+  color:var(--text);
+  font-weight:600;
+}
   
 button,input,select,textarea{  
   font:inherit;  
