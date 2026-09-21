@@ -2617,26 +2617,59 @@ function openVideo(id){
     }  
   },1000);  
 }  
-  
-function finishVideo(){  
-  if(!completedVideo || videoSeconds > 0) return;  
-  
-  if(!state.videos.includes(activeVideoId)){  
-    state.videos.push(activeVideoId);  
-    const completedVideo = videoData.find(v => v.id === activeVideoId);
+  function finishVideo(){
 
-  if(completedvideo){
-  state.balance += completedVideo.reward;
-}
-    state.progress = Math.min(100,state.progress + 10);  
-    saveState();  
-    updateAll();  
-    renderTasks();  
-    showToast("Video completed. $0.25 added.");  
-  }  
-  
-  closeVideoModal();  
-}  
+  if(!activeVideoId || videoSeconds > 0){
+    return;
+  }
+
+  // Prevent double claiming
+  if(state.videos.includes(activeVideoId)){
+    showToast("This video has already been claimed.");
+    closeVideoModal();
+    return;
+  }
+
+  // Find the active video
+  const video = videoData.find(
+    v => v.id === activeVideoId
+  );
+
+  if(!video){
+    showToast("Video not found.");
+    closeVideoModal();
+    return;
+  }
+
+  // Add video to completed videos
+  state.videos.push(activeVideoId);
+
+  // Add video reward
+  state.balance += video.reward;
+
+  // Increase progress
+  state.progress = Math.min(
+    100,
+    state.progress + 10
+  );
+
+  // Save everything
+  saveState();
+
+  // Update Home, Tasks and Profile
+  updateAll();
+
+  // Refresh task/video cards
+  renderTasks();
+
+  showToast(
+    "Video completed. " +
+    money(video.reward) +
+    " added."
+  );
+
+  closeVideoModal();
+    }
   
 function closeVideoModal(){  
   clearInterval(videoInterval);  
