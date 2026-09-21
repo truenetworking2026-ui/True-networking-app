@@ -1,3195 +1,428 @@
 <!DOCTYPE html>
-<html lang="en">  
-<head>  
-<meta charset="UTF-8">  
-<meta name="viewport" content="width=device-width, initial-scale=1.0">  
-<meta name="theme-color" content="#10152f">  
-<title>True Networking</title>  <style>  
-:root{  
-  --bg:#f6f7fb;  
-  --card:#ffffff;  
-  --text:#151827;  
-  --muted:#7d8295;  
-  --line:#e8eaf2;  
-  --primary:#635bff;  
-  --primary2:#9b5cff;  
-  --orange:#ffb52e;  
-  --danger:#ff1744;  
-  --green:#16b979;  
-  --shadow:0 12px 35px rgba(35,38,75,.08);  
-}  
-  
-*{  
-  box-sizing:border-box;  
-  margin:0;  
-  padding:0;  
-  font-family:Arial,Helvetica,sans-serif;  
-}  
-  
-body{  
-  background:var(--bg);  
-  color:var(--text);  
-  min-height:100vh;  
-}  
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#10152f">
+<title>True Networking</title>
 
-.five-day-progress{
-  background:var(--card);
-  border-radius:22px;
-  padding:18px;
-  margin-top:15px;
-  box-shadow:var(--shadow);
-}
-
-.five-day-title{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
-}
-
-.five-day-title div{
-  display:flex;
-  flex-direction:column;
-  gap:4px;
-}
-
-.five-day-title span{
-  font-size:12px;
-  color:var(--muted);
-}
-
-.five-day-bar{
-  height:9px;
-  background:#e8eaf2;
-  border-radius:20px;
-  overflow:hidden;
-  margin:15px 0;
-}
-
-#fiveDayBar{
-  width:0%;
-  height:100%;
-  background:linear-gradient(
-    90deg,
-    #635bff,
-    #9b5cff
-  );
-  border-radius:20px;
-  transition:.3s;
-}
-
-.day-row{
-  display:grid;
-  grid-template-columns:repeat(5,1fr);
-  gap:7px;
-}
-
-.day-item{
-  text-align:center;
-  font-size:10px;
-  color:var(--muted);
-}
-
-.day-item b{
-  width:32px;
-  height:32px;
-  margin:0 auto 5px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  border-radius:50%;
-  background:#f0f1f7;
-  color:#777;
-}
-
-.day-item.completed b{
-  background:#16b979;
-  color:white;
-}
-
-.day-item.active b{
-  background:#635bff;
-  color:white;
-}
-
-.day-item.completed span,
-.day-item.active span{
-  color:var(--text);
-  font-weight:600;
-}
-  
-button,input,select,textarea{  
-  font:inherit;  
-}  
-  
-button{  
-  border:0;  
-  cursor:pointer;  
-}  
-  
-.hidden{  
-  display:none!important;  
-}  
-  
-.app{  
-  width:100%;  
-  max-width:520px;  
-  min-height:100vh;  
-  margin:auto;  
-  background:var(--bg);  
-  position:relative;  
-  padding-bottom:88px;  
-  overflow:hidden;  
-} 
-  
-.topbar{  
-  height:72px;  
-  display:flex;  
-  align-items:center;  
-  justify-content:space-between;  
-  padding:14px 18px;  
-  background:var(--card);  
-  border-bottom:1px solid var(--line);  
-  position:sticky;  
-  top:0;  
-  z-index:20;  
-}  
-  
-.brand{  
-  display:flex;  
-  align-items:center;  
-  gap:10px;  
-}  
-  
-.brand-name{  
-  font-size:19px;  
-  font-weight:800;  
-  letter-spacing:-.5px;  
-}  
-  
-.brand-name span{  
-  color:var(--primary);  
-}  
-  
-.icon-btn{  
-  width:42px;  
-  height:42px;  
-  border-radius:14px;  
-  background:#f0f1f8;  
-  display:flex;  
-  align-items:center;  
-  justify-content:center;  
-  font-size:20px;  
-  color:#33384d;  
-}  
-  
-.logo{  
-  width:42px;  
-  height:42px;  
-  border-radius:14px;  
-  background:linear-gradient(145deg,#171432,#3f2c91);  
-  display:flex;  
-  align-items:center;  
-  justify-content:center;  
-  box-shadow:0 8px 22px rgba(99,91,255,.25);  
-  position:relative;  
-  overflow:hidden;  
-}  
-  
-.logo:before{  
-  content:"";  
-  position:absolute;  
-  inset:-20px;  
-  background:radial-gradient(circle,#b77cff55,transparent 55%);  
-}  
-  
-.logo svg{  
-  width:29px;  
-  height:29px;  
-  position:relative;  
-}  
-  
-.page{  
-  padding:20px 17px;  
-}  
-  
-.page-title{  
-  font-size:25px;  
-  font-weight:800;  
-  margin-bottom:5px;  
-}  
-  
-.page-subtitle{  
-  color:var(--muted);  
-  font-size:13px;  
-  margin-bottom:20px;  
-}  
-  
-.card{  
-  background:var(--card);  
-  border:1px solid var(--line);  
-  border-radius:24px;  
-  box-shadow:var(--shadow);  
-}  
-  
-button.primary{  
-  background:linear-gradient(135deg,var(--primary),var(--primary2));  
-  color:white;  
-  padding:13px 18px;  
-  border-radius:14px;  
-  font-weight:700;  
-}  
-  
-button.secondary{  
-  background:#f0efff;  
-  color:var(--primary);  
-  padding:13px 18px;  
-  border-radius:14px;  
-  font-weight:700;  
-}  
-  
-button.success{  
-  background:#e4fff3;  
-  color:#0b9b64;  
-  padding:13px 18px;  
-  border-radius:14px;  
-  font-weight:700;  
-}  
-  
-button.danger{  
-  background:#ffe9ee;  
-  color:#e71948;  
-  padding:13px 18px;  
-  border-radius:14px;  
-  font-weight:700;  
-}  
-  
-button:disabled{  
-  opacity:.55;  
-  cursor:not-allowed;  
-}  
-  
-input,select,textarea{  
-  width:100%;  
-  border:1px solid var(--line);  
-  background:#fafbff;  
-  padding:14px;  
-  border-radius:13px;  
-  outline:none;  
-  color:var(--text);  
-}  
-  
-input:focus,select:focus,textarea:focus{  
-  border-color:var(--primary);  
-}  
-  
-.field{  
-  margin-bottom:14px;  
-}  
-  
-.field label{  
-  display:block;  
-  font-size:12px;  
-  color:var(--muted);  
-  margin-bottom:7px;  
-  font-weight:700;  
-}  
-  
-/* SPLASH */  
-#splash{  
-  position:fixed;  
-  inset:0;  
-  background:#080817;  
-  z-index:9999;  
-  display:flex;  
-  align-items:center;  
-  justify-content:center;  
-  flex-direction:column;  
-  color:white;  
-}  
-  
-.splash-logo{  
-  width:125px;  
-  height:125px;  
-  border-radius:37px;  
-  background:radial-gradient(circle at 50% 30%,#a878ff,#282052 65%,#111022);  
-  display:flex;  
-  align-items:center;  
-  justify-content:center;  
-  box-shadow:0 0 45px #795bff88;  
-  animation:floatLogo 2.4s ease-in-out infinite;  
-}  
-  
-.splash-logo svg{  
-  width:85px;  
-  height:85px;  
-}  
-  
-.splash-title{  
-  font-size:27px;  
-  font-weight:900;  
-  margin-top:25px;  
-  letter-spacing:.5px;  
-}  
-  
-.splash-title span{  
-  color:#b78aff;  
-}  
-  
-.splash-loading{  
-  width:125px;  
-  height:4px;  
-  background:#27233e;  
-  border-radius:10px;  
-  margin-top:24px;  
-  overflow:hidden;  
-}  
-  
-.splash-loading div{  
-  width:45%;  
-  height:100%;  
-  background:#a878ff;  
-  animation:loading 1.4s infinite;  
-}  
-  
-@keyframes loading{  
-  from{transform:translateX(-120%)}  
-  to{transform:translateX(280%)}  
-}  
-  
-@keyframes floatLogo{  
-  0%,100%{transform:translateY(0)}  
-  50%{transform:translateY(-9px)}  
-}  
-  
-/* HOME */  
-.hero{  
-  padding:22px;  
-  border-radius:27px;  
-  color:white;  
-  background:  
-    radial-gradient(circle at 90% 10%,#c08cff66,transparent 32%),  
-    linear-gradient(135deg,#17183f,#4932a3 60%,#8b4fe4);  
-  box-shadow:0 16px 35px #5845b333;  
-  margin-bottom:18px;  
-  position:relative;  
-  overflow:hidden;  
-}  
-  
-.hero:after{  
-  content:"";  
-  width:170px;  
-  height:170px;  
-  border:1px solid #ffffff22;  
-  border-radius:50%;  
-  position:absolute;  
-  right:-65px;  
-  bottom:-85px;  
-}  
-  
-.hero-top{  
-  display:flex;  
-  justify-content:space-between;  
-  align-items:center;  
-  margin-bottom:24px;  
-}  
-  
-.hero small{  
-  color:#d9d4ff;  
-  font-size:12px;  
-}  
-  
-.hero h1{  
-  font-size:31px;  
-  margin-top:7px;  
-}  
-  
-.hero-balance{  
-  display:flex;  
-  align-items:center;  
-  gap:8px;  
-}  
-  
-.coin{  
-  width:25px;  
-  height:25px;  
-  border-radius:50%;  
-  background:#ffd866;  
-  color:#a16c00;  
-  display:inline-flex;  
-  align-items:center;  
-  justify-content:center;  
-  font-size:13px;  
-  font-weight:900;  
-}  
-  
-.hero-bottom{  
-  display:flex;  
-  justify-content:space-between;  
-  align-items:end;  
-  gap:10px;  
-}  
-  
-.hero-stat{  
-  font-size:12px;  
-  color:#e0dbff;  
-}  
-  
-.hero-stat strong{  
-  display:block;  
-  font-size:15px;  
-  color:white;  
-  margin-top:4px;  
-}  
-  
-.progress-wrap{  
-  margin-top:20px;  
-}  
-  
-.progress-line{  
-  height:8px;  
-  background:#ffffff25;  
-  border-radius:20px;  
-  overflow:hidden;  
-}  
-  
-.progress-line div{  
-  height:100%;  
-  background:#ffd866;  
-  border-radius:20px;  
-  transition:width .4s;  
-}  
-  
-.quick-grid{  
-  display:grid;  
-  grid-template-columns:repeat(2,1fr);  
-  gap:12px;  
-  margin-bottom:22px;  
-}  
-  
-.quick-card{  
-  padding:17px;  
-  border-radius:20px;  
-  background:var(--card);  
-  border:1px solid var(--line);  
-}  
-  
-.quick-card .q-icon{  
-  width:37px;  
-  height:37px;  
-  border-radius:13px;  
-  background:#f0efff;  
-  display:flex;  
-  align-items:center;  
-  justify-content:center;  
-  font-size:19px;  
-  margin-bottom:12px;  
-}  
-  
-.quick-card strong{  
-  font-size:18px;  
-  display:block;  
-}  
-  
-.quick-card small{  
-  color:var(--muted);  
-  font-size:11px;  
-}  
-  
-.section-heading{  
-  display:flex;  
-  justify-content:space-between;  
-  align-items:center;  
-  margin:20px 0 13px;  
-}  
-  
-.section-heading h2{  
-  font-size:18px;  
-}  
-  
-.section-heading button{  
-  background:none;  
-  color:var(--primary);  
-  font-size:12px;  
-  font-weight:700;  
-}  
-  
-.video-feed{  
-  display:flex;  
-  flex-direction:column;  
-  gap:18px;  
-}  
-  
-.feed-card{  
-  background:#10101b;  
-  color:white;  
-  border-radius:24px;  
-  overflow:hidden;  
-  position:relative;  
-  min-height:440px;  
-}  
-  
-.feed-video{  
-  width:100%;  
-  height:440px;  
-  object-fit:cover;  
-  display:block;  
-  background:#1c1c2a;  
-}  
-  
-.feed-overlay{  
-  position:absolute;  
-  inset:0;  
-  background:linear-gradient(transparent 45%,#000c 100%);  
-  pointer-events:none;  
-}  
-  
-.feed-info{  
-  position:absolute;  
-  left:17px;  
-  right:70px;  
-  bottom:20px;  
-}  
-  
-.feed-info h3{  
-  font-size:15px;  
-  margin-bottom:8px;  
-}  
-  
-.feed-info p{  
-  font-size:12px;  
-  line-height:1.5;  
-  color:#eee;  
-}  
-  
-.feed-actions{  
-  position:absolute;  
-  right:12px;  
-  bottom:18px;  
-  display:flex;  
-  flex-direction:column;  
-  gap:13px;  
-  align-items:center;  
-}  
-  
-.feed-action{  
-  background:#ffffff18;  
-  backdrop-filter:blur(8px);  
-  width:42px;  
-  height:42px;  
-  border-radius:50%;  
-  color:white;  
-  display:flex;  
-  align-items:center;  
-  justify-content:center;  
-  font-size:18px;  
-}  
-  
-.feed-action small{  
-  font-size:9px;  
-  margin-top:-9px;  
-}  
-  
-/* TASKS */  
-.task-header{  
-  background:linear-gradient(145deg,#ffcf3e,#ff9d20);  
-  border-radius:27px;  
-  padding:22px;  
-  color:white;  
-  margin-bottom:18px;  
-  position:relative;  
-  overflow:hidden;  
-}  
-  
-.task-header:after{  
-  content:"✦";  
-  position:absolute;  
-  right:24px;  
-  top:12px;  
-  font-size:85px;  
-  opacity:.16;  
-}  
-  
-.task-header h2{  
-  font-size:23px;  
-  margin-bottom:8px;  
-}  
-  
-.task-header p{  
-  font-size:12px;  
-  opacity:.9;  
-}  
-  
-.task-header-row{  
-  display:flex;  
-  justify-content:space-between;  
-  align-items:center;  
-}  
-  
-.reward-pill{  
-  background:#fff8d7;  
-  color:#b66e00;  
-  border-radius:30px;  
-  padding:9px 13px;  
-  font-size:12px;  
-  font-weight:800;  
-  display:inline-flex;  
-  gap:6px;  
-  align-items:center;  
-}  
-  
-.days{  
-  display:flex;  
-  justify-content:space-between;  
-  margin:24px 0 8px;  
-  position:relative;  
-  z-index:1;  
-}  
-  
-.days:before{  
-  content:"";  
-  position:absolute;  
-  left:10px;  
-  right:10px;  
-  top:13px;  
-  height:4px;  
-  background:#ffffff65;  
-  z-index:-1;  
-}  
-  
-.day{  
-  width:28px;  
-  height:28px;  
-  border-radius:50%;  
-  background:#fff8;  
-  border:3px solid #fff;  
-  display:flex;  
-  align-items:center;  
-  justify-content:center;  
-  font-size:10px;  
-  font-weight:800;  
-}  
-  
-.day.done{  
-  background:#16c98a;  
-}  
-  
-.day.active{  
-  background:#fff;  
-  color:#f59a00;  
-}  
-  
-.task-summary{  
-  display:flex;  
-  justify-content:space-between;  
-  align-items:center;  
-  margin-top:17px;  
-  font-size:12px;  
-}  
-  
-.task-count{  
-  background:#fff;  
-  color:#f59a00;  
-  border-radius:20px;  
-  padding:8px 12px;  
-  font-weight:800;  
-}  
-  
-.task-list{  
-  display:flex;  
-  flex-direction:column;  
-  gap:14px;  
-}  
-  
-.task-card{  
-  background:var(--card);  
-  border:1px solid var(--line);  
-  border-radius:22px;  
-  padding:15px;  
-  display:flex;  
-  gap:13px;  
-  align-items:center;  
-  box-shadow:var(--shadow);  
-}  
-  
-.task-thumb{  
-  width:83px;  
-  height:95px;  
-  border-radius:17px;  
-  object-fit:cover;  
-  background:#eee;  
-}  
-  
-.task-main{  
-  flex:1;  
-  min-width:0;  
-}  
-  
-.task-main h3{  
-  font-size:14px;  
-  margin-bottom:6px;  
-}  
-  
-.task-main p{  
-  color:var(--muted);  
-  font-size:11px;  
-  line-height:1.5;  
-  margin-bottom:10px;  
-}  
-  
-.task-meta{  
-  display:flex;  
-  gap:7px;  
-  flex-wrap:wrap;  
-  margin-bottom:10px;  
-}  
-  
-.tag{  
-  background:#f2f0ff;  
-  color:var(--primary);  
-  padding:5px 8px;  
-  border-radius:8px;  
-  font-size:10px;  
-  font-weight:700;  
-}  
-  
-.tag.green{  
-  background:#e5fff4;  
-  color:#0b9c64;  
-}  
-  
-.tag.orange{  
-  background:#fff3dc;  
-  color:#bc7500;  
-}  
-  
-.task-button{  
-  width:100%;  
-  padding:10px;  
-  border-radius:11px;  
-  background:linear-gradient(135deg,#ffbd35,#ff9622);  
-  color:white;  
-  font-size:12px;  
-  font-weight:800;  
-}  
-  
-.task-button.claimed{  
-  background:#e4fff3;  
-  color:#0a9d65;  
-}  
-  
-.video-modal{  
-  position:fixed;  
-  inset:0;  
-  background:#000e;  
-  z-index:100;  
-  display:flex;  
-  align-items:center;  
-  justify-content:center;  
-  padding:15px;  
-}  
-  
-.video-modal-box{  
-  width:100%;  
-  max-width:480px;  
-  background:#161625;  
-  color:white;  
-  border-radius:25px;  
-  overflow:hidden;  
-}  
-  
-.modal-video{  
-  width:100%;  
-  max-height:62vh;  
-  background:#000;  
-  display:block;  
-}  
-  
-.modal-content{  
-  padding:18px;  
-}  
-  
-.modal-content h3{  
-  margin-bottom:8px;  
-}  
-  
-.modal-content p{  
-  color:#bbb;  
-  font-size:12px;  
-  line-height:1.5;  
-  margin-bottom:14px;  
-}  
-  
-.timer{  
-  text-align:center;  
-  font-size:28px;  
-  font-weight:900;  
-  color:#ffd35d;  
-  margin:15px 0;  
-}  
-  
-/* PROFILE */  
-.profile-top{  
-  text-align:center;  
-  padding:25px 20px;  
-  background:var(--card);  
-  border-radius:25px;  
-  border:1px solid var(--line);  
-  box-shadow:var(--shadow);  
-  margin-bottom:17px;  
-}  
-  
-.avatar-wrap{  
-  position:relative;  
-  width:100px;  
-  height:100px;  
-  margin:0 auto 12px;  
-}  
-  
-.avatar{  
-  width:100px;  
-  height:100px;  
-  border-radius:50%;  
-  object-fit:cover;  
-  border:5px solid #eeeaff;  
-  background:#e9e7ff;  
-}  
-  
-.avatar-edit{  
-  position:absolute;  
-  right:0;  
-  bottom:0;  
-  width:32px;  
-  height:32px;  
-  border-radius:50%;  
-  background:var(--primary);  
-  color:white;  
-  display:flex;  
-  align-items:center;  
-  justify-content:center;  
-  border:3px solid white;  
-}  
-  
-.profile-top h2{  
-  font-size:22px;  
-  margin-bottom:5px;  
-}  
-  
-.profile-top p{  
-  color:var(--muted);  
-  font-size:12px;  
-}  
-  
-.profile-menu{  
-  background:var(--card);  
-  border:1px solid var(--line);  
-  border-radius:23px;  
-  overflow:hidden;  
-  box-shadow:var(--shadow);  
-}  
-  
-.profile-item{  
-  width:100%;  
-  display:flex;  
-  align-items:center;  
-  gap:13px;  
-  padding:17px;  
-  background:var(--card);  
-  border-bottom:1px solid var(--line);  
-  text-align:left;  
-  color:var(--text);  
-}  
-  
-.profile-item:last-child{  
-  border-bottom:0;  
-}  
-  
-.profile-item:hover{  
-  background:#fafaff;  
-}  
-  
-.menu-icon{  
-  width:38px;  
-  height:38px;  
-  border-radius:13px;  
-  background:#fff0f4;  
-  color:#f02e65;  
-  display:flex;  
-  align-items:center;  
-  justify-content:center;  
-  font-size:18px;  
-}  
-  
-.profile-item span:nth-child(2){  
-  flex:1;  
-  font-weight:700;  
-  font-size:14px;  
-}  
-  
-.profile-item small{  
-  color:var(--muted);  
-  font-size:18px;  
-}  
-  
-.switch{  
-  width:43px;  
-  height:24px;  
-  border-radius:20px;  
-  background:#d7d9e3;  
-  padding:3px;  
-}  
-  
-.switch div{  
-  width:18px;  
-  height:18px;  
-  border-radius:50%;  
-  background:white;  
-  transition:.2s;  
-}  
-  
-.switch.active{  
-  background:var(--primary);  
-}  
-  
-.switch.active div{  
-  transform:translateX(19px);  
-}  
-  
-/* WITHDRAW */  
-.withdraw-header{  
-  background:linear-gradient(135deg,#ff1744,#f50057);  
-  color:white;  
-  padding:20px;  
-  margin:-20px -17px 20px;  
-  display:flex;  
-  align-items:center;  
-  gap:13px;  
-}  
-  
-.withdraw-header h1{  
-  font-size:22px;  
-}  
-  
-.withdraw-card{  
-  padding:18px;  
-  margin-bottom:17px;  
-}  
-  
-.tabs{  
-  display:grid;  
-  grid-template-columns:repeat(3,1fr);  
-  border-bottom:1px solid var(--line);  
-  margin-bottom:20px;  
-}  
-  
-.tab{  
-  padding:13px 5px;  
-  background:none;  
-  color:var(--muted);  
-  font-size:12px;  
-  font-weight:800;  
-  border-bottom:3px solid transparent;  
-}  
-  
-.tab.active{  
-  color:var(--primary);  
-  border-bottom-color:var(--primary);  
-}  
-  
-.balance-box{  
-  display:flex;  
-  justify-content:space-between;  
-  align-items:center;  
-  background:#f5f4ff;  
-  padding:15px;  
-  border-radius:15px;  
-  margin-bottom:17px;  
-}  
-  
-.balance-box small{  
-  color:var(--muted);  
-  display:block;  
-  margin-bottom:5px;  
-}  
-  
-.balance-box strong{  
-  color:var(--primary);  
-  font-size:21px;  
-}  
-  
-.withdraw-note{  
-  font-size:12px;  
-  color:var(--muted);  
-  line-height:1.8;  
-  margin-top:17px;  
-}  
-  
-/* ADMIN */  
-.admin-page{  
-  background:#f4f6fa;  
-  min-height:100vh;  
-  padding-bottom:30px;  
-}  
-  
-.admin-top{  
-  background:#fff;  
-  padding:20px;  
-  display:flex;  
-  justify-content:space-between;  
-  align-items:center;  
-  border-bottom:1px solid #e4e7ef;  
-}  
-  
-.admin-top h1{  
-  font-size:20px;  
-}  
-  
-.admin-top p{  
-  font-size:11px;  
-  color:#8990a3;  
-  margin-top:4px;  
-}  
-  
-.admin-grid{  
-  padding:18px;  
-  display:grid;  
-  grid-template-columns:repeat(2,1fr);  
-  gap:12px;  
-}  
-  
-.admin-stat{  
-  background:#fff;  
-  border:1px solid #e5e8f0;  
-  border-radius:16px;  
-  padding:16px;  
-}  
-  
-.admin-stat small{  
-  color:#8b92a4;  
-  font-size:11px;  
-}  
-  
-.admin-stat strong{  
-  display:block;  
-  font-size:22px;  
-  margin-top:8px;  
-}  
-  
-.admin-stat i{  
-  font-style:normal;  
-  font-size:22px;  
-}  
-  
-.admin-wide{  
-  margin:0 18px 14px;  
-  background:white;  
-  border:1px solid #e5e8f0;  
-  border-radius:16px;  
-  padding:17px;  
-}  
-  
-.admin-wide h3{  
-  font-size:15px;  
-  margin-bottom:16px;  
-}  
-  
-.bar-row{  
-  margin-bottom:13px;  
-}  
-  
-.bar-label{  
-  display:flex;  
-  justify-content:space-between;  
-  font-size:11px;  
-  margin-bottom:6px;  
-}  
-  
-.bar{  
-  height:8px;  
-  background:#edf0f5;  
-  border-radius:20px;  
-  overflow:hidden;  
-}  
-  
-.bar div{  
-  height:100%;  
-  border-radius:20px;  
-  background:linear-gradient(90deg,#635bff,#a35bff);  
-}  
-  
-.admin-table{  
-  width:100%;  
-  border-collapse:collapse;  
-  font-size:11px;  
-}  
-  
-.admin-table th,  
-.admin-table td{  
-  padding:10px 4px;  
-  border-bottom:1px solid #edf0f5;  
-  text-align:left;  
-}  
-  
-.status{  
-  padding:5px 8px;  
-  border-radius:7px;  
-  font-size:10px;  
-  font-weight:700;  
-}  
-  
-.status.pending{  
-  background:#fff3d8;  
-  color:#a96d00;  
-}  
-  
-.status.approved{  
-  background:#e4fff2;  
-  color:#078b59;  
-}  
-  
-.status.rejected{  
-  background:#ffe5eb;  
-  color:#d91c4b;  
-}  
-  
-/* BOTTOM NAV */  
-.bottom-nav{  
-  position:fixed;  
-  bottom:0;  
-  left:50%;  
-  transform:translateX(-50%);  
-  width:100%;  
-  max-width:520px;  
-  height:76px;  
-  background:rgba(255,255,255,.96);  
-  backdrop-filter:blur(18px);  
-  border-top:1px solid var(--line);  
-  display:grid;  
-  grid-template-columns:repeat(4,1fr);  
-  z-index:30;  
-  padding:8px 8px 10px;  
-}  
-  
-.nav-btn{  
-  background:none;  
-  color:#9a9dad;  
-  display:flex;  
-  flex-direction:column;  
-  align-items:center;  
-  justify-content:center;  
-  gap:5px;  
-  font-size:11px;  
-  font-weight:700;  
-  border-radius:15px;  
-}  
-  
-.nav-btn span:first-child{  
-  font-size:22px;  
-}  
-  
-.nav-btn.active{  
-  color:var(--primary);  
-  background:#f0efff;  
-}  
-
-  /* =========================
-   DARK MODE
-========================= */
-
-.dark-mode{
-  --bg:#080817;
-  --card:#12142a;
-  --text:#ffffff;
-  --muted:#a7aac0;
-  --line:#292b45;
-  --primary:#7c6cff;
-  --primary2:#a66cff;
+<style>
+:root{
+  --bg:#f6f7fb;
+  --card:#fff;
+  --text:#151827;
+  --muted:#7d8295;
+  --line:#e8eaf2;
+  --primary:#635bff;
+  --primary2:#9b5cff;
   --orange:#ffb52e;
   --green:#16b979;
   --danger:#ff1744;
+  --shadow:0 12px 35px rgba(35,38,75,.08);
 }
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
+body{background:#080817;color:var(--text)}
+button,input,select{font:inherit}
+button{border:0;cursor:pointer}
+.hidden{display:none!important}
+.app{max-width:520px;margin:auto;min-height:100vh;background:var(--bg);padding-bottom:88px}
+.topbar{height:72px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 18px;position:sticky;top:0;z-index:30}
+.brand{display:flex;align-items:center;gap:9px}
+.logo{width:43px;height:43px;display:grid;place-items:center;border-radius:13px;background:linear-gradient(135deg,#635bff,#a66cff);box-shadow:0 7px 20px #635bff35}
+.logo svg{width:32px;height:32px}
+.brand-name{font-weight:900;font-size:17px}
+.brand-name span{color:var(--primary)}
+.icon-btn{background:#f0efff;width:42px;height:42px;border-radius:14px}
+.page{padding:16px}
+.hero{background:linear-gradient(135deg,#10152f,#635bff 60%,#9b5cff);color:#fff;border-radius:25px;padding:20px;box-shadow:0 18px 40px #635bff2b}
+.hero-top,.hero-bottom{display:flex;justify-content:space-between;gap:15px;align-items:center}
+.hero small{color:#d9d7ef}
+.hero h1{font-size:24px;margin-top:4px}
+.hero-stat{font-size:11px;opacity:.85}
+.hero-bottom{margin-top:25px}
+.hero-bottom strong{font-size:32px}
+.secondary{background:#fff;color:#4c45cf;padding:12px 16px;border-radius:13px;font-weight:800}
+.hero-balance{font-size:11px;display:flex;align-items:center;gap:6px}
+.coin{width:30px;height:30px;border-radius:50%;background:#ffb52e;color:#fff;display:grid;place-items:center;font-weight:900}
+.progress-wrap{margin-top:20px}
+.progress-line{height:8px;background:#ffffff3a;border-radius:20px;overflow:hidden}
+.progress-line>div{height:100%;background:#fff;border-radius:20px;transition:.3s}
+.quick-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0}
+.quick-card,.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:15px;box-shadow:var(--shadow)}
+.q-icon{font-size:22px;margin-bottom:8px}
+.quick-card strong{display:block;font-size:18px}
+.quick-card small{font-size:11px;color:var(--muted)}
+.section-heading{display:flex;justify-content:space-between;align-items:center;margin:20px 0 12px}
+.section-heading h2{font-size:18px}
+.section-heading button{background:none;color:var(--primary);font-weight:800;font-size:12px}
+.video-feed{display:grid;gap:14px}
+.feed-card{position:relative;border-radius:22px;overflow:hidden;background:#080817;color:#fff;min-height:330px}
+.feed-video{width:100%;height:330px;object-fit:cover;display:block}
+.feed-overlay{position:absolute;inset:0;background:linear-gradient(transparent 40%,#000c)}
+.feed-info{position:absolute;left:15px;right:65px;bottom:18px}
+.feed-info h3{font-size:15px;margin-bottom:6px}
+.feed-info p{font-size:12px;color:#ddd;line-height:1.45}
+.feed-actions{position:absolute;right:10px;bottom:18px;display:grid;justify-items:center;gap:4px}
+.feed-action{background:#ffffff1c;color:#fff;border-radius:50%;width:40px;height:40px;font-size:20px}
+.feed-actions small{font-size:9px;margin-bottom:4px}
+.page-title{font-size:24px;font-weight:900}
+.page-subtitle{font-size:12px;color:var(--muted);margin:5px 0 15px}
+.task-header{background:linear-gradient(135deg,#ffb52e,#ff8a00);color:#fff;border-radius:23px;padding:18px;margin-bottom:15px}
+.task-header-row{display:flex;justify-content:space-between;gap:10px}
+.task-header h2{font-size:19px}.task-header p{font-size:11px;margin-top:4px;opacity:.9}
+.reward-pill{background:#ffffff30;padding:8px 10px;border-radius:12px;font-weight:900}
+.days{display:flex;gap:7px;margin:18px 0}
+.day{width:38px;height:38px;border-radius:50%;background:#ffffff35;display:grid;place-items:center;font-weight:900}
+.day.active{background:#fff;color:#ff8a00}.day.done,.day.completed{background:#16b979;color:#fff}
+.task-summary{display:flex;justify-content:space-between;font-size:12px}
+.task-count{font-weight:900}
+.task-list{display:grid;gap:12px}
+.task-card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:12px;display:flex;gap:12px;box-shadow:var(--shadow)}
+.task-thumb{width:82px;height:100px;flex:0 0 82px;border-radius:15px;object-fit:cover}
+.task-main{min-width:0;flex:1}
+.task-main h3{font-size:15px;margin:3px 0 6px}.task-main p{font-size:11px;color:var(--muted);line-height:1.45}
+.task-meta{display:flex;gap:6px;flex-wrap:wrap;margin:9px 0}
+.tag{padding:5px 8px;border-radius:9px;background:#f0f1f6;color:#666;font-size:10px;font-weight:800}
+.tag.orange{background:#fff1d0;color:#b56a00}.tag.green{background:#e2faef;color:#087c4c}
+.task-button,.primary{width:100%;background:linear-gradient(135deg,var(--primary),var(--primary2));color:#fff;padding:11px;border-radius:12px;font-weight:900}
+.task-button.claimed{background:#dff8ec;color:#087c4c}
+.empty{text-align:center;padding:30px;color:var(--muted);font-size:13px}
+.withdraw-header{margin:-16px -16px 0;padding:20px 16px;background:linear-gradient(135deg,#d6003d,#ff1744);color:#fff;display:flex;align-items:center;gap:12px}
+.withdraw-header h1{font-size:21px}
+.tabs{display:flex;gap:8px;padding:15px 0}.tab{flex:1;background:#eeeef5;padding:11px;border-radius:12px;font-weight:800;font-size:12px}.tab.active{background:#151827;color:#fff}
+.balance-box{display:flex;justify-content:space-between;align-items:center;background:#f5f4ff;border-radius:15px;padding:15px;margin-bottom:15px}.balance-box small{display:block;color:var(--muted);font-size:10px}.balance-box strong{font-size:25px}
+.notice{padding:13px;border-radius:13px;font-size:12px;line-height:1.5;margin-bottom:15px;background:#fff6db;color:#8b6100}
+.field{margin-bottom:12px}.field label{display:block;font-size:11px;font-weight:800;margin-bottom:6px;color:var(--muted)}
+.field input,.field select{width:100%;padding:12px;border:1px solid var(--line);border-radius:12px;background:#fff;outline:none}
+.profile-top{text-align:center;background:linear-gradient(135deg,#10152f,#635bff);color:#fff;border-radius:24px;padding:25px;margin-bottom:13px}
+.avatar-wrap{position:relative;width:90px;margin:auto}.avatar{width:90px;height:90px;border-radius:50%;object-fit:cover;border:4px solid #fff}
+.avatar-edit{position:absolute;right:-2px;bottom:2px;width:28px;height:28px;border-radius:50%;background:#ffb52e;color:#fff}.profile-top h2{margin-top:10px}.profile-top p{font-size:11px;color:#ddd;margin-top:4px}
+.profile-menu{background:var(--card);border-radius:20px;border:1px solid var(--line);overflow:hidden}
+.profile-item{width:100%;background:none;display:flex;align-items:center;gap:12px;padding:16px;border-bottom:1px solid var(--line);text-align:left;color:var(--text)}
+.profile-item:last-child{border-bottom:0}.profile-item small{margin-left:auto;color:var(--muted)}
+.menu-icon{width:34px;height:34px;border-radius:11px;background:#f0efff;display:grid;place-items:center}
+.switch{margin-left:auto;width:42px;height:24px;border-radius:20px;background:#ddd;position:relative}.switch div{width:18px;height:18px;border-radius:50%;background:#fff;position:absolute;left:3px;top:3px;transition:.2s}.switch.active{background:var(--primary)}.switch.active div{left:21px}
+.bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(520px,100%);height:75px;background:#fff;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr);z-index:40}
+.nav-btn{background:none;color:#898da0;font-size:10px;display:grid;place-content:center;gap:4px}.nav-btn span:first-child{font-size:22px}.nav-btn.active{color:var(--primary);font-weight:900}
+.video-modal{position:fixed;inset:0;background:#000d;z-index:100;display:grid;place-items:center;padding:15px}.video-modal-box{width:min(500px,100%);background:var(--card);border-radius:22px;overflow:hidden}.modal-video{width:100%;height:260px;background:#000;display:block}.modal-content{padding:18px}.modal-content h3{margin-bottom:6px}.modal-content p{font-size:12px;color:var(--muted)}.timer{text-align:center;font-size:32px;font-weight:900;margin:15px}
+.auth-screen{min-height:100vh;background:radial-gradient(circle at 10% 10%,#705aff55,transparent 30%),radial-gradient(circle at 90% 90%,#b15aff44,transparent 30%),#0c0b20;color:#fff;padding:28px 20px;display:flex;flex-direction:column;justify-content:center}
+.auth-logo{text-align:center;margin-bottom:25px}.auth-logo .logo{width:83px;height:83px;margin:auto}.auth-logo .logo svg{width:58px;height:58px}.auth-logo h1{margin-top:15px;font-size:28px}.auth-logo p{color:#aaa6c8;font-size:12px;margin-top:8px}
+.auth-box{background:#ffffff0e;border:1px solid #ffffff18;border-radius:25px;padding:22px;backdrop-filter:blur(20px)}.auth-box h2{font-size:22px;margin-bottom:7px}.auth-box>p{color:#aaa6c8;font-size:12px;margin-bottom:20px}.auth-box input{background:#ffffff0c;border-color:#ffffff20;color:#fff}.auth-box input::placeholder{color:#aaa6c8}.auth-box label{color:#bbb7d5}.auth-switch{text-align:center;margin-top:18px;font-size:12px;color:#aaa6c8}.auth-switch button{background:none;color:#b99aff;font-weight:800}.google-btn{width:100%;background:#fff;color:#222;padding:13px;border-radius:13px;font-weight:800;margin-top:10px}
+.toast{position:fixed;left:50%;bottom:95px;transform:translateX(-50%);background:#171827;color:#fff;padding:13px 18px;border-radius:13px;font-size:12px;z-index:500;box-shadow:0 10px 30px #0003;max-width:90%;text-align:center}
+.status{font-size:10px;font-weight:900;padding:4px 7px;border-radius:8px}.status.pending{background:#fff0c8;color:#956200}.status.approved{background:#def8eb;color:#087c4c}
+.admin-page{min-height:100vh;background:#f4f5fa;padding:18px}.admin-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}.admin-top h1{font-size:24px}.admin-top p{font-size:11px;color:#777}.danger{background:#ff1744;color:#fff;padding:11px 15px;border-radius:12px;font-weight:900}.admin-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.admin-stat,.admin-wide{background:#fff;border:1px solid #e7e8ef;border-radius:18px;padding:16px;margin-bottom:10px}.admin-stat small{display:block;color:#777;font-size:10px}.admin-stat strong{font-size:22px;display:block;margin-top:8px}.admin-wide h3{margin-bottom:14px}.admin-table{width:100%;border-collapse:collapse;font-size:11px}.admin-table th,.admin-table td{text-align:left;padding:9px;border-bottom:1px solid #eee}
+.dark-mode{--bg:#080817;--card:#12142a;--text:#fff;--muted:#a7aac0;--line:#292b45;--primary:#7c6cff;--primary2:#a66cff}
+.dark-mode body{background:#080817;color:#fff}.dark-mode .topbar,.dark-mode .bottom-nav{background:#10112a;border-color:#292b45}.dark-mode .quick-card,.dark-mode .card,.dark-mode .task-card,.dark-mode .profile-menu{background:#12142a;border-color:#292b45}.dark-mode .field input,.dark-mode .field select{background:#181a32;color:#fff;border-color:#30324e}.dark-mode .tag{background:#24263d;color:#ccc}.dark-mode .balance-box{background:#181a32}
+@media(max-width:360px){.page{padding-left:12px;padding-right:12px}.withdraw-header{margin-left:-12px;margin-right:-12px}.task-card{padding:10px}.task-thumb{width:70px;height:85px}}
+</style>
+</head>
 
-.dark-mode body{
-  background:#080817;
-  color:#ffffff;
-}
+<body>
 
-.dark-mode .app{
-  background:#080817;
-}
-
-.dark-mode .topbar{
-  background:#10112a;
-  border-color:#292b45;
-}
-
-.dark-mode .card,
-.dark-mode .task-card,
-.dark-mode .video-card,
-.dark-mode .profile-card,
-.dark-mode .quick-card,
-.dark-mode .withdraw-card,
-.dark-mode .notification-card{
-  background:#12142a;
-  color:#ffffff;
-  border-color:#292b45;
-}
-
-.dark-mode .muted,
-.dark-mode small,
-.dark-mode .subtitle{
-  color:#a7aac0;
-}
-
-.dark-mode .bottom-nav{
-  background:#10112a;
-  border-color:#292b45;
-}
-
-.dark-mode input,
-.dark-mode select{
-  background:#181a32;
-  color:#ffffff;
-  border-color:#30324e;
-}
-
-.dark-mode .section-title,
-.dark-mode h1,
-.dark-mode h2,
-.dark-mode h3,
-.dark-mode h4,
-.dark-mode strong{
-  color:#ffffff;
-}
-  
-/* AUTH */  
-.auth-screen{  
-  min-height:100vh;  
-  background:  
-    radial-gradient(circle at 10% 10%,#705aff55,transparent 30%),  
-    radial-gradient(circle at 90% 90%,#b15aff44,transparent 30%),  
-    #0c0b20;  
-  color:white;  
-  padding:28px 20px;  
-  display:flex;  
-  flex-direction:column;  
-  justify-content:center;  
-}  
-  
-.auth-logo{  
-  text-align:center;  
-  margin-bottom:25px;  
-}  
-  
-.auth-logo .logo{  
-  width:83px;  
-  height:83px;  
-  margin:auto;  
-}  
-  
-.auth-logo .logo svg{  
-  width:58px;  
-  height:58px;  
-}  
-  
-.auth-logo h1{  
-  margin-top:15px;  
-  font-size:28px;  
-}  
-  
-.auth-logo p{  
-  color:#aaa6c8;  
-  font-size:12px;  
-  margin-top:8px;  
-}  
-  
-.auth-box{  
-  background:#ffffff0e;  
-  border:1px solid #ffffff18;  
-  border-radius:25px;  
-  padding:22px;  
-  backdrop-filter:blur(20px);  
-}  
-  
-.auth-box h2{  
-  font-size:22px;  
-  margin-bottom:7px;  
-}  
-  
-.auth-box > p{  
-  color:#aaa6c8;  
-  font-size:12px;  
-  margin-bottom:20px;  
-}  
-  
-.auth-box input{  
-  background:#ffffff0c;  
-  border-color:#ffffff20;  
-  color:white;  
-}  
-  
-.auth-box input::placeholder{  
-  color:#aaa6c8;  
-}  
-  
-.auth-box label{  
-  color:#bbb7d5;  
-}  
-  
-.auth-switch{  
-  text-align:center;  
-  margin-top:18px;  
-  font-size:12px;  
-  color:#aaa6c8;  
-}  
-  
-.auth-switch button{  
-  background:none;  
-  color:#b99aff;  
-  font-weight:800;  
-}  
-  
-.google-btn{  
-  width:100%;  
-  background:white;  
-  color:#222;  
-  padding:13px;  
-  border-radius:13px;  
-  font-weight:800;  
-  margin-top:10px;  
-}  
-  
-.notice{  
-  padding:13px;  
-  border-radius:13px;  
-  font-size:12px;  
-  line-height:1.5;  
-  margin-bottom:15px;  
-  background:#fff6db;  
-  color:#8b6100;  
-}  
-  
-.toast{  
-  position:fixed;  
-  left:50%;  
-  bottom:95px;  
-  transform:translateX(-50%);  
-  background:#171827;  
-  color:white;  
-  padding:13px 18px;  
-  border-radius:13px;  
-  font-size:12px;  
-  z-index:500;  
-  box-shadow:0 10px 30px #0003;  
-  max-width:90%;  
-  text-align:center;  
-}  
-  
-.empty{  
-  text-align:d;  
-  padding:30px;  
-  color:var(--muted);  
-  font-size:13px;  
-}  
-  
-@media(max-width:360px){  
-  .page{padding-left:12px;padding-right:12px}  
-  .withdraw-header{margin-left:-12px;margin-right:-12px}  
-  .task-card{padding:11px}  
-  .task-thumb{width:70px;height:85px}  
-  .task-main h3{font-font-size}  
-}  
-</style>  </head>  <body>  <!-- SPLASH -->  <div id="splash">  
-  <div class="splash-logo">  
-    <svg viewBox="0 0 100 100" fill="none">  
-      <path d="M10 35L25 18H75L90 35L50 83L10 35Z" fill="url(#d1)"/>  
-      <path d="M10 35H90L50 83L10 35Z" fill="url(#d2)" opacity=".8"/>  
-      <path d="M25 18L50 35L75 18M10 35L50 35L90 35M50 35V83" stroke="#fff" stroke-width="2" opacity=".8"/>  
-      <defs>  
-        <linearGradient id="d1" x1="15" y1="15" x2="80" y2="80">  
-          <stop stop-color="#62E9FF"/>  
-          <stop offset=".45" stop-color="#D38BFF"/>  
-          <stop offset="1" stop-color="#FFF"/>  
-        </linearGradient>  
-        <linearGradient id="d2" x1="20" y1="20" x2="80" y2="80">  
-          <stop stop-color="#625BFF"/>  
-          <stop offset="1" stop-color="#FF7BD7"/>  
-        </linearGradient>  
-      </defs>  
-    </svg>  
-  </div>  
-  <div class="splash-title">True <span>Networking</span></div>  
-  <div class="splash-loading"><div></div></div>  
-</div>  <!-- AUTH SCREEN -->  <div id="authScreen" class="auth-screen hidden">  
-  <div class="auth-logo">  
-    <div class="logo">  
-      <svg viewBox="0 0 100 100" fill="none">  
-        <path d="M10 35L25 18H75L90 35L50 83L10 35Z" fill="url(#a1)"/>  
-        <path d="M25 18L50 35L75 18M10 35L50 35L90 35M50 35V83" stroke="#fff" stroke-width="2"/>  
-        <defs>  
-          <linearGradient id="a1" x1="10" y1="15" x2="90" y2="80">  
-            <stop stop-color="#62E9FF"/>  
-            <stop offset=".5" stop-color="#D38BFF"/>  
-            <stop offset="1" stop-color="#FFF"/>  
-          </linearGradient>  
-        </defs>  
-      </svg>  
-    </div>  
-    <h1>True Networking</h1>  
-    <p>Connect • Complete Tasks • Earn Rewards</p>  
-  </div>    <div class="auth-box">  
-    <h2 id="authTitle">Create account</h2>  
-    <p id="authSubtitle">Register to start using True Networking.</p>  <div id="registerFields">  
-  <div class="field">  
-    <label>Full name<nameel>  
-    <input id="authName" placeholder="Enter your full name">  
-  </div>  
-</div>  
-
-<div class="field">  
-  <label>Email or phone</label>  
-  <input id="authEmail" placeholder="Email or phone number">  
-</div>  
-
-<div class="field">  
-  <label>Password</label>  
-  <input id="authPassword" type="password" placeholder="Create password">  
-</div>  
-
-<button class="primary" style="width:100%" onclick="submitAuth()" id="authSubmit">  
-  Register  
-</button>  
-
-<button class="google-btn" onclick="demoGoogleLogin()">🌐 Continue with Google</button>  
-
-<div class="auth-switch">  
-  <span id="authSwitchText">Already have an account?</span>  
-  <button onclick="toggleAuth()" id="authSwitchBtn">Login</button>  
+<div id="splash" style="position:fixed;inset:0;background:#080817;color:#fff;z-index:1000;display:grid;place-items:center;align-content:center;gap:18px">
+  <div class="logo" style="width:88px;height:88px">
+    <svg viewBox="0 0 100 100" fill="none"><path d="M10 35L25 18H75L90 35L50 83L10 35Z" fill="url(#d1)"/><path d="M25 18L50 35L75 18M10 35L50 35L90 35M50 35V83" stroke="#fff" stroke-width="2"/><defs><linearGradient id="d1"><stop stop-color="#62E9FF"/><stop offset=".5" stop-color="#D38BFF"/><stop offset="1" stop-color="#fff"/></linearGradient></defs></svg>
+  </div>
+  <div style="font-size:28px;font-weight:900">True <span style="color:#a66cff">Networking</span></div>
+  <div style="width:150px;height:5px;background:#ffffff22;border-radius:10px;overflow:hidden"><div style="height:100%;width:45%;background:#a66cff"></div></div>
 </div>
 
-  </div>  
-</div>  <!-- MAIN APP -->  <div id="mainApp" class="app hidden">    <header class="topbar">  
-    <div class="brand">  
-      <div class="logo">  
-        <svg viewBox="0 0 100 100" fill="none">  
-          <path d="M10 35L25 18H75L90 35L50 83L10 35Z" fill="url(#b1)"/>  
-          <path d="M25 18L50 35L75 18M10 35L50 35L90 35M50 35V83" stroke="#fff" stroke-width="2"/>  
-          <defs>  
-            <linearGradient id="b1" x1="10" y1="15" x2="90" y2="80">  
-              <stop stop-color="#62E9FF"/>  
-              <stop offset=".5" stop-color="#D38BFF"/>  
-              <stop offset="1" stop-color="#FFF"/>  
-            </linearGradient>  
-          </defs>  
-        </svg>  
-      </div>  
-      <div class="brand-name">True <span>Networking</span></div>  
-    </div>  
-    <button class="icon-btn" onclick="showPage('notifications')">🔔</button>  
-  </header>    <!-- HOME -->    <section id="homePage" class="page">  
-    <div class="hero">  
-      <div class="hero-top">  
-        <div>  
-          <small>Welcome back,</small>  
-          <h1 id="welcomeName">User</h1>  
-        </div>  
-        <div class="hero-balance">  
-          <span class="coin">₵</span>  
-          <span>Coins</span>  
-        </div>  
-      </div>  <div class="hero-bottom">  
-    <div>  
-      <div class="hero-stat">Available balance</div>  
-      <div class="hero-stat">  
-        <strong id="homeBalance">$0.00</strong>  
-      </div>  
-    </div>  
-    <button class="secondary" onclick="showPage('withdraw')">Withdraw</button>  
-  </div>  
-
-  <div class="progress-wrap">  
-    <div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:7px">  
-      <span>5-day earning progress</span>  
-      <span id="homeProgressText">0%</span>  
-    </div>  
-    <div class="progress-line">  
-      <div id="homeProgressBar" style="width:0%"></div>  
-    </div>  
-  </div>  
-</div>  
-
-<div class="quick-grid">  
-  <div class="quick-card">  
-    <div class="q-icon">🎯</div>  
-    <strong id="homeTasksDone">0/5</strong>  
-    <small>Tasks completed</small>  
-  </div>  
-  <div class="quick-card">  
-    <div class="q-icon">🎬</div>  
-    <strong id="homeVideosDone">0/4</strong>  
-    <small>Videos watched</small>  
-  </div>  
-  <div class="quick-card">  
-    <div class="q-icon">📅</div>  
-    <strong id="homeDay">Day 1</strong>  
-    <small>Current earning day</small>  
-  </div>  
-  <div class="quick-card">  
-    <div class="q-icon">💰</div>  
-    <strong>$5.50</strong>  
-    <small>5-day target</small>  
-  </div>  
-</div>  
-
-<div class="section-heading">  
-  <h2>Video feed</h2>  
-  <button onclick="showPage('tasks')">View tasks</button>  
-</div>  
-
-<div class="video-feed">  
-  <div class="feed-card">  
-    <video class="feed-video" controls playsinline  
-      src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"></video>  
-    <div class="feed-overlay"></div>  
-    <div class="feed-info">  
-      <h3>@TrueNetworking • A new beginning</h3>  
-      <p>Every small step can create a better future. Keep moving forward.</p>  
-    </div>  
-    <div class="feed-actions">  
-      <button class="feed-action" onclick="likeFeed(this)">♡</button>  
-      <small>Like</small>  
-      <button class="feed-action" onclick="showToast('Comment feature opened')">💬</button>  
-      <small>Comment</small>  
-      <button class="feed-action" onclick="shareApp()">↗</button>  
-      <small>Share</small>  
-    </div>  
-  </div>  
-
-  <div class="feed-card">  
-    <video class="feed-video" controls playsinline  
-      src="https://www.w3schools.com/html/mov_bbb.mp4"></video>  
-    <div class="feed-overlay"></div>  
-    <div class="feed-info">  
-      <h3>@TrueNetworking • Happiness</h3>  
-      <p>Good things take time. Stay consistent and believe in yourself.</p>  
-    </div>  
-    <div class="feed-actions">  
-      <button class="feed-action" onclick="likeFeed(this)">♡</button>  
-      <small>Like</small>  
-      <button class="feed-action" onclick="showToast('Comment feature opened')">💬</button>  
-      <small>Comment</small>  
-      <button class="feed-action" onclick="shareApp()">↗</button>  
-      <small>Share</small>  
-    </div>  
-  </div>  
+<div id="authScreen" class="auth-screen hidden">
+  <div class="auth-logo">
+    <div class="logo"><svg viewBox="0 0 100 100" fill="none"><path d="M10 35L25 18H75L90 35L50 83L10 35Z" fill="url(#a1)"/><path d="M25 18L50 35L75 18M10 35L50 35L90 35M50 35V83" stroke="#fff" stroke-width="2"/><defs><linearGradient id="a1"><stop stop-color="#62E9FF"/><stop offset=".5" stop-color="#D38BFF"/><stop offset="1" stop-color="#fff"/></linearGradient></defs></svg></div>
+    <h1>True Networking</h1><p>Connect • Complete Tasks • Earn Rewards</p>
+  </div>
+  <div class="auth-box">
+    <h2 id="authTitle">Create account</h2><p id="authSubtitle">Register to start using True Networking.</p>
+    <div id="registerFields" class="field"><label>Full name</label><input id="authName" placeholder="Enter your full name"></div>
+    <div class="field"><label>Email or phone</label><input id="authEmail" placeholder="Email or phone number"></div>
+    <div class="field"><label>Password</label><input id="authPassword" type="password" placeholder="Create password"></div>
+    <button class="primary" id="authSubmit" onclick="submitAuth()">Register</button>
+    <button class="google-btn" onclick="demoGoogleLogin()">🌐 Continue with Google</button>
+    <div class="auth-switch"><span id="authSwitchText">Already have an account?</span> <button onclick="toggleAuth()" id="authSwitchBtn">Login</button></div>
+  </div>
 </div>
 
-  </section>    <!-- TASKS -->    <section id="tasksPage" class="page hidden">  
-    <div class="page-title">Daily Tasks</div>  
-    <div class="page-subtitle">Complete your tasks and earn rewards.</div>  <div class="task-header">  
-  <div class="task-header-row">  
-    <div>  
-      <h2>Daily Rewards</h2>  
-      <p>Complete tasks to increase your 5-day progress.</p>  
-    </div>  
-    <div class="reward-pill">₵ $5.50</div>  
-  </div>  
+<div id="mainApp" class="app hidden">
+<header class="topbar">
+  <div class="brand"><div class="logo"><svg viewBox="0 0 100 100" fill="none"><path d="M10 35L25 18H75L90 35L50 83L10 35Z" fill="url(#b1)"/><path d="M25 18L50 35L75 18M10 35L50 35L90 35M50 35V83" stroke="#fff" stroke-width="2"/><defs><linearGradient id="b1"><stop stop-color="#62E9FF"/><stop offset=".5" stop-color="#D38BFF"/><stop offset="1" stop-color="#fff"/></linearGradient></defs></svg></div><div class="brand-name">True <span>Networking</span></div></div>
+  <button class="icon-btn" onclick="showPage('notifications')">🔔</button>
+</header>
 
-  <div class="days">  
-    <div class="day done">✓</div>  
-    <div class="day active">2</div>  
-    <div class="day">3</div>  
-    <div class="day">4</div>  
-    <div class="day">5</div>  
-  </div>  
+<section id="homePage" class="page">
+  <div class="hero">
+    <div class="hero-top"><div><small>Welcome back,</small><h1 id="welcomeName">User</h1></div><div class="hero-balance"><span class="coin">₵</span><span>Coins</span></div></div>
+    <div class="hero-bottom"><div><div class="hero-stat">Available balance</div><strong id="homeBalance">$0.00</strong></div><button class="secondary" onclick="showPage('withdraw')">Withdraw</button></div>
+    <div class="progress-wrap"><div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:7px"><span>5-day earning progress</span><span id="homeProgressText">0%</span></div><div class="progress-line"><div id="homeProgressBar" style="width:0%"></div></div></div>
+  </div>
+  <div class="quick-grid">
+    <div class="quick-card"><div class="q-icon">🎯</div><strong id="homeTasksDone">0/5</strong><small>Tasks completed</small></div>
+    <div class="quick-card"><div class="q-icon">🎬</div><strong id="homeVideosDone">0/3</strong><small>Videos watched</small></div>
+    <div class="quick-card"><div class="q-icon">📅</div><strong id="homeDay">Day 1</strong><small>Current earning day</small></div>
+    <div class="quick-card"><div class="q-icon">💰</div><strong>$5.00</strong><small>5-day target</small></div>
+  </div>
+  <div class="section-heading"><h2>Video feed</h2><button onclick="showPage('tasks')">View tasks</button></div>
+  <div class="video-feed">
+    <div class="feed-card"><video class="feed-video" controls playsinline src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"></video><div class="feed-overlay"></div><div class="feed-info"><h3>@TrueNetworking • A New Beginning</h3><p>Every small step can create a better future. Keep moving forward.</p></div><div class="feed-actions"><button class="feed-action" onclick="likeFeed(this)">♡</button><small>Like</small><button class="feed-action" onclick="showToast('Comment feature opened')">💬</button><small>Comment</small><button class="feed-action" onclick="shareApp()">↗</button><small>Share</small></div></div>
+    <div class="feed-card"><video class="feed-video" controls playsinline src="https://www.w3schools.com/html/mov_bbb.mp4"></video><div class="feed-overlay"></div><div class="feed-info"><h3>@TrueNetworking • Happiness</h3><p>Good things take time. Stay consistent and believe in yourself.</p></div><div class="feed-actions"><button class="feed-action" onclick="likeFeed(this)">♡</button><small>Like</small><button class="feed-action" onclick="showToast('Comment feature opened')">💬</button><small>Comment</small><button class="feed-action" onclick="shareApp()">↗</button><small>Share</small></div></div>
+  </div>
+</section>
 
-  <div class="task-summary">  
-    <span id="taskHeaderText">Complete your tasks today</span>  
-    <span class="task-count" id="taskHeaderCount">0/5</span>  
-  </div>  
-</div>  
+<section id="tasksPage" class="page hidden">
+  <div class="page-title">Daily Tasks</div><div class="page-subtitle">Complete your tasks and earn rewards.</div>
+  <div class="task-header"><div class="task-header-row"><div><h2>Daily Rewards</h2><p>Complete tasks to increase your 5-day progress.</p></div><div class="reward-pill">$5.00</div></div>
+    <div class="days"><div class="day active" id="day1">1</div><div class="day" id="day2">2</div><div class="day" id="day3">3</div><div class="day" id="day4">4</div><div class="day" id="day5">5</div></div>
+    <div class="task-summary"><span id="taskHeaderText">Complete your tasks today</span><span class="task-count" id="taskHeaderCount">0/5</span></div>
+  </div>
+  <div class="task-list" id="taskList"></div>
+</section>
 
-<div class="task-list" id="taskList"></div>
+<section id="withdrawPage" class="page hidden">
+  <div class="withdraw-header"><button style="background:none;color:white;font-size:26px" onclick="showPage('home')">‹</button><h1>Withdraw</h1><span style="margin-left:auto;font-size:20px">?</span></div>
+  <div class="tabs"><button class="tab active" onclick="selectWithdrawTab(this)">Bank</button><button class="tab" onclick="selectWithdrawTab(this)">Partner</button><button class="tab" onclick="selectWithdrawTab(this)">Transfer</button></div>
+  <div class="card">
+    <div class="balance-box"><div><small>Available balance</small><strong id="withdrawBalance">$0.00</strong></div><span style="font-size:30px">💳</span></div>
+    <div class="notice"><b>Important:</b> withdrawal requests will be connected to the secure backend. This frontend does not send money directly.</div>
+    <div class="field"><label>Select bank</label><select id="bankName"><option value="">Select a bank</option><option>OPay</option><option>PalmPay</option><option>Moniepoint</option><option>GTBank</option><option>Access Bank</option><option>UBA</option><option>First Bank</option><option>Zenith Bank</option><option>Fidelity Bank</option><option>Union Bank</option><option>Stanbic IBTC</option></select></div>
+    <div class="field"><label>Full name</label><input id="withdrawName" placeholder="Account holder full name"></div>
+    <div class="field"><label>Account number</label><input id="accountNumber" inputmode="numeric" maxlength="10" placeholder="Enter 10 digits"></div>
+    <div class="field"><label>Amount in USD</label><input id="withdrawAmount" type="number" min="8" step=".01" placeholder="Minimum $8"></div>
+    <button class="primary" style="background:linear-gradient(135deg,#ff1744,#f50057)" onclick="requestWithdraw()">Request Withdrawal</button>
+  </div>
+  <div class="card" style="margin-top:12px"><h3 style="margin-bottom:15px">Request history</h3><div id="withdrawHistory"></div></div>
+</section>
 
-  </section>    <!-- WITHDRAW -->    <section id="withdrawPage" class="page hidden">  
-    <div class="withdraw-header">  
-      <button style="background:none;color:white;font-size:26px" onclick="showPage('home')">‹</button>  
-      <h1>Withdraw</h1>  
-      <span style="margin-left:auto;font-size:20px">?</span>  
-    </div>  <div class="tabs">  
-  <button class="tab active" onclick="selectWithdrawTab(this)">Bank</button>  
-  <button class="tab" onclick="selectWithdrawTab(this)">Partner</button>  
-  <button class="tab" onclick="selectWithdrawTab(this)">Transfer</button>  
-</div>  
+<section id="profilePage" class="page hidden">
+  <div class="page-title">Me</div><div class="page-subtitle">Manage your account and preferences.</div>
+  <div class="profile-top"><div class="avatar-wrap"><img id="profileAvatar" class="avatar" src="https://i.pravatar.cc/200?img=12" alt="Profile picture"><button class="avatar-edit" onclick="document.getElementById('avatarInput').click()">✎</button><input id="avatarInput" type="file" accept="image/*" class="hidden" onchange="uploadAvatar(event)"></div><h2 id="profileName">User</h2><p id="profileEmail">user@example.com</p></div>
+  <div class="profile-menu">
+    <button class="profile-item" onclick="editProfile()"><span class="menu-icon">👤</span><span>Edit Profile</span><small>›</small></button>
+    <button class="profile-item" onclick="showPage('notifications')"><span class="menu-icon">🔔</span><span>Notification</span><small>›</small></button>
+    <button class="profile-item" onclick="faceVerification()"><span class="menu-icon">🔒</span><span>Face Verification</span><small id="verifyStatus">›</small></button>
+    <button class="profile-item" onclick="securityInfo()"><span class="menu-icon">🛡️</span><span>Security</span><small>›</small></button>
+    <button class="profile-item" onclick="toggleDarkMode()"><span class="menu-icon">◐</span><span>Dark Mode</span><span class="switch" id="darkSwitch"><div></div></span></button>
+    <button class="profile-item" onclick="inviteFriends()"><span class="menu-icon">👥</span><span>Invite Friends</span><small>›</small></button>
+    <button class="profile-item" onclick="showLanguage()"><span class="menu-icon">🌐</span><span>Language</span><small>›</small></button>
+    <button class="profile-item" onclick="logout()"><span class="menu-icon">↪</span><span style="color:#e71948">Logout</span><small>›</small></button>
+  </div>
+</section>
 
-<div class="card withdraw-card">  
-  <div class="balance-box">  
-    <div>  
-      <small>Available balance</small>  
-      <strong id="withdrawBalance">$0.00</strong>  
-    </div>  
-    <span style="font-size:30px">💳</span>  
-  </div>  
+<section id="notificationsPage" class="page hidden">
+  <div class="page-title">Notifications</div><div class="page-subtitle">Your latest account updates.</div>
+  <div class="card" style="margin-bottom:12px"><b>🎉 Welcome to True Networking</b><p style="font-size:12px;color:var(--muted);margin-top:6px">Complete tasks and watch videos to increase your progress.</p></div>
+  <div class="card" style="margin-bottom:12px"><b>🎬 New videos available</b><p style="font-size:12px;color:var(--muted);margin-top:6px">Three daily videos are available in the Tasks page.</p></div>
+  <div class="card"><b>💳 Withdrawal information</b><p style="font-size:12px;color:var(--muted);margin-top:6px">Withdrawal processing will be handled securely after backend connection.</p></div>
+</section>
 
-  <div class="notice">  
-    Minimum withdrawal is <b>$8.00</b>. Requests are recorded as pending in this demo.  
-  </div>  
-
-  <div class="field">  
-    <label>Select bank</label>  
-    <select id="bankName">  
-      <option value="">Select a bank</option>  
-      <option>OPay</option>  
-      <option>PalmPay</option>  
-      <option>Money Point</option>  
-      <option>Facebank</option>  
-      <option>GTBank</option>  
-      <option>Access Bank</option>  
-      <option>UBA</option>  
-      <option>First Bank</option>  
-      <option>Zenith Bank</option>  
-      <option>Moniepoint</option>  
-      <option>Fidelity Bank</option>  
-      <option>Union Bank</option>  
-      <option>Stanbic IBTC</option>  
-    </select>  
-  </div>  
-
-  <div class="field">  
-    <label>Full name</label>  
-    <input id="withdrawName" placeholder="Account holder full name">  
-  </div>  
-
-  <div class="field">  
-    <label>Account number</label>  
-    <input id="accountNumber" inputmode="numeric" maxlength="10" placeholder="Enter account number">  
-  </div>  
-
-  <div class="field">  
-    <label>Amount in USD</label>  
-    <input id="withdrawAmount" type="number" min="8" step=".01" placeholder="Minimum $8">  
-  </div>  
-
-  <button class="primary" style="width:100%;background:linear-gradient(135deg,#ff1744,#f50057)" onclick="requestWithdraw()">  
-    Request Withdrawal  
-  </button>  
-</div>  
-
-<div class="card withdraw-card">  
-  <h3 style="margin-bottom:15px">Request history</h3>  
-  <div id="withdrawHistory"></div>  
+<nav class="bottom-nav">
+  <button class="nav-btn active" id="navHome" onclick="showPage('home')"><span>⌂</span><span>Home</span></button>
+  <button class="nav-btn" id="navTasks" onclick="showPage('tasks')"><span>▦</span><span>Tasks</span></button>
+  <button class="nav-btn" id="navWallet" onclick="showPage('withdraw')"><span>◈</span><span>Wallet</span></button>
+  <button class="nav-btn" id="navProfile" onclick="showPage('profile')"><span>♙</span><span>Me</span></button>
+</nav>
 </div>
 
-  </section>    <!-- PROFILE -->    <section id="profilePage" class="page hidden">  
-    <div class="page-title">Profile</div>  
-    <div class="page-subtitle">Manage your account and preferences.</div>  <div class="profile-top">  
-  <div class="avatar-wrap">  
-    <img id="profileAvatar" class="avatar"  
-      src="https://i.pravatar.cc/200?img=12" alt="Profile picture">  
-    <button class="avatar-edit" onclick="document.getElementById('avatarInput').click()">✎</button>  
-    <input id="avatarInput" type="file" accept="image/*" class="hidden" onchange="uploadAvatar(event)">  
-  </div>  
-  <h2 id="profileName">User</h2>  
-  <p id="profileEmail">user@example.com</p>  
-</div>  
-
-<div class="profile-menu">  
-  <button class="profile-item" onclick="editProfile()">  
-    <span class="menu-icon">👤</span>  
-    <span>Edit Profile</span>  
-    <small>›</small>  
-  </button>  
-
-  <button class="profile-item" onclick="showPage('notifications')">  
-    <span class="menu-icon">🔔</span>  
-    <span>Notification</span>  
-    <small>›</small>  
-  </button>  
-
-  <button class="profile-item" onclick="faceVerification()">  
-    <span class="menu-icon">🔒</span>  
-    <span>Face Verification</span>  
-    <small id="verifyStatus">›</small>  
-  </button>  
-
-  <button class="profile-item" onclick="securityInfo()">  
-    <span class="menu-icon">🛡️</span>  
-    <span>Security</span>  
-    <small>›</small>  
-  </button>  
-
-  <button class="profile-item" onclick="toggleDarkMode()">  
-    <span class="menu-icon">◐</span>  
-    <span>Dark Mode</span>  
-    <span class="switch" id="darkSwitch"><div></div></span>  
-  </button>  
-
-  <button class="profile-item" onclick="inviteFriends()">  
-    <span class="menu-icon">👥</span>  
-    <span>Invite Friends</span>  
-    <small>›</small>  
-  </button>  
-
-  <button class="profile-item" onclick="showLanguage()">  
-    <span class="menu-icon">🌐</span>  
-    <span>Language</span>  
-    <small>›</small>  
-  </button>  
-
-  <button class="profile-item" onclick="logout()">  
-    <span class="menu-icon">↪</span>  
-    <span style="color:#e71948">Logout</span>  
-    <small>›</small>  
-  </button>  
+<div id="videoModal" class="video-modal hidden">
+  <div class="video-modal-box">
+    <video id="taskVideo" class="modal-video" controls playsinline></video>
+    <div class="modal-content"><h3 id="modalTitle">Daily Video</h3><p id="modalDescription">Watch the video for 3 minutes before claiming your reward.</p><div class="timer" id="videoTimer">03:00</div><button class="primary" id="finishVideoBtn" disabled onclick="finishVideo()">Watch until the timer ends</button><button class="secondary" style="width:100%;margin-top:10px" onclick="closeVideoModal()">Close</button></div>
+  </div>
 </div>
 
-  </section>    <!-- NOTIFICATIONS -->    <section id="notificationsPage" class="page hidden">  
-    <div class="page-title">Notifications</div>  
-    <div class="page-subtitle">Your latest account updates.</div>  <div class="card" style="padding:18px;margin-bottom:12px">  
-  <div style="display:flex;gap:12px">  
-    <div class="menu-icon">🎉</div>  
-    <div>  
-      <b>Welcome to True Networking</b>  
-      <p style="font-size:12px;color:var(--muted);margin-top:6px">  
-        Complete tasks and watch videos to increase your progress.  
-      </p>  
-    </div>  
-  </div>  
-</div>  
+<div id="toast" class="toast hidden"></div>
 
-<div class="card" style="padding:18px;margin-bottom:12px">  
-  <div style="display:flex;gap:12px">  
-    <div class="menu-icon">🎬</div>  
-    <div>  
-      <b>New videos available</b>  
-      <p style="font-size:12px;color:var(--muted);margin-top:6px">  
-        Four daily videos are available in the Tasks page.  
-      </p>  
-    </div>  
-  </div>  
-</div>  
+<script>
+const APP_KEY="true_networking_state_v4";
 
-<div class="card" style="padding:18px">  
-  <div style="display:flex;gap:12px">  
-    <div class="menu-icon">💳</div>  
-    <div>  
-      <b>Withdrawal information</b>  
-      <p style="font-size:12px;color:var(--muted);margin-top:6px">  
-        The minimum withdrawal amount is $8.00.  
-      </p>  
-    </div>  
-  </div>  
-</div>
-
-  </section>    <!-- BOTTOM NAV -->    <nav class="bottom-nav">  
-    <button class="nav-btn active" id="navHome" onclick="showPage('home')">  
-      <span>⌂</span>  
-      <span>Home</span>  
-    </button>  
-    <button class="nav-btn" id="navTasks" onclick="showPage('tasks')">  
-      <span>▦</span>  
-      <span>Tasks</span>  
-    </button>  
-    <button class="nav-btn" id="navWallet" onclick="showPage('withdraw')">  
-      <span>◈</span>  
-      <span>Wallet</span>  
-    </button>  
-    <button class="nav-btn" id="navProfile" onclick="showPage('profile')">  
-      <span>♙</span>  
-      <span>Me</span>  
-    </button>  
-  </nav>  
-</div>  <!-- VIDEO MODAL -->  <div id="videoModal" class="video-modal hidden">  
-  <div class="video-modal-box">  
-    <video id="taskVideo" class="modal-video" controls playsinline></video>  
-    <div class="modal-content">  
-      <h3 id="modalTitle">Daily Video</h3>  
-      <p id="modalDescription">Watch the video for 3 minutes before claiming your reward.</p>  
-      <div class="timer" id="videoTimer">03:00</div>  
-      <button class="primary" style="width:100%" id="finishVideoBtn" disabled onclick="finishVideo()">  
-        Watch until the timer ends  
-      </button>  
-      <button class="secondary" style="width:100%;margin-top:10px" onclick="closeVideoModal()">  
-        Close  
-      </button>  
-    </div>  
-  </div>  
-</div>  <!-- ADMIN PAGE -->  <div id="adminPage" class="admin-page hidden">  
-  <div class="admin-top">  
-    <div>  
-      <h1>Admin Overview</h1>  
-      <p>True Networking administration dashboard</p>  
-    </div>  
-    <button class="danger" onclick="closeAdmin()">Exit</button>  
-  </div>    <div class="admin-grid">  
-    <div class="admin-stat">  
-      <small>👥 Total users</small>  
-      <strong id="adminUsers">1</strong>  
-    </div>  
-    <div class="admin-stat">  
-      <small>✓ Verified users</small>  
-      <strong id="adminVerified">0</strong>  
-    </div>  
-    <div class="admin-stat">  
-      <small>💰 Total rewards</small>  
-      <strong id="adminRewards">$0.00</strong>  
-    </div>  
-    <div class="admin-stat">  
-      <small>💳 Pending withdrawals</small>  
-      <strong id="adminPending">0</strong>  
-    </div>  
-    <div class="admin-stat">  
-      <small>📈 Total revenue</small>  
-      <strong>$872.00</strong>  
-    </div>  
-    <div class="admin-stat">  
-      <small>🔔 Notifications</small>  
-      <strong>3</strong>  
-    </div>  
-  </div>    <div class="admin-wide">  
-    <h3>Revenue Trends</h3>  
-    <div class="bar-row">  
-      <div class="bar-label"><span>January</span><b>$120</b></div>  
-      <div class="bar"><div style="width:25%"></div></div>  
-    </div>  
-    <div class="bar-row">  
-      <div class="bar-label"><span>February</span><b>$280</b></div>  
-      <div class="bar"><div style="width:48%"></div></div>  
-    </div>  
-    <div class="bar-row">  
-      <div class="bar-label"><span>March</span><b>$520</b></div>  
-      <div class="bar"><div style="width:72%"></div></div>  
-    </div>  
-    <div class="bar-row">  
-      <div class="bar-label"><span>April</span><b>$872</b></div>  
-      <div class="bar"><div style="width:100%"></div></div>  
-    </div>  
-  </div>    <div class="admin-wide">  
-    <h3>Platform Distribution</h3>  
-    <div class="bar-row">  
-      <div class="bar-label"><span>User share</span><b>80%</b></div>  
-      <div class="bar"><div style="width:80%;background:#16b979"></div></div>  
-    </div>  
-    <div class="bar-row">  
-      <div class="bar-label"><span>Admin share</span><b>20%</b></div>  
-      <div class="bar"><div style="width:20%;background:#ffb52e"></div></div>  
-    </div>  
-  </div>    <div class="admin-wide">  
-    <h3>Recent Withdrawal Requests</h3>  
-    <div id="adminWithdrawals"></div>  
-  </div>    <div class="admin-wide">  
-    <h3>Admin tools</h3>  
-    <button class="primary" style="width:100%;margin-bottom:10px" onclick="adminApproveAll()">  
-      Approve pending demo requests  
-    </button>  
-    <button class="danger" style="width:100%" onclick="clearDemoData()">  
-      Clear demo data  
-    </button>  
-  </div>  
-</div>  <div id="toast" class="toast hidden"></div>  
-  <script>
-/* =========================  
-   TRUE NETWORKING APP LOGIC  
-========================= */  
-  
-const APP_KEY = "true_networking_state_v3";  
-  
-let state = {  
-  loggedIn:false,  
-  isRegister:true,  
-  user:{  
-    name:"Demo User",  
-    email:"demo@example.com",  
-    avatar:"https://i.pravatar.cc/200?img=12",  
-    verified:false,  
-    inviteId:"TN" + Math.floor(100000 + Math.random()*899999)  
-  },  
-  balance:0,  
+let state={
+  loggedIn:false,
+  isRegister:true,
+  user:{name:"Demo User",email:"demo@example.com",avatar:"https://i.pravatar.cc/200?img=12",verified:false,inviteId:"TN"+Math.floor(100000+Math.random()*899999)},
+  balance:0,
   progress:0,
-  
   tasks:[],
-  
-taskSession:{
-  date:"",
-  morning:false,
-  evening:false
-}, 
   videos:[],
-  
-  taskSession:{
-  date:"",
-  morning:false,
-  evening:false
-},
-  withdrawals:[],  
-  dark:false  
-};  
-  
-const taskData = [  
-  {  
-    id:"task1",  
-    title:"Daily Check-in",  
-    description:"Open the app and complete your daily check-in.",  
-    icon:"📅",  
-    reward:0.25  
-  },  
-  {  
-    id:"task2",  
-    title:"Read Article",  
-    description:"Read an article from the True Networking feed.",  
-    icon:"📚",  
-    reward:0.25  
-  },  
-  {  
-    id:"task3",  
-    title:"Like a Post",  
-    description:"Like a post and interact with the community.",  
-    icon:"❤️",  
-    reward:0.25  
-  },  
-  {  
-    id:"task4",  
-    title:"Share Content",  
-    description:"Share a useful post with your friends.",  
-    icon:"↗️",  
-    reward:0.25  
-  },  
-  {  
-    id:"task5",  
-    title:"Community Support",  
-    description:"Send a positive comment on a video post.",  
-    icon:"💬",  
-    reward:0.25  
-  }  
-];  
+  taskSession:{date:"",morning:false,evening:false},
+  withdrawals:[],
+  dark:false
+};
 
-    const videoData = [
-  {
-    id:"video1",
-    title:"A New Beginning",
-    description:"A short emotional story about hope and starting again.",
-    src:"https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
-    reward:0.50
-  },
-  {
-    id:"video2",
-    title:"Happiness",
-    description:"A positive video about happiness, gratitude and joy.",
-    src:"https://www.w3schools.com/html/mov_bbb.mp4",
-    reward:0.50
-  },
-  {
-    id:"video3",
-    title:"Love and Kindness",
-    description:"A beautiful story about love, kindness and caring for others.",
-    src:"https://media.w3.org/2010/05/sintel/trailer.mp4",
-    reward:0.50
-  }
+const taskData=[
+{id:"task1",title:"Daily Check-in",description:"Open the app and complete your daily check-in.",icon:"📅",reward:.25},
+{id:"task2",title:"Read Article",description:"Read an article from the True Networking feed.",icon:"📚",reward:.25},
+{id:"task3",title:"Like a Post",description:"Like a post and interact with the community.",icon:"❤️",reward:.25},
+{id:"task4",title:"Share Content",description:"Share a useful post with your friends.",icon:"↗️",reward:.25},
+{id:"task5",title:"Community Support",description:"Send a positive comment on a video post.",icon:"💬",reward:.25}
 ];
-  
-let activeVideoId = null;  
-let videoInterval = null;  
-let videoSeconds = 180;  
-  
-function saveState(){  
-  localStorage.setItem(APP_KEY, JSON.stringify(state));  
-}  
-  
-function loadState(){  
-  const saved = localStorage.getItem(APP_KEY);  
-  if(saved){  
-    try{  
-      state = JSON.parse(saved);  
-    }catch(e){}  
-  }  
-  
-  if(!Array.isArray(state.tasks)) state.tasks = [];  
-  if(!Array.isArray(state.videos)) state.videos = [];  
-  if(!Array.isArray(state.withdrawals)) state.withdrawals = [];  
-  
-  if(state.dark){  
-    document.body.classList.add("dark-mode");  
-  }  
-}  
 
+const videoData=[
+{id:"video1",title:"A New Beginning",description:"A short emotional story about hope and starting again.",src:"https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",reward:.25,duration:180},
+{id:"video2",title:"Happiness",description:"A positive video about happiness, gratitude and joy.",src:"https://www.w3schools.com/html/mov_bbb.mp4",reward:.25,duration:180},
+{id:"video3",title:"Love and Kindness",description:"A beautiful story about love, kindness and caring for others.",src:"https://media.w3.org/2010/05/sintel/trailer.mp4",reward:.25,duration:180}
+];
+
+let activeVideoId=null,videoInterval=null,videoSeconds=180;
+
+function saveState(){localStorage.setItem(APP_KEY,JSON.stringify(state))}
+function loadState(){
+  const saved=localStorage.getItem(APP_KEY);
+  if(saved){try{state={...state,...JSON.parse(saved)}}catch(e){}}
+  if(!Array.isArray(state.tasks))state.tasks=[];
+  if(!Array.isArray(state.videos))state.videos=[];
+  if(!Array.isArray(state.withdrawals))state.withdrawals=[];
+  if(!state.taskSession)state.taskSession={date:"",morning:false,evening:false};
+  if(state.dark){document.body.classList.add("dark-mode");}
+}
+function money(v){return "$"+Number(v||0).toFixed(2)}
+function showToast(message){const t=document.getElementById("toast");t.textContent=message;t.classList.remove("hidden");clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>t.classList.add("hidden"),2600)}
+function today(){return new Date().toISOString().slice(0,10)}
 function resetDailySession(){
-  const today = new Date().toISOString().slice(0,10);
-
-  if(!state.taskSession){
-    state.taskSession = {
-      date:"",
-      morning:false,
-      evening:false
-    };
-  }
-
-  if(state.taskSession.date !== today){
-    state.taskSession = {
-      date:today,
-      morning:false,
-      evening:false
-    };
-
-    state.tasks = [];
-    state.videos = [];
-
-    saveState();
+  if(state.taskSession.date!==today()){
+    state.taskSession={date:today(),morning:false,evening:false};
+    state.tasks=[];state.videos=[];saveState();
   }
 }
-
 function getCurrentSession(){
-  const now = new Date();
-  const hour = now.getHours();
-
-  if(hour >= 5 && hour < 17){
-    return "morning";
-  }
-
-  if(hour >= 17){
-    return "evening";
-  }
-
-  return "closed";
-      }
-
-    function canDoTasksNow(){
-  const session = getCurrentSession();
-
-  if(session === "closed"){
-    showToast("Daily tasks open at 5:00 AM.");
-    return false;
-  }
-
-  if(!state.taskSession){
-    state.taskSession = {
-      date:"",
-      morning:false,
-      evening:false
-    };
-  }
-
-  if(state.taskSession[session]){
-    showToast(
-      session === "morning"
-        ? "Morning tasks have already been completed."
-        : "Evening tasks have already been completed."
-    );
-    return false;
-  }
-
-  return true;
-    }
-    
-function showToast(message){  
-  const toast = document.getElementById("toast");  
-  toast.textContent = message;  
-  toast.classList.remove("hidden");  
-  setTimeout(()=>toast.classList.add("hidden"),2600);  
-}  
-  
-function money(value){  
-  return "$" + Number(value || 0).toFixed(2);  
-}  
-  
+  const h=new Date().getHours();
+  if(h>=5&&h<17)return"morning";
+  if(h>=17)return"evening";
+  return"closed";
+}
+function canDoTasksNow(){
+  const s=getCurrentSession();
+  if(s==="closed"){showToast("Daily tasks open at 5:00 AM.");return false}
+  if(state.taskSession[s]){showToast(s==="morning"?"Morning tasks have already been completed.":"Evening tasks have already been completed.");return false}
+  return true
+}
 function init(){
-  loadState();
-  resetDailySession();
-
-  setTimeout(()=>{ 
-    document.getElementById("splash").classList.add("hidden");  
-  
-    if(state.loggedIn){  
-      openMainApp();  
-    }else{  
-      document.getElementById("authScreen").classList.remove("hidden");  
-    }  
-  },1400);  
-}  
-  
-function toggleAuth(){  
-  state.isRegister = !state.isRegister;  
-  
-  document.getElementById("authTitle").textContent =  
-    state.isRegister ? "Create account" : "Welcome back";  
-  
-  document.getElementById("authSubtitle").textContent =  
-    state.isRegister  
-    ? "Register to start using True Networking."  
-    : "Login to continue to your account.";  
-  
-  document.getElementById("registerFields").classList.toggle("hidden", !state.isRegister);  
-  
-  document.getElementById("authSubmit").textContent =  
-    state.isRegister ? "Register" : "Login";  
-  
-  document.getElementById("authSwitchText").textContent =  
-    state.isRegister ? "Already have an account?" : "Don't have an account?";  
-  
-  document.getElementById("authSwitchBtn").textContent =  
-    state.isRegister ? "Login" : "Register";  
-}  
-  
-function submitAuth(){  
-  const name = document.getElementById("authName").value.trim();  
-  const email = document.getElementById("authEmail").value.trim();  
-  const password = document.getElementById("authPassword").value.trim();  
-  
-  if(state.isRegister && !name){  
-    showToast("Please enter your full name.");  
-    return;  
-  }  
-  
-  if(!email || !password){  
-    showToast("Please fill all required fields.");  
-    return;  
-  }  
-  
-  if(state.isRegister){  
-    state.user.name = name;  
-  }  
-  
-  state.user.email = email;  
-  state.loggedIn = true;  
-  saveState();  
-  openMainApp();  
-  showToast(state.isRegister ? "Account created successfully." : "Login successful.");  
-}  
-  
-function demoGoogleLogin(){  
-  state.loggedIn = true;  
-  state.user.name = "Google User";  
-  state.user.email = "googleuser@example.com";  
-  saveState();  
-  openMainApp();  
-  showToast("Google demo login successful.");  
-}  
-  
-function openMainApp(){  
-  document.getElementById("authScreen").classList.add("hidden");  
-  document.getElementById("mainApp").classList.remove("hidden");  
-  document.getElementById("adminPage").classList.add("hidden");  
-  updateAll();  
-  showPage("home");  
-}  
-  
-function showPage(page){  
-  const pages = ["home","tasks","withdraw","profile","notifications"];  
-  
-  pages.forEach(name=>{  
-    const el = document.getElementById(name+"Page");  
-    if(el) el.classList.add("hidden");  
-  });  
-  
-  const target = document.getElementById(page+"Page");  
-  if(target) target.classList.remove("hidden");  
-  
-  document.querySelectorAll(".nav-btn").forEach(btn=>btn.classList.remove("active"));  
-  
-  if(page==="home") document.getElementById("navHome").classList.add("active");  
-  if(page==="tasks") document.getElementById("navTasks").classList.add("active");  
-  if(page==="withdraw") document.getElementById("navWallet").classList.add("active");  
-  if(page==="profile") document.getElementById("navProfile").classList.add("active");  
-  
-  if(page==="tasks") renderTasks();  
-  if(page==="withdraw") renderWithdrawals();  
-  if(page==="profile") updateProfile();  
-}  
-  
+  loadState();resetDailySession();
+  setTimeout(()=>{
+    document.getElementById("splash").classList.add("hidden");
+    if(state.loggedIn)openMainApp();else document.getElementById("authScreen").classList.remove("hidden");
+  },900);
+}
+function toggleAuth(){
+  state.isRegister=!state.isRegister;
+  document.getElementById("authTitle").textContent=state.isRegister?"Create account":"Welcome back";
+  document.getElementById("authSubtitle").textContent=state.isRegister?"Register to start using True Networking.":"Login to continue to your account.";
+  document.getElementById("registerFields").classList.toggle("hidden",!state.isRegister);
+  document.getElementById("authSubmit").textContent=state.isRegister?"Register":"Login";
+  document.getElementById("authSwitchText").textContent=state.isRegister?"Already have an account?":"Don't have an account?";
+  document.getElementById("authSwitchBtn").textContent=state.isRegister?"Login":"Register";
+}
+function submitAuth(){
+  const name=document.getElementById("authName").value.trim(),email=document.getElementById("authEmail").value.trim(),password=document.getElementById("authPassword").value.trim();
+  if(state.isRegister&&!name){showToast("Please enter your full name.");return}
+  if(!email||!password){showToast("Please fill all required fields.");return}
+  if(state.isRegister)state.user.name=name;
+  state.user.email=email;state.loggedIn=true;saveState();openMainApp();showToast(state.isRegister?"Account created successfully.":"Login successful.");
+}
+function demoGoogleLogin(){state.loggedIn=true;state.user.name="Google User";state.user.email="googleuser@example.com";saveState();openMainApp();showToast("Google demo login successful.")}
+function openMainApp(){document.getElementById("authScreen").classList.add("hidden");document.getElementById("mainApp").classList.remove("hidden");updateAll();showPage("home")}
+function showPage(page){
+  ["home","tasks","withdraw","profile","notifications"].forEach(n=>document.getElementById(n+"Page").classList.add("hidden"));
+  document.getElementById(page+"Page").classList.remove("hidden");
+  document.querySelectorAll(".nav-btn").forEach(b=>b.classList.remove("active"));
+  if(page==="home")document.getElementById("navHome").classList.add("active");
+  if(page==="tasks")document.getElementById("navTasks").classList.add("active");
+  if(page==="withdraw")document.getElementById("navWallet").classList.add("active");
+  if(page==="profile")document.getElementById("navProfile").classList.add("active");
+  if(page==="tasks")renderTasks();
+  if(page==="withdraw")renderWithdrawals();
+  if(page==="profile")updateProfile();
+}
 function updateAll(){
-
-  // =========================
-  // BASIC USER INFORMATION
-  // =========================
-
-  document.getElementById("welcomeName").textContent =
-    state.user.name || "User";
-
-  document.getElementById("homeBalance").textContent =
-    money(state.balance);
-
-  document.getElementById("withdrawBalance").textContent =
-    money(state.balance);
-
-
-  // =========================
-  // PROGRESS
-  // =========================
-
-  document.getElementById("homeProgressText").textContent =
-    state.progress + "%";
-
-  document.getElementById("homeProgressBar").style.width =
-    state.progress + "%";
-
-
-  // =========================
-  // CURRENT SESSION
-  // =========================
-
-  const session = getCurrentSession();
-
-  let completedTasks = 0;
-
-  if(session !== "closed"){
-
-    completedTasks = state.tasks.filter(
-      task => task.startsWith(session + "_")
-    ).length;
-
-  }
-
-
-  // =========================
-  // VIDEOS
-  // =========================
-
-  const completedVideos =
-    state.videos.length;
-
-
-  // =========================
-  // HOME TASK COUNT
-  // =========================
-
-  const homeTasksDone =
-    document.getElementById("homeTasksDone");
-
-  if(homeTasksDone){
-
-    homeTasksDone.textContent =
-      completedTasks + "/5";
-
-  }
-
-
-  // =========================
-  // HOME VIDEO COUNT
-  // =========================
-
-  const homeVideosDone =
-    document.getElementById("homeVideosDone");
-
-  if(homeVideosDone){
-
-    homeVideosDone.textContent =
-      completedVideos + "/" + videoData.length;
-
-  }
-
-
-  // =========================
-  // CURRENT DAY
-  // =========================
-
-  const homeDay =
-    document.getElementById("homeDay");
-
-  if(homeDay){
-
-    homeDay.textContent =
-      "Day " +
-      Math.min(
-        5,
-        Math.floor(state.progress / 20) + 1
-      );
-
-  }
-
-
-  // =========================
-  // TASK HEADER
-  // =========================
-
-  const taskHeaderCount =
-    document.getElementById("taskHeaderCount");
-
-  if(taskHeaderCount){
-
-    taskHeaderCount.textContent =
-      completedTasks + "/5";
-
-  }
-
-
-  const taskHeaderText =
-    document.getElementById("taskHeaderText");
-
-  if(taskHeaderText){
-
-    if(session === "closed"){
-
-      taskHeaderText.textContent =
-        "Tasks are currently closed";
-
-    }else if(completedTasks >= 5){
-
-      taskHeaderText.textContent =
-        session === "morning"
-          ? "All morning tasks completed"
-          : "All evening tasks completed";
-
-    }else{
-
-      taskHeaderText.textContent =
-        session === "morning"
-          ? "Complete your morning tasks"
-          : "Complete your evening tasks";
-
-    }
-
-  }
-
-
-  // =========================
-  // PROFILE
-  // =========================
-
-  updateProfile();
-
-
-  // =========================
-  // WITHDRAWALS
-  // =========================
-
-  renderWithdrawals();
-
-    }
-  updateProfile();
-renderWithdrawals();
-updateFiveDayProgress(); 
-}  
-    
+  document.getElementById("welcomeName").textContent=state.user.name||"User";
+  document.getElementById("homeBalance").textContent=money(state.balance);
+  document.getElementById("withdrawBalance").textContent=money(state.balance);
+  document.getElementById("homeProgressText").textContent=Math.round(state.progress)+"%";
+  document.getElementById("homeProgressBar").style.width=Math.min(100,state.progress)+"%";
+  const s=getCurrentSession();
+  const completedTasks=s==="closed"?0:state.tasks.filter(x=>x.startsWith(s+"_")).length;
+  document.getElementById("homeTasksDone").textContent=completedTasks+"/5";
+  document.getElementById("homeVideosDone").textContent=state.videos.length+"/3";
+  document.getElementById("homeDay").textContent="Day "+Math.min(5,Math.floor(state.progress/20)+1);
+  document.getElementById("taskHeaderCount").textContent=completedTasks+"/5";
+  document.getElementById("taskHeaderText").textContent=s==="closed"?"Tasks are currently closed":completedTasks>=5?(s==="morning"?"All morning tasks completed":"All evening tasks completed"):(s==="morning"?"Complete your morning tasks":"Complete your evening tasks");
+  updateProfile();renderWithdrawals();updateFiveDayProgress();
+}
 function updateFiveDayProgress(){
-
-  const total = Number(state.fiveDayEarning || 0);
-  const target = 5;
-
-  const percent = Math.min(
-    100,
-    (total / target) * 100
-  );
-
-  const amountEl =
-    document.getElementById("fiveDayAmount");
-
-  const barEl =
-    document.getElementById("fiveDayBar");
-
-  if(amountEl){
-    amountEl.textContent =
-      "$" + total.toFixed(2) + " / $5.00";
-  }
-
-  if(barEl){
-    barEl.style.width = percent + "%";
-  }
-
-  /*
-    Determine current earning day.
-    Each $1 represents one earning day.
-  */
-  let currentDay =
-    Math.floor(total) + 1;
-
-  currentDay =
-    Math.min(5, currentDay);
-
-  for(let i = 1; i <= 5; i++){
-
-    const day =
-      document.getElementById("day" + i);
-
-    if(!day) continue;
-
-    day.classList.remove(
-      "active",
-      "completed"
-    );
-
-    if(total >= i){
-      day.classList.add("completed");
-    }
-    else if(i === currentDay){
-      day.classList.add("active");
-    }
-  }
-
-  /*
-    If the full $5 goal is reached,
-    mark all five days as completed.
-  */
-  if(total >= 5){
-
-    for(let i = 1; i <= 5; i++){
-
-      const day =
-        document.getElementById("day" + i);
-
-      if(day){
-        day.classList.remove("active");
-        day.classList.add("completed");
-      }
-    }
-  }
-    }
-    
+  for(let i=1;i<=5;i++){const d=document.getElementById("day"+i);if(!d)continue;d.classList.remove("active","completed");if(state.progress>=i*20)d.classList.add("completed");else if(i===Math.min(5,Math.floor(state.progress/20)+1))d.classList.add("active")}
+}
 function renderTasks(){
-
-  const list = document.getElementById("taskList");
-
-  if(!list) return;
-
-  list.innerHTML = "";
-
-  const session = getCurrentSession();
-
-  // =========================
-  // CLOSED SESSION
-  // =========================
-
-  if(session === "closed"){
-
-    list.innerHTML = `
-      <div class="empty">
-        <h3>Tasks are currently closed</h3>
-        <p>
-          Morning tasks start at 5:00 AM.
-          Evening tasks start at 5:00 PM.
-        </p>
-      </div>
-    `;
-
-    return;
-  }
-
-  // =========================
-  // CURRENT SESSION TASKS
-  // =========================
-
-  const sessionTasks = state.tasks.filter(
-    task => task.startsWith(session + "_")
-  );
-
-  const sessionCompleted = sessionTasks.length;
-
-  // =========================
-  // SESSION HEADER
-  // =========================
-
-  const header = document.createElement("div");
-
-  header.style.cssText = `
-    background:linear-gradient(135deg,#ffb52e,#ff8a00);
-    color:white;
-    border-radius:22px;
-    padding:18px;
-    margin-bottom:15px;
-  `;
-
-  header.innerHTML = `
-    <div style="font-size:12px;opacity:.9;">
-      CURRENT SESSION
-    </div>
-
-    <h2 style="margin:5px 0;">
-      ${
-        session === "morning"
-          ? "🌅 Morning Tasks"
-          : "🌙 Evening Tasks"
-      }
-    </h2>
-
-    <div style="font-size:14px;">
-      ${sessionCompleted}/5 tasks completed
-    </div>
-
-    <div style="
-      height:8px;
-      background:rgba(255,255,255,.35);
-      border-radius:20px;
-      margin-top:12px;
-      overflow:hidden;
-    ">
-      <div style="
-        width:${Math.min(100,(sessionCompleted / 5) * 100)}%;
-        height:100%;
-        background:white;
-        border-radius:20px;
-      "></div>
-    </div>
-  `;
-
+  const list=document.getElementById("taskList");list.innerHTML="";
+  const s=getCurrentSession();
+  if(s==="closed"){list.innerHTML='<div class="empty"><h3>Tasks are currently closed</h3><p>Morning tasks start at 5:00 AM. Evening tasks start at 5:00 PM.</p></div>';return}
+  const completed=state.tasks.filter(x=>x.startsWith(s+"_")).length;
+  const header=document.createElement("div");header.className="card";header.style.background="linear-gradient(135deg,#ffb52e,#ff8a00)";header.style.color="#fff";
+  header.innerHTML=`<b>${s==="morning"?"🌅 Morning Tasks":"🌙 Evening Tasks"}</b><div style="font-size:13px;margin-top:6px">${completed}/5 tasks completed</div><div style="height:8px;background:#ffffff40;border-radius:20px;margin-top:10px"><div style="height:100%;width:${completed*20}%;background:#fff;border-radius:20px"></div></div>`;
   list.appendChild(header);
-
-  // =========================
-  // TASK CARDS
-  // =========================
-
-  taskData.forEach(task => {
-
-    const taskKey = session + "_" + task.id;
-
-    const claimed = state.tasks.includes(taskKey);
-
-    const div = document.createElement("div");
-
-    div.className = "task-card";
-
-    div.innerHTML = `
-      <div
-        class="task-thumb"
-        style="
-          display:flex;
-          align-items:center;
-          justify-content:center;
-          font-size:42px;
-          background:linear-gradient(
-            145deg,
-            #fff1c7,
-            #ffe3a2
-          );
-        "
-      >
-        ${task.icon}
-      </div>
-
-      <div class="task-main">
-
-        <h3>${task.title}</h3>
-
-        <p>${task.description}</p>
-
-        <div class="task-meta">
-
-          <span class="tag orange">
-            +$${task.reward.toFixed(2)}
-          </span>
-
-          <span class="tag">
-            ${
-              session === "morning"
-                ? "Morning"
-                : "Evening"
-            }
-          </span>
-
-        </div>
-
-        <button
-          class="task-button ${claimed ? "claimed" : ""}"
-          ${claimed ? "disabled" : ""}
-          onclick="claimNormalTask('${task.id}')"
-        >
-          ${
-            claimed
-              ? "✓ Claimed"
-              : "Complete Task"
-          }
-        </button>
-
-      </div>
-    `;
-
+  taskData.forEach(task=>{
+    const key=s+"_"+task.id,claimed=state.tasks.includes(key),div=document.createElement("div");div.className="task-card";
+    div.innerHTML=`<div class="task-thumb" style="display:grid;place-items:center;font-size:40px;background:linear-gradient(145deg,#fff1c7,#ffe3a2)">${task.icon}</div><div class="task-main"><h3>${task.title}</h3><p>${task.description}</p><div class="task-meta"><span class="tag orange">+$${task.reward.toFixed(2)}</span><span class="tag">${s==="morning"?"Morning":"Evening"}</span></div><button class="task-button ${claimed?"claimed":""}" ${claimed?"disabled":""} onclick="claimNormalTask('${task.id}')">${claimed?"✓ Claimed":"Complete Task"}</button></div>`;
     list.appendChild(div);
-
   });
-
-  // =========================
-  // VIDEO SECTION
-  // =========================
-
-  const videoTitle = document.createElement("div");
-
-  videoTitle.style.cssText = `
-    margin:22px 0 12px;
-  `;
-
-  videoTitle.innerHTML = `
-    <h2 style="margin:0;">
-      🎬 Videos
-    </h2>
-
-    <p style="
-      margin:5px 0 0;
-      color:var(--muted);
-      font-size:13px;
-    ">
-      Watch each video for 3 minutes to claim your reward.
-    </p>
-  `;
-
-  list.appendChild(videoTitle);
-
-  // =========================
-  // VIDEO CARDS
-  // =========================
-
-  videoData.forEach(video => {
-
-    const watched = state.videos.includes(video.id);
-
-    const div = document.createElement("div");
-
-    div.className = "task-card";
-
-    div.innerHTML = `
-      <video
-        class="task-thumb"
-        muted
-        playsinline
-        preload="metadata"
-        src="${video.src}"
-      ></video>
-
-      <div class="task-main">
-
-        <h3>${video.title}</h3>
-
-        <p>${video.description}</p>
-
-        <div class="task-meta">
-
-          <span class="tag orange">
-            +$${video.reward.toFixed(2)}
-          </span>
-
-          <span class="tag green">
-            3 minutes
-          </span>
-
-        </div>
-
-        <button
-          class="task-button ${watched ? "claimed" : ""}"
-          ${watched ? "disabled" : ""}
-          onclick="openVideo('${video.id}')"
-        >
-          ${
-            watched
-              ? "✓ Claimed"
-              : "▶ Watch Video"
-          }
-        </button>
-
-      </div>
-    `;
-
+  const title=document.createElement("div");title.innerHTML=`<h2 style="margin-top:8px">🎬 Videos</h2><p style="font-size:12px;color:var(--muted);margin-top:5px">Watch each video for 3 minutes to claim its reward.</p>`;list.appendChild(title);
+  videoData.forEach(v=>{
+    const watched=state.videos.includes(v.id),div=document.createElement("div");div.className="task-card";
+    div.innerHTML=`<video class="task-thumb" muted playsinline preload="metadata" src="${v.src}"></video><div class="task-main"><h3>${v.title}</h3><p>${v.description}</p><div class="task-meta"><span class="tag orange">+$${v.reward.toFixed(2)}</span><span class="tag green">3 minutes</span></div><button class="task-button ${watched?"claimed":""}" ${watched?"disabled":""} onclick="openVideo('${v.id}')">${watched?"✓ Claimed":"▶ Watch Video"}</button></div>`;
     list.appendChild(div);
-
   });
-
-    }
-  
-function claimNormalTask(id){ 
-  if(!canDoTasksNow()) return;
-
-  const session = getCurrentSession();
-
-  if(session === "closed") return;
-
-  const taskKey = session + "_" + id;
-
-  if(state.tasks.includes(taskKey)){
-    showToast("You already completed this task in this session.");
-    return;
-  }
-
-  state.tasks.push(taskKey);
-
-  state.balance += 0.25;
-  state.progress = Math.min(100, state.progress + 10);
-
-  const sessionTasks = state.tasks.filter(
-    task => task.startsWith(session + "_")
-  );
-
-  if(sessionTasks.length >= 5){
-    state.taskSession[session] = true;
-  }
-
-  saveState();
-  updateAll();
-  renderTasks();
-
-  if(sessionTasks.length >= 5){
-
-    showToast(
-      session === "morning"
-        ? "Morning tasks completed successfully."
-        : "Evening tasks completed successfully."
-    );
-
-  }else{
-
-    showToast("Task completed. $0.25 added.");
-
-  }
-    }
-
+}
+function claimNormalTask(id){
+  if(!canDoTasksNow())return;
+  const s=getCurrentSession(),key=s+"_"+id;
+  if(state.tasks.includes(key)){showToast("You already completed this task.");return}
+  state.tasks.push(key);state.balance+=.25;state.progress=Math.min(100,state.progress+4);
+  if(state.tasks.filter(x=>x.startsWith(s+"_")).length>=5)state.taskSession[s]=true;
+  saveState();updateAll();renderTasks();showToast("Task completed. $0.25 added.");
+}
 function openVideo(id){
-
-  const video = videoData.find(
-    v => v.id === id
-  );
-
-  if(!video){
-    showToast("Video not found.");
-    return;
-  }
-
-  // Don't open an already claimed video
-  if(state.videos.includes(id)){
-    showToast("This video has already been claimed.");
-    return;
-  }
-
-  activeVideoId = id;
-
-  // 3 minutes
-  videoSeconds = 180;
-
-  const player = document.getElementById("taskVideo");
-
-  player.src = video.src;
-  player.currentTime = 0;
-
-  document.getElementById("modalTitle").textContent =
-    video.title;
-
-  document.getElementById("modalDescription").textContent =
-    "Watch the video for 3 minutes before claiming your reward.";
-
-  document.getElementById("videoTimer").textContent =
-    "03:00";
-
-  const finishButton =
-    document.getElementById("finishVideoBtn");
-
-  finishButton.disabled = true;
-
-  finishButton.textContent =
-    "Watch until the timer ends";
-
-  document
-    .getElementById("videoModal")
-    .classList.remove("hidden");
-
-  clearInterval(videoInterval);
-
-  videoInterval = setInterval(() => {
-
-    videoSeconds--;
-
-    const minutes = String(
-      Math.floor(videoSeconds / 60)
-    ).padStart(2,"0");
-
-    const seconds = String(
-      videoSeconds % 60
-    ).padStart(2,"0");
-
-    document.getElementById("videoTimer")
-      .textContent =
-      minutes + ":" + seconds;
-
-    if(videoSeconds <= 0){
-
-      clearInterval(videoInterval);
-
-      videoSeconds = 0;
-
-      document.getElementById("videoTimer")
-        .textContent = "00:00";
-
-      finishButton.disabled = false;
-
-      finishButton.textContent =
-        "Claim " + money(video.reward);
-
-    }
-
-  },1000);
-    }
-    
-  function finishVideo(){
-
-  if(!activeVideoId || videoSeconds > 0){
-    return;
-  }
-
-  // Prevent double claiming
-  if(state.videos.includes(activeVideoId)){
-    showToast("This video has already been claimed.");
-    closeVideoModal();
-    return;
-  }
-
-  // Find the active video
-  const video = videoData.find(
-    v => v.id === activeVideoId
-  );
-
-  if(!video){
-    showToast("Video not found.");
-    closeVideoModal();
-    return;
-  }
-
-  // Add video to completed videos
-  state.videos.push(activeVideoId);
-
-  // Add video reward
-  state.balance += video.reward;
-
-  // Increase progress
-  state.progress = Math.min(
-    100,
-    state.progress + 10
-  );
-
-  // Save everything
-  saveState();
-
-  // Update Home, Tasks and Profile
-  updateAll();
-
-  // Refresh task/video cards
-  renderTasks();
-
-  showToast(
-    "Video completed. " +
-    money(video.reward) +
-    " added."
-  );
-
+  if(!canDoTasksNow())return;
+  const v=videoData.find(x=>x.id===id);if(!v)return;
+  if(state.videos.includes(id)){showToast("This video has already been claimed.");return}
+  activeVideoId=id;videoSeconds=180;
+  const p=document.getElementById("taskVideo");p.src=v.src;p.currentTime=0;
+  document.getElementById("modalTitle").textContent=v.title;document.getElementById("modalDescription").textContent="Watch the video for 3 minutes before claiming your reward.";document.getElementById("videoTimer").textContent="03:00";
+  const b=document.getElementById("finishVideoBtn");b.disabled=true;b.textContent="Watch until the timer ends";document.getElementById("videoModal").classList.remove("hidden");
+  clearInterval(videoInterval);videoInterval=setInterval(()=>{videoSeconds--;document.getElementById("videoTimer").textContent=String(Math.floor(videoSeconds/60)).padStart(2,"0")+":"+String(videoSeconds%60).padStart(2,"0");if(videoSeconds<=0){clearInterval(videoInterval);b.disabled=false;b.textContent="Claim "+money(v.reward)}},1000);
+  p.play().catch(()=>{});
+}
+function finishVideo(){
+  if(!activeVideoId||videoSeconds>0)return;
+  const v=videoData.find(x=>x.id===activeVideoId);if(!v)return;
+  if(!state.videos.includes(v.id)){state.videos.push(v.id);state.balance+=v.reward;state.progress=Math.min(100,state.progress+4);saveState();updateAll();renderTasks();showToast("Video completed. "+money(v.reward)+" added.")}
   closeVideoModal();
-    }
-  
-function closeVideoModal(){  
-  clearInterval(videoInterval);  
-  const video = document.getElementById("taskVideo");  
-  video.pause();  
-  video.removeAttribute("src");  
-  video.load();  
-  document.getElementById("videoModal").classList.add("hidden");  
-  activeVideoId = null;  
-}  
-  
-function renderWithdrawals(){  
-  const box = document.getElementById("withdrawHistory");  
-  const adminBox = document.getElementById("adminWithdrawals");  
-  
-  if(!state.withdrawals.length){  
-    box.innerHTML = '<div class="empty">No withdrawal requests yet.</div>';  
-    adminBox.innerHTML = '<div class="empty">No requests found.</div>';  
-    return;  
-  }  
-  
-  box.innerHTML = state.withdrawals.slice().reverse().map(item=>`  
-    <div style="padding:13px 0;border-bottom:1px solid var(--line)">  
-      <div style="display:flex;justify-content:space-between;gap:8px">  
-        <b>${money(item.amount)}</b>  
-        <span class="status ${item.status}">${item.status}</span>  
-      </div>  
-      <div style="font-size:11px;color:var(--muted);margin-top:6px">  
-        ${item.bank} • ${item.account} • ${item.date}  
-      </div>  
-    </div>  
-  `).join("");  
-  
-  adminBox.innerHTML = `  
-    <table class="admin-table">  
-      <thead>  
-        <tr>  
-          <th>Bank</th>  
-          <th>Amount</th>  
-          <th>Status</th>  
-        </tr>  
-      </thead>  
-      <tbody>  
-        ${state.withdrawals.slice().reverse().map(item=>`  
-          <tr>  
-            <td>${item.bank}</td>  
-            <td>${money(item.amount)}</td>  
-            <td><span class="status ${item.status}">${item.status}</span></td>  
-          </tr>  
-        `).join("")}  
-      </tbody>  
-    </table>  
-  `;  
-}  
-  
-function requestWithdraw(){  
-  const bank = document.getElementById("bankName").value;  
-  const name = document.getElementById("withdrawName").value.trim();  
-  const account = document.getElementById("accountNumber").value.trim();  
-  const amount = Number(document.getElementById("withdrawAmount").value);  
-  
-  if(!bank || !name || !account || !amount){  
-    showToast("Please complete all withdrawal fields.");  
-    return;  
-  }  
-  
-  if(account.length !== 10){  
-    showToast("Account number must contain 10 digits.");  
-    return;  
-  }  
-  
-  if(amount < 8){  
-    showToast("Minimum withdrawal is $8.00.");  
-    return;  
-  }  
-  
-  if(amount > state.balance){  
-    showToast("Insufficient balance.");  
-    return;  
-  }  
-  
-  state.balance -= amount;  
-  
-  state.withdrawals.push({  
-    bank,  
-    name,  
-    account,  
-    amount,  
-    status:"pending",  
-    date:new Date().toLocaleString()  
-  });  
-  
-  saveState();  
-  updateAll();  
-  
-  document.getElementById("bankName").value = "";  
-  document.getElementById("withdrawName").value = "";  
-  document.getElementById("accountNumber").value = "";  
-  document.getElementById("withdrawAmount").value = "";  
-  
-  showToast("Withdrawal request submitted as pending.");  
-}  
-  
-function selectWithdrawTab(button){  
-  document.querySelectorAll(".tab").forEach(tab=>tab.classList.remove("active"));  
-  button.classList.add("active");  
-  showToast(button.textContent + " option selected.");  
-}  
-  
-function updateProfile(){  
-  document.getElementById("profileName").textContent = state.user.name || "User";  
-  document.getElementById("profileEmail").textContent = state.user.email || "user@example.com";  
-  document.getElementById("profileAvatar").src = state.user.avatar || "https://i.pravatar.cc/200?img=12";  
-  document.getElementById("verifyStatus").textContent = state.user.verified ? "✓" : "›";  
-  document.getElementById("verifyStatus").style.color = state.user.verified ? "#16b979" : "";  
-}  
-  
-function uploadAvatar(event){  
-  const file = event.target.files[0];  
-  if(!file) return;  
-  
-  const reader = new FileReader();  
-  reader.onload = function(e){  
-    state.user.avatar = e.target.result;  
-    saveState();  
-    updateProfile();  
-    showToast("Profile picture updated.");  
-  };  
-  reader.readAsDataURL(file);  
-}  
-  
-function editProfile(){  
-  const newName = prompt("Enter your new full name:",state.user.name);  
-  if(newName && newName.trim()){  
-    state.user.name = newName.trim();  
-    saveState();  
-    updateAll();  
-    showToast("Profile updated.");  
-  }  
-}  
-  
-function faceVerification(){  
-  if(state.user.verified){  
-    showToast("Your account is already verified.");  
-    return;  
-  }  
-  
-  const proceed = confirm(  
-    "Face verification demo: allow camera access to test the verification screen. Continue?"  
-  );  
-  
-  if(!proceed) return;  
-  
-  if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){  
-    showToast("Camera is not supported by this browser.");  
-    return;  
-  }  
-  
-  navigator.mediaDevices.getUserMedia({video:true})  
-    .then(stream=>{  
-      stream.getTracks().forEach(track=>track.stop());  
-      state.user.verified = true;  
-      saveState();  
-      updateProfile();  
-      showToast("Face verification demo completed.");  
-    })  
-    .catch(()=>{  
-      showToast("Camera permission was not granted.");  
-    });  
-}  
-  
-function securityInfo(){  
-  alert("Security settings:\n\n• Keep your password private.\n• Do not share your login code.\n• Use a secure email or phone number.\n\nAdvanced security will be connected to the backend later.");  
-}  
-  
-function toggleDarkMode(){  
-  state.dark = !state.dark;  
-  document.body.classList.toggle("dark-mode",state.dark);  
-  document.getElementById("darkSwitch").classList.toggle("active",state.dark);  
-  saveState();  
-  showToast(state.dark ? "Dark mode enabled." : "Light mode enabled.");  
-}  
-  
-function inviteFriends(){  
-  const inviteLink = location.href + "?invite=" + state.user.inviteId;  
-  
-  const text =  
-    "Join me on True Networking. My invite ID is " +  
-    state.user.inviteId +  
-    ". Invite link: " +  
-    inviteLink;  
-  
-  if(navigator.share){  
-    navigator.share({  
-      title:"True Networking",  
-      text  
-    }).catch(()=>{});  
-  }else{  
-    prompt("Copy your invite information:",text);  
-  }  
-}  
-  
-function showLanguage(){  
-  const language = prompt("Choose language: English or Hausa","English");  
-  if(language){  
-    showToast("Language selected: " + language + ". Full translation will be added later.");  
-  }  
-}  
-  
-function shareApp(){  
-  const text = "Join me on True Networking: " + location.href;  
-  
-  if(navigator.share){  
-    navigator.share({  
-      title:"True Networking",  
-      text  
-    }).catch(()=>{});  
-  }else{  
-    prompt("Copy this link:",text);  
-  }  
-}  
-  
-function likeFeed(button){  
-  if(button.textContent==="♡"){  
-    button.textContent="♥";  
-    button.style.color="#ff4b7d";  
-    showToast("Post liked.");  
-  }else{  
-    button.textContent="♡";  
-    button.style.color="white";  
-  }  
-}  
-  
-function logout(){  
-  const yes = confirm("Are you sure you want to logout?");  
-  if(!yes) return;  
-  
-  state.loggedIn = false;  
-  saveState();  
-  
-  document.getElementById("mainApp").classList.add("hidden");  
-  document.getElementById("authScreen").classList.remove("hidden");  
-  showToast("You have logged out.");  
-}  
-  
-function openAdmin(){  
-  const code = prompt("Enter admin code:");  
-  
-  if(code !== "676841"){  
-    showToast("Incorrect admin code.");  
-    return;  
-  }  
-  
-  document.getElementById("mainApp").classList.add("hidden");  
-  document.getElementById("adminPage").classList.remove("hidden");  
-  updateAdmin();  
-}  
-  
-function closeAdmin(){  
-  document.getElementById("adminPage").classList.add("hidden");  
-  document.getElementById("mainApp").classList.remove("hidden");  
-  showPage("home");  
-}  
-  
-function updateAdmin(){  
-  document.getElementById("adminUsers").textContent = "1";  
-  document.getElementById("adminVerified").textContent = state.user.verified ? "1" : "0";  
-  document.getElementById("adminRewards").textContent = money(state.balance);  
-  document.getElementById("adminPending").textContent =  
-    state.withdrawals.filter(w=>w.status==="pending").length;  
-  
-  renderWithdrawals();  
-}  
-  
-function adminApproveAll(){  
-  let count = 0;  
-  
-  state.withdrawals.forEach(item=>{  
-    if(item.status==="pending"){  
-      item.status = "approved";  
-      count++;  
-    }  
-  });  
-  
-  saveState();  
-  updateAdmin();  
-  showToast(count + " request(s) approved in demo.");  
-}  
-  
-function clearDemoData(){  
-  const yes = confirm("This will clear tasks, videos, balance and withdrawals. Continue?");  
-  if(!yes) return;  
-  
-  state.balance = 0;  
-  state.progress = 0;  
-  state.tasks = [];  
-  state.videos = [];  
-  state.withdrawals = [];  
-  saveState();  
-  updateAll();  
-  updateAdmin();  
-  showToast("Demo data cleared.");  
-}  
-  
-/* Hidden admin access:  
-   Tap the True Networking logo five times quickly. */  
-let logoClicks = 0;  
-let logoTimer;  
-  
-document.querySelectorAll(".logo").forEach(logo=>{  
-  logo.addEventListener("click",()=>{  
-    logoClicks++;  
-    clearTimeout(logoTimer);  
-  
-    logoTimer = setTimeout(()=>{  
-      logoClicks = 0;  
-    },1500);  
-  
-    if(logoClicks >= 5){  
-      logoClicks = 0;  
-      openAdmin();  
-    }  
-  });  
-});  
-  
-init();  
-</script>  
-</body>  
+}
+function closeVideoModal(){clearInterval(videoInterval);const p=document.getElementById("taskVideo");p.pause();p.removeAttribute("src");p.load();document.getElementById("videoModal").classList.add("hidden");activeVideoId=null}
+function renderWithdrawals(){
+  const box=document.getElementById("withdrawHistory");if(!box)return;
+  if(!state.withdrawals.length){box.innerHTML='<div class="empty">No withdrawal requests yet.</div>';return}
+  box.innerHTML=state.withdrawals.slice().reverse().map(x=>`<div style="padding:12px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:10px"><div><b>${money(x.amount)}</b><div style="font-size:11px;color:var(--muted);margin-top:5px">${x.bank} • ${x.account} • ${x.date}</div></div><span class="status ${x.status}">${x.status}</span></div>`).join("")
+}
+function requestWithdraw(){
+  const bank=document.getElementById("bankName").value,name=document.getElementById("withdrawName").value.trim(),account=document.getElementById("accountNumber").value.trim(),amount=Number(document.getElementById("withdrawAmount").value);
+  if(!bank||!name||!account||!amount){showToast("Please complete all withdrawal fields.");return}
+  if(!/^\d{10}$/.test(account)){showToast("Account number must contain 10 digits.");return}
+  if(amount<8){showToast("Minimum withdrawal is $8.00.");return}
+  if(amount>state.balance){showToast("Insufficient balance.");return}
+  state.balance-=amount;state.withdrawals.push({bank,name,account,amount,status:"pending",date:new Date().toLocaleString()});saveState();updateAll();
+  document.getElementById("bankName").value="";document.getElementById("withdrawName").value="";document.getElementById("accountNumber").value="";document.getElementById("withdrawAmount").value="";
+  showToast("Withdrawal request saved as pending. Backend payout connection is required before real money is sent.");
+}
+function selectWithdrawTab(b){document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));b.classList.add("active");showToast(b.textContent+" selected.")}
+function updateProfile(){document.getElementById("profileName").textContent=state.user.name||"User";document.getElementById("profileEmail").textContent=state.user.email||"user@example.com";document.getElementById("profileAvatar").src=state.user.avatar||"https://i.pravatar.cc/200?img=12";document.getElementById("verifyStatus").textContent=state.user.verified?"✓":"›";document.getElementById("verifyStatus").style.color=state.user.verified?"#16b979":"";document.getElementById("darkSwitch").classList.toggle("active",!!state.dark)}
+function uploadAvatar(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=x=>{state.user.avatar=x.target.result;saveState();updateProfile();showToast("Profile picture updated.")};r.readAsDataURL(f)}
+function editProfile(){const n=prompt("Enter your new full name:",state.user.name);if(n&&n.trim()){state.user.name=n.trim();saveState();updateAll();showToast("Profile updated.")}}
+function faceVerification(){if(state.user.verified){showToast("Your account is already verified.");return}if(!navigator.mediaDevices?.getUserMedia){showToast("Camera is not supported.");return}navigator.mediaDevices.getUserMedia({video:true}).then(s=>{s.getTracks().forEach(t=>t.stop());state.user.verified=true;saveState();updateProfile();showToast("Verification demo completed.")}).catch(()=>showToast("Camera permission was not granted."))}
+function securityInfo(){alert("Keep your password private and do not share verification codes. Advanced security will be connected to the backend.")}
+function toggleDarkMode(){state.dark=!state.dark;document.body.classList.toggle("dark-mode",state.dark);saveState();updateProfile();showToast(state.dark?"Dark mode enabled.":"Light mode enabled.")}
+function inviteFriends(){const link=location.href+"?invite="+state.user.inviteId,text="Join me on True Networking. My invite ID is "+state.user.inviteId+". Invite link: "+link;if(navigator.share)navigator.share({title:"True Networking",text}).catch(()=>{});else prompt("Copy invite information:",text)}
+function showLanguage(){const l=prompt("Choose language: English or Hausa","English");if(l)showToast("Language selected: "+l)}
+function shareApp(){const text="Join me on True Networking: "+location.href;if(navigator.share)navigator.share({title:"True Networking",text}).catch(()=>{});else prompt("Copy this link:",text)}
+function likeFeed(b){b.textContent=b.textContent==="♡"?"♥":"♡";b.style.color=b.textContent==="♥"?"#ff4b7d":"white"}
+function logout(){if(!confirm("Are you sure you want to logout?"))return;state.loggedIn=false;saveState();document.getElementById("mainApp").classList.add("hidden");document.getElementById("authScreen").classList.remove("hidden");showToast("You have logged out.")}
+init();
+</script>
+</body>
 </html>
