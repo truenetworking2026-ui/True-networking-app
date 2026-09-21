@@ -1,10 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#10152f">
 <title>True Networking</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+const SUPABASE_URL = "https://qrcsznnmisgwfwhweww.supabase.co";
+
+const SUPABASE_KEY = "sb_publishable_vfb2G3hLIC8o2VCX3Z7vSQ_6ShoV5NN";
+
+const supabaseClient = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+</script>
 
 <style>
 :root{
