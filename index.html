@@ -2213,10 +2213,85 @@ function updateAll(){
   document.getElementById("taskHeaderText").textContent =  
     completedTasks >= 5 ? "All daily tasks completed" : "Complete your tasks today";  
   
-  updateProfile();  
-  renderWithdrawals();  
+  updateProfile();
+renderWithdrawals();
+updateFiveDayProgress(); 
 }  
-  
+    
+function updateFiveDayProgress(){
+
+  const total = Number(state.fiveDayEarning || 0);
+  const target = 5;
+
+  const percent = Math.min(
+    100,
+    (total / target) * 100
+  );
+
+  const amountEl =
+    document.getElementById("fiveDayAmount");
+
+  const barEl =
+    document.getElementById("fiveDayBar");
+
+  if(amountEl){
+    amountEl.textContent =
+      "$" + total.toFixed(2) + " / $5.00";
+  }
+
+  if(barEl){
+    barEl.style.width = percent + "%";
+  }
+
+  /*
+    Determine current earning day.
+    Each $1 represents one earning day.
+  */
+  let currentDay =
+    Math.floor(total) + 1;
+
+  currentDay =
+    Math.min(5, currentDay);
+
+  for(let i = 1; i <= 5; i++){
+
+    const day =
+      document.getElementById("day" + i);
+
+    if(!day) continue;
+
+    day.classList.remove(
+      "active",
+      "completed"
+    );
+
+    if(total >= i){
+      day.classList.add("completed");
+    }
+    else if(i === currentDay){
+      day.classList.add("active");
+    }
+  }
+
+  /*
+    If the full $5 goal is reached,
+    mark all five days as completed.
+  */
+  if(total >= 5){
+
+    for(let i = 1; i <= 5; i++){
+
+      const day =
+        document.getElementById("day" + i);
+
+      if(day){
+        day.classList.remove("active");
+        day.classList.add("completed");
+      }
+    }
+  }
+    }
+    
 function renderTasks(){  
   const list = document.getElementById("taskList");  
   list.innerHTML = "";  
