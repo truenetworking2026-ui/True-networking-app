@@ -2292,61 +2292,252 @@ function updateFiveDayProgress(){
   }
     }
     
-function renderTasks(){  
-  const list = document.getElementById("taskList");  
-  list.innerHTML = "";  
-  
-  taskData.forEach(task=>{  
-    const claimed = state.tasks.includes(task.id);  
-  
-    const div = document.createElement("div");  
-    div.className = "task-card";  
-    div.innerHTML = `  
-      <div class="task-thumb" style="display:flex;align-items:center;justify-content:center;font-size:42px;background:linear-gradient(145deg,#fff1c7,#ffe3a2)">  
-        ${task.icon}  
-      </div>  
-      <div class="task-main">  
-        <h3>${task.title}</h3>  
-        <p>${task.description}</p>  
-        <div class="task-meta">  
-          <span class="tag orange">+$${task.reward.toFixed(2)}</span>  
-          <span class="tag">Daily</span>  
-        </div>  
-        <button class="task-button ${claimed ? "claimed":""}"  
-          ${claimed ? "disabled":""}  
-          onclick="claimNormalTask('${task.id}')">  
-          ${claimed ? "✓ Claimed" : "Complete Task"}  
-        </button>  
-      </div>  
-    `;  
-    list.appendChild(div);  
-  });  
-  
-  videoData.forEach(video=>{  
-    const watched = state.videos.includes(video.id);  
-  
-    const div = document.createElement("div");  
-    div.className = "task-card";  
-    div.innerHTML = `  
-      <video class="task-thumb" muted playsinline  
-        src="${video.src}"></video>  
-      <div class="task-main">  
-        <h3>${video.title}</h3>  
-        <p>${video.description}</p>  
-        <div class="task-meta">  
-          <span class="tag orange">+$${video.reward.toFixed(2)}</span>  
-          <span class="tag green">3 minutes</span>  
-        </div>  
-        <button class="task-button ${watched ? "claimed":""}"  
-          ${watched ? "disabled":""}  
-          onclick="openVideo('${video.id}')">  
-          ${watched ? "✓ Claimed" : "▶ Watch Video"}  
-        </button>  
-      </div>  
-    `;  
-    list.appendChild(div);  
-  });  
-}  
+function renderTasks(){
+
+  const list = document.getElementById("taskList");
+
+  if(!list) return;
+
+  list.innerHTML = "";
+
+  const session = getCurrentSession();
+
+  // =========================
+  // CLOSED SESSION
+  // =========================
+
+  if(session === "closed"){
+
+    list.innerHTML = `
+      <div class="empty">
+        <h3>Tasks are currently closed</h3>
+        <p>
+          Morning tasks start at 5:00 AM.
+          Evening tasks start at 5:00 PM.
+        </p>
+      </div>
+    `;
+
+    return;
+  }
+
+  // =========================
+  // CURRENT SESSION TASKS
+  // =========================
+
+  const sessionTasks = state.tasks.filter(
+    task => task.startsWith(session + "_")
+  );
+
+  const sessionCompleted = sessionTasks.length;
+
+  // =========================
+  // SESSION HEADER
+  // =========================
+
+  const header = document.createElement("div");
+
+  header.style.cssText = `
+    background:linear-gradient(135deg,#ffb52e,#ff8a00);
+    color:white;
+    border-radius:22px;
+    padding:18px;
+    margin-bottom:15px;
+  `;
+
+  header.innerHTML = `
+    <div style="font-size:12px;opacity:.9;">
+      CURRENT SESSION
+    </div>
+
+    <h2 style="margin:5px 0;">
+      ${
+        session === "morning"
+          ? "🌅 Morning Tasks"
+          : "🌙 Evening Tasks"
+      }
+    </h2>
+
+    <div style="font-size:14px;">
+      ${sessionCompleted}/5 tasks completed
+    </div>
+
+    <div style="
+      height:8px;
+      background:rgba(255,255,255,.35);
+      border-radius:20px;
+      margin-top:12px;
+      overflow:hidden;
+    ">
+      <div style="
+        width:${Math.min(100,(sessionCompleted / 5) * 100)}%;
+        height:100%;
+        background:white;
+        border-radius:20px;
+      "></div>
+    </div>
+  `;
+
+  list.appendChild(header);
+
+  // =========================
+  // TASK CARDS
+  // =========================
+
+  taskData.forEach(task => {
+
+    const taskKey = session + "_" + task.id;
+
+    const claimed = state.tasks.includes(taskKey);
+
+    const div = document.createElement("div");
+
+    div.className = "task-card";
+
+    div.innerHTML = `
+      <div
+        class="task-thumb"
+        style="
+          display:flex;
+          align-items:center;
+          justify-content:center;
+          font-size:42px;
+          background:linear-gradient(
+            145deg,
+            #fff1c7,
+            #ffe3a2
+          );
+        "
+      >
+        ${task.icon}
+      </div>
+
+      <div class="task-main">
+
+        <h3>${task.title}</h3>
+
+        <p>${task.description}</p>
+
+        <div class="task-meta">
+
+          <span class="tag orange">
+            +$${task.reward.toFixed(2)}
+          </span>
+
+          <span class="tag">
+            ${
+              session === "morning"
+                ? "Morning"
+                : "Evening"
+            }
+          </span>
+
+        </div>
+
+        <button
+          class="task-button ${claimed ? "claimed" : ""}"
+          ${claimed ? "disabled" : ""}
+          onclick="claimNormalTask('${task.id}')"
+        >
+          ${
+            claimed
+              ? "✓ Claimed"
+              : "Complete Task"
+          }
+        </button>
+
+      </div>
+    `;
+
+    list.appendChild(div);
+
+  });
+
+  // =========================
+  // VIDEO SECTION
+  // =========================
+
+  const videoTitle = document.createElement("div");
+
+  videoTitle.style.cssText = `
+    margin:22px 0 12px;
+  `;
+
+  videoTitle.innerHTML = `
+    <h2 style="margin:0;">
+      🎬 Videos
+    </h2>
+
+    <p style="
+      margin:5px 0 0;
+      color:var(--muted);
+      font-size:13px;
+    ">
+      Watch each video for 3 minutes to claim your reward.
+    </p>
+  `;
+
+  list.appendChild(videoTitle);
+
+  // =========================
+  // VIDEO CARDS
+  // =========================
+
+  videoData.forEach(video => {
+
+    const watched = state.videos.includes(video.id);
+
+    const div = document.createElement("div");
+
+    div.className = "task-card";
+
+    div.innerHTML = `
+      <video
+        class="task-thumb"
+        muted
+        playsinline
+        preload="metadata"
+        src="${video.src}"
+      ></video>
+
+      <div class="task-main">
+
+        <h3>${video.title}</h3>
+
+        <p>${video.description}</p>
+
+        <div class="task-meta">
+
+          <span class="tag orange">
+            +$${video.reward.toFixed(2)}
+          </span>
+
+          <span class="tag green">
+            3 minutes
+          </span>
+
+        </div>
+
+        <button
+          class="task-button ${watched ? "claimed" : ""}"
+          ${watched ? "disabled" : ""}
+          onclick="openVideo('${video.id}')"
+        >
+          ${
+            watched
+              ? "✓ Claimed"
+              : "▶ Watch Video"
+          }
+        </button>
+
+      </div>
+    `;
+
+    list.appendChild(div);
+
+  });
+
+    }
   
 function claimNormalTask(id){ 
   if(!canDoTasksNow()) return;
