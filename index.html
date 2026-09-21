@@ -2584,39 +2584,92 @@ function claimNormalTask(id){
 
   }
     }
-  
-function openVideo(id){  
-  const video = videoData.find(v=>v.id===id);  
-  if(!video) return;  
-  
-  activeVideoId = id;  
-  videoSeconds = 180;  
-  
-  document.getElementById("taskVideo").src = video.src;  
-  document.getElementById("modalTitle").textContent = video.title;  
-  document.getElementById("modalDescription").textContent =  
-    "Watch the video for 3 minutes before claiming your reward.";  
-  document.getElementById("videoTimer").textContent = "03:00";  
-  document.getElementById("finishVideoBtn").disabled = true;  
-  document.getElementById("finishVideoBtn").textContent = "Watch until the timer ends";  
-  
-  document.getElementById("videoModal").classList.remove("hidden");  
-  
-  clearInterval(videoInterval);  
-  videoInterval = setInterval(()=>{  
-    videoSeconds--;  
-  
-    const min = String(Math.floor(videoSeconds/60)).padStart(2,"0");  
-    const sec = String(videoSeconds%60).padStart(2,"0");  
-    document.getElementById("videoTimer").textContent = min + ":" + sec;  
-  
-    if(videoSeconds <= 0){  
-      clearInterval(videoInterval);  
-      document.getElementById("finishVideoBtn").disabled = false;  
-      document.getElementById("finishVideoBtn").textContent = "Claim $0.25";  
-    }  
-  },1000);  
-}  
+
+function openVideo(id){
+
+  const video = videoData.find(
+    v => v.id === id
+  );
+
+  if(!video){
+    showToast("Video not found.");
+    return;
+  }
+
+  // Don't open an already claimed video
+  if(state.videos.includes(id)){
+    showToast("This video has already been claimed.");
+    return;
+  }
+
+  activeVideoId = id;
+
+  // 3 minutes
+  videoSeconds = 180;
+
+  const player = document.getElementById("taskVideo");
+
+  player.src = video.src;
+  player.currentTime = 0;
+
+  document.getElementById("modalTitle").textContent =
+    video.title;
+
+  document.getElementById("modalDescription").textContent =
+    "Watch the video for 3 minutes before claiming your reward.";
+
+  document.getElementById("videoTimer").textContent =
+    "03:00";
+
+  const finishButton =
+    document.getElementById("finishVideoBtn");
+
+  finishButton.disabled = true;
+
+  finishButton.textContent =
+    "Watch until the timer ends";
+
+  document
+    .getElementById("videoModal")
+    .classList.remove("hidden");
+
+  clearInterval(videoInterval);
+
+  videoInterval = setInterval(() => {
+
+    videoSeconds--;
+
+    const minutes = String(
+      Math.floor(videoSeconds / 60)
+    ).padStart(2,"0");
+
+    const seconds = String(
+      videoSeconds % 60
+    ).padStart(2,"0");
+
+    document.getElementById("videoTimer")
+      .textContent =
+      minutes + ":" + seconds;
+
+    if(videoSeconds <= 0){
+
+      clearInterval(videoInterval);
+
+      videoSeconds = 0;
+
+      document.getElementById("videoTimer")
+        .textContent = "00:00";
+
+      finishButton.disabled = false;
+
+      finishButton.textContent =
+        "Claim " + money(video.reward);
+
+    }
+
+  },1000);
+    }
+    
   function finishVideo(){
 
   if(!activeVideoId || videoSeconds > 0){
