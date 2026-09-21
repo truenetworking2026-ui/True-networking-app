@@ -2195,24 +2195,165 @@ function showPage(page){
   if(page==="profile") updateProfile();  
 }  
   
-function updateAll(){  
-  document.getElementById("welcomeName").textContent = state.user.name || "User";  
-  document.getElementById("homeBalance").textContent = money(state.balance);  
-  document.getElementById("withdrawBalance").textContent = money(state.balance);  
-  document.getElementById("homeProgressText").textContent = state.progress + "%";  
-  document.getElementById("homeProgressBar").style.width = state.progress + "%";  
-  
-  const completedTasks = state.tasks.length;  
-  const completedVideos = state.videos.length;  
-  
-  document.getElementById("homeTasksDone").textContent = completedTasks + "/5";  
-  document.getElementById("homeVideosDone").textContent = completedVideos + "/3";  
-  document.getElementById("homeDay").textContent = "Day " + Math.min(5,Math.floor(state.progress/20)+1);  
-  
-  document.getElementById("taskHeaderCount").textContent = completedTasks + "/5";  
-  document.getElementById("taskHeaderText").textContent =  
-    completedTasks >= 5 ? "All daily tasks completed" : "Complete your tasks today";  
-  
+function updateAll(){
+
+  // =========================
+  // BASIC USER INFORMATION
+  // =========================
+
+  document.getElementById("welcomeName").textContent =
+    state.user.name || "User";
+
+  document.getElementById("homeBalance").textContent =
+    money(state.balance);
+
+  document.getElementById("withdrawBalance").textContent =
+    money(state.balance);
+
+
+  // =========================
+  // PROGRESS
+  // =========================
+
+  document.getElementById("homeProgressText").textContent =
+    state.progress + "%";
+
+  document.getElementById("homeProgressBar").style.width =
+    state.progress + "%";
+
+
+  // =========================
+  // CURRENT SESSION
+  // =========================
+
+  const session = getCurrentSession();
+
+  let completedTasks = 0;
+
+  if(session !== "closed"){
+
+    completedTasks = state.tasks.filter(
+      task => task.startsWith(session + "_")
+    ).length;
+
+  }
+
+
+  // =========================
+  // VIDEOS
+  // =========================
+
+  const completedVideos =
+    state.videos.length;
+
+
+  // =========================
+  // HOME TASK COUNT
+  // =========================
+
+  const homeTasksDone =
+    document.getElementById("homeTasksDone");
+
+  if(homeTasksDone){
+
+    homeTasksDone.textContent =
+      completedTasks + "/5";
+
+  }
+
+
+  // =========================
+  // HOME VIDEO COUNT
+  // =========================
+
+  const homeVideosDone =
+    document.getElementById("homeVideosDone");
+
+  if(homeVideosDone){
+
+    homeVideosDone.textContent =
+      completedVideos + "/" + videoData.length;
+
+  }
+
+
+  // =========================
+  // CURRENT DAY
+  // =========================
+
+  const homeDay =
+    document.getElementById("homeDay");
+
+  if(homeDay){
+
+    homeDay.textContent =
+      "Day " +
+      Math.min(
+        5,
+        Math.floor(state.progress / 20) + 1
+      );
+
+  }
+
+
+  // =========================
+  // TASK HEADER
+  // =========================
+
+  const taskHeaderCount =
+    document.getElementById("taskHeaderCount");
+
+  if(taskHeaderCount){
+
+    taskHeaderCount.textContent =
+      completedTasks + "/5";
+
+  }
+
+
+  const taskHeaderText =
+    document.getElementById("taskHeaderText");
+
+  if(taskHeaderText){
+
+    if(session === "closed"){
+
+      taskHeaderText.textContent =
+        "Tasks are currently closed";
+
+    }else if(completedTasks >= 5){
+
+      taskHeaderText.textContent =
+        session === "morning"
+          ? "All morning tasks completed"
+          : "All evening tasks completed";
+
+    }else{
+
+      taskHeaderText.textContent =
+        session === "morning"
+          ? "Complete your morning tasks"
+          : "Complete your evening tasks";
+
+    }
+
+  }
+
+
+  // =========================
+  // PROFILE
+  // =========================
+
+  updateProfile();
+
+
+  // =========================
+  // WITHDRAWALS
+  // =========================
+
+  renderWithdrawals();
+
+    }
   updateProfile();
 renderWithdrawals();
 updateFiveDayProgress(); 
