@@ -2350,35 +2350,49 @@ function renderTasks(){
   
 function claimNormalTask(id){ 
   if(!canDoTasksNow()) return;
-  if(state.tasks.includes(id)){  
-    showToast("This task has already been claimed.");  
-    return;  
-  }  
-  
-  state.tasks.push(id);
-state.balance += 0.25;
-state.progress = Math.min(100,state.progress + 10);
 
-const session = getCurrentSession();
+  const session = getCurrentSession();
 
-if(state.tasks.length >= 5 && session !== "closed"){
-  state.taskSession[session] = true;
-}
+  if(session === "closed") return;
 
-saveState();
-updateAll();
-renderTasks();
+  const taskKey = session + "_" + id;
 
-if(state.tasks.length >= 5){
-  showToast(
-    session === "morning"
-      ? "Morning tasks completed successfully."
-      : "Evening tasks completed successfully."
+  if(state.tasks.includes(taskKey)){
+    showToast("You already completed this task in this session.");
+    return;
+  }
+
+  state.tasks.push(taskKey);
+
+  state.balance += 0.25;
+  state.progress = Math.min(100, state.progress + 10);
+
+  const sessionTasks = state.tasks.filter(
+    task => task.startsWith(session + "_")
   );
-}else{
-  showToast("Task completed. $0.25 added.");
+
+  if(sessionTasks.length >= 5){
+    state.taskSession[session] = true;
+  }
+
+  saveState();
+  updateAll();
+  renderTasks();
+
+  if(sessionTasks.length >= 5){
+
+    showToast(
+      session === "morning"
+        ? "Morning tasks completed successfully."
+        : "Evening tasks completed successfully."
+    );
+
+  }else{
+
+    showToast("Task completed. $0.25 added.");
+
+  }
     }
-}  
   
 function openVideo(id){  
   const video = videoData.find(v=>v.id===id);  
