@@ -2355,13 +2355,29 @@ function claimNormalTask(id){
     return;  
   }  
   
-  state.tasks.push(id);  
-  state.balance += 0.25;  
-  state.progress = Math.min(100,state.progress + 10);  
-  saveState();  
-  updateAll();  
-  renderTasks();  
-  showToast("Task completed. $0.25 added.");  
+  state.tasks.push(id);
+state.balance += 0.25;
+state.progress = Math.min(100,state.progress + 10);
+
+const session = getCurrentSession();
+
+if(state.tasks.length >= 5 && session !== "closed"){
+  state.taskSession[session] = true;
+}
+
+saveState();
+updateAll();
+renderTasks();
+
+if(state.tasks.length >= 5){
+  showToast(
+    session === "morning"
+      ? "Morning tasks completed successfully."
+      : "Evening tasks completed successfully."
+  );
+}else{
+  showToast("Task completed. $0.25 added.");
+    }
 }  
   
 function openVideo(id){  
