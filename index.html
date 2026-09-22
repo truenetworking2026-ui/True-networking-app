@@ -325,13 +325,139 @@ function toggleAuth(){
   document.getElementById("authSwitchText").textContent=state.isRegister?"Already have an account?":"Don't have an account?";
   document.getElementById("authSwitchBtn").textContent=state.isRegister?"Login":"Register";
 }
-function submitAuth(){
-  const name=document.getElementById("authName").value.trim(),email=document.getElementById("authEmail").value.trim(),password=document.getElementById("authPassword").value.trim();
-  if(state.isRegister&&!name){showToast("Please enter your full name.");return}
-  if(!email||!password){showToast("Please fill all required fields.");return}
-  if(state.isRegister)state.user.name=name;
-  state.user.email=email;state.loggedIn=true;saveState();openMainApp();showToast(state.isRegister?"Account created successfully.":"Login successful.");
-}
+async function submitAuth(){
+
+  const name =
+    document.getElementById("authName").value.trim();
+
+  const email =
+    document.getElementById("authEmail").value.trim();
+
+  const password =
+    document.getElementById("authPassword").value.trim();
+
+  if(state.isRegister && !name){
+    showToast("Please enter your full name.");
+    return;
+  }
+
+  if(!email || !password){
+    showToast("Please fill all required fields.");
+    return;
+  }
+
+  if(password.length < 6){
+    showToast("Password must be at least 6 characters.");
+    return;
+  }
+
+  const button =
+    document.getElementById("authSubmit");
+
+  button.disabled = true;
+  button.textContent =
+    state.isRegister ? "Creating account..." : "Logging in...";
+
+  try{
+
+    /* =========================
+       REGISTER
+    ========================= */
+
+    if(state.isRegister){
+
+      const { data, error } =
+        await supabaseClient.auth.signUp({
+          email: email,
+          password: password,
+          options:{
+            data:{
+              full_name:name
+            }
+          }
+        });
+
+      if(error){
+        showToast(error.message);
+        return;
+      }
+
+      if(data.user){
+
+        state.user.name = name;
+        state.user.email = email;
+        state.loggedIn = true;
+
+        saveState();
+
+        showToast(
+          "Account created successfully."
+        );
+
+        openMainApp();
+      }
+
+    }
+
+    /* =========================
+       LOGIN
+    ========================= */
+
+    else{
+
+      const { data, error } =
+        await supabaseClient.auth.signInWithPassword({
+          email:email,
+          password:password
+        });
+
+      if(error){
+        showToast(error.message);
+        return;
+      }
+
+      if(data.user){
+
+        state.user.email =
+          data.user.email || email;
+
+        state.user.name =
+          data.user.user_metadata?.full_name ||
+          "User";
+
+        state.loggedIn = true;
+
+        saveState();
+
+        showToast(
+          "Login successful."
+        );
+
+        openMainApp();
+      }
+
+    }
+
+  }catch(error){
+
+    console.error(error);
+
+    showToast(
+      "Connection error. Please try again."
+    );
+
+  }finally{
+
+    button.disabled = false;
+
+    button.textContent =
+      state.isRegister
+        ? "Register"
+        : "Login";
+
+  }
+    }
+
 function demoGoogleLogin(){state.loggedIn=true;state.user.name="Google User";state.user.email="googleuser@example.com";saveState();openMainApp();showToast("Google demo login successful.")}
 function openMainApp(){document.getElementById("authScreen").classList.add("hidden");document.getElementById("mainApp").classList.remove("hidden");updateAll();showPage("home")}
 function showPage(page){
