@@ -4,24 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#10152f">
-
 <title>True Networking</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-<script>
-const SUPABASE_URL =
-"https://qrcsznnmisgwfwhweww.supabase.co";
-
-const SUPABASE_KEY =
-"sb_publishable_vfb2G3hLIC8o2VCX3Z7vSQ_6ShoV5NN";
-
-const supabaseClient =
-window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY
-);
-</script>
 
 <style>
 :root{
@@ -37,1193 +22,2217 @@ window.supabase.createClient(
   --danger:#ff1744;
   --shadow:0 12px 35px rgba(35,38,75,.08);
 }
-
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-  font-family:Arial,sans-serif
-}
-
-body{
-  background:#080817;
-  color:var(--text)
-}
-
-button,input,select{
-  font:inherit
-}
-
-button{
-  border:0;
-  cursor:pointer
-}
-
-.hidden{
-  display:none!important
-}
-
-.app{
-  max-width:520px;
-  margin:auto;
-  min-height:100vh;
-  background:var(--bg);
-  padding-bottom:88px
-}
-
-.topbar{
-  height:72px;
-  background:#fff;
-  border-bottom:1px solid var(--line);
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:0 18px;
-  position:sticky;
-  top:0;
-  z-index:30
-}
-
-.brand{
-  display:flex;
-  align-items:center;
-  gap:9px
-}
-
-.logo{
-  width:43px;
-  height:43px;
-  display:grid;
-  place-items:center;
-  border-radius:13px;
-  background:linear-gradient(
-    135deg,
-    #635bff,
-    #a66cff
-  );
-  box-shadow:0 7px 20px #635bff35
-}
-
-.logo svg{
-  width:32px;
-  height:32px
-}
-
-.brand-name{
-  font-weight:900;
-  font-size:17px
-}
-
-.brand-name span{
-  color:var(--primary)
-}
-
-.icon-btn{
-  background:#f0efff;
-  width:42px;
-  height:42px;
-  border-radius:14px
-}
-
-.page{
-  padding:16px
-}
-
-.hero{
-  background:
-    linear-gradient(
-      135deg,
-      #10152f,
-      #635bff 60%,
-      #9b5cff
-    );
-  color:#fff;
-  border-radius:25px;
-  padding:20px;
-  box-shadow:
-    0 18px 40px #635bff2b
-}
-
-.hero-top,
-.hero-bottom{
-  display:flex;
-  justify-content:space-between;
-  gap:15px;
-  align-items:center
-}
-
-.hero small{
-  color:#d9d7ef
-}
-
-.hero h1{
-  font-size:24px;
-  margin-top:4px
-}
-
-.hero-stat{
-  font-size:11px;
-  opacity:.85
-}
-
-.hero-bottom{
-  margin-top:25px
-}
-
-.hero-bottom strong{
-  font-size:32px
-}
-
-.secondary{
-  background:#fff;
-  color:#4c45cf;
-  padding:12px 16px;
-  border-radius:13px;
-  font-weight:800
-}
-
-.hero-balance{
-  font-size:11px;
-  display:flex;
-  align-items:center;
-  gap:6px
-}
-
-.coin{
-  width:30px;
-  height:30px;
-  border-radius:50%;
-  background:#ffb52e;
-  color:#fff;
-  display:grid;
-  place-items:center;
-  font-weight:900
-}
-
-.progress-wrap{
-  margin-top:20px
-}
-
-.progress-line{
-  height:8px;
-  background:#ffffff3a;
-  border-radius:20px;
-  overflow:hidden
-}
-
-.progress-line>div{
-  height:100%;
-  background:#fff;
-  border-radius:20px;
-  transition:.3s
-}
-
-.quick-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
-  margin:14px 0
-}
-
-.quick-card,
-.card{
-  background:var(--card);
-  border:1px solid var(--line);
-  border-radius:20px;
-  padding:15px;
-  box-shadow:var(--shadow)
-}
-
-.q-icon{
-  font-size:22px;
-  margin-bottom:8px
-}
-
-.quick-card strong{
-  display:block;
-  font-size:18px
-}
-
-.quick-card small{
-  font-size:11px;
-  color:var(--muted)
-}
-
-.section-heading{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin:20px 0 12px
-}
-
-.section-heading h2{
-  font-size:18px
-}
-
-.section-heading button{
-  background:none;
-  color:var(--primary);
-  font-weight:800;
-  font-size:12px
-}
-
-.video-feed{
-  display:grid;
-  gap:14px
-}
-
-.feed-card{
-  position:relative;
-  border-radius:22px;
-  overflow:hidden;
-  background:#080817;
-  color:#fff;
-  min-height:330px
-}
-
-.feed-video{
-  width:100%;
-  height:330px;
-  object-fit:cover;
-  display:block
-}
-
-.feed-overlay{
-  position:absolute;
-  inset:0;
-  background:linear-gradient(
-    transparent 40%,
-    #000c
-  )
-}
-
-.feed-info{
-  position:absolute;
-  left:15px;
-  right:65px;
-  bottom:18px
-}
-
-.feed-info h3{
-  font-size:15px;
-  margin-bottom:6px
-}
-
-.feed-info p{
-  font-size:12px;
-  color:#ddd;
-  line-height:1.45
-}
-
-.feed-actions{
-  position:absolute;
-  right:10px;
-  bottom:18px;
-  display:grid;
-  justify-items:center;
-  gap:4px
-}
-
-.feed-action{
-  background:#ffffff1c;
-  color:#fff;
-  border-radius:50%;
-  width:40px;
-  height:40px;
-  font-size:20px
-}
-
-.feed-actions small{
-  font-size:9px;
-  margin-bottom:4px
-}
-
-.page-title{
-  font-size:24px;
-  font-weight:900
-}
-
-.page-subtitle{
-  font-size:12px;
-  color:var(--muted);
-  margin:5px 0 15px
-}
-
-.task-header{
-  background:
-    linear-gradient(
-      135deg,
-      #ffb52e,
-      #ff8a00
-    );
-  color:#fff;
-  border-radius:23px;
-  padding:18px;
-  margin-bottom:15px
-}
-
-.task-header-row{
-  display:flex;
-  justify-content:space-between;
-  gap:10px
-}
-
-.task-header h2{
-  font-size:19px
-}
-
-.task-header p{
-  font-size:11px;
-  margin-top:4px;
-  opacity:.9
-}
-
-.reward-pill{
-  background:#ffffff30;
-  padding:8px 10px;
-  border-radius:12px;
-  font-weight:900
-}
-
-.days{
-  display:flex;
-  gap:7px;
-  margin:18px 0
-}
-
-.day{
-  width:38px;
-  height:38px;
-  border-radius:50%;
-  background:#ffffff35;
-  display:grid;
-  place-items:center;
-  font-weight:900
-}
-
-.day.active{
-  background:#fff;
-  color:#ff8a00
-}
-
-.day.completed{
-  background:#16b979;
-  color:#fff
-}
-
-.task-summary{
-  display:flex;
-  justify-content:space-between;
-  font-size:12px
-}
-
-.task-count{
-  font-weight:900
-}
-
-.task-list{
-  display:grid;
-  gap:12px
-}
-
-.task-card{
-  background:var(--card);
-  border:1px solid var(--line);
-  border-radius:20px;
-  padding:12px;
-  display:flex;
-  gap:12px;
-  box-shadow:var(--shadow)
-}
-
-.task-thumb{
-  width:82px;
-  height:100px;
-  flex:0 0 82px;
-  border-radius:15px;
-  object-fit:cover
-}
-
-.task-main{
-  min-width:0;
-  flex:1
-}
-
-.task-main h3{
-  font-size:15px;
-  margin:3px 0 6px
-}
-
-.task-main p{
-  font-size:11px;
-  color:var(--muted);
-  line-height:1.45
-}
-
-.task-meta{
-  display:flex;
-  gap:6px;
-  flex-wrap:wrap;
-  margin:9px 0
-}
-
-.tag{
-  padding:5px 8px;
-  border-radius:9px;
-  background:#f0f1f6;
-  color:#666;
-  font-size:10px;
-  font-weight:800
-}
-
-.tag.orange{
-  background:#fff1d0;
-  color:#b56a00
-}
-
-.tag.green{
-  background:#e2faef;
-  color:#087c4c
-}
-
-.task-button,
-.primary{
-  width:100%;
-  background:
-    linear-gradient(
-      135deg,
-      var(--primary),
-      var(--primary2)
-    );
-  color:#fff;
-  padding:11px;
-  border-radius:12px;
-  font-weight:900
-}
-
-.task-button.claimed{
-  background:#dff8ec;
-  color:#087c4c
-}
-
-.empty{
-  text-align:center;
-  padding:30px;
-  color:var(--muted);
-  font-size:13px
-}
-
-.withdraw-header{
-  margin:-16px -16px 0;
-  padding:20px 16px;
-  background:
-    linear-gradient(
-      135deg,
-      #d6003d,
-      #ff1744
-    );
-  color:#fff;
-  display:flex;
-  align-items:center;
-  gap:12px
-}
-
-.withdraw-header h1{
-  font-size:21px
-}
-
-.tabs{
-  display:flex;
-  gap:8px;
-  padding:15px 0
-}
-
-.tab{
-  flex:1;
-  background:#eeeef5;
-  padding:11px;
-  border-radius:12px;
-  font-weight:800;
-  font-size:12px
-}
-
-.tab.active{
-  background:#151827;
-  color:#fff
-}
-
-.balance-box{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  background:#f5f4ff;
-  border-radius:15px;
-  padding:15px;
-  margin-bottom:15px
-}
-
-.balance-box small{
-  display:block;
-  color:var(--muted);
-  font-size:10px
-}
-
-.balance-box strong{
-  font-size:25px
-}
-
-.notice{
-  padding:13px;
-  border-radius:13px;
-  font-size:12px;
-  line-height:1.5;
-  margin-bottom:15px;
-  background:#fff6db;
-  color:#8b6100
-}
-
-.field{
-  margin-bottom:12px
-}
-
-.field label{
-  display:block;
-  font-size:11px;
-  font-weight:800;
-  margin-bottom:6px;
-  color:var(--muted)
-}
-
-.field input,
-.field select{
-  width:100%;
-  padding:12px;
-  border:1px solid var(--line);
-  border-radius:12px;
-  background:#fff;
-  outline:none
-}
-
-.profile-top{
-  text-align:center;
-  background:
-    linear-gradient(
-      135deg,
-      #10152f,
-      #635bff
-    );
-  color:#fff;
-  border-radius:24px;
-  padding:25px;
-  margin-bottom:13px
-}
-
-.avatar-wrap{
-  position:relative;
-  width:90px;
-  margin:auto
-}
-
-.avatar{
-  width:90px;
-  height:90px;
-  border-radius:50%;
-  object-fit:cover;
-  border:4px solid #fff
-}
-
-.avatar-edit{
-  position:absolute;
-  right:-2px;
-  bottom:2px;
-  width:28px;
-  height:28px;
-  border-radius:50%;
-  background:#ffb52e;
-  color:#fff
-}
-
-.profile-top h2{
-  margin-top:10px
-}
-
-.profile-top p{
-  font-size:11px;
-  color:#ddd;
-  margin-top:4px
-}
-
-.profile-menu{
-  background:var(--card);
-  border-radius:20px;
-  border:1px solid var(--line);
-  overflow:hidden
-}
-
-.profile-item{
-  width:100%;
-  background:none;
-  display:flex;
-  align-items:center;
-  gap:12px;
-  padding:16px;
-  border-bottom:1px solid var(--line);
-  text-align:left;
-  color:var(--text)
-}
-
-.profile-item:last-child{
-  border-bottom:0
-}
-
-.profile-item small{
-  margin-left:auto;
-  color:var(--muted)
-}
-
-.menu-icon{
-  width:34px;
-  height:34px;
-  border-radius:11px;
-  background:#f0efff;
-  display:grid;
-  place-items:center
-}
-
-.switch{
-  margin-left:auto;
-  width:42px;
-  height:24px;
-  border-radius:20px;
-  background:#ddd;
-  position:relative
-}
-
-.switch div{
-  width:18px;
-  height:18px;
-  border-radius:50%;
-  background:#fff;
-  position:absolute;
-  left:3px;
-  top:3px;
-  transition:.2s
-}
-
-.switch.active{
-  background:var(--primary)
-}
-
-.switch.active div{
-  left:21px
-}
-
-.bottom-nav{
-  position:fixed;
-  bottom:0;
-  left:50%;
-  transform:translateX(-50%);
-  width:min(520px,100%);
-  height:75px;
-  background:#fff;
-  border-top:1px solid var(--line);
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  z-index:40
-}
-
-.nav-btn{
-  background:none;
-  color:#898da0;
-  font-size:10px;
-  display:grid;
-  place-content:center;
-  gap:4px
-}
-
-.nav-btn span:first-child{
-  font-size:22px
-}
-
-.nav-btn.active{
-  color:var(--primary);
-  font-weight:900
-}
-
-.video-modal{
-  position:fixed;
-  inset:0;
-  background:#000d;
-  z-index:100;
-  display:grid;
-  place-items:center;
-  padding:15px
-}
-
-.video-modal-box{
-  width:min(500px,100%);
-  background:var(--card);
-  border-radius:22px;
-  overflow:hidden
-}
-
-.modal-video{
-  width:100%;
-  height:260px;
-  background:#000;
-  display:block
-}
-
-.modal-content{
-  padding:18px
-}
-
-.modal-content h3{
-  margin-bottom:6px
-}
-
-.modal-content p{
-  font-size:12px;
-  color:var(--muted)
-}
-
-.timer{
-  text-align:center;
-  font-size:32px;
-  font-weight:900;
-  margin:15px
-}
-
-.auth-screen{
-  min-height:100vh;
-  background:
-    radial-gradient(
-      circle at 10% 10%,
-      #705aff55,
-      transparent 30%
-    ),
-    radial-gradient(
-      circle at 90% 90%,
-      #b15aff44,
-      transparent 30%
-    ),
-    #0c0b20;
-  color:#fff;
-  padding:28px 20px;
-  display:flex;
-  flex-direction:column;
-  justify-content:center
-}
-
-.auth-logo{
-  text-align:center;
-  margin-bottom:25px
-}
-
-.auth-logo .logo{
-  width:83px;
-  height:83px;
-  margin:auto
-}
-
-.auth-logo .logo svg{
-  width:58px;
-  height:58px
-}
-
-.auth-logo h1{
-  margin-top:15px;
-  font-size:28px
-}
-
-.auth-logo p{
-  color:#aaa6c8;
-  font-size:12px;
-  margin-top:8px
-}
-
-.auth-box{
-  background:#ffffff0e;
-  border:1px solid #ffffff18;
-  border-radius:25px;
-  padding:22px;
-  backdrop-filter:blur(20px)
-}
-
-.auth-box h2{
-  font-size:22px;
-  margin-bottom:7px
-}
-
-.auth-box>p{
-  color:#aaa6c8;
-  font-size:12px;
-  margin-bottom:20px
-}
-
-.auth-box input{
-  background:#ffffff0c;
-  border-color:#ffffff20;
-  color:#fff
-}
-
-.auth-box input::placeholder{
-  color:#aaa6c8
-}
-
-.auth-box label{
-  color:#bbb7d5
-}
-
-.auth-switch{
-  text-align:center;
-  margin-top:18px;
-  font-size:12px;
-  color:#aaa6c8
-}
-
-.auth-switch button{
-  background:none;
-  color:#b99aff;
-  font-weight:800
-}
-
-.google-btn{
-  width:100%;
-  background:#fff;
-  color:#222;
-  padding:13px;
-  border-radius:13px;
-  font-weight:800;
-  margin-top:10px
-}
-
-.toast{
-  position:fixed;
-  left:50%;
-  bottom:95px;
-  transform:translateX(-50%);
-  background:#171827;
-  color:#fff;
-  padding:13px 18px;
-  border-radius:13px;
-  font-size:12px;
-  z-index:500;
-  box-shadow:0 10px 30px #0003;
-  max-width:90%;
-  text-align:center
-}
-
-.status{
-  font-size:10px;
-  font-weight:900;
-  padding:4px 7px;
-  border-radius:8px
-}
-
-.status.pending{
-  background:#fff0c8;
-  color:#956200
-}
-
-.status.approved{
-  background:#def8eb;
-  color:#087c4c
-}
-
-.dark-mode{
-  --bg:#080817;
-  --card:#12142a;
-  --text:#fff;
-  --muted:#a7aac0;
-  --line:#292b45;
-  --primary:#7c6cff;
-  --primary2:#a66cff
-}
-
-.dark-mode .topbar,
-.dark-mode .bottom-nav{
-  background:#10112a;
-  border-color:#292b45
-}
-
-.dark-mode .quick-card,
-.dark-mode .card,
-.dark-mode .task-card,
-.dark-mode .profile-menu{
-  background:#12142a;
-  border-color:#292b45
-}
-
-.dark-mode .field input,
-.dark-mode .field select{
-  background:#181a32;
-  color:#fff;
-  border-color:#30324e
-}
-
-.dark-mode .tag{
-  background:#24263d;
-  color:#ccc
-}
-
-.dark-mode .balance-box{
-  background:#181a32
-}
-
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
+body{background:#080817;color:var(--text)}
+button,input,select{font:inherit}
+button{border:0;cursor:pointer}
+.hidden{display:none!important}
+.app{max-width:520px;margin:auto;min-height:100vh;background:var(--bg);padding-bottom:88px}
+.topbar{height:72px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 18px;position:sticky;top:0;z-index:30}
+.brand{display:flex;align-items:center;gap:9px}
+.logo{width:43px;height:43px;display:grid;place-items:center;border-radius:13px;background:linear-gradient(135deg,#635bff,#a66cff);box-shadow:0 7px 20px #635bff35}
+.logo svg{width:32px;height:32px}
+.brand-name{font-weight:900;font-size:17px}
+.brand-name span{color:var(--primary)}
+.icon-btn{background:#f0efff;width:42px;height:42px;border-radius:14px}
+.page{padding:16px}
+.hero{background:linear-gradient(135deg,#10152f,#635bff 60%,#9b5cff);color:#fff;border-radius:25px;padding:20px;box-shadow:0 18px 40px #635bff2b}
+.hero-top,.hero-bottom{display:flex;justify-content:space-between;gap:15px;align-items:center}
+.hero small{color:#d9d7ef}
+.hero h1{font-size:24px;margin-top:4px}
+.hero-stat{font-size:11px;opacity:.85}
+.hero-bottom{margin-top:25px}
+.hero-bottom strong{font-size:32px}
+.secondary{background:#fff;color:#4c45cf;padding:12px 16px;border-radius:13px;font-weight:800}
+.hero-balance{font-size:11px;display:flex;align-items:center;gap:6px}
+.coin{width:30px;height:30px;border-radius:50%;background:#ffb52e;color:#fff;display:grid;place-items:center;font-weight:900}
+.progress-wrap{margin-top:20px}
+.progress-line{height:8px;background:#ffffff3a;border-radius:20px;overflow:hidden}
+.progress-line>div{height:100%;background:#fff;border-radius:20px;transition:.3s}
+.quick-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0}
+.quick-card,.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:15px;box-shadow:var(--shadow)}
+.q-icon{font-size:22px;margin-bottom:8px}
+.quick-card strong{display:block;font-size:18px}
+.quick-card small{font-size:11px;color:var(--muted)}
+.section-heading{display:flex;justify-content:space-between;align-items:center;margin:20px 0 12px}
+.section-heading h2{font-size:18px}
+.section-heading button{background:none;color:var(--primary);font-weight:800;font-size:12px}
+.video-feed{display:grid;gap:14px}
+.feed-card{position:relative;border-radius:22px;overflow:hidden;background:#080817;color:#fff;min-height:330px}
+.feed-video{width:100%;height:330px;object-fit:cover;display:block}
+.feed-overlay{position:absolute;inset:0;background:linear-gradient(transparent 40%,#000c);pointer-events:none}
+.feed-info{position:absolute;left:15px;right:65px;bottom:18px}
+.feed-info h3{font-size:15px;margin-bottom:6px}
+.feed-info p{font-size:12px;color:#ddd;line-height:1.45}
+.feed-actions{position:absolute;right:10px;bottom:18px;display:grid;justify-items:center;gap:4px}
+.feed-action{background:#ffffff1c;color:#fff;border-radius:50%;width:40px;height:40px;font-size:20px}
+.feed-actions small{font-size:9px;margin-bottom:4px}
+.page-title{font-size:24px;font-weight:900}
+.page-subtitle{font-size:12px;color:var(--muted);margin:5px 0 15px}
+.task-header{background:linear-gradient(135deg,#ffb52e,#ff8a00);color:#fff;border-radius:23px;padding:18px;margin-bottom:15px}
+.task-header-row{display:flex;justify-content:space-between;gap:10px}
+.task-header h2{font-size:19px}.task-header p{font-size:11px;margin-top:4px;opacity:.9}
+.reward-pill{background:#ffffff30;padding:8px 10px;border-radius:12px;font-weight:900}
+.days{display:flex;gap:7px;margin:18px 0}
+.day{width:38px;height:38px;border-radius:50%;background:#ffffff35;display:grid;place-items:center;font-weight:900}
+.day.active{background:#fff;color:#ff8a00}
+.day.completed{background:#16b979;color:#fff}
+.task-summary{display:flex;justify-content:space-between;font-size:12px}
+.task-count{font-weight:900}
+.task-list{display:grid;gap:12px}
+.task-card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:12px;display:flex;gap:12px;box-shadow:var(--shadow)}
+.task-thumb{width:82px;height:100px;flex:0 0 82px;border-radius:15px;object-fit:cover}
+.task-main{min-width:0;flex:1}
+.task-main h3{font-size:15px;margin:3px 0 6px}
+.task-main p{font-size:11px;color:var(--muted);line-height:1.45}
+.task-meta{display:flex;gap:6px;flex-wrap:wrap;margin:9px 0}
+.tag{padding:5px 8px;border-radius:9px;background:#f0f1f6;color:#666;font-size:10px;font-weight:800}
+.tag.orange{background:#fff1d0;color:#b56a00}
+.tag.green{background:#e2faef;color:#087c4c}
+.task-button,.primary{width:100%;background:linear-gradient(135deg,var(--primary),var(--primary2));color:#fff;padding:11px;border-radius:12px;font-weight:900}
+.task-button.claimed{background:#dff8ec;color:#087c4c}
+.empty{text-align:center;padding:30px;color:var(--muted);font-size:13px}
+.withdraw-header{margin:-16px -16px 0;padding:20px 16px;background:linear-gradient(135deg,#d6003d,#ff1744);color:#fff;display:flex;align-items:center;gap:12px}
+.withdraw-header h1{font-size:21px}
+.tabs{display:flex;gap:8px;padding:15px 0}
+.tab{flex:1;background:#eeeef5;padding:11px;border-radius:12px;font-weight:800;font-size:12px}
+.tab.active{background:#151827;color:#fff}
+.balance-box{display:flex;justify-content:space-between;align-items:center;background:#f5f4ff;border-radius:15px;padding:15px;margin-bottom:15px}
+.balance-box small{display:block;color:var(--muted);font-size:10px}
+.balance-box strong{font-size:25px}
+.notice{padding:13px;border-radius:13px;font-size:12px;line-height:1.5;margin-bottom:15px;background:#fff6db;color:#8b6100}
+.field{margin-bottom:12px}
+.field label{display:block;font-size:11px;font-weight:800;margin-bottom:6px;color:var(--muted)}
+.field input,.field select{width:100%;padding:12px;border:1px solid var(--line);border-radius:12px;background:#fff;outline:none}
+.profile-top{text-align:center;background:linear-gradient(135deg,#10152f,#635bff);color:#fff;border-radius:24px;padding:25px;margin-bottom:13px}
+.avatar-wrap{position:relative;width:90px;margin:auto}
+.avatar{width:90px;height:90px;border-radius:50%;object-fit:cover;border:4px solid #fff}
+.avatar-edit{position:absolute;right:-2px;bottom:2px;width:28px;height:28px;border-radius:50%;background:#ffb52e;color:#fff}
+.profile-top h2{margin-top:10px}
+.profile-top p{font-size:11px;color:#ddd;margin-top:4px}
+.profile-menu{background:var(--card);border-radius:20px;border:1px solid var(--line);overflow:hidden}
+.profile-item{width:100%;background:none;display:flex;align-items:center;gap:12px;padding:16px;border-bottom:1px solid var(--line);text-align:left;color:var(--text)}
+.profile-item:last-child{border-bottom:0}
+.profile-item small{margin-left:auto;color:var(--muted)}
+.menu-icon{width:34px;height:34px;border-radius:11px;background:#f0efff;display:grid;place-items:center}
+.switch{margin-left:auto;width:42px;height:24px;border-radius:20px;background:#ddd;position:relative}
+.switch div{width:18px;height:18px;border-radius:50%;background:#fff;position:absolute;left:3px;top:3px;transition:.2s}
+.switch.active{background:var(--primary)}
+.switch.active div{left:21px}
+.bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(520px,100%);height:75px;background:#fff;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr);z-index:40}
+.nav-btn{background:none;color:#898da0;font-size:10px;display:grid;place-content:center;gap:4px}
+.nav-btn span:first-child{font-size:22px}
+.nav-btn.active{color:var(--primary);font-weight:900}
+.video-modal{position:fixed;inset:0;background:#000d;z-index:100;display:grid;place-items:center;padding:15px}
+.video-modal-box{width:min(500px,100%);background:var(--card);border-radius:22px;overflow:hidden}
+.modal-video{width:100%;height:260px;background:#000;display:block}
+.modal-content{padding:18px}
+.modal-content h3{margin-bottom:6px}
+.modal-content p{font-size:12px;color:var(--muted)}
+.timer{text-align:center;font-size:32px;font-weight:900;margin:15px}
+.auth-screen{min-height:100vh;background:radial-gradient(circle at 10% 10%,#705aff55,transparent 30%),radial-gradient(circle at 90% 90%,#b15aff44,transparent 30%),#0c0b20;color:#fff;padding:28px 20px;display:flex;flex-direction:column;justify-content:center}
+.auth-logo{text-align:center;margin-bottom:25px}
+.auth-logo .logo{width:83px;height:83px;margin:auto}
+.auth-logo .logo svg{width:58px;height:58px}
+.auth-logo h1{margin-top:15px;font-size:28px}
+.auth-logo p{color:#aaa6c8;font-size:12px;margin-top:8px}
+.auth-box{background:#ffffff0e;border:1px solid #ffffff18;border-radius:25px;padding:22px;backdrop-filter:blur(20px)}
+.auth-box h2{font-size:22px;margin-bottom:7px}
+.auth-box>p{color:#aaa6c8;font-size:12px;margin-bottom:20px}
+.auth-box input{background:#ffffff0c;border-color:#ffffff20;color:#fff}
+.auth-box input::placeholder{color:#aaa6c8}
+.auth-box label{color:#bbb7d5}
+.auth-switch{text-align:center;margin-top:18px;font-size:12px;color:#aaa6c8}
+.auth-switch button{background:none;color:#b99aff;font-weight:800}
+.google-btn{width:100%;background:#fff;color:#222;padding:13px;border-radius:13px;font-weight:800;margin-top:10px}
+.toast{position:fixed;left:50%;bottom:95px;transform:translateX(-50%);background:#171827;color:#fff;padding:13px 18px;border-radius:13px;font-size:12px;z-index:500;box-shadow:0 10px 30px #0003;max-width:90%;text-align:center}
+.status{font-size:10px;font-weight:900;padding:4px 7px;border-radius:8px}
+.status.pending{background:#fff0c8;color:#956200}
+.status.approved{background:#def8eb;color:#087c4c}
+.dark-mode{--bg:#080817;--card:#12142a;--text:#fff;--muted:#a7aac0;--line:#292b45;--primary:#7c6cff;--primary2:#a66cff}
+.dark-mode .topbar,.dark-mode .bottom-nav{background:#10112a;border-color:#292b45}
+.dark-mode .quick-card,.dark-mode .card,.dark-mode .task-card,.dark-mode .profile-menu{background:#12142a;border-color:#292b45}
+.dark-mode .field input,.dark-mode .field select{background:#181a32;color:#fff;border-color:#30324e}
+.dark-mode .tag{background:#24263d;color:#ccc}
+.dark-mode .balance-box{background:#181a32}
 @media(max-width:360px){
-
-  .page{
-    padding-left:12px;
-    padding-right:12px
-  }
-
-  .withdraw-header{
-    margin-left:-12px;
-    margin-right:-12px
-  }
-
-  .task-card{
-    padding:10px
-  }
-
-  .task-thumb{
-    width:70px;
-    height:85px
-  }
+.page{padding-left:12px;padding-right:12px}
+.withdraw-header{margin-left:-12px;margin-right:-12px}
+.task-card{padding:10px}
+.task-thumb{width:70px;height:85px}
 }
 </style>
 </head>
 
 <body>
 
-<div id="splash"
-style="
-position:fixed;
-inset:0;
-background:#080817;
-color:#fff;
-z-index:1000;
-display:grid;
-place-items:center;
-align-content:center;
-gap:18px
-">
-
+<div id="splash" style="position:fixed;inset:0;background:#080817;color:#fff;z-index:1000;display:grid;place-items:center;align-content:center;gap:18px">
 <div class="logo" style="width:88px;height:88px">
-
 <svg viewBox="0 0 100 100" fill="none">
-<path
-d="M10 35L25 18H75L90 35L50 83L10 35Z"
-fill="url(#d1)"
-/>
-
-<path
-d="M25 18L50 35L75 18M10 35L50 35L90 35M50 35V83"
-stroke="#fff"
-stroke-width="2"
-/>
-
-<defs>
-<linearGradient id="d1">
-<stop stop-color="#62E9FF"/>
-<stop offset=".5" stop-color="#D38BFF"/>
-<stop offset="1" stop-color="#fff"/>
-</linearGradient>
-</defs>
+<path d="M10 35L25 18H75L90 35L50 83L10 35Z" fill="url(#d1)"/>
+<path d="M25 18L50 35L75 18M10 35L50 35L90 35M50 35V83" stroke="#fff" stroke-width="2"/>
+<defs><linearGradient id="d1"><stop stop-color="#62E9FF"/><stop offset=".5" stop-color="#D38BFF"/><stop offset="1" stop-color="#fff"/></linearGradient></defs>
 </svg>
-
 </div>
-
-<div style="
-font-size:28px;
-font-weight:900
-">
-True <span style="color:#a66cff">
-Networking
-</span>
+<div style="font-size:28px;font-weight:900">True <span style="color:#a66cff">Networking</span></div>
 </div>
-
-<div style="
-width:150px;
-height:5px;
-background:#ffffff22;
-border-radius:10px;
-overflow:hidden
-">
-
-<div style="
-height:100%;
-width:45%;
-background:#a66cff
-"></div>
-
-</div>
-
-</div>
-
 
 <div id="authScreen" class="auth-screen hidden">
-
 <div class="auth-logo">
-
 <div class="logo">
-
 <svg viewBox="0 0 100 100" fill="none">
-
-<path
-d="M10 35L25 18H75L90 35L50 83L10 35Z"
-fill="url(#a1)"
-/>
-
-<path
-d="M25 18L50 35L75 18M10 35L50 35L90 35M50 35V83"
-stroke="#fff"
-stroke-width="2"
-/>
-
-<defs>
-<linearGradient id="a1">
-<stop stop-color="#62E9FF"/>
-<stop offset=".5" stop-color="#D38BFF"/>
-<stop offset="1" stop-color="#fff"/>
-</linearGradient>
-</defs>
-
+<path d="M10 35L25 18H75L90 35L50 83L10 35Z" fill="url(#a1)"/>
+<path d="M25 18L50 35L75 18M10 35L50 35L90 35M50 35V83" stroke="#fff" stroke-width="2"/>
+<defs><linearGradient id="a1"><stop stop-color="#62E9FF"/><stop offset=".5" stop-color="#D38BFF"/><stop offset="1" stop-color="#fff"/></linearGradient></defs>
 </svg>
-
 </div>
-
 <h1>True Networking</h1>
-
-<p>
-Connect • Complete Tasks • Earn Rewards
-</p>
-
+<p>Connect • Complete Tasks • Earn Rewards</p>
 </div>
-
 
 <div class="auth-box">
-
-<h2 id="authTitle">
-Create account
-</h2>
-
-<p id="authSubtitle">
-Register to start using True Networking.
-</p>
+<h2 id="authTitle">Create account</h2>
+<p id="authSubtitle">Register to start using True Networking.</p>
 
 <div id="registerFields" class="field">
-
 <label>Full name</label>
-
-<input
-id="authName"
-placeholder="Enter your full name"
-/>
-
+<input id="authName" placeholder="Enter your full name">
 </div>
 
-
 <div class="field">
-
 <label>Email</label>
-
-<input
-id="authEmail"
-type="email"
-placeholder="Enter your email"
-/>
-
+<input id="authEmail" type="email" placeholder="Enter your email">
 </div>
-
 
 <div class="field">
-
 <label>Password</label>
-
-<input
-id="authPassword"
-type="password"
-placeholder="Create password"
-/>
-
+<input id="authPassword" type="password" placeholder="Minimum 6 characters">
 </div>
 
-
-<button
-class="primary"
-id="authSubmit"
-onclick="submitAuth()"
->
-Register
-</button>
-
+<button class="primary" id="authSubmit" onclick="submitAuth()">Register</button>
 
 <div class="auth-switch">
-
-<span id="authSwitchText">
-Already have an account?
-</span>
-
-<button
-onclick="toggleAuth()"
-id="authSwitchBtn"
->
-Login
-</button>
-
+<span id="authSwitchText">Already have an account?</span>
+<button onclick="toggleAuth()" id="authSwitchBtn">Login</button>
 </div>
-
 </div>
-
 </div>
-
 
 <div id="mainApp" class="app hidden">
 
 <header class="topbar">
-
 <div class="brand">
-
 <div class="logo">
-
 <svg viewBox="0 0 100 100" fill="none">
-
-<path
-d="M10 35L25 18H75L90 35L50 83L10 35Z"
-fill="url(#b1)"
-/>
-
-<path
-d="M25 18L50 35L75 18M10 35L50 35L90 35M50 35V83"
-stroke="#fff"
-stroke-width="2"
-/>
-
-<defs>
-<linearGradient id="b1">
-<stop stop-color="#62E9FF"/>
-<stop offset=".5" stop-color="#D38BFF"/>
-<stop offset="1" stop-color="#fff"/>
-</linearGradient>
-</defs>
-
+<path d="M10 35L25 18H75L90 35L50 83L10 35Z" fill="url(#b1)"/>
+<path d="M25 18L50 35L75 18M10 35L50 35L90 35M50 35V83" stroke="#fff" stroke-width="2"/>
+<defs><linearGradient id="b1"><stop stop-color="#62E9FF"/><stop offset=".5" stop-color="#D38BFF"/><stop offset="1" stop-color="#fff"/></linearGradient></defs>
 </svg>
+</div>
+<div class="brand-name">True <span>Networking</span></div>
+</div>
+<button class="icon-btn" onclick="showPage('notifications')">🔔</button>
+</header>
+
+<section id="homePage" class="page">
+
+<div class="hero">
+<div class="hero-top">
+<div>
+<small>Welcome back,</small>
+<h1 id="welcomeName">User</h1>
+</div>
+<div class="hero-balance">
+<span class="coin">$</span>
+<span>Balance</span>
+</div>
+</div>
+
+<div class="hero-bottom">
+<div>
+<div class="hero-stat">Available balance</div>
+<strong id="homeBalance">$0.00</strong>
+</div>
+<button class="secondary" onclick="showPage('withdraw')">Withdraw</button>
+</div>
+
+<div class="progress-wrap">
+<div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:7px">
+<span>5-day earning progress</span>
+<span id="homeProgressText">0%</span>
+</div>
+<div class="progress-line">
+<div id="homeProgressBar" style="width:0%"></div>
+</div>
+</div>
+</div>
+
+<div class="quick-grid">
+<div class="quick-card">
+<div class="q-icon">🎯</div>
+<strong id="homeTasksDone">0/5</strong>
+<small>Tasks completed</small>
+</div>
+
+<div class="quick-card">
+<div class="q-icon">🎬</div>
+<strong id="homeVideosDone">0/3</strong>
+<small>Videos watched</small>
+</div>
+
+<div class="quick-card">
+<div class="q-icon">📅</div>
+<strong id="homeDay">Day 1</strong>
+<small>Current earning day</small>
+</div>
+
+<div class="quick-card">
+<div class="q-icon">💰</div>
+<strong>$5.00</strong>
+<small>5-day target</small>
+</div>
+</div>
+
+<div class="section-heading">
+<h2>Video feed</h2>
+<button onclick="showPage('tasks')">View tasks</button>
+</div>
+
+<div class="video-feed" id="videoFeed"></div>
+
+</section>
+
+<section id="tasksPage" class="page hidden">
+
+<div class="page-title">Daily Tasks</div>
+<div class="page-subtitle">Complete tasks and watch videos to earn rewards.</div>
+
+<div class="task-header">
+
+<div class="task-header-row">
+<div>
+<h2>Daily Rewards</h2>
+<p>Complete tasks to increase your 5-day progress.</p>
+</div>
+<div class="reward-pill">$5.00</div>
+</div>
+
+<div class="days">
+<div class="day active" id="day1">1</div>
+<div class="day" id="day2">2</div>
+<div class="day" id="day3">3</div>
+<div class="day" id="day4">4</div>
+<div class="day" id="day5">5</div>
+</div>
+
+<div class="task-summary">
+<span id="taskHeaderText">Loading...</span>
+<span class="task-count" id="taskHeaderCount">0/5</span>
+</div>
 
 </div>
 
-<div class="brand-name">
-True <span>Networking</span>
+<div class="task-list" id="taskList"></div>
+
+</section>
+
+<section id="withdrawPage" class="page hidden">
+
+<div class="withdraw-header">
+<button style="background:none;color:white;font-size:26px" onclick="showPage('home')">‹</button>
+<h1>Withdraw</h1>
+<span style="margin-left:auto">?</span>
 </div>
 
+<div class="tabs">
+<button class="tab active">Bank</button>
+</div>
+
+<div class="card">
+
+<div class="balance-box">
+<div>
+<small>Available balance</small>
+<strong id="withdrawBalance">$0.00</strong>
+</div>
+<span style="font-size:30px">💳</span>
+</div>
+
+<div class="notice">
+<b>Withdrawal:</b> Your request will be saved in the secure database for processing.
+</div>
+
+<div class="field">
+<label>Select bank</label>
+<select id="bankName">
+<option value="">Select a bank</option>
+<option>OPay</option>
+<option>PalmPay</option>
+<option>Moniepoint</option>
+<option>GTBank</option>
+<option>Access Bank</option>
+<option>UBA</option>
+<option>First Bank</option>
+<option>Zenith Bank</option>
+<option>Fidelity Bank</option>
+<option>Union Bank</option>
+<option>Stanbic IBTC</option>
+</select>
+</div>
+
+<div class="field">
+<label>Full name</label>
+<input id="withdrawName" placeholder="Account holder full name">
+</div>
+
+<div class="field">
+<label>Account number</label>
+<input id="accountNumber" inputmode="numeric" maxlength="10" placeholder="Enter 10 digits">
+</div>
+
+<div class="field">
+<label>Amount in USD</label>
+<input id="withdrawAmount" type="number" min="8" step=".01" placeholder="Minimum $8">
+</div>
+
+<button class="primary" onclick="requestWithdraw()">Request Withdrawal</button>
+
+</div>
+
+<div class="card" style="margin-top:12px">
+<h3 style="margin-bottom:15px">Request history</h3>
+<div id="withdrawHistory"></div>
+</div>
+
+</section>
+
+<section id="profilePage" class="page hidden">
+
+<div class="page-title">Me</div>
+<div class="page-subtitle">Manage your account.</div>
+
+<div class="profile-top">
+
+<div class="avatar-wrap">
+<img id="profileAvatar" class="avatar" src="https://i.pravatar.cc/200?img=12">
+<button class="avatar-edit" onclick="document.getElementById('avatarInput').click()">✎</button>
+<input id="avatarInput" type="file" accept="image/*" class="hidden" onchange="uploadAvatar(event)">
+</div>
+
+<h2 id="profileName">User</h2>
+<p id="profileEmail">user@example.com</p>
+
+</div>
+
+<div class="profile-menu">
+
+<button class="profile-item" onclick="editProfile()">
+<span class="menu-icon">👤</span>
+<span>Edit Profile</span>
+<small>›</small>
+</button>
+
+<button class="profile-item" onclick="showPage('notifications')">
+<span class="menu-icon">🔔</span>
+<span>Notifications</span>
+<small>›</small>
+</button>
+
+<button class="profile-item" onclick="faceVerification()">
+<span class="menu-icon">🔒</span>
+<span>Face Verification</span>
+<small id="verifyStatus">›</small>
+</button>
+
+<button class="profile-item" onclick="toggleDarkMode()">
+<span class="menu-icon">◐</span>
+<span>Dark Mode</span>
+<span class="switch" id="darkSwitch"><div></div></span>
+</button>
+
+<button class="profile-item" onclick="inviteFriends()">
+<span class="menu-icon">👥</span>
+<span>Invite Friends</span>
+<small>›</small>
+</button>
+
+<button class="profile-item" onclick="logout()">
+<span class="menu-icon">↪</span>
+<span style="color:#e71948">Logout</span>
+<small>›</small>
+</button>
+
+</div>
+</section>
+
+<section id="notificationsPage" class="page hidden">
+
+<div class="page-title">Notifications</div>
+<div class="page-subtitle">Your latest account updates.</div>
+
+<div id="notificationList"></div>
+
+</section>
+
+<nav class="bottom-nav">
+
+<button class="nav-btn active" id="navHome" onclick="showPage('home')">
+<span>⌂</span><span>Home</span>
+</button>
+
+<button class="nav-btn" id="navTasks" onclick="showPage('tasks')">
+<span>▦</span><span>Tasks</span>
+</button>
+
+<button class="nav-btn" id="navWallet" onclick="showPage('withdraw')">
+<span>◈</span><span>Wallet</span>
+</button>
+
+<button class="nav-btn" id="navProfile" onclick="showPage('profile')">
+<span>♙</span><span>Me</span>
+</button>
+
+</nav>
+
+</div>
+
+<div id="videoModal" class="video-modal hidden">
+
+<div class="video-modal-box">
+
+<video id="taskVideo" class="modal-video" controls playsinline></video>
+
+<div class="modal-content">
+
+<h3 id="modalTitle">Daily Video</h3>
+
+<p id="modalDescription">
+Watch the video for 3 minutes before claiming your reward.
+</p>
+
+<div class="timer" id="videoTimer">03:00</div>
+
+<button class="primary" id="finishVideoBtn" disabled onclick="finishVideo()">
+Watch until the timer ends
+</button>
+
+<button class="secondary" style="width:100%;margin-top:10px" onclick="closeVideoModal()">
+Close
+</button>
+
+</div>
+</div>
+</div>
+
+<div id="toast" class="toast hidden"></div>
+
+<script>
+
+/* =========================================
+   SUPABASE CONNECTION
+========================================= */
+
+const SUPABASE_URL =
+"https://qrcsznnmisgwfwhweww.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_vfb2G3hLIC8o2VCX3Z7vSQ_6ShoV5NN";
+
+const supabaseClient =
+window.supabase.createClient(
+SUPABASE_URL,
+SUPABASE_KEY
+);
+
+
+/* =========================================
+   APP DATA
+========================================= */
+
+let currentUser=null;
+let profile=null;
+let tasks=[];
+let videos=[];
+let withdrawals=[];
+let notifications=[];
+let activeVideo=null;
+let videoSeconds=180;
+let videoTimer=null;
+let isRegister=true;
+
+const taskData=[
+{
+id:"task1",
+title:"Daily Check-in",
+description:"Open the app and complete your daily check-in.",
+icon:"📅",
+reward:.25
+},
+{
+id:"task2",
+title:"Read Article",
+description:"Read an article from the True Networking feed.",
+icon:"📚",
+reward:.25
+},
+{
+id:"task3",
+title:"Like a Post",
+description:"Like a post and interact with the community.",
+icon:"❤️",
+reward:.25
+},
+{
+id:"task4",
+title:"Share Content",
+description:"Share useful content with your friends.",
+icon:"↗️",
+reward:.25
+},
+{
+id:"task5",
+title:"Community Support",
+description:"Send a positive comment on a video post.",
+icon:"💬",
+reward:.25
+}
+];
+
+
+/* =========================================
+   HELPERS
+========================================= */
+
+function money(v){
+return "$"+Number(v||0).toFixed(2);
+}
+
+function today(){
+return new Date().toISOString().slice(0,10);
+}
+
+function showToast(message){
+const t=document.getElementById("toast");
+t.textContent=message;
+t.classList.remove("hidden");
+
+clearTimeout(window.toastTimer);
+
+window.toastTimer=setTimeout(()=>{
+t.classList.add("hidden");
+},3000);
+}
+
+function escapeHtml(value){
+return String(value??"")
+.replaceAll("&","&amp;")
+.replaceAll("<","&lt;")
+.replaceAll(">","&gt;")
+.replaceAll('"',"&quot;")
+.replaceAll("'","&#039;");
+}
+
+
+/* =========================================
+   AUTH SCREEN
+========================================= */
+
+function toggleAuth(){
+
+isRegister=!isRegister;
+
+document.getElementById("authTitle").textContent=
+isRegister?"Create account":"Welcome back";
+
+document.getElementById("authSubtitle").textContent=
+isRegister
+?"Register to start using True Networking."
+:"Login to continue to your account.";
+
+document.getElementById("registerFields")
+.classList.toggle("hidden",!isRegister);
+
+document.getElementById("authSubmit").textContent=
+isRegister?"Register":"Login";
+
+document.getElementById("authSwitchText").textContent=
+isRegister
+?"Already have an account?"
+:"Don't have an account?";
+
+document.getElementById("authSwitchBtn").textContent=
+isRegister?"Login":"Register";
+}
+
+
+/* =========================================
+   REGISTER / LOGIN
+========================================= */
+
+async function submitAuth(){
+
+const name=document.getElementById("authName").value.trim();
+const email=document.getElementById("authEmail").value.trim();
+const password=document.getElementById("authPassword").value;
+
+if(isRegister && !name){
+showToast("Please enter your full name.");
+return;
+}
+
+if(!email || !password){
+showToast("Please fill all required fields.");
+return;
+}
+
+if(password.length<6){
+showToast("Password must be at least 6 characters.");
+return;
+}
+
+const button=document.getElementById("authSubmit");
+
+button.disabled=true;
+button.textContent=isRegister?"Creating...":"Logging in...";
+
+try{
+
+if(isRegister){
+
+const {data,error}=await supabaseClient.auth.signUp({
+email,
+password,
+options:{
+data:{
+full_name:name
+}
+}
+});
+
+if(error)throw error;
+
+if(data.user){
+
+currentUser=data.user;
+
+await createProfile(
+data.user,
+name,
+email
+);
+
+showToast("Account created successfully.");
+
+openMainApp();
+
+}
+
+}else{
+
+const {data,error}=
+await supabaseClient.auth.signInWithPassword({
+email,
+password
+});
+
+if(error)throw error;
+
+currentUser=data.user;
+
+await loadUserData();
+
+showToast("Login successful.");
+
+openMainApp();
+
+}
+
+}catch(error){
+
+console.error(error);
+showToast(error.message||"Authentication failed.");
+
+}finally{
+
+button.disabled=false;
+button.textContent=isRegister?"Register":"Login";
+
+}
+
+}
+
+
+/* =========================================
+   PROFILE CREATION
+========================================= */
+
+async function createProfile(user,name,email){
+
+const inviteId=
+"TN"+Math.floor(100000+Math.random()*899999);
+
+const row={
+id:user.id,
+full_name:name,
+email:email,
+avatar_url:"https://i.pravatar.cc/200?img=12",
+invite_id:inviteId,
+verified:false,
+balance:0,
+progress:0,
+five_day_earning:0,
+is_admin:false
+};
+
+const {data,error}=await supabaseClient
+.from("profiles")
+.insert(row)
+.select()
+.single();
+
+if(error){
+
+/*
+If profile already exists, load it.
+*/
+const result=await supabaseClient
+.from("profiles")
+.select("*")
+.eq("id",user.id)
+.single();
+
+if(result.error)throw error;
+
+profile=result.data;
+
+}else{
+
+profile=data;
+
+}
+
+}
+
+
+/* =========================================
+   LOAD USER DATA
+========================================= */
+
+async function loadUserData(){
+
+if(!currentUser){
+
+const sessionResult=
+await supabaseClient.auth.getSession();
+
+currentUser=sessionResult.data.session?.user||null;
+
+}
+
+if(!currentUser)return;
+
+const profileResult=
+await supabaseClient
+.from("profiles")
+.select("*")
+.eq("id",currentUser.id)
+.single();
+
+if(profileResult.error){
+
+/*
+Create missing profile automatically.
+*/
+await createProfile(
+currentUser,
+currentUser.user_metadata?.full_name||"User",
+currentUser.email||""
+);
+
+}else{
+
+profile=profileResult.data;
+
+}
+
+const videoResult=
+await supabaseClient
+.from("videos")
+.select("*")
+.eq("active",true)
+.order("created_at",{ascending:true});
+
+if(!videoResult.error){
+videos=videoResult.data||[];
+}
+
+await Promise.all([
+loadWithdrawals(),
+loadNotifications()
+]);
+
+}
+
+
+/* =========================================
+   OPEN APP
+========================================= */
+
+function openMainApp(){
+
+document.getElementById("splash")
+.classList.add("hidden");
+
+document.getElementById("authScreen")
+.classList.add("hidden");
+
+document.getElementById("mainApp")
+.classList.remove("hidden");
+
+updateAll();
+
+showPage("home");
+
+renderVideoFeed();
+
+}
+
+
+/* =========================================
+   NAVIGATION
+========================================= */
+
+function showPage(page){
+
+[
+"home",
+"tasks",
+"withdraw",
+"profile",
+"notifications"
+].forEach(name=>{
+document.getElementById(name+"Page")
+.classList.add("hidden");
+});
+
+document.getElementById(page+"Page")
+.classList.remove("hidden");
+
+document.querySelectorAll(".nav-btn")
+.forEach(btn=>btn.classList.remove("active"));
+
+if(page==="home")
+document.getElementById("navHome").classList.add("active");
+
+if(page==="tasks"){
+document.getElementById("navTasks").classList.add("active");
+renderTasks();
+}
+
+if(page==="withdraw"){
+document.getElementById("navWallet").classList.add("active");
+renderWithdrawals();
+}
+
+if(page==="profile"){
+document.getElementById("navProfile").classList.add("active");
+updateProfile();
+}
+
+if(page==="notifications"){
+loadNotifications();
+}
+
+}
+
+
+/* =========================================
+   UPDATE HOME
+========================================= */
+
+function updateAll(){
+
+if(!profile)return;
+
+document.getElementById("welcomeName").textContent=
+profile.full_name||"User";
+
+document.getElementById("homeBalance").textContent=
+money(profile.balance);
+
+document.getElementById("withdrawBalance").textContent=
+money(profile.balance);
+
+const progress=Number(profile.progress||0);
+
+document.getElementById("homeProgressText").textContent=
+Math.round(progress)+"%";
+
+document.getElementById("homeProgressBar").style.width=
+Math.min(100,progress)+"%";
+
+document.getElementById("homeDay").textContent=
+"Day "+Math.min(5,Math.floor(progress/20)+1);
+
+updateFiveDayProgress();
+
+}
+
+
+/* =========================================
+   FIVE DAY
+========================================= */
+
+function updateFiveDayProgress(){
+
+const progress=Number(profile?.progress||0);
+
+for(let i=1;i<=5;i++){
+
+const el=document.getElementById("day"+i);
+
+if(!el)continue;
+
+el.classList.remove("active","completed");
+
+if(progress>=i*20)
+el.classList.add("completed");
+
+else if(
+i===Math.min(
+5,
+Math.floor(progress/20)+1
+)
+)
+el.classList.add("active");
+
+}
+
+}
+
+
+/* =========================================
+   TASKS
+========================================= */
+
+async function getTaskCompletions(){
+
+if(!currentUser)return[];
+
+const {data,error}=await supabaseClient
+.from("task_completions")
+.select("*")
+.eq("user_id",currentUser.id)
+.gte("completed_at",today()+"T00:00:00");
+
+if(error){
+console.error(error);
+return[];
+}
+
+return data||[];
+}
+
+
+async function renderTasks(){
+
+const list=document.getElementById("taskList");
+
+if(!profile){
+list.innerHTML='<div class="empty">Loading...</div>';
+return;
+}
+
+const completionRows=await getTaskCompletions();
+
+const hour=new Date().getHours();
+
+let session="closed";
+
+if(hour>=5 && hour<17)
+session="morning";
+
+else if(hour>=17)
+session="evening";
+
+if(session==="closed"){
+
+list.innerHTML=
+'<div class="empty"><h3>Tasks are currently closed</h3><p>Morning tasks start at 5:00 AM. Evening tasks start at 5:00 PM.</p></div>';
+
+return;
+
+}
+
+const completed=
+completionRows.filter(
+x=>x.session===session
+);
+
+const completedIds=
+completed.map(x=>x.task_id);
+
+document.getElementById("taskHeaderCount").textContent=
+completed.length+"/5";
+
+document.getElementById("taskHeaderText").textContent=
+completed.length>=5
+?"All "+session+" tasks completed"
+:"Complete your "+session+" tasks";
+
+list.innerHTML="";
+
+taskData.forEach(task=>{
+
+const claimed=completedIds.includes(task.id);
+
+const div=document.createElement("div");
+
+div.className="task-card";
+
+div.innerHTML=`
+
+<div class="task-thumb"
+style="display:grid;place-items:center;font-size:40px;background:linear-gradient(145deg,#fff1c7,#ffe3a2)">
+${task.icon}
+</div>
+
+<div class="task-main">
+
+<h3>${escapeHtml(task.title)}</h3>
+
+<p>${escapeHtml(task.description)}</p>
+
+<div class="task-meta">
+<span class="tag orange">+$${task.reward.toFixed(2)}</span>
+<span class="tag">${session}</span>
 </div>
 
 <button
-class="icon-btn"
-onclick="showPage('notifications')"
->
-🔔
+class="task-button ${claimed?"claimed":""}"
+${claimed?"disabled":""}
+onclick="claimTask('${task.id}')">
+
+${claimed?"✓ Claimed":"Complete Task"}
+
 </button>
 
-  </header>
+</div>
+`;
+
+list.appendChild(div);
+
+});
+
+
+/* Videos */
+
+const title=document.createElement("div");
+
+title.innerHTML=
+`<h2 style="margin-top:8px">🎬 Videos</h2>
+<p style="font-size:12px;color:var(--muted);margin-top:5px">
+Watch each video for 3 minutes to claim its reward.
+</p>`;
+
+list.appendChild(title);
+
+
+const {data:claims}=await supabaseClient
+.from("video_claims")
+.select("video_id")
+.eq("user_id",currentUser.id);
+
+const claimedVideos=(claims||[]).map(x=>x.video_id);
+
+
+videos.forEach(v=>{
+
+const claimed=claimedVideos.includes(v.id);
+
+const div=document.createElement("div");
+
+div.className="task-card";
+
+div.innerHTML=`
+
+<video
+class="task-thumb"
+muted
+playsinline
+preload="metadata"
+src="${escapeHtml(v.video_url)}">
+</video>
+
+<div class="task-main">
+
+<h3>${escapeHtml(v.title)}</h3>
+
+<p>${escapeHtml(v.description)}</p>
+
+<div class="task-meta">
+<span class="tag orange">+$${Number(v.reward).toFixed(2)}</span>
+<span class="tag green">3 minutes</span>
+</div>
+
+<button
+class="task-button ${claimed?"claimed":""}"
+${claimed?"disabled":""}
+onclick="openVideo('${v.id}')">
+
+${claimed?"✓ Claimed":"▶ Watch Video"}
+
+</button>
+
+</div>
+`;
+
+list.appendChild(div);
+
+});
+
+}
+
+
+/* =========================================
+   CLAIM TASK
+========================================= */
+
+async function claimTask(taskId){
+
+if(!currentUser || !profile)return;
+
+const hour=new Date().getHours();
+
+let session="closed";
+
+if(hour>=5 && hour<17)
+session="morning";
+
+else if(hour>=17)
+session="evening";
+
+if(session==="closed"){
+showToast("Tasks open at 5:00 AM and 5:00 PM.");
+return;
+}
+
+const task=taskData.find(x=>x.id===taskId);
+
+if(!task)return;
+
+
+/* Check duplicate */
+
+const {data:existing}=await supabaseClient
+.from("task_completions")
+.select("id")
+.eq("user_id",currentUser.id)
+.eq("task_id",taskId)
+.eq("session",session)
+.gte("completed_at",today()+"T00:00:00")
+.maybeSingle();
+
+if(existing){
+showToast("You already completed this task.");
+return;
+}
+
+
+/* Insert completion */
+
+const {error}=await supabaseClient
+.from("task_completions")
+.insert({
+user_id:currentUser.id,
+task_id:taskId,
+session:session,
+earning_data:{
+source:"task",
+task_id:taskId
+},
+reward:task.reward
+});
+
+if(error){
+console.error(error);
+showToast(error.message);
+return;
+}
+
+
+/* Reward transaction */
+
+await supabaseClient
+.from("reward_transactions")
+.insert({
+user_id:currentUser.id,
+type:"task",
+reference_id:taskId,
+amount:task.reward,
+description:task.title
+});
+
+
+/* Update profile */
+
+const newBalance=
+Number(profile.balance||0)+task.reward;
+
+const newProgress=
+Math.min(100,Number(profile.progress||0)+4);
+
+const newFiveDay=
+Number(profile.five_day_earning||0)+task.reward;
+
+const {data:updated,error:updateError}=
+await supabaseClient
+.from("profiles")
+.update({
+balance:newBalance,
+progress:newProgress,
+five_day_earning:newFiveDay,
+updated_at:new Date().toISOString()
+})
+.eq("id",currentUser.id)
+.select()
+.single();
+
+if(updateError){
+console.error(updateError);
+showToast(updateError.message);
+return;
+}
+
+profile=updated;
+
+updateAll();
+
+await renderTasks();
+
+showToast("Task completed. "+money(task.reward)+" added.");
+
+}
+
+
+/* =========================================
+   VIDEO
+========================================= */
+
+async function openVideo(videoId){
+
+const v=videos.find(x=>x.id===videoId);
+
+if(!v)return;
+
+const {data:existing}=await supabaseClient
+.from("video_claims")
+.select("id")
+.eq("user_id",currentUser.id)
+.eq("video_id",videoId)
+.maybeSingle();
+
+if(existing){
+showToast("This video has already been claimed.");
+return;
+}
+
+activeVideo=v;
+
+videoSeconds=
+Number(v.duration_seconds||180);
+
+const player=document.getElementById("taskVideo");
+
+player.src=v.video_url;
+player.currentTime=0;
+
+document.getElementById("modalTitle").textContent=v.title;
+
+document.getElementById("modalDescription").textContent=
+"Watch the video for 3 minutes before claiming your reward.";
+
+document.getElementById("videoTimer").textContent="03:00";
+
+const button=document.getElementById("finishVideoBtn");
+
+button.disabled=true;
+
+button.textContent="Watch until the timer ends";
+
+document.getElementById("videoModal")
+.classList.remove("hidden");
+
+clearInterval(videoTimer);
+
+videoTimer=setInterval(()=>{
+
+videoSeconds--;
+
+const min=
+Math.floor(videoSeconds/60)
+.toString()
+.padStart(2,"0");
+
+const sec=
+(videoSeconds%60)
+.toString()
+.padStart(2,"0");
+
+document.getElementById("videoTimer").textContent=
+min+":"+sec;
+
+if(videoSeconds<=0){
+
+clearInterval(videoTimer);
+
+button.disabled=false;
+
+button.textContent=
+"Claim "+money(v.reward);
+
+}
+
+},1000);
+
+player.play().catch(()=>{});
+
+}
+
+
+/* =========================================
+   FINISH VIDEO
+========================================= */
+
+async function finishVideo(){
+
+if(!activeVideo || videoSeconds>0)return;
+
+const v=activeVideo;
+
+const {data:existing}=await supabaseClient
+.from("video_claims")
+.select("id")
+.eq("user_id",currentUser.id)
+.eq("video_id",v.id)
+.maybeSingle();
+
+if(existing){
+showToast("Video already claimed.");
+closeVideoModal();
+return;
+}
+
+
+/* claim */
+
+const {error:claimError}=
+await supabaseClient
+.from("video_claims")
+.insert({
+user_id:currentUser.id,
+video_id:v.id,
+claim_data:{
+source:"video",
+video_key:v.video_key
+},
+reward:Number(v.reward),
+watched_seconds:Number(v.duration_seconds||180)
+});
+
+if(claimError){
+console.error(claimError);
+showToast(claimError.message);
+return;
+}
+
+
+/* completion */
+
+const {error:completionError}=
+await supabaseClient
+.from("video_completions")
+.insert({
+user_id:currentUser.id,
+video_id:v.id,
+earning_data:{
+source:"video"
+},
+reward:Number(v.reward)
+});
+
+if(completionError){
+console.error(completionError);
+}
+
+
+/* transaction */
+
+await supabaseClient
+.from("reward_transactions")
+.insert({
+user_id:currentUser.id,
+type:"video",
+reference_id:v.id,
+amount:Number(v.reward),
+description:v.title
+});
+
+
+/* profile */
+
+const newBalance=
+Number(profile.balance||0)+Number(v.reward);
+
+const newProgress=
+Math.min(
+100,
+Number(profile.progress||0)+4
+);
+
+const newFiveDay=
+Number(profile.five_day_earning||0)+Number(v.reward);
+
+const {data:updated,error}=await supabaseClient
+.from("profiles")
+.update({
+balance:newBalance,
+progress:newProgress,
+five_day_earning:newFiveDay,
+updated_at:new Date().toISOString()
+})
+.eq("id",currentUser.id)
+.select()
+.single();
+
+if(error){
+console.error(error);
+showToast(error.message);
+return;
+}
+
+profile=updated;
+
+closeVideoModal();
+
+updateAll();
+
+await renderTasks();
+
+showToast(
+"Video completed. "+
+money(v.reward)+
+" added."
+);
+
+}
+
+
+/* =========================================
+   CLOSE VIDEO
+========================================= */
+
+function closeVideoModal(){
+
+clearInterval(videoTimer);
+
+const player=
+document.getElementById("taskVideo");
+
+player.pause();
+player.removeAttribute("src");
+player.load();
+
+document.getElementById("videoModal")
+.classList.add("hidden");
+
+activeVideo=null;
+
+}
+
+
+/* =========================================
+   VIDEO FEED
+========================================= */
+
+function renderVideoFeed(){
+
+const box=document.getElementById("videoFeed");
+
+box.innerHTML="";
+
+videos.forEach(v=>{
+
+const div=document.createElement("div");
+
+div.className="feed-card";
+
+div.innerHTML=`
+
+<video
+class="feed-video"
+controls
+playsinline
+src="${escapeHtml(v.video_url)}">
+</video>
+
+<div class="feed-overlay"></div>
+
+<div class="feed-info">
+
+<h3>
+@TrueNetworking •
+${escapeHtml(v.title)}
+</h3>
+
+<p>
+${escapeHtml(v.description)}
+</p>
+
+</div>
+
+<div class="feed-actions">
+
+<button
+class="feed-action"
+onclick="likeFeed(this)">
+♡
+</button>
+
+<small>Like</small>
+
+<button
+class="feed-action"
+onclick="showToast('Comment feature opened')">
+💬
+</button>
+
+<small>Comment</small>
+
+<button
+class="feed-action"
+onclick="shareApp()">
+↗
+</button>
+
+<small>Share</small>
+
+</div>
+`;
+
+box.appendChild(div);
+
+});
+
+}
+
+
+/* =========================================
+   WITHDRAWALS
+========================================= */
+
+async function loadWithdrawals(){
+
+const {data,error}=await supabaseClient
+.from("withdrawals")
+.select("*")
+.eq("user_id",currentUser.id)
+.order("created_at",{ascending:false});
+
+if(!error)
+withdrawals=data||[];
+
+renderWithdrawals();
+
+}
+
+
+function renderWithdrawals(){
+
+const box=document.getElementById("withdrawHistory");
+
+if(!box)return;
+
+if(!withdrawals.length){
+
+box.innerHTML=
+'<div class="empty">No withdrawal requests yet.</div>';
+
+return;
+}
+
+box.innerHTML=
+withdrawals.map(x=>`
+
+<div style="
+padding:12px 0;
+border-bottom:1px solid var(--line);
+display:flex;
+justify-content:space-between;
+gap:10px">
+
+<div>
+
+<b>${money(x.amount)}</b>
+
+<div style="
+font-size:11px;
+color:var(--muted);
+margin-top:5px">
+
+${escapeHtml(x.bank_name)}
+•
+${escapeHtml(x.account_number)}
+•
+${new Date(x.created_at).toLocaleString()}
+
+</div>
+
+</div>
+
+<span class="status ${escapeHtml(x.status)}">
+${escapeHtml(x.status)}
+</span>
+
+</div>
+
+`).join("");
+
+}
+
+
+/* =========================================
+   REQUEST WITHDRAWAL
+========================================= */
+
+async function requestWithdraw(){
+
+if(!currentUser || !profile)return;
+
+const bank=
+document.getElementById("bankName").value;
+
+const name=
+document.getElementById("withdrawName").value.trim();
+
+const account=
+document.getElementById("accountNumber").value.trim();
+
+const amount=
+Number(document.getElementById("withdrawAmount").value);
+
+if(!bank || !name || !account || !amount){
+showToast("Please complete all fields.");
+return;
+}
+
+if(!/^\d{10}$/.test(account)){
+showToast("Account number must contain 10 digits.");
+return;
+}
+
+if(amount<8){
+showToast("Minimum withdrawal is $8.00.");
+return;
+}
+
+if(amount>Number(profile.balance||0)){
+showToast("Insufficient balance.");
+return;
+}
+
+
+/* Insert withdrawal */
+
+const {data,error}=
+await supabaseClient
+.from("withdrawals")
+.insert({
+user_id:currentUser.id,
+bank_name:bank,
+account_name:name,
+account_number:account,
+amount:amount,
+status:"pending"
+})
+.select()
+.single();
+
+if(error){
+
+console.error(error);
+showToast(error.message);
+return;
+
+}
+
+
+/* Deduct balance */
+
+const newBalance=
+Number(profile.balance)-amount;
+
+const {data:updated,error:updateError}=
+await supabaseClient
+.from("profiles")
+.update({
+balance:newBalance,
+updated_at:new Date().toISOString()
+})
+.eq("id",currentUser.id)
+.select()
+.single();
+
+if(updateError){
+
+console.error(updateError);
+
+showToast(
+"Withdrawal was created but balance update failed."
+);
+
+return;
+}
+
+profile=updated;
+
+withdrawals.unshift(data);
+
+updateAll();
+
+renderWithdrawals();
+
+document.getElementById("bankName").value="";
+document.getElementById("withdrawName").value="";
+document.getElementById("accountNumber").value="";
+document.getElementById("withdrawAmount").value="";
+
+showToast("Withdrawal request submitted successfully.");
+
+}
+
+
+/* =========================================
+   PROFILE
+========================================= */
+
+function updateProfile(){
+
+if(!profile)return;
+
+document.getElementById("profileName").textContent=
+profile.full_name||"User";
+
+document.getElementById("profileEmail").textContent=
+profile.email||currentUser?.email||"";
+
+document.getElementById("profileAvatar").src=
+profile.avatar_url||
+"https://i.pravatar.cc/200?img=12";
+
+document.getElementById("verifyStatus").textContent=
+profile.verified?"✓":"›";
+
+document.getElementById("verifyStatus").style.color=
+profile.verified?"#16b979":"";
+
+document.getElementById("darkSwitch")
+.classList.toggle(
+"active",
+document.body.classList.contains("dark-mode")
+);
+
+}
+
+
+async function editProfile(){
+
+if(!profile)return;
+
+const name=prompt(
+"Enter your new full name:",
+profile.full_name||""
+);
+
+if(!name || !name.trim())return;
+
+const {data,error}=await supabaseClient
+.from("profiles")
+.update({
+full_name:name.trim(),
+updated_at:new Date().toISOString()
+})
+.eq("id",currentUser.id)
+.select()
+.single();
+
+if(error){
+showToast(error.message);
+return;
+}
+
+profile=data;
+
+updateProfile();
+updateAll();
+
+showToast("Profile updated.");
+
+}
+
+
+/* =========================================
+   AVATAR
+========================================= */
+
+async function uploadAvatar(e){
+
+const file=e.target.files[0];
+
+if(!file)return;
+
+if(file.size>2*1024*1024){
+
+showToast("Image must be below 2MB.");
+return;
+
+}
+
+const reader=new FileReader();
+
+reader.onload=async function(){
+
+const url=reader.result;
+
+const {data,error}=await supabaseClient
+.from("profiles")
+.update({
+avatar_url:url,
+updated_at:new Date().toISOString()
+})
+.eq("id",currentUser.id)
+.select()
+.single();
+
+if(error){
+
+showToast(
+"Profile picture could not be saved."
+);
+
+return;
+
+}
+
+profile=data;
+
+updateProfile();
+
+showToast("Profile picture updated.");
+
+};
+
+reader.readAsDataURL(file);
+
+}
+
+
+/* =========================================
+   VERIFICATION
+========================================= */
+
+async function faceVerification(){
+
+if(profile.verified){
+
+showToast("Your account is already verified.");
+
+return;
+
+}
+
+if(!navigator.mediaDevices?.getUserMedia){
+
+showToast("Camera is not supported.");
+
+return;
+
+}
+
+try{
+
+const stream=
+await navigator.mediaDevices.getUserMedia({
+video:true
+});
+
+stream.getTracks().forEach(
+track=>track.stop()
+);
+
+const {data,error}=
+await supabaseClient
+.from("profiles")
+.update({
+verified:true,
+updated_at:new Date().toISOString()
+})
+.eq("id",currentUser.id)
+.select()
+.single();
+
+if(error){
+
+showToast(error.message);
+return;
+
+}
+
+profile=data;
+
+updateProfile();
+
+showToast("Verification completed.");
+
+}catch(error){
+
+showToast("Camera permission was not granted.");
+
+}
+
+}
+
+
+/* =========================================
+   DARK MODE
+========================================= */
+
+function toggleDarkMode(){
+
+document.body.classList.toggle("dark-mode");
+
+updateProfile();
+
+}
+
+
+/* =========================================
+   INVITE
+========================================= */
+
+function inviteFriends(){
+
+const inviteId=profile?.invite_id||"";
+
+const link=
+location.href+
+"?invite="+
+encodeURIComponent(inviteId);
+
+const text=
+"Join me on True Networking. My invite ID is "+
+inviteId+
+". Invite link: "+
+link;
+
+if(navigator.share){
+
+navigator.share({
+title:"True Networking",
+text:text
+}).catch(()=>{});
+
+}else{
+
+prompt(
+"Copy invite information:",
+text
+);
+
+}
+
+}
+
+
+/* =========================================
+   NOTIFICATIONS
+========================================= */
+
+async function loadNotifications(){
+
+if(!currentUser)return;
+
+const {data,error}=await supabaseClient
+.from("notifications")
+.select("*")
+.eq("user_id",currentUser.id)
+.order("created_at",{ascending:false});
+
+if(error){
+console.error(error);
+return;
+}
+
+notifications=data||[];
+
+const box=
+document.getElementById("notificationList");
+
+if(!box)return;
+
+if(!notifications.length){
+
+box.innerHTML=
+'<div class="empty">No notifications yet.</div>';
+
+return;
+
+}
+
+box.innerHTML=
+notifications.map(n=>`
+
+<div class="card" style="margin-bottom:12px">
+
+<b>
+${escapeHtml(n.title)}
+</b>
+
+<p style="
+font-size:12px;
+color:var(--muted);
+margin-top:6px">
+
+${escapeHtml(n.message)}
+
+</p>
+
+</div>
+
+`).join("");
+
+}
+
+
+/* =========================================
+   SHARE
+========================================= */
+
+function shareApp(){
+
+const text=
+"Join me on True Networking: "+
+location.href;
+
+if(navigator.share){
+
+navigator.share({
+title:"True Networking",
+text:text
+}).catch(()=>{});
+
+}else{
+
+prompt("Copy this link:",text);
+
+}
+
+}
+
+
+function likeFeed(button){
+
+button.textContent=
+button.textContent==="♡"?"♥":"♡";
+
+button.style.color=
+button.textContent==="♥"
+?"#ff4b7d"
+:"white";
+
+}
+
+
+/* =========================================
+   LOGOUT
+========================================= */
+
+async function logout(){
+
+const ok=confirm(
+"Are you sure you want to logout?"
+);
+
+if(!ok)return;
+
+await supabaseClient.auth.signOut();
+
+currentUser=null;
+profile=null;
+
+document.getElementById("mainApp")
+.classList.add("hidden");
+
+document.getElementById("authScreen")
+.classList.remove("hidden");
+
+showToast("You have logged out.");
+
+}
+
+
+/* =========================================
+   START APP
+========================================= */
+
+async function init(){
+
+try{
+
+const {data}=await supabaseClient.auth.getSession();
+
+if(data.session?.user){
+
+currentUser=data.session.user;
+
+await loadUserData();
+
+document.getElementById("splash")
+.classList.add("hidden");
+
+openMainApp();
+
+}else{
+
+setTimeout(()=>{
+
+document.getElementById("splash")
+.classList.add("hidden");
+
+document.getElementById("authScreen")
+.classList.remove("hidden");
+
+},900);
+
+}
+
+}catch(error){
+
+console.error(error);
+
+document.getElementById("splash")
+.classList.add("hidden");
+
+document.getElementById("authScreen")
+.classList.remove("hidden");
+
+}
+
+}
+
+init();
+
+</script>
+
+</body>
+  </html>
